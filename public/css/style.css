@@ -1,0 +1,909 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&family=Poppins:wght@700&display=swap');
+* {
+  padding: 0;
+  margin: 0;  
+  box-sizing: border-box;
+  text-decoration: none;
+  list-style: none;
+}
+
+ body {
+        background: #000000;
+        display: flex;
+        flex-direction: column;
+}
+.um{
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+.fundo{
+    width: 100vw;
+    height: 100vh;
+    background-image: url("imagens/fundohome.png");
+    position: relative;
+    background-attachment: fixed;
+}
+header {
+    font-family: 'Poppins';
+    background: #0f1923;
+    width: 100%;
+    height: 12%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 60px;
+    margin: 0 auto;
+    cursor: pointer;
+}
+
+.logo {
+    display: flex;
+    width: 120px;
+
+}
+
+.logo img {
+    width: 100%;
+}
+
+header .logo {
+    font-size: 30px;
+    text-transform: uppercase;
+}
+
+nav .logo {
+    display: none;
+}
+
+nav ul {
+    display: flex;
+}
+
+nav ul li a {
+    color: #ffffff;
+    display: block;
+    margin: 0 2px;
+    font-weight: 600;
+    padding: 8px 18px;
+    transition: 0.2s;
+    border-radius: 30px;
+}
+/* nav ul li a:hover {
+    background: #ffffff;
+    color: #fff;
+} */
+
+nav ul li a.ativo {
+    color: #ffffff;
+}
+
+footer {
+  font-family: 'Poppins';
+  background: #0f1923;
+  width: 100%;
+  height: fit-content; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 60px;
+  color: #ffffff;
+  box-sizing: border-box; 
+}
+
+.footer-logo {
+  display: flex;
+  width: 120px;
+  margin-bottom: 20px;
+}
+
+.footer-logo img {
+  width: 100%;
+}
+
+.footer-info {
+  text-align: center;
+}
+
+.footer-info p {
+  margin: 5px 0;
+}
+
+.footer-info a {
+  color: #ffffff;
+  text-decoration: none;
+  margin: 0 5px;
+}
+
+.footer-info a:hover {
+  text-decoration: underline;
+}
+
+.container{
+    width: 100%;
+    height: 85%;
+    display: flex;
+    align-items: center;
+    margin-left: 250px ;
+}
+
+.titulo{
+    width: 50%;
+    font-size: 50px;
+    font-family: "League Spartan";
+    color: #fff;
+    display: flex;
+    align-items: last baseline;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+}
+.texto1{
+    font-size: 25px;
+    font-family: "League Spartan";
+    color: #fff;
+    width: 100%;
+    text-align: justify;
+}   
+
+.button {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    border: none;
+    background: none;
+    color: #0f1923;
+    cursor: pointer;
+    position: relative;
+    padding: 8px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 14px;
+    transition: all .15s ease;
+  }
+  
+  .button::before,
+  .button::after {
+    content: '';
+    display: block;
+    position: absolute;
+    right: 0;
+    left: 0;
+    height: calc(50% - 5px);
+    border: 1px solid #7D8082;
+    transition: all .15s ease;
+  }
+  
+  .button::before {
+    top: 0;
+    border-bottom-width: 0;
+  }
+  
+  .button::after {
+    bottom: 0;
+    border-top-width: 0;
+  }
+  
+  .button:active,
+  .button:focus {
+    outline: none;
+  }
+  
+  .button:active::before,
+  .button:active::after {
+    right: 3px;
+    left: 3px;
+  }
+  
+  .button:active::before {
+    top: 3px;
+  }
+  
+  .button:active::after {
+    bottom: 3px;
+  }
+  
+  .button_lg {
+    position: relative;
+    display: block;
+    padding: 10px 20px;
+    color: #fff;
+    background-color: #0f1923;
+    overflow: hidden;
+    box-shadow: inset 0px 0px 0px 1px transparent;
+  }
+  
+  .button_lg::before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2px;
+    height: 2px;
+    background-color: #0f1923;
+  }
+  
+  .button_lg::after {
+    content: '';
+    display: block;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 4px;
+    height: 4px;
+    background-color: #0f1923;
+    transition: all .2s ease;
+  }
+  
+  .button_sl {
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: -1px;
+    left: -8px;
+    width: 0;
+    background-color: #ba0000;
+    transform: skew(-15deg);
+    transition: all .2s ease;
+  }
+  
+  .button_text {
+    position: relative;
+  }
+  
+  .button:hover {
+    color: #0f1923;
+  }
+  
+  .button:hover .button_sl {
+    width: calc(100% + 15px);
+  }
+  
+  .button:hover .button_lg::after {
+    background-color: #fff;
+  }
+
+  .espaco_card{
+    width: 100%;
+    height: 250px;
+    position: absolute;
+    justify-content: first baseline;
+    z-index: 100;
+    bottom: -100px;
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+  }
+
+  .card_um{
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 350px;
+    height: fit-content;
+    background: #ba0000;
+    text-align: justify;
+    border-radius: 20px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+    font-family: "League Spartan";
+    color: #fff;
+  }
+
+  .card_um .titulocard{
+    margin-top: 15px;
+    align-items: start;
+    font-size: 15px;
+  }
+
+  .card_um .textocard{
+    align-items: start;
+    font-size: 10px;
+  }
+
+ .icons img{
+    width: 17%;
+    height: 100%;
+  }
+  
+  .sec{
+    background: #ffffff;
+    color:#0f1923
+  }
+
+  .th{
+    background: #0f1923;
+    color: #fff;
+  }
+
+/*CSS do Sobre Nos*/
+.dois {
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    align-items: center;
+}
+
+.fundo_sobre_nos {
+    width: 100%;
+    height: 100vh;
+    background-color: #ffffff;
+    position: relative;
+    z-index: -1;
+}
+
+.container_sobre_nos {
+    width: 100%;
+    height: 85%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.titulo_sobre_nos {
+    width: 50%;
+    font-size: 50px;
+    font-family: "League Spartan";
+    color: #0f1923;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.texto_sobre_nos {
+    width: 100%;
+    font-size: 25px;
+    font-family: "League Spartan";
+    color: #0f1923;
+    width: 87%;
+    text-align: justify;
+}
+
+.texto_sobre_nos2 img {
+    width: 900px;
+}
+
+/* CSS Contato */
+
+.tres{
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    position: relative;
+    z-index: 1000;
+}
+
+.fundoequipe {
+    width: 100%;
+    height: 100vh;
+    background-color: #0f1923;
+    position: relative;
+    z-index: -1;
+}
+
+.containerequipe {
+    width: 100%;
+    height: 85%;
+    display: flex;
+    transform: scale(0.8);
+    flex-direction: column;
+    align-items: center;
+    font-family: "League Spartan";
+}
+
+.titulo_equipe {
+  margin-top: 50px;
+  width: 100%;
+  font-size: 40px;
+  font-family: "League Spartan";
+  color: #fff;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.texto_equipe {
+  margin-top: 25px;
+  width: 100%;
+  font-size: 25px;
+  font-family: "League Spartan";
+  color: #fff;
+  width: 87%;
+  text-align: justify;
+}
+
+.containercard{
+  display: flex;
+  justify-content: center;
+  place-items: center;
+  padding-block: 2rem;
+  margin: 0 0.3rem;
+}
+
+.alinhamentocardequipe{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.cardcontainer2{
+  display: grid;
+  row-gap: 3.5rem;
+}
+
+.containercard3{
+  display: flex;
+  flex-direction: column;
+}
+
+.cardarticle{
+  position: relative;
+  overflow: hidden;
+}
+
+.cardimagem{
+  width: 328px;
+  border-radius: 1.5rem;
+}
+
+.carddados{
+  width: 280px;
+  background-color: #fff;
+  padding: 1.5rem 2rem;
+  box-shadow: 0 8px 24px hsla(0, 0%, 0%, .15);
+  border-radius: 1rem;
+  position: absolute;
+  bottom: -9rem;
+  left: 0;
+  right: 0;
+  margin-inline: auto;
+  /* opacity: 0; */
+  transition: opacity 1s 1s;
+}
+
+.carddescricao1{
+  display: block;
+  font-size: 20px;
+  margin-bottom: .25rem;
+}
+
+.titulocard1{
+  font-size: 20px;
+  font-weight: bolder;
+  color: #000000;
+  margin-bottom: .75rem;
+}
+
+.botaocard{
+  text-decoration: none;
+  font-size: 20px;
+  font-weight: bolder;
+  color: #000000;
+}
+.botaocard:hover{
+  text-decoration: underline;
+}
+
+.cardarticle:hover .carddados{
+  animation: show-data 1s forwards;
+  opacity: 1;
+  transition: opacity .3s;
+}
+
+.cardarticle:hover{
+  animation: remove-overflow 2s forwards;
+}
+
+.cardarticle:not(:hover){
+  animation: show-overflow 2s forwards;
+}
+
+.cardarticle:not(:hover) .carddados{
+  animation: remove-data 1s forwards;
+}
+
+.quatro{
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.fundovalores{
+  width: 100%;
+  height: 55vh;
+  background: #fff;
+}
+
+.containerval{
+  flex-direction: row;
+  background:#fff;
+  padding:30px 20%;
+  padding-bottom: 100px;
+  font-family: "League Spartan";
+}
+
+.titulo_valores{
+  width: 100%;
+  margin-top: 35px;
+    font-size: 35px;
+    font-family: "League Spartan";
+    color: #0f1923;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.containerval .heading{
+  text-align: center;
+  padding-bottom: 15px;
+  color:#fff;
+  text-shadow: 0 5px 10px rgba(0,0,0,.2);
+  font-size: 50px;
+}
+
+.containerval .box-container{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap:15px;
+}
+
+.containerval .box-container .box{
+  box-shadow: 0 5px 10px rgba(0,0,0,.2);
+  border-radius: 5px;
+  background: #fff;
+  text-align: center;
+  padding:30px 20px;
+}
+
+.containerval .box-container .box img{
+  height: 80px;
+}
+
+.containerval .box-container .box h3{
+  color:#444;
+  font-size: 22px;
+  padding:10px 0;
+}
+
+.containerval .box-container .box p{
+  color:#777;
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+.containerval .box-container .box .btn{
+  margin-top: 10px;
+  display: inline-block;
+  background:#333;
+  color:#fff;
+  font-size: 17px;
+  border-radius: 5px;
+  padding: 8px 25px;
+}
+
+.containerval .box-container .box .btn:hover{
+  letter-spacing: 1px;
+}
+
+.containerval .box-container .box:hover{
+  box-shadow: 0 10px 15px rgba(0,0,0,.3);
+  transform: scale(1.03);
+}
+
+@media (max-width:768px){
+  .containerval{
+      padding:20px;
+  }
+}
+
+@keyframes show-data{
+  50%{
+    transform: translateY(-10rem);
+  }
+  100%{
+    transform: translateY(-7rem);
+  }
+}
+
+@keyframes remove-overflow{
+  to{
+    overflow: initial;
+  }
+}
+
+@keyframes remove-data{
+  0%{
+    transform: translateY(-7rem);
+  }
+  50%{
+    transform: translateY(-10rem);
+  }
+  100%{
+    transform: translateY(.5rem);
+  }
+}
+
+@keyframes show-overflow{
+  0%{
+    overflow: initial;
+    pointer-events: none;
+  }
+  50%{
+    overflow: hidden;
+  }
+}
+
+.carrossel {
+  color: #ffffff;
+  background-color: transparent;
+  height: fit-content;
+  align-self: center;
+  font-size: 2.5rem;
+  cursor: pointer;
+  border: 0;
+  display: none;
+}
+
+@media (max-width: 430px) {
+  .fundo {
+    background-image: url(imagens/fundomobile.png);
+    background-position: -120px;
+    background-size: cover;
+  }
+
+  header {
+    padding: 0;
+    height: 12%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  header a {
+    font-size: 0.9em;
+    color: #000000;
+  }
+
+  header .logo {
+    position: absolute;
+    width: 100%;
+    top: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .logo img {
+    width: 15%;
+  }
+
+  nav {
+    width: 100%;
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+  }
+
+  nav ul {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+  }
+
+  nav ul li {
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .container {
+    margin: 0;
+    justify-content: center;
+  }
+
+  .titulo {
+    width: 75%;
+    align-items: center;
+  }
+
+  .espaco_card {
+    overflow-x: scroll;
+    overflow-y: hidden;
+    justify-content: last baseline;
+    animation: fade 3s normal;
+  }
+
+  .carrossel {
+    display: block;
+  }
+
+  .card_um {
+    width: fit-content;
+    align-self: center;
+    transition: ease-in;
+  }
+
+  .sec {
+    display: none;
+  }
+
+  .th {
+    display: none;
+  }
+
+  .um button {
+    margin: 2px;
+  }
+
+  @keyframes fade {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  .entrada {
+    animation: fade 0.5s forwards;
+  }
+
+  .saida {
+    animation: fade 0.5s backwards;
+  }
+
+  .fundo_sobre_nos {
+    width: 100%;
+    height: 100vh;
+    background-color: #ffffff;
+    position: relative;
+    z-index: -1;
+  }
+
+  .container_sobre_nos {
+    display: flex;
+    flex-direction: column-reverse;
+    padding-top: 25px;
+  }
+
+  .texto_sobre_nos2 {
+    display: none;
+  }
+
+  .texto_sobre_nos2 img {
+    display: none;
+  }
+
+  .titulo_sobre_nos {
+    overflow-y: scroll;
+    display: grid;
+    flex-direction: column;
+    height: 85%;
+    width: 85%;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .titulo_sobre_nos h1 {
+    align-self: center;
+    justify-self: center;
+  }
+
+  .fundoequipe {
+    height: 1800px; 
+  }
+
+  .containerequipe {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+
+  .cardcointainer2 {
+    width: auto;
+    padding: 10px;
+    margin: 5px; 
+    text-align: center;
+  }
+
+  .cardarticle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .containercard {
+    display: flex;
+    flex-wrap: wrap; 
+    justify-content: center;
+    align-items: flex-start; 
+    width: 100%;
+  }
+
+  .cardimagem {
+    width: 150px;
+    height: 150px;
+    max-width: 150px; 
+    margin-bottom: 10px;
+  }
+
+  .carddados{
+    width: auto;
+    height: 80px;
+    padding: 10px;
+  }
+
+  .carddados span {
+    font-size: 14px;
+  }
+
+  .carddados h2 {
+    font-size: 14px;
+  }
+
+  .titulo_equipe, .texto_equipe {
+    text-align: center;
+    font-size: 1.4em; 
+    margin-bottom: 15px; 
+  }
+
+  .titulo_equipe h1 {
+    font-size: 1.5em;
+  }
+
+  .texto_equipe {
+    font-size: 1em;
+  }
+
+  .quatro {
+    height: auto; 
+  }
+
+  .fundovalores {
+    height: auto; 
+    padding-bottom: 30px; 
+  }
+
+  .containerval {
+    padding: 20px;
+  }
+
+  .titulo_valores {
+    font-size: 28px; 
+  }
+
+  .containerval .box-container {
+    display: flex;
+    flex-direction: column; 
+    gap: 15px; 
+  }
+
+  .containerval .box-container .box {
+    padding: 20px; 
+    text-align: center;
+  }
+
+  .containerval .box-container .box img {
+    height: 60px; 
+  }
+
+  .containerval .box-container .box h3 {
+    font-size: 18px; 
+  }
+
+  .containerval .box-container .box p {
+    font-size: 14px; 
+  }
+}

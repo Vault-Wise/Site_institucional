@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vault Wise - Crie sua conta</title>
+    <link rel="stylesheet" href="css/styleCadastroEmpresa.css">
+  <link rel="shortcut icon" type="imagex/png" href="css/imagens/logosemfundo.png">
+    <script src="js/sessao.js"></script>
+</head>
+<!-- <body onload="listar()"> -->
+    <header>
+        <div class="logo"><img src="css/imagens/logosemfundo.png" alt=""></div>
+        <div class="logo">VaultWise</div>
+        <nav>
+            <ul id="link_nav">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#sobre_nos">Sobre</a></li>
+                <li class="btn_login"><a href="Login.html">Login</a></li>
+            </ul>
+        </nav>
+        <button class="hamburguer" onclick="ativarMenu()">&#9776;</button>
+    </header>
+    <div class="container">
+        <div class="form-container">
+            <h1>Olá XXXXX!</h1>
+            <h2>Cadastro de Empresas<span style="color: #012e5c;">.</span></h2>
+            <p>já possui conta?<a href="#"><span style="color: #81aad2;"> Login</span></a></p>
+                <div class="inputs1">
+                    <input type="text" placeholder="Razão Social" class="input_razaosocial" id="input_razaosocial">
+                    <input type="text" placeholder="CNPJ" class="input_cnpj" id="input_cnpj">
+                </div>
+                <div class="inputs2">
+                    <input type="text" placeholder="CEP" class="input_cep" id="input_cep">
+                    <input type="text" placeholder="Telefone" class="input_telefone" id="input_telefone">
+                </div>
+                <div class="inputs3">
+                    <input type="text" placeholder="Email" class="input_email" id="input_email">
+                    <input type="password" placeholder="Senha" class="input_senha" id="input_senha">
+                </div>
+                <div class="buttons">
+                    <button onclick="cadastrar()" class="btn-primary">Criar Conta</button>
+                    <button onclick="mudarCadastro()" type="button" class="btn-secondary">Mudar Cadastro</button>
+                   
+                </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<script>
+
+    // Array para armazenar empresas cadastradas para validação de código de ativação 
+    // let listaEmpresasCadastradas = [];
+
+    function ativarMenu() {
+      var linknav = document.getElementById("link_nav")
+      linknav.classList.toggle("ativo")
+    }
+
+    function mudarCadastro() {
+        window.location.href="CadastroFuncionario.html"
+      }
+   
+    function cadastrar() {
+  var razaoSocial = input_razaosocial.value;
+  var cnpj = input_cnpj.value;
+  var cep = input_cep.value;
+  var telefone = input_telefone.value;
+  var email = input_email.value;
+  var senha = input_senha.value;
+
+  if ( 
+  razaoSocial === "" ||
+  cnpj === "" ||
+  cep === "" ||
+  telefone === "" ||
+  email === "" ||
+  senha === ""
+) {
+//   cardErro.style.display = "block";
+//   mensagem_erro.innerHTML = "Todos os campos são obrigatórios.";
+//   return false;
+}
+
+  fetch("/empresas/cadastrar", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      razaoSocialServer: razaoSocial,
+      cnpjServer: cnpj,
+      cepServer: cep,
+      telefoneServer: telefone,
+      emailServer: email,
+      senhaServer: senha
+    }),
+  })
+  .then(function (resposta) {
+  console.log("resposta: ", resposta);
+
+  if (resposta.ok) {
+    // cardErro.style.display = "block";
+    mensagem_erro.innerHTML =
+      "Cadastro realizado com sucesso! Redirecionando para a tela de Login...";
+
+    setTimeout(() => {
+      window.location = "login.html";
+    }, 2000); // O tempo de espera em setTimeout deve ser um número, não uma string.
+
+    limparFormulario();
+  } else {
+    throw new Error("Houve um erro ao tentar realizar o cadastro!");
+  }
+})
+.catch(function (erro) {
+  console.log(`#ERRO: ${erro}`);
+});
+
+
+  return false;
+}
+
+  
+    // Listando empresas cadastradas 
+    //  function listar() {
+    //    fetch("/empresas/listar", {
+    //      method: "GET",
+    //    })
+    //      .then(function (resposta) {
+    //        resposta.json().then((empresas) => {
+    //          empresas.forEach((empresa) => {
+    //            listaEmpresasCadastradas.push(empresa);
+  
+    //            console.log("listaEmpresasCadastradas")
+    //            console.log(listaEmpresasCadastradas[0].codigo_ativacao)
+    //          });
+    //        });
+    //      })
+    //      .catch(function (resposta) {
+    //        console.log(`#ERRO: ${resposta}`);
+    //      });  
+    //  }
+  
+    //  function sumirMensagem() {
+    //    cardErro.style.display = "none";
+    //  }
+  </script>

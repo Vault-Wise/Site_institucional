@@ -1,0 +1,349 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Corpo do site , onde se definiu a fonte , a imagem de fundo e a cor do fundo */
+body {
+    font-family: Arial, sans-serif;
+    background: url('imagens/ImagemFundo.png') no-repeat center center/cover;
+    color: #982727;
+}
+
+/* Cabeçalho do site  */
+header {
+    background: #0f1923;
+    width: 80%;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 50px;
+    border-radius: 20px 20px 20px 20px;
+    margin-left: 160px;
+    margin-top: 10px;
+    z-index: 1;
+}
+
+/* Logo presente no cabeçalho */
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ffffff;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo img {
+    height: 100%;
+}
+
+/* Elementos presentes no cabeçalho */
+nav ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+/* Redirecionamento */
+nav ul li a {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+a:hover {
+    color: #20354a;
+}
+
+/* Onde ficam os elementos para cadastro */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 120vh; /*100% da altura da tela */
+    padding-left: 50px; /* Alinhar o formulário à esquerda */
+    /* background-color:#982727; */
+    padding-top: 5px;
+    overflow: hidden;
+}
+
+
+.form-container {
+    background-color: rgba(0, 0, 0, 0); /* Fundo transparente para o formulário */
+    padding: 40px;
+    padding-top: 80px;
+    border-radius: 20px;
+    align-items: center;
+    width: 45%;
+    height: 90%;
+    margin-top: 200px;
+}
+
+h1 {
+    font-size: 24px;
+    margin-bottom: 5px;
+    color: #ffffff;
+}
+
+h2 {
+    font-size: 40px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #ffffff; /* Cor do título */
+}
+
+p {
+    margin-bottom: 20px;
+    color: #ffffff;
+    font-size: 20px;
+}
+
+p a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.inputs1 {
+    display: flex;
+    justify-content: baseline;
+    align-items: baseline;
+}
+
+.inputs2 {
+    display: flex;
+    justify-content: baseline;
+    align-items: baseline;
+}
+
+.inputs3 {
+    display: flex;
+    justify-content: baseline;
+    align-items: baseline;
+}
+
+.input_nome {
+    background-color: #545454;
+}
+
+.input_cpf {
+    margin-left: 10px;
+    background-color: #545454;
+}
+
+.input_email {
+    background-color: #545454;
+}
+
+.input_tel {
+    margin-left: 10px;
+    background-color: #545454;
+}
+
+.input_empresa{
+    background-color: #545454;
+}
+
+.input_cargo {
+    margin-left: 10px;
+    background-color: #545454;
+}
+
+.input_senha {
+    background-color: #545454;
+    
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 10px;
+    color: #969696;
+    font-size: 16px;
+    height: 50px;
+}
+
+input::placeholder {
+    color: #969696;
+    font-size: 20px;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    height: 50px;
+}
+
+.btn-primary {
+    background-color: #20354a;
+    color: #ffffff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 22px;
+    font-weight: bold;
+    height: 80px;
+    width: 25%;
+    margin-top: 18px; 
+    border-radius: 40px;
+}
+
+.btn-secondary {
+    background-color: #020a0c;
+    color: #ffffff;
+    border: none;
+    padding: 15px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 22px;
+    font-weight: bold;
+    height: 80px;
+    width: 50%;
+    margin-top: 18px; 
+    border-radius: 40px;
+    
+}
+
+.btn-primary:hover, .btn-secondary:hover {
+    opacity: 0.8;
+}
+
+/* Estilos do corpo, header e outros elementos omitidos */
+
+/* Footer */
+footer {
+    background-color: #071e26; /* Cor do fundo do footer, baseada na paleta de cores da imagem */
+    padding: 20px;
+    text-align: center;
+    color: #F2EDE9; /* Cor do texto do footer */
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    font-size: 14px;
+}
+
+footer p {
+    margin: 0;
+}
+
+.loading-div {
+    display: none; /* Oculta a barra inicialmente */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000; /* Para garantir que fique acima de outros elementos */
+}
+
+.hamburguer {
+    display: none; 
+    font-size: 1.8rem;
+    color: white;
+    background: none;
+    border: none;
+    position: absolute;
+    top: 20px; 
+    right: 20px;
+    z-index: 2;
+    cursor: pointer;
+}
+
+@media (max-width: 430px) {
+    html {
+        height: 100%;
+        background-color: #5B0C0C;
+    }
+    
+    body {
+        display: flex;
+        flex-direction: column;
+    }
+
+    header {
+        margin: 10px 0;
+        padding: 0 25px;
+        width: 90%;
+        justify-content: center;
+        align-self: center;
+        position: relative;
+    }
+
+    .logo {
+        width: 25%;
+        color: #ffffff;
+    }
+
+    .logo img {
+        width: 100%;
+    }
+
+    nav {
+        width: 75%;
+        justify-self: flex-end;
+    }
+
+    nav ul {
+        gap: 5px;
+        display: none; 
+        flex-direction: column;
+        position: absolute;
+        top: 80px;
+        right: 0;
+        background-color: #5b0c0c;
+        border-radius: 5px;
+        width: 75%;
+        box-shadow: black 4px 4px 10px;
+    }
+
+    nav ul li {
+        margin: 15px 0;
+        text-align: center;
+    }
+
+    nav ul li:hover {
+        background-color: #20354a;
+    }
+
+    nav ul li a {
+        font-size: 0.9rem;
+    }
+
+    .hamburguer {
+        display: block;
+    }
+
+    nav ul.ativo {
+        display: block;
+    }
+
+    .container {
+        padding: 0;
+    }
+
+    .form-container {
+        width: 80%;
+        padding-right: 15%;
+    }
+
+    .buttons {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .btn-primary {
+        align-self: center;
+        border-radius: 20px;
+    }
+}

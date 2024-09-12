@@ -1,0 +1,377 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Corpo do site , onde se definiu a fonte , a imagem de fundo e a cor do fundo */
+body {
+    font-family: Arial, sans-serif;
+    background: url('imagens/ImagemFundo.png') no-repeat center center/cover;
+    color: #982727;
+}
+
+/* Cabeçalho do site  */
+header {
+    background: #5b0c0c;
+    width: 80%;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 50px;
+    border-radius: 20px 20px 20px 20px;
+    margin-left: 160px;
+    margin-top: 10px;
+    z-index: 1;
+}
+
+/* Logo presente no cabeçalho */
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.logo img{
+    width: 42%;
+}
+
+/* Elementos presentes no cabeçalho */
+nav ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+/* Redirecionamento */
+nav ul li a {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+a:hover {
+    color: #982727;
+}
+
+.btn_login {
+    background-color: none;
+    border: 3px solid #F7B6B9;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+/* Onde ficam os elementos para cadastro */
+.container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    height: 80vh; /*100% da altura da tela */
+    padding-left: 50px; /* Alinhar o formulário à esquerda */
+    /* background-color:#982727; */
+    padding-top: 5px;
+}
+
+
+.form-container {
+    background-color: rgba(0, 0, 0, 0); /* Fundo transparente para o formulário */
+    padding: 20px;
+    border-radius: 20px;
+    width: 40%;
+    height: 80%;
+}
+
+h1 {
+    font-size: 20px;
+    margin-bottom: 5px;
+    color: #ffffff;
+}
+
+h2 {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #ffffff; /* Cor do título */
+}
+
+p {
+    margin-bottom: 20px;
+    color: #ffffff;
+}
+
+p a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.inputs1 {
+    display: flex;
+    justify-content: baseline;
+    align-items: baseline;
+}
+
+.inputs2 {
+    display: flex;
+    justify-content: baseline;
+    align-items: baseline;
+}
+
+.inputs3 {
+    display: flex;
+    justify-content: baseline;
+    align-items: baseline;
+}
+
+.input_nome {
+    background-color: #545454;
+}
+
+.input_cpf {
+    margin-left: 10px;
+    background-color: #545454;
+}
+
+.input_email {
+    background-color: #545454;
+}
+
+.input_tel {
+    margin-left: 10px;
+    background-color: #545454;
+}
+
+.input_empresa{
+    background-color: #545454;
+}
+
+.input_cargo {
+    margin-left: 10px;
+    background-color: #545454;
+}
+
+.input_senha {
+    background-color: #545454;
+    
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 10px;
+    color: #969696;
+    font-size: 16px;
+    height: 50px;
+}
+
+input::placeholder {
+    color: #969696;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    height: 50px;
+}
+
+.btn-primary {
+    background-color: #982727;
+    color: #ffffff;
+    border: none;
+    padding: 15px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 22px;
+    font-weight: bold;
+    height: 80px;
+    width: 45%;
+    margin-top: 18px; 
+    border-radius: 40px;
+}
+
+.btn-secondary {
+    background-color: #5B0C0C;
+    color: #ffffff;
+    border: none;
+    padding: 15px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 22px;
+    font-weight: bold;
+    height: 80px;
+    width: 50%;
+    margin-top: 18px; 
+    border-radius: 40px;
+    
+}
+
+.btn-primary:hover, .btn-secondary:hover {
+    opacity: 0.8;
+}
+
+/*Estilização Input da tela Equipamento*/
+.input_equip {
+    background-color: #545454;
+}
+
+/*Estilização Select da tela Equipamento*/
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 10px;
+    background-color: #545454;
+    color: #969696;
+    font-size: 16px;
+    height: 50px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M7 10l5 5 5-5z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 15px;
+}
+
+select option {
+    background-color: #5B0C0C;
+    color: #ffffff;
+}
+
+select:focus {
+    outline: none;
+    border: 2px solid #982727;
+}
+
+select::-ms-expand {
+    display: none;
+}
+
+/* Estilos do corpo, header e outros elementos omitidos */
+
+/* Footer */
+footer {
+    background-color: #7c0a0a; /* Cor do fundo do footer, baseada na paleta de cores da imagem */
+    padding: 20px;
+    text-align: center;
+    color: #F2EDE9; /* Cor do texto do footer */
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    font-size: 14px;
+}
+
+footer p {
+    margin: 0;
+}
+
+.hamburguer {
+    display: none; 
+    font-size: 1.8rem;
+    color: white;
+    background: none;
+    border: none;
+    position: absolute;
+    top: 20px; 
+    right: 20px;
+    z-index: 2;
+    cursor: pointer;
+}
+
+
+@media (max-width: 430px) {
+    html {
+        height: 100%;
+        background-color: #5B0C0C;
+    }
+    
+    body {
+        display: flex;
+        flex-direction: column;
+    }
+
+    header {
+        margin: 10px 0;
+        padding: 0 25px;
+        width: 90%;
+        justify-content: center;
+        align-self: center;
+        position: relative;
+    }
+
+    .logo {
+        width: 25%;
+        color: #ffffff;
+    }
+
+    .logo img {
+        width: 100%;
+    }
+
+    nav {
+        width: 75%;
+        justify-self: flex-end;
+    }
+
+    nav ul {
+        gap: 5px;
+        display: none; 
+        flex-direction: column;
+        position: absolute;
+        top: 80px;
+        right: 0;
+        background-color: #5b0c0c;
+        border-radius: 5px;
+        width: 75%;
+        box-shadow: black 4px 4px 10px;
+        border: 1px solid black;
+    }
+
+    nav ul li {
+        margin: 15px 0;
+        text-align: center;
+    }
+
+    nav ul li:hover {
+        background-color: #410808;
+    }
+
+    nav ul li a {
+        font-size: 0.9rem;
+    }
+
+    .hamburguer {
+        display: block;
+    }
+
+    nav ul.ativo {
+        display: block;
+    }
+
+    .form-container {
+        width: 80%;
+    }
+
+    .btn-primary {
+        border-radius: 20px;
+    }
+
+    .btn-secondary {
+        border-radius: 20px;
+    }
+
+    .btn_login {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}

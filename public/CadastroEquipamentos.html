@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vault Wise - Cadastro de Equipamentos</title>
+    <link rel="stylesheet" href="css/styleCadastroEquipamento.css">
+  <link rel="shortcut icon" type="imagex/png" href="css/imagens/logosemfundo.png">
+
+</head>
+
+<body onload="listar()">
+    <header>
+        <div class="logo"><img src="css/imagens/logosemfundo.png" alt=""></div>
+        <div class="logo">VaultWise</div>
+        <nav>
+            <ul id="link_nav">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#sobre_nos">Sobre</a></li>
+                <li class="btn_login"><a href="Login.html">Login</a></li>
+            </ul>
+        </nav>
+        <button class="hamburguer" onclick="ativarMenu()">&#9776;</button>
+    </header>
+    <div class="container">
+        <div class="form-container">
+            <h2>Cadastro de Equipamentos<span style="color: #982727;">.</span></h2>
+            <form>
+                <input type="text" placeholder="ID do equipamento" id="input_equip" class="input_equip">
+                <select name="empresas" id="listaEmpresas">
+                    <option selected>Selecione uma empresa</option>
+                </select>
+                <div class="buttons">
+                    <button type="submit" class="btn-primary">Cadastrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
+
+<script>
+    function cadastrar() {
+        aguardar();
+        var nomeVar = input_equip.value;
+        var empresaVar = listaEmpresas.value
+        if (
+            nomeVar == "" ||
+            emailVar == "" ||
+            cpfVar == "" ||
+            senhaVar == "" ||
+            confirmacaoSenhaVar == "" ||
+            empresaVar == ""
+        ) {
+            cardErro.style.display = "block";
+            mensagem_erro.innerHTML =
+                "(Preencha todos os campos)";
+
+            finalizarAguardar();
+            return false;
+        } else if (nomeVar.length <= 1) {
+            cardErro.style.display = "block";
+            mensagem_erro.innerHTML =
+                "Insira um nome com mais de um caracter";
+
+            finalizarAguardar();
+            return false;
+        } else if ((emailVar.indexOf('@') < 0) || emailVar.indexOf('.') < 0) {
+            cardErro.style.display = "block";
+            mensagem_erro.innerHTML =
+                "Insira um email com '@' e '.'";
+
+            finalizarAguardar();
+            return false;
+        } else if (cpfVar.length !== 11) {
+            cardErro.style.display = "block";
+            mensagem_erro.innerHTML =
+                "Insira um CPF válido";
+
+            finalizarAguardar();
+            return false;
+        } else if (senhaVar.length <= 6) {
+            cardErro.style.display = "block";
+            mensagem_erro.innerHTML =
+                "Sua senha deve ter mais de 6 dígitos";
+
+            finalizarAguardar();
+            return false;
+        } else if (senhaVar != confirmacaoSenhaVar) {
+            cardErro.style.display = "block";
+            mensagem_erro.innerHTML =
+                "As senhas devem ser iguais";
+
+            finalizarAguardar();
+            return false;
+        } else {
+            setInterval(sumirMensagem, 5000);
+        }
+
+        if (emailVar.indexOf('@') < 0) {
+            cardErro.style.display = "block";
+            mensagem_erro.innerHTML =
+                "(Mensagem de erro para todos os campos em branco)";
+
+            finalizarAguardar();
+            return false;
+        }
+
+        // Enviando o valor da nova input
+        fetch("/usuarios/cadastrar", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                // crie um atributo que recebe o valor recuperado aqui
+                // Agora vá para o arquivo routes/usuario.js
+                nomeServer: nomeVar,
+                emailServer: emailVar,
+                cpfServer: cpfVar,
+                senhaServer: senhaVar,
+                empresaServer: empresaVar
+            }),
+        })
+            .then(function (resposta) {
+                console.log("resposta: ", resposta);
+
+                if (resposta.ok) {
+                    cardErro.style.display = "block";
+
+                    mensagem_erro.innerHTML =
+                        "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
+
+                    setTimeout(() => {
+                        window.location = "login.html";
+                    }, "2000");
+
+                    limparFormulario();
+                    finalizarAguardar();
+                } else {
+                    throw "Houve um erro ao tentar realizar o cadastro!";
+                }
+            })
+            .catch(function (resposta) {
+                console.log(`#ERRO: ${resposta}`);
+                finalizarAguardar();
+            });
+
+        return false;
+    }
+
+    function listar() {
+        fetch("/empresas/listar", {
+            method: "GET",
+        })
+            .then(function (resposta) {
+                resposta.json().then((empresas) => {
+                    empresas.forEach((empresa) => {
+                        listaEmpresas.innerHTML += `<option value='${empresa.id}'>${empresa.cnpj}</option>`;
+                    });
+                });
+            })
+            .catch(function (resposta) {
+                console.log(`#ERRO: ${resposta}`);
+            });
+    }
+</script>

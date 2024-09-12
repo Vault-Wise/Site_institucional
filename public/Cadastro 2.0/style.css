@@ -1,0 +1,284 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Corpo do site , onde se definiu a fonte , a imagem de fundo e a cor do fundo */
+body {
+    font-family: Arial, sans-serif;
+    background: url('ImagemFundo.png') no-repeat center center/cover;
+    color: #982727;
+}
+
+/* Cabeçalho do site  */
+header {
+    background: #5b0c0c;
+    width: 80%;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 50px;
+    border-radius: 20px 20px 20px 20px;
+    margin-left: 160px;
+    margin-top: 10px;
+    z-index: 1;
+    cursor: pointer;
+}
+
+/* Logo presente no cabeçalho */
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* Elementos presentes no cabeçalho */
+nav ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+/* Redirecionamento */
+nav ul li a {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+a:hover {
+    color: #982727;
+}
+
+.btn_login {
+    background-color: none;
+    border: 3px solid #F7B6B9;
+    border-radius: 10px;
+    padding: 10px;
+}
+/*Fim dos elementos do cabeçalho*/
+
+/* Onde ficam os elementos para cadastro */
+.container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    height: 80vh; /*100% da altura da tela */
+    padding-left: 50px; /* Alinhar o formulário à esquerda */
+    /* background-color:#982727; */
+    padding-top: 5px;
+}
+
+/*Início estilização do formulário*/
+.form-container {
+    background-color: rgba(0, 0, 0, 0); /* Fundo transparente para o formulário */
+    padding: 20px;
+    border-radius: 20px;
+    width: 40%;
+    height: 80%;
+}
+
+h1 {
+    font-size: 20px;
+    margin-bottom: 5px;
+    color: #ffffff;
+}
+
+h2 {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #ffffff; /* Cor do título */
+}
+
+p {
+    margin-bottom: 20px;
+    color: #ffffff;
+}
+
+p a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.inputs1 {
+    display: flex;
+    justify-content: baseline;
+    align-items: baseline;
+}
+
+.inputs2 {
+    display: flex;
+    justify-content: baseline;
+    align-items: baseline;
+}
+
+.inputs3 {
+    display: flex;
+    justify-content: baseline;
+    align-items: baseline;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 10px;
+    color: #969696;
+    font-size: 16px;
+    height: 50px;
+}
+
+input::placeholder {
+    color: #969696;
+}
+
+/*Estilização Inputs da tela Empresa*/
+.input_nomefantasia {
+    background-color: #545454;
+}
+
+.input_razaosocial {
+    margin-left: 10px;
+    background-color: #545454;
+}
+
+.input_cnpj {
+    background-color: #545454;
+}
+
+.input_cep {
+    margin-left: 10px;
+    background-color: #545454;
+}
+
+.input_telefone{
+    background-color: #545454;
+}
+
+.input_email {
+    margin-left: 10px;
+    background-color: #545454;
+}
+
+.input_senha {
+    background-color: #545454;
+}
+
+/*Estilização Inputs da tela Funcionário*/
+.input_nome {
+    background-color: #545454;
+}
+
+.input_cpf {
+    background-color: #545454;
+    margin-left: 10px;
+}
+
+.input_emailfuncionario {
+    background-color: #545454;
+}
+
+.input_telefonefuncionario {
+    background-color: #545454;
+    margin-left: 10px;
+}
+
+.input_empresa {
+    background-color: #545454;
+}
+
+.input_cargo {
+    background-color: #545454;
+    margin-left: 10px;
+}
+
+/*Estilização Input da tela Equipamento*/
+.input_equip {
+    background-color: #545454;
+}
+
+/*Estilização Select da tela Equipamento*/
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 10px;
+    background-color: #545454;
+    color: #969696;
+    font-size: 16px;
+    height: 50px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M7 10l5 5 5-5z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 15px;
+}
+
+select option {
+    background-color: #5B0C0C;
+    color: #ffffff;
+}
+
+select:focus {
+    outline: none;
+    border: 2px solid #982727;
+}
+
+select::-ms-expand {
+    display: none;
+}
+/*Fim estilização Select da tela de Equipamentos*/
+
+/*Estilização dos botões das páginas de cadastro*/
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    height: 50px;
+}
+
+.btn-primary {
+    background-color: #982727;
+    color: #ffffff;
+    border: none;
+    padding: 15px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 22px;
+    font-weight: bold;
+    height: 80px;
+    width: 45%;
+    margin-top: 18px;
+    border-radius: 40px;
+}
+
+.btn-secondary {
+    background-color: #5B0C0C;
+    color: #ffffff;
+    border: none;
+    padding: 15px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 22px;
+    font-weight: bold;
+    height: 80px;
+    width: 50%;
+    margin-top: 18px;
+    border-radius: 40px;
+
+}
+
+.btn-primary:hover, .btn-secondary:hover {
+    opacity: 0.8;
+}
