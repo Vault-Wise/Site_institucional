@@ -42,7 +42,7 @@ fkEmpresa INT,
 
 CREATE TABLE Dado (
 idDado INT AUTO_INCREMENT,
-cpufreq VARCHAR(45),
+cpuFreq VARCHAR(45),
 cpupercent VARCHAR(45),
 memoriausada VARCHAR(45),
 memoriapercent VARCHAR(45),

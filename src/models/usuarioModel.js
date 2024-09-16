@@ -4,7 +4,7 @@ var database = require("../database/config")
 function autenticar(email, senha) {
     console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function entrar(): ", email, senha)
     var instrucaoSql = `
-          SELECT id_usuario, nome, email, fk_empresa as empresaId FROM usuario WHERE email = '${email}' AND senha = '${senha}';
+          SELECT idUsuario, nome, email, fkEmpresa as empresaId FROM usuario WHERE email = '${email}' AND senha = '${senha}';
      `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
@@ -12,7 +12,7 @@ function autenticar(email, senha) {
 
   function buscarPorCnpj(cnpj) {
     console.log("Buscando o CNPJ:", cnpj);
-    var instrucaoSql = `SELECT id_empresa FROM empresa WHERE cnpj = '${cnpj}'`;
+    var instrucaoSql = `SELECT idEmpresa FROM Empresa WHERE cnpj = '${cnpj}'`;
 
     
     return database.executar(instrucaoSql)
@@ -22,7 +22,7 @@ function autenticar(email, senha) {
 // Função para buscar o ID da empresa com base no CNPJ
 function buscarPorCnpj(cnpj) {
     console.log("Buscando o CNPJ:", cnpj);  // Log para verificar o valor do CNPJ
-    var instrucaoSql = `SELECT id_empresa FROM empresa WHERE cnpj = '${cnpj}'`;
+    var instrucaoSql = `SELECT idEmpresa FROM Empresa WHERE cnpj = '${cnpj}'`;
     return database.executar(instrucaoSql);
 }
 
@@ -32,7 +32,7 @@ function cadastrar(nome, cpf, email, telefone, senha, cargo, cnpj) {
 
 
                 var instrucaoSql = `
-                    INSERT INTO usuario (nome, cpf, email, telefone, senha, cargo, fk_empresa) 
+                    INSERT INTO Usuario (nome, cpf, email, telefone, senha, cargo, fkEmpresa) 
                     VALUES ('${nome}', '${cpf}', '${email}', '${telefone}', '${senha}', '${cargo}', '${cnpj}');
                 `;
                 console.log("Executando a instrução SQL para inserir o usuário: \n" + instrucaoSql);

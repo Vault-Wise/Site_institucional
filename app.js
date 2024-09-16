@@ -15,11 +15,6 @@ var HOST_APP = process.env.APP_HOST;
 
 var app = express();
 
-// var indexRouter = require("./src/routes/index");
-// var avisosRouter = require("./src/routes/avisos");
-// var medidasRouter = require("./src/routes/medidas");
-// var aquariosRouter = require("./src/routes/aquarios");
-
 // Rota de cadastro da Empresa
 var empresasRouter = require("./src/routes/empresas");
 
@@ -34,10 +29,6 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(cors());
 
 // app.use("/", indexRouter);
-
-// app.use("/avisos", avisosRouter);
-// app.use("/medidas", medidasRouter);
-// app.use("/aquarios", aquariosRouter);
 
 // Uso da rota 
 app.use("/usuarios", usuariosRouter);

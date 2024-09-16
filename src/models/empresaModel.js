@@ -13,13 +13,13 @@ var database = require("../database/config");
  }
 
  function buscarPorCnpj(cnpj) {
-   var instrucaoSql = `SELECT id_empresa FROM empresa WHERE cnpj = '${cnpj}'`;
+   var instrucaoSql = `SELECT idEmpresa FROM empresa WHERE cnpj = '${cnpj}'`;
 
    return database.executar(instrucaoSql);
  }
 
  function cadastrar(razaoSocial, cnpj, cep, telefone, email, senha) {
-  var instrucaoSql = `INSERT INTO empresa (razao_social, cnpj, cep, telefone, email, senha) VALUES ('${razaoSocial}', '${cnpj}', '${cep}', '${telefone}', '${email}', '${senha}')`;
+  var instrucaoSql = `INSERT INTO Empresa (razaoSocial, cnpj, cep, telefone, email, senha) VALUES ('${razaoSocial}', '${cnpj}', '${cep}', '${telefone}', '${email}', '${senha}')`;
   
   return database.executar(instrucaoSql, [razaoSocial, cnpj, cep, telefone, email, senha] );
 }
