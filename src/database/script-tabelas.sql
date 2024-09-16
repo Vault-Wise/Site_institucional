@@ -1,70 +1,70 @@
-DROP DATABASE IF EXISTS vaultwise;
-CREATE DATABASE vaultwise;
-USE vaultwise;
+DROP DATABASE IF EXISTS VaulWise;
+CREATE DATABASE VaulWise;
+USE VaulWise;
 
-CREATE TABLE empresa(
-id_empresa INT PRIMARY KEY AUTO_INCREMENT,
+CREATE TABLE Empresa(
+idEmpresa INT PRIMARY KEY AUTO_INCREMENT,
 cnpj CHAR(14) UNIQUE,
 cep CHAR(8),
-razao_social VARCHAR(45),
+razaoSocial VARCHAR(45),
 telefone CHAR(9) UNIQUE,
 email VARCHAR(45) UNIQUE,
 senha VARCHAR(45)
 );
 
 CREATE TABLE usuario(
-id_usuario INT AUTO_INCREMENT,
+idUsuario INT AUTO_INCREMENT,
 cpf CHAR(11) UNIQUE,
 nome VARCHAR(45),
 email VARCHAR(45) UNIQUE,
 telefone CHAR(9) UNIQUE,
 cargo VARCHAR(45),
 senha VARCHAR(45),
-fk_empresa INT,
+fkEmpresa INT,
 
-    FOREIGN KEY (fk_empresa) REFERENCES empresa (id_empresa),
-    PRIMARY KEY (id_usuario,fk_empresa)
+    FOREIGN KEY (fkEmpresa) REFERENCES Empresa (idEmpresa),
+    PRIMARY KEY (idusuario, fkEmpresa)
 );
 
 
 
-CREATE TABLE equipamento(
-id_equipamento INT AUTO_INCREMENT,
-nome_equipamento VARCHAR(45),
-sistema_operacional VARCHAR(45),
-total_disco VARCHAR(45),
-total_memoria VARCHAR(45),
-fk_empresa INT,
+CREATE TABLE Equipamento(
+idEquipamento INT AUTO_INCREMENT,
+nomeEquipamento VARCHAR(45),
+sistemaoperacional VARCHAR(45),
+totaldisco VARCHAR(45),
+totalmemoria VARCHAR(45),
+fkEmpresa INT,
 
-    FOREIGN KEY (fk_empresa) REFERENCES empresa (id_empresa),
-    PRIMARY KEY (id_equipamento)
+    FOREIGN KEY (fkEmpresa) REFERENCES Empresa (idEmpresa),
+    PRIMARY KEY (idEquipamento)
 );
 
-CREATE TABLE dado(
-id_dado INT AUTO_INCREMENT,
-cpu_freq VARCHAR(45),
-cpu_percent VARCHAR(45),
-memoria_usada VARCHAR(45),
-memoria_percent VARCHAR(45),
-disco_usada VARCHAR(45),
-disco_percent VARCHAR(45),
+CREATE TABLE Dado (
+idDado INT AUTO_INCREMENT,
+cpufreq VARCHAR(45),
+cpupercent VARCHAR(45),
+memoriausada VARCHAR(45),
+memoriapercent VARCHAR(45),
+discousada VARCHAR(45),
+discopercent VARCHAR(45),
 estado VARCHAR(45),
-dt_hora DATETIME DEFAULT CURRENT_TIMESTAMP,
-fk_equipamento INT,
-fk_empresa INT,
+dthora DATETIME DEFAULT CURRENT_TIMESTAMP,
+fkEquipamento INT,
+fkEmpresa INT,
 
-    FOREIGN KEY (fk_equipamento) REFERENCES equipamento (id_equipamento),
-    FOREIGN KEY (fk_empresa) REFERENCES empresa (id_empresa),
-    PRIMARY KEY (id_dado, fk_equipamento, fk_empresa)
+    FOREIGN KEY (fkEquipamento) REFERENCES Equipamento (idEquipamento),
+    FOREIGN KEY (fkEmpresa) REFERENCES Empresa (idEmpresa),
+    PRIMARY KEY (idDado, fkEquipamento, fkEmpresa)
 );
 
-INSERT INTO empresa VALUES
-(default, 12345678910111, 99999999, "Empresa XPTO", 999999999, "xpto@gmail.com", "999", null);
+INSERT INTO Empresa VALUES
+(DEFAULT, '12345678910111', '99999999', "Empresa XPTO", '999999999', "xpto@gmail.com", "999");
 
-INSERT INTO equipamento VALUES
-(default, 'Teste', "Windows", "1TB", "8GB",1);
+INSERT INTO Equipamento VALUES
+(DEFAULT, 'Teste', "Windows", "1TB", "8GB",1);
 
-SELECT * FROM dado;
-SELECT * FROM equipamento;
+SELECT * FROM Dado;
+SELECT * FROM Equipamento;
 
-SELECT d.cpu_percent, d.memoria_percent, d.disco_percent, d.dt_hora,e.nome_equipamento FROM dado AS d JOIN equipamento AS e ON fk_equipamento = id_equipamento;
+SELECT d.cpupercent, d.memoriapercent, d.discopercent, d.dthora,e.nomeEquipamento FROM Dado AS d JOIN Equipamento AS e ON fkEquipamento = idEquipamento;
