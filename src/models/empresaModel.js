@@ -13,7 +13,7 @@ var database = require("../database/config");
  }
 
  function buscarPorCnpj(cnpj) {
-   var instrucaoSql = `SELECT idEmpresa FROM empresa WHERE cnpj = '${cnpj}'`;
+   var instrucaoSql = `SELECT idEmpresa FROM Empresa WHERE cnpj = '${cnpj}'`;
 
    return database.executar(instrucaoSql);
  }
@@ -27,6 +27,7 @@ var database = require("../database/config");
 
 module.exports = {
   cadastrar,
-  listar,buscarPorCnpj
+  listar,
+  buscarPorCnpj
 };
 // buscarPorCnpj, buscarPorId 
