@@ -12,7 +12,7 @@ email VARCHAR(45) UNIQUE,
 senha VARCHAR(45)
 );
 
-CREATE TABLE usuario(
+CREATE TABLE Usuario(
 idUsuario INT AUTO_INCREMENT,
 cpf CHAR(11) UNIQUE,
 nome VARCHAR(45),
@@ -21,9 +21,8 @@ telefone CHAR(9) UNIQUE,
 cargo VARCHAR(45),
 senha VARCHAR(45),
 fkEmpresa INT,
-
-    FOREIGN KEY (fkEmpresa) REFERENCES Empresa (idEmpresa),
-    PRIMARY KEY (idusuario, fkEmpresa)
+FOREIGN KEY (fkEmpresa) REFERENCES Empresa (idEmpresa),
+PRIMARY KEY (idUsuario, fkEmpresa)
 );
 
 
@@ -31,9 +30,9 @@ fkEmpresa INT,
 CREATE TABLE Equipamento(
 idEquipamento INT AUTO_INCREMENT,
 nomeEquipamento VARCHAR(45),
-sistemaoperacional VARCHAR(45),
-totaldisco VARCHAR(45),
-totalmemoria VARCHAR(45),
+sistemaOperacional VARCHAR(45),
+totalDisco VARCHAR(45),
+totalMemoria VARCHAR(45),
 fkEmpresa INT,
 
     FOREIGN KEY (fkEmpresa) REFERENCES Empresa (idEmpresa),
@@ -43,13 +42,13 @@ fkEmpresa INT,
 CREATE TABLE Dado (
 idDado INT AUTO_INCREMENT,
 cpuFreq VARCHAR(45),
-cpupercent VARCHAR(45),
-memoriausada VARCHAR(45),
-memoriapercent VARCHAR(45),
-discousada VARCHAR(45),
-discopercent VARCHAR(45),
+cpuPercent VARCHAR(45),
+memoriaUsada VARCHAR(45),
+memoriaPercent VARCHAR(45),
+discoUsada VARCHAR(45),
+discoPercent VARCHAR(45),
 estado VARCHAR(45),
-dthora DATETIME DEFAULT CURRENT_TIMESTAMP,
+dtHora DATETIME DEFAULT CURRENT_TIMESTAMP,
 fkEquipamento INT,
 fkEmpresa INT,
 
