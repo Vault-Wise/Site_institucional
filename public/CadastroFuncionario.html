@@ -1,144 +1,171 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vault Wise - Crie sua conta</title>
-    <link rel="stylesheet" href="css/styleCadastroFuncionario.css">
-    <link rel="shortcut icon" type="imagex/png" href="css/imagens/logosemfundo.png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vault Wise - Crie sua conta</title>
+  <link rel="stylesheet" href="css/styleCadastroFuncionario.css">
+  <link rel="shortcut icon" type="imagex/png" href="css/imagens/logosemfundo.png">
 </head>
+
 <body>
   <header>
     <div class="logo"><img src="css/imagens/logosemfundo.png" alt=""></div>
     <div class="logo">VaultWise</div>
     <nav>
-        <ul id="link_nav">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="index.html#sobre_nos">Sobre</a></li>
-            <li class="btn_login"><a href="Login.html">Login</a></li>
-        </ul>
+      <ul id="link_nav">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#sobre_nos">Sobre</a></li>
+        <li class="btn_login"><a href="Login.html">Login</a></li>
+      </ul>
     </nav>
     <button class="hamburguer" onclick="ativarMenu()">&#9776;</button>
-</header>
-    <div class="container">
-        <div class="form-container">
-            <h1>Olá! Seja bem-vindo!</h1>
-            <h2>Crie sua conta<span style="color: #012e5c;">.</span></h2>
-            <p>já possui conta?<a href="#"><span style="color: #81aad2  ;"> Login</span></a></p>
-            <form>
-                <div class="inputs1">
-                    <input type="text" placeholder="Nome" class="input_nome" id="input_nome">
-                    <input type="text" placeholder="CPF" class="input_cpf" id="input_cpf">
-                </div>
-                <div class="inputs2">
-                    <input type="text" placeholder="Email" class="input_email" id="input_email">
-                    <input type="text" placeholder="Telefone" class="input_tel" id="input_telefone">
-                </div>
-                <div class="inputs3">
-                    <input type="text" placeholder="Empresa" class="input_empresa" id="input_empresa">
-                    <input type="text" placeholder="Cargo" class="input_cargo" id="input_cargo">
-                </div>
-                <div class="inputs4">
-                    <input type="text" placeholder="CNPJ" class="input_cnpjValidacao" id="input_cnpjValidacao">
-                    <input type="password" placeholder="Senha" class="input_senha" id="input_senha">
-                </div>
-                <div class="buttons">
-                    <button onclick="cadastrar()" type="submit" class="btn-primary">Criar Conta</button>
-                    <button onclick="mudarCadastro()" href="CadastroEmpresa.html" type="button" class="btn-secondary">Mudar Cadastro</button>
-                </div>
-            </form>
+  </header>
+  <div class="container">
+    <div class="form-container">
+      <h1>Olá! Seja bem-vindo!</h1>
+      <h2>Crie sua conta<span style="color: #012e5c;">.</span></h2>
+      <p>já possui conta?<a href="#"><span style="color: #81aad2  ;"> Login</span></a></p>
+      <form>
+        <div class="inputs1">
+          <input type="text" placeholder="Nome" class="input_nome" id="input_nome">
+          <input type="text" placeholder="CPF" class="input_cpf" id="input_cpf">
         </div>
+        <div class="inputs2">
+          <input type="text" placeholder="Email" class="input_email" id="input_email">
+          <input type="text" placeholder="Telefone" class="input_tel" id="input_telefone">
+        </div>
+        <div class="inputs3">
+          <input type="text" placeholder="Empresa" class="input_empresa" id="input_empresa">
+          <input type="text" placeholder="Cargo" class="input_cargo" id="input_cargo">
+        </div>
+        <div class="inputs4">
+          <input type="text" placeholder="CNPJ" class="input_cnpjValidacao" id="input_cnpjValidacao">
+          <input type="password" placeholder="Senha" class="input_senha" id="input_senha">
+        </div>
+        <div class="buttons">
+          <button onclick="cadastrar()" type="submit" class="btn-primary">Criar Conta</button>
+          <button onclick="mudarCadastro()" href="CadastroEmpresa.html" type="button" class="btn-secondary">Mudar
+            Cadastro</button>
+        </div>
+        <div id="div_erro">
+
+        </div>
+      </form>
     </div>
+  </div>
 </body>
+
 </html>
 
 <script>
 
-function ativarMenu() {
-      var linknav = document.getElementById("link_nav")
-      linknav.classList.toggle("ativo")
-    }
+  function ativarMenu() {
+    var linknav = document.getElementById("link_nav")
+    linknav.classList.toggle("ativo")
+  }
 
-    function mudarCadastro() {
-        window.location.href="CadastroEmpresa.html"
-      }
-   
-    function cadastrar() {
-      event.preventDefault();
-      var nome = input_nome.value;
-        var cpf = input_cpf.value;
-        var email = input_email.value;
-        var telefone = input_telefone.value;
-        var cargo = input_cargo.value;
-        var cnpjValidacao = input_cnpjValidacao.value;
+  function mudarCadastro() {
+    window.location.href = "CadastroEmpresa.html"
+  }
 
-        // var empresa = input_empresa.value;
-        var senha = input_senha.value;
+  function cadastrar() {
 
-        // if (
+    event.preventDefault();
+    var nome = input_nome.value;
+    var cpf = input_cpf.value;
+    var email = input_email.value;
+    var telefone = input_telefone.value;
+    var cargo = input_cargo.value;
+    var cnpjValidacao = input_cnpjValidacao.value;
+    var senha = input_senha.value;
 
-        //       nome == "" ||
-        //       cpf == "" ||
-        //       email == "" ||
-        //       telefone == "" ||
-        //       cargo == "" ||
-        //       // empresa == "" ||
-        //       senha == "" 
-        //       ) {
-              // cardErro.style.display = "block";
-              // mensagem_erro.innerHTML =
-              //   "(Mensagem de erro para todos os campos em branco)";
-              
-              // finalizarAguardar();
-              // return false;
+    var tamNome = nome.length;
+    var tamTelefone = telefone.length;
+    var arrobas = email.indexOf('@');
+    var ponto = email.indexOf('.');
+    var tamCPF = cpf.length;
+    var tamSenha = senha.length;
+    var hashtag = senha.indexOf('#');
+    var arrobaSenha = senha.indexOf('@');
+    var underline = senha.indexOf('_');
+    var cifroes = senha.indexOf('$');
+    var porcentagens = senha.indexOf('%');
+    // var confirmacaoSenha = confirmarSenha_input.value;
+    // var verificarSenha = confirmacaoSenha;
 
+    if (nome == '' ||
+      cpf == '' ||
+      email == '' ||
+      senha == '') {
+      div_erro.innerHTML = '<u>Atenção!</u> Todos os campos precisam ser preenchidos para a conclusão do cadastro!';
+    } else if (tamNome <= 1) {
+      div_erro.innerHTML = 'O nome inserido é inválido.';
+    } else if (tamCPF != 11) {
+      div_erro.innerHTML = 'O CPF ou inserido deve ser válido para a conclusão do cadastro.'
+    } else if (arrobas < 0 || ponto < 0) {
+      div_erro.innerHTML = 'O e-mail inserido deve ser válido para a conclusão do cadastro.';
+    } else if (tamTelefone != 11) {
+      div_erro.innerHTML = 'Telefone inválido';
+    } else if (cargoVar == "0") {
+      div_erro.innerHTML = 'Selecione um cargo';
+    } else if (tamCodigo < 1) {
+      div_erro.innerHTML = 'Código inválido';
+    } else if (tamSenha < 8) {
+      div_erro.innerHTML = 'A senha deve possuir ao menos 8 caracteres.';
+    } else if (hashtag < 0 && arrobaSenha < 0 && underline < 0 && cifroes < 0 && porcentagem < 0) {
+      div_erro.innerHTML = 'Por segurança, a senha deve possuir ao menos um caractere especial!';
+    } else if (senhaVar != verificarSenha) {
+      div_erro.innerHTML = 'A verificação da senha falhou.';
+    } else div_erros_login.innerHTML = 'Usuário cadastrado com sucesso! Redirecionando para tela de login.';
 
-fetch("/usuarios/cadastrar", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            // crie um atributo que recebe o valor recuperado aqui
-            // Agora vá para o arquivo routes/usuario.js
-              nomeServer: nome,
-              cpfServer: cpf,
-              emailServer: email,
-              telefoneServer: telefone,
-              cargoServer: cargo,
-              senhaServer: senha,
-              cnpjValidacaoServer: cnpjValidacao
-          }),
-        })
-        .then(function (resposta) {
-            console.log("resposta: ", resposta);
-    
-            if (resposta.ok) {
-              // cardErro.style.display = "block";
-    
-              // mensagem_erro.innerHTML =
-              //   "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
-    
-              // setTimeout(() => {
-              //   window.location = "login.html";
-              // }, "2000");
-    
-              // limparFormulario();
-              // finalizarAguardar();
-            } else {
-              throw "Houve um erro ao tentar realizar o cadastro!";
-            }
-          })
-          .catch(function (resposta) {
-            console.log(`#ERRO: ${resposta}`);
-            // finalizarAguardar();
-          });
-    
-        // return false;
-      // }
-    
+    fetch("/usuarios/cadastrar", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        // crie um atributo que recebe o valor recuperado aqui
+        // Agora vá para o arquivo routes/usuario.js
+        nomeServer: nome,
+        cpfServer: cpf,
+        emailServer: email,
+        telefoneServer: telefone,
+        cargoServer: cargo,
+        senhaServer: senha,
+        cnpjValidacaoServer: cnpjValidacao
+      }),
+    })
+      .then(function (resposta) {
+        console.log("resposta: ", resposta);
 
-  
-    
+        if (resposta.ok) {
+          // cardErro.style.display = "block";
+
+          // mensagem_erro.innerHTML =
+          //   "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
+
+          // setTimeout(() => {
+          //   window.location = "login.html";
+          // }, "2000");
+
+          // limparFormulario();
+          // finalizarAguardar();
+        } else {
+          throw "Houve um erro ao tentar realizar o cadastro!";
         }
-  </script>
+      })
+      .catch(function (resposta) {
+        console.log(`#ERRO: ${resposta}`);
+        // finalizarAguardar();
+      });
+
+    // return false;
+    // }
+
+
+
+
+  }
+</script>

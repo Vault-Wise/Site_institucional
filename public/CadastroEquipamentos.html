@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vault Wise - Cadastro de Equipamentos</title>
     <link rel="stylesheet" href="css/styleCadastroEquipamento.css">
-  <link rel="shortcut icon" type="imagex/png" href="css/imagens/logosemfundo.png">
+    <link rel="shortcut icon" type="imagex/png" href="css/imagens/logosemfundo.png">
 
 </head>
 
@@ -54,58 +54,54 @@
             confirmacaoSenhaVar == "" ||
             empresaVar == ""
         ) {
-            cardErro.style.display = "block";
+
             mensagem_erro.innerHTML =
                 "(Preencha todos os campos)";
 
-            finalizarAguardar();
-            return false;
         } else if (nomeVar.length <= 1) {
-            cardErro.style.display = "block";
+
             mensagem_erro.innerHTML =
                 "Insira um nome com mais de um caracter";
 
-            finalizarAguardar();
-            return false;
+            ;
+            
         } else if ((emailVar.indexOf('@') < 0) || emailVar.indexOf('.') < 0) {
-            cardErro.style.display = "block";
+
             mensagem_erro.innerHTML =
                 "Insira um email com '@' e '.'";
 
-            finalizarAguardar();
-            return false;
+            ;
+            
         } else if (cpfVar.length !== 11) {
-            cardErro.style.display = "block";
+
             mensagem_erro.innerHTML =
                 "Insira um CPF válido";
 
-            finalizarAguardar();
-            return false;
+            ;
+            
         } else if (senhaVar.length <= 6) {
-            cardErro.style.display = "block";
+
             mensagem_erro.innerHTML =
                 "Sua senha deve ter mais de 6 dígitos";
 
-            finalizarAguardar();
-            return false;
+            ;
+            
         } else if (senhaVar != confirmacaoSenhaVar) {
-            cardErro.style.display = "block";
+
             mensagem_erro.innerHTML =
                 "As senhas devem ser iguais";
 
-            finalizarAguardar();
-            return false;
+            ;
+            
         } else {
             setInterval(sumirMensagem, 5000);
         }
 
         if (emailVar.indexOf('@') < 0) {
-            cardErro.style.display = "block";
+
             mensagem_erro.innerHTML =
                 "(Mensagem de erro para todos os campos em branco)";
 
-            finalizarAguardar();
-            return false;
         }
 
         // Enviando o valor da nova input
