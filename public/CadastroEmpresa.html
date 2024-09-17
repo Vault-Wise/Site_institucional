@@ -35,8 +35,7 @@
                     <input type="text" placeholder="Telefone" class="input_telefone" id="input_telefone">
                 </div>
                 <div class="inputs3">
-                    <input type="text" placeholder="Email" class="input_email" id="input_email">
-                    <input type="password" placeholder="Senha" class="input_senha" id="input_senha">
+                    <input type="text" placeholder="Numero" class="input_email" id="input_numero">              
                 </div>
                 <div class="buttons">
                     <button onclick="cadastrar()" class="btn-primary">Criar Conta</button>
@@ -63,64 +62,43 @@
       }
    
     function cadastrar() {
-  var razaoSocial = input_razaosocial.value;
-  var cnpj = input_cnpj.value;
-  var cep = input_cep.value;
-  var telefone = input_telefone.value;
-  var email = input_email.value;
-  var senha = input_senha.value;
+      var razaoSocial = input_razaosocial.value;
+      var cnpj = input_cnpj.value;
+      var cep = input_cep.value;
+      var telefone = input_telefone.value;
+      var numero = input_numero.value;
 
-  if ( 
-  razaoSocial === "" ||
-  cnpj === "" ||
-  cep === "" ||
-  telefone === "" ||
-  email === "" ||
-  senha === ""
-) {
-//   cardErro.style.display = "block";
-//   mensagem_erro.innerHTML = "Todos os campos são obrigatórios.";
-//   return false;
-}
-
-  fetch("/empresas/cadastrar", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      razaoSocialServer: razaoSocial,
-      cnpjServer: cnpj,
-      cepServer: cep,
-      telefoneServer: telefone,
-      emailServer: email,
-      senhaServer: senha
-    }),
-  })
-  .then(function (resposta) {
-  console.log("resposta: ", resposta);
-
-  if (resposta.ok) {
-    // cardErro.style.display = "block";
-    mensagem_erro.innerHTML =
-      "Cadastro realizado com sucesso! Redirecionando para a tela de Login...";
-
-    setTimeout(() => {
-      window.location = "login.html";
-    }, 2000); // O tempo de espera em setTimeout deve ser um número, não uma string.
-
-    limparFormulario();
-  } else {
-    throw new Error("Houve um erro ao tentar realizar o cadastro!");
-  }
-})
-.catch(function (erro) {
-  console.log(`#ERRO: ${erro}`);
-});
-
-
-  return false;
-}
+      if (razaoSocial === "" ||cnpj === "" || cep === "" || telefone === "" || numero == "") {
+        alert("Digite válidos")
+      }
+      fetch("/empresas/cadastrar", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          razaoSocialServer: razaoSocial,
+          cnpjServer: cnpj,
+          cepServer: cep,
+          telefoneServer: telefone,
+          numeroServer: numero
+        }),
+      })
+      .then(function (resposta) {
+      console.log("resposta: ", resposta);
+      
+      if (resposta.ok) {
+        setTimeout(() => {
+          window.location = "login.html";
+        }, 2000); 
+      } else {
+        throw new Error("Houve um erro ao tentar realizar o cadastro!");
+      }
+      })
+      .catch(function (erro) {
+      console.log(`#ERRO: ${erro}`);
+      });
+    }
 
   
     // Listando empresas cadastradas 
@@ -146,4 +124,4 @@
     //  function sumirMensagem() {
     //    cardErro.style.display = "none";
     //  }
-  </script>
+</script>

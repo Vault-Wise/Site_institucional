@@ -9,8 +9,8 @@ CREATE TABLE Empresa (
     cep CHAR(8) NOT NULL,
     numero INT NOT NULL,
     razaoSocial VARCHAR(45) NOT NULL,
-    telefone VARCHAR(45) NOT NULL,
-    cnpj CHAR(14) NOT NULL,
+    telefone VARCHAR(45) UNIQUE NOT NULL,
+    cnpj CHAR(14) UNIQUE NOT NULL,
     codigoEmpresa CHAR(6) NOT NULL
 );
 
@@ -18,11 +18,11 @@ CREATE TABLE Empresa (
 CREATE TABLE Funcionario (
     idFuncionario INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(45) NOT NULL,
-    email VARCHAR(45) NOT NULL,
-    telefone CHAR(9) NOT NULL,
+    email VARCHAR(45) UNIQUE NOT NULL,
+    telefone CHAR(9) UNIQUE NOT NULL,
     cargo VARCHAR(45) NOT NULL,
     senha VARCHAR(45) NOT NULL,
-    cpf CHAR(11) NOT NULL,
+    cpf CHAR(11) UNIQUE NOT NULL,
     fkEmpresa INT NOT NULL,
     CONSTRAINT fkFuncionarioEmpresa FOREIGN KEY (fkEmpresa) REFERENCES Empresa (idEmpresa)
 );
