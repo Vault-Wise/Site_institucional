@@ -8,8 +8,8 @@ CREATE TABLE Empresa (
     idEmpresa INT PRIMARY KEY AUTO_INCREMENT,
     cep CHAR(8) NOT NULL,
     numero INT NOT NULL,
-    razaoSocial VARCHAR(45) NOT NULL,
-    telefone VARCHAR(45) UNIQUE NOT NULL,
+    razaoSocial VARCHAR(60) NOT NULL,
+    telefone CHAR(9) UNIQUE NOT NULL,
     cnpj CHAR(14) UNIQUE NOT NULL,
     codigoEmpresa CHAR(6) NOT NULL
 );

@@ -9,7 +9,7 @@
   <link rel="shortcut icon" type="imagex/png" href="css/imagens/logosemfundo.png">
 </head>
 
-<body>
+<body onload="selcionarEmpresa()">
   <header>
     <div class="logo"><img src="css/imagens/logosemfundo.png" alt=""></div>
     <div class="logo">VaultWise</div>
@@ -26,7 +26,7 @@
     <div class="form-container">
       <h1>Olá! Seja bem-vindo!</h1>
       <h2>Crie sua conta<span style="color: #012e5c;">.</span></h2>
-      <p>já possui conta?<a href="#"><span style="color: #81aad2  ;"> Login</span></a></p>
+      <p>Já possui conta?<a href="#"><span style="color: #81aad2  ;"> Login</span></a></p>
       <form>
         <div class="inputs1">
           <input type="text" placeholder="Nome" class="input_nome" id="input_nome">
@@ -38,10 +38,17 @@
         </div>
         <div class="inputs3">
           <input type="text" placeholder="Empresa" class="input_empresa" id="input_empresa">
-          <input type="text" placeholder="Cargo" class="input_cargo" id="input_cargo">
+          <select type="text" placeholder="Cargo" class="input_cargo" id="input_cargo">
+            <option disabled selected> Selecione seu cargo: </option>
+            <option value="1"> Persona 1</option>
+            <option value="2"> Persona 2</option>
+            <option value="3"> Persona 3</option>
+          </select>
         </div>
         <div class="inputs4">
-          <input type="text" placeholder="CNPJ" class="input_cnpjValidacao" id="input_cnpjValidacao">
+          <select type="text" id="select_empresa">
+            <option disabled selected> Selecione uma Empresa: </option>
+          </select>
           <input type="password" placeholder="Senha" class="input_senha" id="input_senha">
         </div>
         <div class="buttons">
@@ -118,54 +125,66 @@
       div_erro.innerHTML = 'Por segurança, a senha deve possuir ao menos um caractere especial!';
     } else if (senhaVar != verificarSenha) {
       div_erro.innerHTML = 'A verificação da senha falhou.';
-    } else div_erros_login.innerHTML = 'Usuário cadastrado com sucesso! Redirecionando para tela de login.';
+    } else {
+      div_erros_login.innerHTML = 'Usuário cadastrado com sucesso! Redirecionando para tela de login.';
 
-    fetch("/usuarios/cadastrar", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        // crie um atributo que recebe o valor recuperado aqui
-        // Agora vá para o arquivo routes/usuario.js
-        nomeServer: nome,
-        cpfServer: cpf,
-        emailServer: email,
-        telefoneServer: telefone,
-        cargoServer: cargo,
-        senhaServer: senha,
-        cnpjValidacaoServer: cnpjValidacao
-      }),
+      fetch("/usuarios/cadastrar", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          // crie um atributo que recebe o valor recuperado aqui
+          // Agora vá para o arquivo routes/usuario.js
+          nomeServer: nome,
+          cpfServer: cpf,
+          emailServer: email,
+          telefoneServer: telefone,
+          cargoServer: cargo,
+          senhaServer: senha,
+          cnpjValidacaoServer: cnpjValidacao
+        }),
+      })
+        .then(function (resposta) {
+          console.log("resposta: ", resposta);
+
+          if (resposta.ok) {
+            // cardErro.style.display = "block";
+
+            // mensagem_erro.innerHTML =
+            //   "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
+
+            // setTimeout(() => {
+            //   window.location = "login.html";
+            // }, "2000");
+
+            // limparFormulario();
+            // finalizarAguardar();
+          } else {
+            throw "Houve um erro ao tentar realizar o cadastro!";
+          }
+        })
+        .catch(function (resposta) {
+          console.log(`#ERRO: ${resposta}`);
+          // finalizarAguardar();
+        });
+    }
+  }
+
+  function selcionarEmpresa() {
+    fetch("/empresas/listar", {
+      method: "GET",
     })
       .then(function (resposta) {
-        console.log("resposta: ", resposta);
-
-        if (resposta.ok) {
-          // cardErro.style.display = "block";
-
-          // mensagem_erro.innerHTML =
-          //   "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
-
-          // setTimeout(() => {
-          //   window.location = "login.html";
-          // }, "2000");
-
-          // limparFormulario();
-          // finalizarAguardar();
-        } else {
-          throw "Houve um erro ao tentar realizar o cadastro!";
-        }
+        resposta.json().then((empresas) => {
+          empresas.forEach((empresa) => {
+            select_empresa.innerHTML += `<option value="${empresa.idEmpresa}">${empresa.razaoSocial}</option>`
+          });
+        });
       })
       .catch(function (resposta) {
         console.log(`#ERRO: ${resposta}`);
-        // finalizarAguardar();
       });
-
-    // return false;
-    // }
-
-
-
 
   }
 </script>

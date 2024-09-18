@@ -28,7 +28,7 @@ function gerarCodigo() {
 }
 
 function listar() {
-  var instrucaoSql = `SELECT * FROM empresa`;
+  var instrucaoSql = `SELECT idEmpresa, razaoSocial FROM empresa`;
 
   return database.executar(instrucaoSql);
 }
