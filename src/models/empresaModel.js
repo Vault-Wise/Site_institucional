@@ -1,11 +1,5 @@
 var database = require("../database/config");
 
-//  function buscarPorId(id) {
-//    var instrucaoSql = `SELECT * FROM empresa WHERE id = '${id}'`;
-
-//    return database.executar(instrucaoSql  );
-//  }
-
 function gerarCodigo() {
   var numeros = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
   var letras = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
@@ -28,9 +22,13 @@ function gerarCodigo() {
 }
 
 function listar() {
-  var instrucaoSql = `SELECT idEmpresa, razaoSocial FROM empresa`;
+  var instrucaoSql = `SELECT idEmpresa, razaoSocial FROM Empresa`;
 
   return database.executar(instrucaoSql);
+}
+
+function buscarCodigo(idEmpresa){
+  var instrucaoSql = `SELECT codigoEmpresa FROM Empresa WHERE idEmpresa = ${idEmpresa}`
 }
 
 function buscarPorCnpj(cnpj) {

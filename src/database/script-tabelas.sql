@@ -88,5 +88,3 @@ CREATE TABLE ListaComponentes (
     CONSTRAINT fkCaixaListaComponente FOREIGN KEY (fkCaixa) REFERENCES CaixaEletronico (idCaixa),
     CONSTRAINT fkComponenteListaComponente FOREIGN KEY (fkComponente) REFERENCES Componente (idComponente)
 );
-
-SELECT * FROM Empresa;

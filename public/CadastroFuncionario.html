@@ -23,7 +23,7 @@
     <button class="hamburguer" onclick="ativarMenu()">&#9776;</button>
   </header>
   <div class="container">
-    <div class="form-container">
+    <div class="form-container" id="telaCadastro">
       <h1>Olá! Seja bem-vindo!</h1>
       <h2>Crie sua conta<span style="color: #012e5c;">.</span></h2>
       <p>Já possui conta?<a href="#"><span style="color: #81aad2  ;"> Login</span></a></p>
@@ -127,7 +127,7 @@
       div_erro.innerHTML = 'A verificação da senha falhou.';
     } else {
       div_erros_login.innerHTML = 'Usuário cadastrado com sucesso! Redirecionando para tela de login.';
-
+      div_telaCadastr
       fetch("/usuarios/cadastrar", {
         method: "POST",
         headers: {
