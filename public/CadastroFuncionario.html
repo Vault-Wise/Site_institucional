@@ -9,7 +9,7 @@
   <link rel="shortcut icon" type="imagex/png" href="css/imagens/logosemfundo.png">
 </head>
 
-<body onload="selcionarEmpresa()">
+<body onload="selecionarEmpresa()">
   <header>
     <div class="logo"><img src="css/imagens/logosemfundo.png" alt=""></div>
     <div class="logo">VaultWise</div>
@@ -37,12 +37,11 @@
           <input type="text" placeholder="Telefone" class="input_tel" id="input_telefone">
         </div>
         <div class="inputs3">
-          <input type="text" placeholder="Empresa" class="input_empresa" id="input_empresa">
-          <select type="text" placeholder="Cargo" class="input_cargo" id="input_cargo">
+          <select type="text" placeholder="Cargo" id="select_cargo">
             <option disabled selected> Selecione seu cargo: </option>
-            <option value="1"> Supervisora Técnica</option>
-            <option value="2"> Analista de Dados</option>
-            <option value="3"> Chefe de Ciber Segurança</option>
+            <option value="Supervisora Técnica"> Supervisora Técnica</option>
+            <option value="Analista de Dados"> Analista de Dados</option>
+            <option value="Chefe de Ciber Segurança"> Chefe de Ciber Segurança</option>
           </select>
         </div>
         <div class="inputs4">
@@ -52,12 +51,17 @@
           <input type="password" placeholder="Senha" class="input_senha" id="input_senha">
         </div>
         <div class="buttons">
-          <button onclick="cadastrar()" type="submit" class="btn-primary">Criar Conta</button>
-          <button onclick="mudarCadastro()" href="CadastroEmpresa.html" type="button" class="btn-secondary">Mudar
-            Cadastro</button>
+          <button onclick="autenticar()" type="submit" class="btn-primary">Validar Conta</button>
         </div>
         <div id="div_erro">
-
+        </div>
+      </form>
+    </div>
+    <div id="telaCodigo">
+      <form>
+        <div class="codigoAutenticacao">
+          <input type="text" id="input_codigo">
+          <button onclick="cadastrar()">Cadastrar</button>
         </div>
       </form>
     </div>
@@ -67,6 +71,15 @@
 </html>
 
 <script>
+  telaCodigo.style.display = "none"
+  var codigoEmpresaVar;
+  var nome;
+  var cpf;
+  var email;
+  var telefone;
+  var cargo;
+  var idEmpresa;
+  var senha;
 
   function ativarMenu() {
     var linknav = document.getElementById("link_nav")
@@ -77,16 +90,15 @@
     window.location.href = "CadastroEmpresa.html"
   }
 
-  function cadastrar() {
-
+  function autenticar() {
     event.preventDefault();
-    var nome = input_nome.value;
-    var cpf = input_cpf.value;
-    var email = input_email.value;
-    var telefone = input_telefone.value;
-    var cargo = select_cargo.value;
-    var idEmpresa = select_empresa.value;
-    var senha = input_senha.value;
+    nome = input_nome.value;
+    cpf = input_cpf.value;
+    email = input_email.value;
+    telefone = input_telefone.value;
+    cargo = select_cargo.value;
+    idEmpresa = select_empresa.value;
+    senha = input_senha.value;
 
     var tamNome = nome.length;
     var tamTelefone = telefone.length;
@@ -101,7 +113,7 @@
     var porcentagens = senha.indexOf('%');
     // var confirmacaoSenha = confirmarSenha_input.value;
     // var verificarSenha = confirmacaoSenha;
-
+    
     if (nome == '' ||
       cpf == '' ||
       email == '' ||
@@ -126,23 +138,47 @@
     } else if (senhaVar != verificarSenha) {
       div_erro.innerHTML = 'A verificação da senha falhou.';
     } else {
-      div_erros_login.innerHTML = 'Usuário cadastrado com sucesso! Redirecionando para tela de login.';
-      div_telaCadastr
+      telaCadastro.style.display = "none"
+      telaCodigo.style.display = "block"
+     
+      capturarCodigo(idEmpresa);
+    }
+  }
+
+  function selecionarEmpresa() {
+    fetch("/empresas/listar", {
+      method: "GET",
+    })
+      .then(function (resposta) {
+        resposta.json().then((empresas) => {
+          empresas.forEach((empresa) => {
+            select_empresa.innerHTML += `<option value="${empresa.idEmpresa}">${empresa.razaoSocial}</option>`
+          });
+        });
+      })
+      .catch(function (resposta) {
+        console.log(`#ERRO: ${resposta}`);
+      });
+
+  }
+
+  function cadastrar() {
+    var codigoDigitado = input_codigo.value;
+
+    if (codigoEmpresaVar == codigoDigitado) {
       fetch("/usuarios/cadastrar", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          // crie um atributo que recebe o valor recuperado aqui
-          // Agora vá para o arquivo routes/usuario.js
           nomeServer: nome,
           cpfServer: cpf,
           emailServer: email,
           telefoneServer: telefone,
           cargoServer: cargo,
           senhaServer: senha,
-          cnpjValidacaoServer: cnpjValidacao
+          idEmpresaServer: idEmpresa
         }),
       })
         .then(function (resposta) {
@@ -160,6 +196,8 @@
 
             // limparFormulario();
             // finalizarAguardar();
+
+            alert("Usuário Cadastrado")
           } else {
             throw "Houve um erro ao tentar realizar o cadastro!";
           }
@@ -168,23 +206,22 @@
           console.log(`#ERRO: ${resposta}`);
           // finalizarAguardar();
         });
+    } else {
+      alert('Código incorreto')
     }
   }
 
-  function selcionarEmpresa() {
-    fetch("/empresas/listar", {
+  function capturarCodigo(idEmpresa) {
+    fetch(`/empresas/buscarCodigo/${idEmpresa}`, {
       method: "GET",
     })
       .then(function (resposta) {
-        resposta.json().then((empresas) => {
-          empresas.forEach((empresa) => {
-            select_empresa.innerHTML += `<option value="${empresa.idEmpresa}">${empresa.razaoSocial}</option>`
-          });
+        resposta.json().then((codigo) => {
+          codigoEmpresaVar = codigo[0].codigoEmpresa
         });
       })
       .catch(function (resposta) {
         console.log(`#ERRO: ${resposta}`);
       });
-
   }
 </script>

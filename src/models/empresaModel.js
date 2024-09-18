@@ -15,8 +15,6 @@ function gerarCodigo() {
       codigo += `${letras[aleatorio]}`
     }
   }
-  var first = Math.random();
-
 
   return codigo;
 }
@@ -29,6 +27,8 @@ function listar() {
 
 function buscarCodigo(idEmpresa){
   var instrucaoSql = `SELECT codigoEmpresa FROM Empresa WHERE idEmpresa = ${idEmpresa}`
+
+  return database.executar(instrucaoSql);
 }
 
 function buscarPorCnpj(cnpj) {
@@ -48,6 +48,7 @@ function cadastrar(razaoSocial, cnpj, cep, telefone, numero) {
 module.exports = {
   cadastrar,
   listar,
-  buscarPorCnpj
+  buscarPorCnpj,
+  buscarCodigo
 };
 // buscarPorCnpj, buscarPorId 

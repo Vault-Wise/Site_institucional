@@ -17,11 +17,11 @@ CREATE TABLE Empresa (
 
 CREATE TABLE Funcionario (
     idFuncionario INT PRIMARY KEY AUTO_INCREMENT,
-    nome VARCHAR(45) NOT NULL,
-    email VARCHAR(45) UNIQUE NOT NULL,
+    nome VARCHAR(80) NOT NULL,
+    email VARCHAR(60) UNIQUE NOT NULL,
     telefone CHAR(9) UNIQUE NOT NULL,
-    cargo VARCHAR(45) NOT NULL,
-    senha VARCHAR(45) NOT NULL,
+    cargo VARCHAR(60) NOT NULL,
+    senha VARCHAR(60) NOT NULL,
     cpf CHAR(11) UNIQUE NOT NULL,
     fkEmpresa INT NOT NULL,
     CONSTRAINT fkFuncionarioEmpresa FOREIGN KEY (fkEmpresa) REFERENCES Empresa (idEmpresa)
@@ -30,8 +30,8 @@ CREATE TABLE Funcionario (
 
 CREATE TABLE Agencia (
     idAgencia INT PRIMARY KEY AUTO_INCREMENT,
-    cep VARCHAR(45) NOT NULL,
-    numero VARCHAR(45) NOT NULL,
+    cep CHAR(8) NOT NULL,
+    numero INT NOT NULL,
     fkEmpresa INT NOT NULL,
     CONSTRAINT fkAgenciaEmpresa FOREIGN KEY (fkEmpresa) REFERENCES Empresa (idEmpresa)
 );
@@ -76,15 +76,16 @@ CREATE TABLE Alerta (
 
 CREATE TABLE Componente (
     idComponente INT PRIMARY KEY AUTO_INCREMENT,
-    nome VARCHAR(45) NOT NULL,
-    unidadeMedida VARCHAR(45) NOT NULL
+    nome VARCHAR(60) NOT NULL,
+    unidadeMedida VARCHAR(50) NOT NULL
 );
 
 
 CREATE TABLE ListaComponentes (
+	idListaComponentes INT AUTO_INCREMENT,
     fkCaixa INT NOT NULL,
     fkComponente INT NOT NULL,
-    PRIMARY KEY (fkCaixa, fkComponente),
+    PRIMARY KEY (idListaComponentes, fkCaixa, fkComponente),
     CONSTRAINT fkCaixaListaComponente FOREIGN KEY (fkCaixa) REFERENCES CaixaEletronico (idCaixa),
     CONSTRAINT fkComponenteListaComponente FOREIGN KEY (fkComponente) REFERENCES Componente (idComponente)
 );

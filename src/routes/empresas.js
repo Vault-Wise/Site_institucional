@@ -5,7 +5,7 @@ var empresaController = require("../controllers/empresaController");
 
 router.post("/cadastrar", function (req, res) {
   empresaController.cadastrar(req, res);
-})
+});
 
 router.get("/buscarCodigo/:idEmpresa", function (req, res) {
   empresaController.buscarCodigo(req, res);

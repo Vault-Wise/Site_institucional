@@ -1,14 +1,5 @@
 var usuarioModel = require("../models/usuarioModel");
 
-function buscarPorCnpj(req, res) {
-    var cnpj = req.query.cnpj;
-    var cnpj = resultado[0].cnpj;
-
-    usuarioModel.buscarPorCnpj(cnpj).then((resultado) => {
-        res.status(200).json(resultado);
-    });
-}
-
 function cadastrar(req, res) {
     var nome = req.body.nomeServer;
     var cpf = req.body.cpfServer;
@@ -16,10 +7,9 @@ function cadastrar(req, res) {
     var telefone = req.body.telefoneServer;
     var cargo = req.body.cargoServer;
     var senha = req.body.senhaServer;
-    var cnpjValidacao = req.body.cnpjValidacaoServer;
+    var idEmpresa = req.body.idEmpresaServer;
 
-
-    usuarioModel.cadastrar(nome, cpf, email, telefone, senha, cargo, id_empresa)
+    usuarioModel.cadastrar(nome, cpf, email, telefone, senha, cargo, idEmpresa)
         .then(() => {
             res.status(201).json({ mensagem: "Usuário cadastrado com sucesso!" });
         })
@@ -77,7 +67,6 @@ function autenticar(req, res) {
 
 
 module.exports = {
-    cadastrar, buscarPorCnpj, autenticar
+    cadastrar,
+    autenticar
 };
-
-// buscarPorCnpj,buscarPorId,listar

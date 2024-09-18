@@ -1,4 +1,3 @@
-// const { buscarPorCnpj } = require("../controllers/usuarioController");
 var database = require("../database/config")
 
 function autenticar(email, senha) {
@@ -10,32 +9,13 @@ function autenticar(email, senha) {
     return database.executar(instrucaoSql);
 }
 
-function buscarPorCnpj(cnpj) {
-    console.log("Buscando o CNPJ:", cnpj);
-    var instrucaoSql = `SELECT idEmpresa FROM Empresa WHERE cnpj = '${cnpj}'`;
-
-
-    return database.executar(instrucaoSql)
-}
-
-// Coloque os mesmos parâmetros aqui. Vá para a var instrucaoSql
-// Função para buscar o ID da empresa com base no CNPJ
-function buscarPorCnpj(cnpj) {
-    console.log("Buscando o CNPJ:", cnpj);  // Log para verificar o valor do CNPJ
-    var instrucaoSql = `SELECT idEmpresa FROM Empresa WHERE cnpj = '${cnpj}'`;
-    return database.executar(instrucaoSql);
-}
-
 // Função para cadastrar o usuário
-function cadastrar(nome, cpf, email, telefone, senha, cargo, cnpj) {
-    console.log("Acessando o model para cadastrar o usuário:", nome, cpf, email, telefone, senha, cargo, cnpj);
-
+function cadastrar(nome, cpf, email, telefone, senha, cargo, idEmpresa) {
 
     var instrucaoSql = `
-                    INSERT INTO Usuario (nome, cpf, email, telefone, senha, cargo, fkEmpresa) 
-                    VALUES ('${nome}', '${cpf}', '${email}', '${telefone}', '${senha}', '${cargo}', '${cnpj}');
+                    INSERT INTO Funcionario (nome, cpf, email, telefone, senha, cargo, fkEmpresa) 
+                    VALUES ('${nome}', '${cpf}', '${email}', '${telefone}', '${senha}', '${cargo}', '${idEmpresa}');
                 `;
-    console.log("Executando a instrução SQL para inserir o usuário: \n" + instrucaoSql);
 
     return database.executar(instrucaoSql);
 
@@ -45,5 +25,5 @@ function cadastrar(nome, cpf, email, telefone, senha, cargo, cnpj) {
 
 module.exports = {
     autenticar,
-    cadastrar, buscarPorCnpj
+    cadastrar
 };
