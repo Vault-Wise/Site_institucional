@@ -6,12 +6,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vault Wise - Crie sua conta</title>
   <link rel="stylesheet" href="css/styleCadastroFuncionario.css">
-  <link rel="shortcut icon" type="imagex/png" href="css/imagens/logosemfundo.png">
+  <link rel="shortcut icon" type="imagex/png" href="css/imagens/logoComFundo.png">
 </head>
 
 <body onload="selecionarEmpresa()">
   <header>
-    <div class="logo"><img src="css/imagens/logosemfundo.png" alt=""></div>
+    <div class="logo"><img src="css/imagens/logoSemFundo.png" alt=""></div>
     <div class="logo">VaultWise</div>
     <nav>
       <ul id="link_nav">
@@ -30,11 +30,13 @@
       <form>
         <div class="inputs1">
           <input type="text" placeholder="Nome" class="input_nome" id="input_nome">
-          <input type="text" placeholder="CPF" class="input_cpf" maxlength="14" onkeypress="mascararCpf(Event)" id="input_cpf">
+          <input type="text" placeholder="CPF" class="input_cpf" maxlength="14" onkeypress="mascararCpf(Event)"
+            id="input_cpf">
         </div>
         <div class="inputs2">
           <input type="text" placeholder="Email" class="input_email" id="input_email">
-          <input type="text" placeholder="Telefone" class="input_tel" onkeypress="mascararTel(Event)"  maxlength="15" id="input_telefone">
+          <input type="text" placeholder="Telefone" class="input_tel" onkeypress="mascararTel(Event)" maxlength="15"
+            id="input_telefone">
         </div>
         <div class="inputs3">
           <select type="text" placeholder="Cargo" id="select_cargo">
@@ -113,7 +115,7 @@
     var porcentagens = senha.indexOf('%');
     // var confirmacaoSenha = confirmarSenha_input.value;
     // var verificarSenha = confirmacaoSenha;
-    
+
     if (nome == '' ||
       cpf == '' ||
       email == '' ||
@@ -136,7 +138,7 @@
     } else {
       telaCadastro.style.display = "none"
       telaCodigo.style.display = "block"
-     
+
       capturarCodigo(idEmpresa);
     }
   }
@@ -226,36 +228,36 @@
     if (Event.key == "Backspace") {
 
     } else {
-        if ((ultimoChar !== '.' && ultimoChar !== '-') && cpflength !== 14) {
-            if (cpflength === 3 || cpflength === 7) {
-                input_cpf.value += '.';
-            } else if (cpflength === 11) {
-                input_cpf.value += '-';
-            }
+      if ((ultimoChar !== '.' && ultimoChar !== '-') && cpflength !== 14) {
+        if (cpflength === 3 || cpflength === 7) {
+          input_cpf.value += '.';
+        } else if (cpflength === 11) {
+          input_cpf.value += '-';
         }
+      }
     }
-}
+  }
 
-function mascararTel(Event) {
+  function mascararTel(Event) {
     var telefonelength = input_telefone.value.length;
     var ultimoChar = input_telefone.value.charAt(telefonelength - 1);    // Verifica se o último caractere adicionado foi ponto ou traço
     if (Event.key == "Backspace") {
 
 
     } else {
-        if ((ultimoChar !== '(' && ultimoChar !== ')' && ultimoChar !== '-' && ultimoChar !== ' ') && telefonelength !== 15) {
-            if (telefonelength === 0) {
-                input_telefone.value += '(';
-            } else if (telefonelength === 3) {
-                input_telefone.value += ') ';
-            } else if (telefonelength === 10) {
-                input_telefone.value += '-';
-            }
+      if ((ultimoChar !== '(' && ultimoChar !== ')' && ultimoChar !== '-' && ultimoChar !== ' ') && telefonelength !== 15) {
+        if (telefonelength === 0) {
+          input_telefone.value += '(';
+        } else if (telefonelength === 3) {
+          input_telefone.value += ') ';
+        } else if (telefonelength === 10) {
+          input_telefone.value += '-';
         }
+      }
     }
-}
+  }
 
-function removerMascara(valorComMascara) {
+  function removerMascara(valorComMascara) {
     var valorSemMascara = valorComMascara.replaceAll("-", "");
 
     valorSemMascara = valorSemMascara.replaceAll(".", "");
@@ -266,5 +268,5 @@ function removerMascara(valorComMascara) {
     valorSemMascara = valorSemMascara.replaceAll(")", "")
 
     return valorSemMascara
-}
+  }
 </script>
