@@ -10,7 +10,7 @@
 }
 
 body {
-  background: #000000;
+  background: #0f1b27;
   display: flex;
   flex-direction: column;
 }
@@ -106,7 +106,7 @@ footer {
   font-family: 'Poppins';
   background: #0f1923;
   width: 100%;
-  height: fit-content;
+  height: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -465,7 +465,7 @@ h1 {
   height: 100%;
   background: linear-gradient(to right, #933b3ba6, #ed0101a6);
   clip-path: polygon(0 0, 0 100%, 100% 100%);
-  transform: scaleY(0); /* Inicia o efeito */
+  transform: scaleY(0); 
   transform-origin: bottom;
   transition: transform 0.5s ease-out;
   z-index: -1;
@@ -483,6 +483,66 @@ h1 {
   margin-top: 20px;
   z-index: 1;
   position: relative;
+}
+
+/* teste carrosel */
+
+.carrosel-container {
+  text-align: center;
+  margin: 0 auto;
+  height: auto;
+  background-color: #0f1b27;
+}
+
+.carrosel-container h2{
+  text-align: center;
+  size: 50px;
+  background-color: #ffffff;
+}
+
+.carrosel {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.carrosel-slide {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+.slide {
+  min-width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.slide img {
+  width: 50%;
+  height: 400px;
+}
+
+.desc {
+  padding: 20px;
+  text-align: left;
+}
+
+.desc h3 {
+  font-size: 1.5em;
+  color: #ffffff;
+}
+
+.desc p {
+  font-size: 1.1em;
+  color: #333;
+}
+
+.desc a {
+  color: #ededed;
+  text-decoration: none;
 }
 
 
