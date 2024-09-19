@@ -32,10 +32,12 @@
                     <option selected>Selecione uma empresa</option>
                 </select>
                 <div class="buttons">
-                    <button type="submit" class="btn-primary">Cadastrar</button>
+                    <button onclick="cadastrar()" type="submit" class="btn-primary">Cadastrar</button>
                 </div>
             </form>
+            
         </div>
+        <div id="div_mensagemErro" style="color: red;"></div>
     </div>
 </body>
 
@@ -43,108 +45,39 @@
 
 <script>
     function cadastrar() {
-        aguardar();
-        var nomeVar = input_equip.value;
-        var empresaVar = listaEmpresas.value
-        if (
-            nomeVar == "" ||
-            emailVar == "" ||
-            cpfVar == "" ||
-            senhaVar == "" ||
-            confirmacaoSenhaVar == "" ||
-            empresaVar == ""
-        ) {
+        event.preventDefault();
+        var equipID = input_equip.value;
+        var empresaVar = listaEmpresas.value;
 
-            mensagem_erro.innerHTML =
-                "(Preencha todos os campos)";
-
-        } else if (nomeVar.length <= 1) {
-
-            mensagem_erro.innerHTML =
-                "Insira um nome com mais de um caracter";
-
-            ;
-            
-        } else if ((emailVar.indexOf('@') < 0) || emailVar.indexOf('.') < 0) {
-
-            mensagem_erro.innerHTML =
-                "Insira um email com '@' e '.'";
-
-            ;
-            
-        } else if (cpfVar.length !== 11) {
-
-            mensagem_erro.innerHTML =
-                "Insira um CPF válido";
-
-            ;
-            
-        } else if (senhaVar.length <= 6) {
-
-            mensagem_erro.innerHTML =
-                "Sua senha deve ter mais de 6 dígitos";
-
-            ;
-            
-        } else if (senhaVar != confirmacaoSenhaVar) {
-
-            mensagem_erro.innerHTML =
-                "As senhas devem ser iguais";
-
-            ;
-            
+        if (equipID == "" || empresaVar == "Selecione uma empresa") {
+            div_mensagemErro.innerHTML = '<u>Atenção!</u> Todos os campos precisam ser preenchidos para o cadastro!';
+        } else if (equipID.length <= 1) {
+            div_mensagemErro.innerHTML = 'O ID do equipamento deve ter mais de 1 caractere.';
         } else {
-            setInterval(sumirMensagem, 5000);
-        }
-
-        if (emailVar.indexOf('@') < 0) {
-
-            mensagem_erro.innerHTML =
-                "(Mensagem de erro para todos os campos em branco)";
-
-        }
-
-        // Enviando o valor da nova input
-        fetch("/usuarios/cadastrar", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                // crie um atributo que recebe o valor recuperado aqui
-                // Agora vá para o arquivo routes/usuario.js
-                nomeServer: nomeVar,
-                emailServer: emailVar,
-                cpfServer: cpfVar,
-                senhaServer: senhaVar,
-                empresaServer: empresaVar
-            }),
-        })
+            fetch("/equipamentos/cadastrar", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    idEquipamentoServer: equipID,
+                    empresaServer: empresaVar
+                }),
+            })
             .then(function (resposta) {
-                console.log("resposta: ", resposta);
-
                 if (resposta.ok) {
-                    cardErro.style.display = "block";
-
-                    mensagem_erro.innerHTML =
-                        "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
-
+                    div_mensagemErro.innerHTML = "Cadastro realizado com sucesso!";
                     setTimeout(() => {
                         window.location = "login.html";
-                    }, "2000");
-
-                    limparFormulario();
-                    finalizarAguardar();
+                    }, 2000);
                 } else {
-                    throw "Houve um erro ao tentar realizar o cadastro!";
+                    div_mensagemErro.innerHTML = "Houve um erro ao tentar realizar o cadastro!";
                 }
             })
             .catch(function (resposta) {
                 console.log(`#ERRO: ${resposta}`);
-                finalizarAguardar();
             });
-
-        return false;
+        }
     }
 
     function listar() {

@@ -47,8 +47,10 @@
         <button onclick="mudarCadastro()" type="button" class="btn-secondary">Mudar Cadastro</button>
 
       </div>
+     
     </div>
   </div>
+  <div id="mensagem_erro" style="color: red;"></div>
 </body>
 
 </html>
@@ -98,8 +100,16 @@
 
     alert(possuiTelefone)
 
-    if (razaoSocial === "" || cnpj === "" || cep === "" || telefone === "" || numero == "") {
-      alert("Digite válidos")
+    if (razaoSocial == "" || cnpj == "" || cep == "" || telefone == "" || numero == "") {
+      mensagem_erro.innerHTML = "Preencha todos os campos.";
+    } else if (razaoSocial.length < 2) {
+      mensagem_erro.innerHTML = "A razão social deve ter mais de 1 caractere.";
+    } else if (cnpj.length != 14) {
+      mensagem_erro.innerHTML = "Insira um CNPJ válido (14 dígitos).";
+    } else if (cep.length != 8) {
+      mensagem_erro.innerHTML = "Insira um CEP válido (8 dígitos).";
+    } else if (telefone.length < 10 || telefone.length > 11) {
+      mensagem_erro.innerHTML = "Insira um telefone válido (10 a 11 dígitos).";
     }
     fetch("/empresas/cadastrar", {
       method: "POST",
