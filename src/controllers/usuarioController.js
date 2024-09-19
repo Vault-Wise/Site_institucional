@@ -62,11 +62,17 @@ function autenticar(req, res) {
                 }
             );
     }
-
 }
 
 
+function capturarDados(req, res) {
+    usuarioModel.capturarDados().then((resultado) => {
+        res.status(200).json(resultado);
+    });
+}
+
 module.exports = {
     cadastrar,
-    autenticar
+    autenticar,
+    capturarDados
 };
