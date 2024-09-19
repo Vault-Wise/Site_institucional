@@ -50,19 +50,15 @@
     function entrar() {
         aguardar();
 
-        var emailVar = input_email.value;
-        var senhaVar = input_senha.value;
-
-        if (emailVar == "" || senhaVar == "") {
-            cardErro.style.display = "block"
-            mensagem_erro.innerHTML = "(Mensagem de erro para todos os campos em branco)";
-            finalizarAguardar();
-            return false;
-        }
-        else {
-            setInterval(sumirMensagem, 5000)
-        }
-
+        if (emailVar == '' || senhaVar == '') {
+        div_erros_login.innerHTML = '<u>Atenção!</u> Todos os campos precisam ser preenchidos para a conclusão do cadastro!';
+      } else if (arrobas < 0 || ponto < 0) {
+        div_erros_login.innerHTML = 'O e-mail inserido deve ser válido para a conclusão do cadastro.';
+      } else if (tamSenha < 8) {
+        div_erros_login.innerHTML = 'A senha deve possuir ao menos 8 caracteres.';
+      } else if (hashtag < 0 && arrobaSenha < 0 && underline < 0 && cifrao < 0 && porcentagem < 0) {
+        div_erros_login.innerHTML = 'Por segurança, a senha deve possuir ao menos um caractere especial!';
+      } else div_erros_login.innerHTML = 'Usuário logado com sucesso! Redirecionando para tela de dashboard.';
         console.log("FORM LOGIN: ", emailVar);
         console.log("FORM SENHA: ", senhaVar);
 
