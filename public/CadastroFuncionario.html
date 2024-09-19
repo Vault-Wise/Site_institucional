@@ -26,35 +26,34 @@
     <div class="form-container" id="telaCadastro">
       <h1>Olá! Seja bem-vindo!</h1>
       <h2>Crie sua conta<span style="color: #012e5c;">.</span></h2>
-      <p>Já possui conta?<a href="#"><span style="color: #81aad2  ;"> Login</span></a></p>
+      <p>Já possui conta?<a href="#"><span style="color: #81aad2;"> Login</span></a></p>
       <form>
         <div class="inputs1">
           <input type="text" placeholder="Nome" class="input_nome" id="input_nome">
-          <input type="text" placeholder="CPF" class="input_cpf" id="input_cpf">
+          <input type="text" placeholder="CPF" class="input_cpf" maxlength="14" onkeypress="mascararCpf(Event)" id="input_cpf">
         </div>
         <div class="inputs2">
           <input type="text" placeholder="Email" class="input_email" id="input_email">
-          <input type="text" placeholder="Telefone" class="input_tel" id="input_telefone">
+          <input type="text" placeholder="Telefone" class="input_tel" onkeypress="mascararTel(Event)"  maxlength="15" id="input_telefone">
         </div>
         <div class="inputs3">
           <select type="text" placeholder="Cargo" id="select_cargo">
-            <option disabled selected> Selecione seu cargo: </option>
-            <option value="Supervisora Técnica"> Supervisora Técnica</option>
-            <option value="Analista de Dados"> Analista de Dados</option>
-            <option value="Chefe de Ciber Segurança"> Chefe de Ciber Segurança</option>
+            <option disabled selected>Selecione seu cargo:</option>
+            <option value="Supervisora Técnica">Supervisora Técnica</option>
+            <option value="Analista de Dados">Analista de Dados</option>
+            <option value="Chefe de Ciber Segurança">Chefe de Ciber Segurança</option>
           </select>
         </div>
         <div class="inputs4">
           <select type="text" id="select_empresa">
-            <option disabled selected> Selecione uma Empresa: </option>
+            <option disabled selected>Selecione uma Empresa:</option>
           </select>
           <input type="password" placeholder="Senha" class="input_senha" id="input_senha">
         </div>
         <div class="buttons">
           <button onclick="autenticar()" type="submit" class="btn-primary">Validar Conta</button>
         </div>
-        <div id="div_erro">
-        </div>
+        <div id="div_erro"></div>
       </form>
     </div>
     <div id="telaCodigo">
@@ -66,6 +65,7 @@
       </form>
     </div>
   </div>
+
 </body>
 
 </html>
@@ -93,9 +93,9 @@
   function autenticar() {
     event.preventDefault();
     nome = input_nome.value;
-    cpf = input_cpf.value;
+    cpf = removerMascara(input_cpf.value);
     email = input_email.value;
-    telefone = input_telefone.value;
+    telefone = removerMascara(input_telefone.value);
     cargo = select_cargo.value;
     idEmpresa = select_empresa.value;
     senha = input_senha.value;
@@ -135,8 +135,6 @@
       div_erro.innerHTML = 'A senha deve possuir ao menos 8 caracteres.';
     } else if (hashtag < 0 && arrobaSenha < 0 && underline < 0 && cifroes < 0 && porcentagem < 0) {
       div_erro.innerHTML = 'Por segurança, a senha deve possuir ao menos um caractere especial!';
-    } else if (senhaVar != verificarSenha) {
-      div_erro.innerHTML = 'A verificação da senha falhou.';
     } else {
       telaCadastro.style.display = "none"
       telaCodigo.style.display = "block"
@@ -204,7 +202,6 @@
         })
         .catch(function (resposta) {
           console.log(`#ERRO: ${resposta}`);
-          // finalizarAguardar();
         });
     } else {
       alert('Código incorreto')
@@ -224,4 +221,52 @@
         console.log(`#ERRO: ${resposta}`);
       });
   }
+
+  function mascararCpf(Event) {
+    var cpflength = input_cpf.value.length;
+    var ultimoChar = input_cpf.value.charAt(cpflength - 1);    // Verifica se o último caractere adicionado foi ponto ou traço
+    if (Event.key == "Backspace") {
+
+    } else {
+        if ((ultimoChar !== '.' && ultimoChar !== '-') && cpflength !== 14) {
+            if (cpflength === 3 || cpflength === 7) {
+                input_cpf.value += '.';
+            } else if (cpflength === 11) {
+                input_cpf.value += '-';
+            }
+        }
+    }
+}
+
+function mascararTel(Event) {
+    var telefonelength = input_telefone.value.length;
+    var ultimoChar = input_telefone.value.charAt(telefonelength - 1);    // Verifica se o último caractere adicionado foi ponto ou traço
+    if (Event.key == "Backspace") {
+
+
+    } else {
+        if ((ultimoChar !== '(' && ultimoChar !== ')' && ultimoChar !== '-' && ultimoChar !== ' ') && telefonelength !== 15) {
+            if (telefonelength === 0) {
+                input_telefone.value += '(';
+            } else if (telefonelength === 3) {
+                input_telefone.value += ') ';
+            } else if (telefonelength === 10) {
+                input_telefone.value += '-';
+            }
+        }
+    }
+}
+
+function removerMascara(valorComMascara) {
+    var valorSemMascara = valorComMascara.replaceAll("-", "");
+
+    valorSemMascara = valorSemMascara.replaceAll(".", "");
+
+    valorSemMascara = valorSemMascara.replaceAll(" ", "");
+
+    valorSemMascara = valorSemMascara.replaceAll("(", "")
+    valorSemMascara = valorSemMascara.replaceAll(")", "")
+
+    return valorSemMascara
+}
 </script>
