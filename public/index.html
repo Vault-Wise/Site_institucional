@@ -98,17 +98,38 @@
 
       <div id="sobre_nos" class="container_sobre_nos">
         <div class="texto_sobre_nos2">
-          <img src="css/imagens/fotosobrenos.png" alt="">
+          <img src="css/imagens/caixa eletronico.jpg" alt="">
         </div>
         <div class="titulo_sobre_nos">
           <h1>Sobre nós</h1>
           <div class="texto_sobre_nos">
            
-Nossa equipe de seis sócios combina expertise e tecnologia de ponta para entregar soluções personalizadas, focadas em suas necessidades. Com a VaultWise, você não apenas gerencia seus ATMs, mas os potencializa, garantindo eficiência e segurança máximas. VaultWise: 100% comprometida em elevar suas operações.
+            Na VaultWise, somos especialistas em monitoramento e gerenciamento de ATMs, garantindo que seus dispositivos operem com eficiência, segurança e sem interrupções. Acreditamos que os caixas eletrônicos (ATMs) são o coração do acesso financeiro contínuo, e a nossa missão é garantir que cada um desses dispositivos opere com a máxima eficiência, segurança e confiabilidade.  e por isso utilizamos tecnologia avançada para entregar soluções personalizadas, focadas em suas necessidades, detectando e prevenindo problemas antes que impactem seus serviços. Nossa equipe é 100% comprometida em elevar suas operações.
           </div>
         </div>
       </div>
   </section>
+
+  <section id="section-solucao">
+    <h1>Ferramentas essenciais para agilizar seu dia a dia</h1>
+    <p>Confira algumas das soluções que garantimos para você.</p>
+    <div class="grid-opcoes">
+      <div class="opcao">Eficiência</div>
+      <div class="opcao">Controle</div>
+      <div class="opcao">Gestão</div>
+      <div class="opcao">Resolução de problemas</div>
+      <div class="opcao">Acompanhamento continuo</div>
+      <div class="opcao">Segurança</div>
+    </div>
+  </section>
+
+  <section id="scroll">
+    <div class="triangulo"></div>
+    <h2>Aqui você tem mais facilidade</h2>
+    <p>Conheça nossos serviços que garantem comodidade e segurança para suas transações.</p>
+    <img src="css/imagens/logoSemFundo.png" alt="vaultwise" class="logo-vault">
+  </section>
+
 
   <section class="tres">
     <div class="fundoequipe">
@@ -304,4 +325,19 @@ Nossa equipe de seis sócios combina expertise e tecnologia de ponta para entreg
   if (window.matchMedia('(max-width: 430px)').matches) {
     atualizar_card()
   }
+
+  window.addEventListener('scroll', function() {
+  const scrollSection = document.getElementById('scroll');
+  const triangleBackground = document.querySelector('.triangulo');
+  const sectionPosition = scrollSection.getBoundingClientRect().top;
+  const windowHeight = window.innerHeight;
+
+  // Verifica se a seção entrou na janela de visualização
+  if (sectionPosition < windowHeight) {
+    const scrolled = Math.max(0, windowHeight - sectionPosition);
+    const scaleValue = Math.min(scrolled / windowHeight, 1); // Limita o valor a 1
+    triangleBackground.style.transform = `scaleY(${scaleValue})`;
+  }
+});
+
 </script>
