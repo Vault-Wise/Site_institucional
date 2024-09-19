@@ -10,7 +10,7 @@
   <script src="js/sessao.js"></script>
 </head>
 
-<body>
+<body onload="capturarDadosEmpresas()">
   <header>
     <div class="logo"><img src="css/imagens/logoSemFundo.png" alt=""></div>
     <div class="logo">VaultWise</div>
@@ -57,6 +57,26 @@
   // Array para armazenar empresas cadastradas para validação de código de ativação 
   // let listaEmpresasCadastradas = [];
 
+  var listaCnpj = [];
+  var listaTelefone = [];
+
+  function capturarDadosEmpresas() {
+    fetch("/empresas/capturarDados", {
+      method: "GET",
+    })
+      .then(function (resposta) {
+        resposta.json().then((empresas) => {
+          empresas.forEach((empresa) => {
+            listaCnpj.push(empresa.cnpj)
+            listaTelefone.push(empresa.telefone)
+          });
+        });
+      })
+      .catch(function (resposta) {
+        console.log(`#ERRO: ${resposta}`);
+      });
+  }
+
   function ativarMenu() {
     var linknav = document.getElementById("link_nav")
     linknav.classList.toggle("ativo")
@@ -72,6 +92,11 @@
     var cep = removerMascara(input_cep.value);
     var telefone = removerMascara(input_telefone.value);
     var numero = input_numero.value;
+
+    var possuiCnpj = validarLista(cnpj, listaCnpj)
+    var possuiTelefone = validarLista(telefone, listaTelefone);
+
+    alert(possuiTelefone)
 
     if (razaoSocial === "" || cnpj === "" || cep === "" || telefone === "" || numero == "") {
       alert("Digite válidos")
@@ -173,7 +198,17 @@
     }
   }
 
-  //  function sumirMensagem() {
-  //    cardErro.style.display = "none";
-  //  }
+  function validarLista(argumentoRecebido, listaRecebida) {
+    var possuiElemento = false;
+
+    for (let i = 0; i < listaRecebida.length; i++) {
+      const elementoDaVez = listaRecebida[i];
+
+      if(elementoDaVez == argumentoRecebido){
+        possuiElemento = true
+      }
+    }
+
+    return possuiElemento;
+  }
 </script>

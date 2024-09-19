@@ -22,6 +22,12 @@ function listar(req, res) {
   });
 }
 
+function capturarDados(req, res) {
+  empresaModel.capturarDados().then((resultado) => {
+    res.status(200).json(resultado);
+  });
+}
+
 function cadastrar(req, res) {
   var cnpj = req.body.cnpjServer;
   var razaoSocial = req.body.razaoSocialServer;
@@ -46,6 +52,7 @@ module.exports = {
   cadastrar,
   listar,
   buscarPorCnpj,
-  buscarCodigo
+  buscarCodigo,
+  capturarDados
 };
 

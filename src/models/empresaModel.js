@@ -25,7 +25,7 @@ function listar() {
   return database.executar(instrucaoSql);
 }
 
-function buscarCodigo(idEmpresa){
+function buscarCodigo(idEmpresa) {
   var instrucaoSql = `SELECT codigoEmpresa FROM Empresa WHERE idEmpresa = ${idEmpresa}`
 
   return database.executar(instrucaoSql);
@@ -37,18 +37,33 @@ function buscarPorCnpj(cnpj) {
   return database.executar(instrucaoSql);
 }
 
+function capturarDados() {
+  var instrucaoSql = `SELECT telefone, cnpj FROM Empresa`;
+
+  return database.executar(instrucaoSql);
+}
+
 function cadastrar(razaoSocial, cnpj, cep, telefone, numero) {
   var codigo = gerarCodigo();
+  var codigoExiste = true;
+
+  buscarPorCodigo(codigo).then((resultado) => {
+    if (resultado.length > 0) {
+      codigo = gerarCodigo();
+    }
+  });
+
   var instrucaoSql = `INSERT INTO Empresa (razaoSocial, cnpj, cep, telefone, numero, codigoEmpresa) VALUES ('${razaoSocial}', '${cnpj}', '${cep}', '${telefone}', ${numero}, '${codigo}')`;
 
   return database.executar(instrucaoSql, [razaoSocial, cnpj, cep, telefone, numero, codigo]);
 }
 
 
+
 module.exports = {
   cadastrar,
   listar,
   buscarPorCnpj,
-  buscarCodigo
+  buscarCodigo,
+  capturarDados
 };
-// buscarPorCnpj, buscarPorId 
