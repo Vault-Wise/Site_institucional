@@ -38,7 +38,7 @@
         </div>
         <div class="inputs3">
           <select type="text" placeholder="Cargo" id="select_cargo">
-            <option disabled selected>Selecione seu cargo:</option>
+            <option value="0" disabled selected>Selecione seu cargo:</option>
             <option value="Supervisora Técnica">Supervisora Técnica</option>
             <option value="Analista de Dados">Analista de Dados</option>
             <option value="Chefe de Ciber Segurança">Chefe de Ciber Segurança</option>
@@ -127,10 +127,8 @@
       div_erro.innerHTML = 'O e-mail inserido deve ser válido para a conclusão do cadastro.';
     } else if (tamTelefone != 11) {
       div_erro.innerHTML = 'Telefone inválido';
-    } else if (cargoVar == "0") {
+    } else if (cargo == "0") {
       div_erro.innerHTML = 'Selecione um cargo';
-    } else if (tamCodigo < 1) {
-      div_erro.innerHTML = 'Código inválido';
     } else if (tamSenha < 8) {
       div_erro.innerHTML = 'A senha deve possuir ao menos 8 caracteres.';
     } else if (hashtag < 0 && arrobaSenha < 0 && underline < 0 && cifroes < 0 && porcentagem < 0) {
