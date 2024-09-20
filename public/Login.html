@@ -9,32 +9,37 @@
     <script src="js/sessao.js"></script>
 </head>
 <body>
-    <header>
-        <div class="logo"><img src="css/imagens/logosemfundo.png" alt=""></div>
-        <div class="logo">VaultWise</div>
-        <nav>
-            <ul id="link_nav">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="index.html#sobre_nos">Sobre</a></li>
-            </ul>
-        </nav>
-        <button class="hamburguer" onclick="ativarMenu()">&#9776;</button>
-    </header>
-    <div class="container">
-        <div class="form-container">
-            <h1>Bom te ver de novo!</h1>
-            <h2>Faça seu login<span style="color: #012e5c;">.</span></h2>
-            <p>não possui conta?<a href=""><span style="color: #81aad2  ;"> Cadastre-se</span></a></p>
-            
-            <input type="text" placeholder="Email" id="input_email" class="input_email">
-            <input type="password" placeholder="Senha" id="input_senha" class="input_senha">
-            <div class="buttons">
-            <button class="btn-primary" onclick="entrar()">Fazer Login</button>
+    <div class="conteudoCadastro">
+        <header>
+            <div class="navbar">
+                <div class="logo"><img src="css/imagens/logosemfundo.png" alt=""></div>
+                <div class="logo">VaultWise</div>
+                <nav>
+                    <ul id="link_nav">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="index.html#sobre_nos">Sobre</a></li>
+                    </ul>
+                </nav>
+                <button class="hamburguer" onclick="ativarMenu()">&#9776;</button>
             </div>
-            <div id="div_aguardar" class="loading-div">
-            <img src="css/imagens/aguardar.gif" id="loading-gif">
+        </header>
+        <div class="container">
+            <div class="form-container">
+                <h1>Bom te ver de novo!</h1>
+                <h2>Faça seu login<span style="color: #982727;">.</span></h2>
+                <p>Não possui conta?<a href=""><span style="color: #81aad2  ;"> Cadastre-se</span></a></p>
+                <span class="labels">Email:</span>
+                <input type="text" placeholder="Email" id="input_email" class="input_email">
+                <span class="labels">Senha:</span>
+                <input type="password" placeholder="Senha" id="input_senha" class="input_senha">
+                <div class="buttons">
+                <button class="btn-primary" onclick="entrar()">Fazer Login</button>
+                </div>
+                <div id="div_aguardar" class="loading-div">
+                <img src="css/imagens/aguardar.gif" id="loading-gif">
+                </div>
+                <div id="div_erros_login"></div>
             </div>
-            <div id="div_erros_login"></div>
         </div>
     </div>
 </body>

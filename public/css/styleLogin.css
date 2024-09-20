@@ -13,18 +13,31 @@ body {
 }
 
 /* Cabeçalho do site  */
+
+.conteudoCadastro {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    height: 100vh;
+}
+
 header {
-    background: #0f1923;
-    width: 80%;
-    height: 80px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 95px;
+    padding: 0 50px;
+    z-index: 1;
+}
+
+.navbar {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 50px;
-    border-radius: 20px 20px 20px 20px;
-    margin-left: 160px;
-    margin-top: 10px;
-    z-index: 1;
+    background: #5b0c0c;
+    width: 80%;
+    border-radius: 0px 0px 20px 20px;
+    padding: 10px;
 }
 
 /* Logo presente no cabeçalho */
@@ -35,11 +48,10 @@ header {
     height: 100%;
     display: flex;
     align-items: center;
-    justify-content: center;
 }
 
 .logo img {
-    height: 100%;
+    width: 42%;
 }
 
 /* Elementos presentes no cabeçalho */
@@ -70,33 +82,28 @@ a:hover {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 120vh; /*100% da altura da tela */
-    padding-left: 50px; /* Alinhar o formulário à esquerda */
-    /* background-color:#982727; */
-    padding-top: 5px;
+    height: 80vh;
     overflow: hidden;
 }
 
 
 .form-container {
     background-color: rgba(0, 0, 0, 0); /* Fundo transparente para o formulário */
-    padding: 40px;
-    padding-top: 80px;
+    padding: 20px;
     border-radius: 20px;
     align-items: center;
-    width: 45%;
+    width: 40%;
     height: 90%;
-    margin-top: 200px;
 }
 
 h1 {
-    font-size: 24px;
+    font-size: 20px;
     margin-bottom: 5px;
     color: #ffffff;
 }
 
 h2 {
-    font-size: 40px;
+    font-size: 34px;
     font-weight: bold;
     margin-bottom: 5px;
     color: #ffffff; /* Cor do título */
@@ -111,6 +118,12 @@ p {
 p a {
     color: #ffffff;
     text-decoration: none;
+}
+
+.labels {
+    font-size: 1.2em;
+    margin-top: 10px;
+    color: #ffffff;
 }
 
 .inputs1 {
@@ -166,38 +179,36 @@ p a {
 input {
     width: 100%;
     padding: 10px;
-    margin-bottom: 15px;
+    margin: 5px 0px 10px 0px;
     border: none;
     border-radius: 10px;
-    color: #969696;
+    color: #d1d1d1;
     font-size: 16px;
     height: 50px;
 }
 
 input::placeholder {
-    color: #969696;
+    color: #d1d1d1;
     font-size: 20px;
 }
 
 .buttons {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    align-items: center;
     height: 50px;
+    margin-top: 20px;
 }
 
 .btn-primary {
-    background-color: #20354a;
+    background-color: #5b0c0c;
     color: #ffffff;
     border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
     cursor: pointer;
     font-size: 22px;
     font-weight: bold;
-    height: 80px;
-    width: 25%;
-    margin-top: 18px; 
-    border-radius: 40px;
+    padding: 3%;
+    border-radius: 10px;
 }
 
 .btn-secondary {
