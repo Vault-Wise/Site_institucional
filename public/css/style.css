@@ -102,6 +102,17 @@ nav ul li a:hover::before {
   transform: translateX(-50%);
 }
 
+.carrossel {
+  color: #ffffff;
+  background-color: transparent;
+  height: fit-content;
+  align-self: center;
+  font-size: 2.5rem;
+  cursor: pointer;
+  border: 0;
+  display: none;
+}
+
 footer {
   font-family: 'Poppins';
   background: #0f1923;
@@ -379,7 +390,6 @@ footer {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  animation: animacao 10s ease infinite alternate;
 }
 
 .titulo_sobre_nos {
@@ -391,7 +401,6 @@ footer {
   display: flex;
   align-items: end;
   flex-direction: column;
-  animation: animacao 1s ease-out;
 }
 
 .titulo_sobre_nos h1{
@@ -420,7 +429,7 @@ footer {
 }
 
 
-/* seção teste */
+/* seção triangulo */
 
 #section-solucao {
   background-color: #f0f0f0;
@@ -487,10 +496,6 @@ h1 {
   z-index: 1;
   position: relative;
 }
-
-/* SEÇÃO CARROSEL */
-
-
 
 /* CSS Contato */
 
@@ -751,21 +756,30 @@ h1 {
   background-color: #cf0707a6; 
 }
 
-
-/* animacao sobre */
-@keyframes animacao {
-  0% {
-      background-position: 0% 50%;
-  }
-  100% {
-      background-position: 100% 50%;
-  }
-}
-
 /* responsividade */
-@media (max-width:768px) {
+@media (max-width: 768px) {
+
+  header{
+    display: none;
+    padding: 0 10px;
+    height: auto;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* nav ul {
+    flex-direction: column;
+    align-items: center;
+  } */
+  
+  nav ul li a {
+    margin: 5px 0;
+  }
+
   .containerval {
-    padding: 20px;
+    margin-left: 0;
+    padding: 10px;
   }
 }
 
@@ -810,19 +824,11 @@ h1 {
   }
 }
 
-.carrossel {
-  color: #ffffff;
-  background-color: transparent;
-  height: fit-content;
-  align-self: center;
-  font-size: 2.5rem;
-  cursor: pointer;
-  border: 0;
-  display: none;
-}
+@media (max-width: 885px) {
 
-@media (max-width: 430px) {
   .fundo {
+    width: 100%;
+    height: 100vh;
     background-image: url(imagens/fundomobile.png);
     background-position: -120px;
     background-size: cover;
@@ -830,7 +836,7 @@ h1 {
 
   header {
     padding: 0;
-    height: 12%;
+    height: 10%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -842,24 +848,21 @@ h1 {
   }
 
   header .logo {
-    position: absolute;
+    /* position: absolute; */
+    margin-right: -21px;
     width: 100%;
     top: 5px;
-    display: flex;
+    /* display: flex;
     justify-content: center;
-    align-items: flex-start;
+    align-items: flex-start; */
   }
 
   .logo img {
-    width: 15%;
+    width: 10%;
   }
 
   nav {
-    width: 100%;
-    height: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
+    display: none;
   }
 
   nav ul {
@@ -879,6 +882,8 @@ h1 {
   }
 
   .container {
+    width: 100%;
+    height: 100%;
     margin: 0;
     justify-content: center;
   }
@@ -893,6 +898,7 @@ h1 {
     overflow-y: hidden;
     justify-content: last baseline;
     animation: fade 3s normal;
+    bottom: -14px;
   }
 
   .carrossel {
@@ -935,6 +941,10 @@ h1 {
     animation: fade 0.5s backwards;
   }
 
+  .grid-opcoes {
+    grid-template-columns: 1fr;
+  }
+
   .fundo_sobre_nos {
     width: 100%;
     height: 100vh;
@@ -949,96 +959,31 @@ h1 {
     padding-top: 25px;
   }
 
-  .texto_sobre_nos2 {
-    display: none;
+  .texto_sobre_nos {
+    font-size: 19px;
   }
 
   .texto_sobre_nos2 img {
-    display: none;
+    display: flex;
+    right: -4px;
+    width: 245px;
+    height: 254px;
+    bottom: 40px;
   }
 
   .titulo_sobre_nos {
-    overflow-y: scroll;
-    display: grid;
+    font-size: 22px;
     flex-direction: column;
-    height: 85%;
-    width: 85%;
+    height: 61%;
+    width: 93%;
     align-items: center;
     justify-content: center;
   }
 
   .titulo_sobre_nos h1 {
+    margin: 32px;
     align-self: center;
     justify-self: center;
-  }
-
-  .fundoequipe {
-    height: 1800px;
-  }
-
-  .containerequipe {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-  }
-
-  .cardcointainer2 {
-    width: auto;
-    padding: 10px;
-    margin: 5px;
-    text-align: center;
-  }
-
-  .cardarticle {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-
-  .containercard {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: flex-start;
-    width: 100%;
-  }
-
-  .cardimagem {
-    width: 150px;
-    height: 150px;
-    max-width: 150px;
-    margin-bottom: 10px;
-  }
-
-  .carddados {
-    width: auto;
-    height: 80px;
-    padding: 10px;
-  }
-
-  .carddados span {
-    font-size: 14px;
-  }
-
-  .carddados h2 {
-    font-size: 14px;
-  }
-
-  .titulo_equipe,
-  .texto_equipe {
-    text-align: center;
-    font-size: 1.4em;
-    margin-bottom: 15px;
-  }
-
-  .titulo_equipe h1 {
-    font-size: 1.5em;
-  }
-
-  .texto_equipe {
-    font-size: 1em;
   }
 
   .quatro {
@@ -1047,7 +992,7 @@ h1 {
 
   .fundovalores {
     height: auto;
-    padding-bottom: 30px;
+    padding-bottom: 210px;
   }
 
   .containerval {
@@ -1055,7 +1000,7 @@ h1 {
   }
 
   .titulo_valores {
-    font-size: 28px;
+    font-size: 20px;
   }
 
   .containerval .box-container {
@@ -1079,5 +1024,20 @@ h1 {
 
   .containerval .box-container .box p {
     font-size: 14px;
+  }
+
+  footer {
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 30px 50px;
+  }
+
+  .footer-logo {
+    margin-right: -8px;
+  }
+
+  .footer-info {
+    text-align: center;
+    font-size: 11px;
   }
 }
