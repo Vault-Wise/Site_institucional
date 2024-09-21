@@ -18,7 +18,6 @@
             <nav>
                 <ul id="link_nav">
                     <li><a href="index.html">Home</a></li>
-                    <li><a href="index.html#sobre_nos">Sobre</a></li>
                     <li class="btn_login"><a href="Login.html">Login</a></li>
                 </ul>
             </nav>
@@ -29,7 +28,9 @@
         <div class="form-container">
             <h2>Cadastro de Equipamentos<span style="color: #982727;">.</span></h2>
             <form>
+                <span class="labels">Equipamento:</span>
                 <input type="text" placeholder="ID do equipamento" id="input_equip" class="input_equip">
+                <span class="labels">Empresa</span>
                 <select name="empresas" id="listaEmpresas">
                     <option selected>Selecione uma empresa</option>
                 </select>
@@ -39,7 +40,7 @@
             </form>
             
         </div>
-        <div id="div_mensagemErro" style="color: red;"></div>
+        <div id="div_mensagemErro" style="display: none;"></div>
     </div>
 </body>
 
@@ -52,8 +53,10 @@
         var empresaVar = listaEmpresas.value;
 
         if (equipID == "" || empresaVar == "Selecione uma empresa") {
+            div_mensagemErro.style.display = "block"
             div_mensagemErro.innerHTML = '<u>Atenção!</u> Todos os campos precisam ser preenchidos para o cadastro!';
         } else if (equipID.length <= 1) {
+            div_mensagemErro.style.display = "block"
             div_mensagemErro.innerHTML = 'O ID do equipamento deve ter mais de 1 caractere.';
         } else {
             fetch("/equipamentos/cadastrar", {

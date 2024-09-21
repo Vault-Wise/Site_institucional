@@ -196,7 +196,7 @@ input {
     margin-bottom: 15px;
     border: none;
     border-radius: 10px;
-    color: #969696;
+    color: #d1d1d1;
     font-size: 16px;
     height: 50px;
 }
@@ -222,7 +222,8 @@ input::placeholder {
     font-weight: bold;
     padding: 3%;
     border-radius: 10px;
-    width: 130px;
+    width: 210px;
+    font-size: 1.3em;
 }
 
 .btn-secondary {
@@ -234,7 +235,8 @@ input::placeholder {
     font-weight: bold;
     padding: 3%; 
     border-radius: 10px;
-    width: 130px;
+    width: 210px;
+    font-size: 1.3em;
 }
 
 .btn-primary:hover, .btn-secondary:hover {

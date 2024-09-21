@@ -17,7 +17,6 @@
       <nav>
         <ul id="link_nav">
           <li><a href="index.html">Home</a></li>
-          <li><a href="index.html#sobre_nos">Sobre</a></li>
           <li class="btn_login"><a href="Login.html">Login</a></li>
         </ul>
       </nav>
@@ -28,27 +27,27 @@
     <div class="form-container" id="telaCadastro">
       <h1>Olá! Seja bem-vindo!</h1>
       <h2>Crie sua conta<span style="color: #982727;">.</span></h2>
-      <p>Já possui conta?<a href="#"><span style="color: #81aad2;"> Login</span></a></p>
+      <p>Já possui conta?<a href="Login.html"><span style="color: #81aad2;"> Login</span></a></p>
       <form>
         <div class="inputs1">
           <div class="input_label">
             <span class="labels">Nome:</span>
-            <input type="text" placeholder="Nome" class="input_nome" id="input_nome">
+            <input type="text" placeholder="Digite seu nome" class="input_nome" id="input_nome">
           </div>
           <div class="input_label2">
             <span class="labels">CPF:</span>
-            <input type="text" placeholder="CPF" class="input_cpf" maxlength="14" onkeypress="mascararCpf(Event)"
+            <input type="text" placeholder="000.000.000-00" class="input_cpf" maxlength="14" onkeypress="mascararCpf(Event)"
               id="input_cpf">
           </div>
         </div>
         <div class="inputs2">
           <div class="input_label">
             <span class="labels">Email</span>
-            <input type="text" placeholder="Email" class="input_email" id="input_email">
+            <input type="text" placeholder="exemplo@x.com" class="input_email" id="input_email">
           </div>
           <div class="input_label2">
             <span class="labels">Telefone:</span>
-            <input type="text" placeholder="Telefone" class="input_tel" onkeypress="mascararTel(Event)" maxlength="15"
+            <input type="text" placeholder="(xx) xxxx-xxxx" class="input_tel" onkeypress="mascararTel(Event)" maxlength="15"
               id="input_telefone">
           </div>
         </div>
@@ -73,19 +72,19 @@
         </div>
         <div class="input_label">
             <span class="labels">Senha</span>
-            <input type="password" placeholder="Senha" class="input_senha" id="input_senha">
+            <input type="password" placeholder="*********" class="input_senha" id="input_senha">
         </div>
         <div class="buttons">
           <button onclick="autenticar()" type="submit" class="btn-primary">Validar Conta</button>
         </div>
-        <div id="div_erro"></div>
+        <div id="div_erro" style="display: none;"></div>
       </form>
     </div>
     <div id="telaCodigo">
       <form>
         <div class="codigoAutenticacao">
           <input type="text" id="input_codigo">
-          <button onclick="cadastrar()">Cadastrar</button>
+          <button onclick="cadastrar()" class="botaoCodigo">Cadastrar</button>
         </div>
       </form>
     </div>
@@ -168,26 +167,37 @@
       cpf == '' ||
       email == '' ||
       senha == '') {
+        div_erro.style.display = "block"
       div_erro.innerHTML = '<u>Atenção!</u> Todos os campos precisam ser preenchidos para a conclusão do cadastro!';
     } else if (tamNome <= 1) {
+      div_erro.style.display = "block"
       div_erro.innerHTML = 'O nome inserido é inválido.';
     } else if (tamCPF != 11) {
+      div_erro.style.display = "block"
       div_erro.innerHTML = 'O CPF inserido deve ser válido para a conclusão do cadastro.'
     } else if (arrobas < 0 || ponto < 0) {
+      div_erro.style.display = "block"
       div_erro.innerHTML = 'O e-mail inserido deve ser válido para a conclusão do cadastro.';
     } else if (tamTelefone != 11) {
+      div_erro.style.display = "block"
       div_erro.innerHTML = 'Telefone inválido';
     } else if (cargo == "0") {
+      div_erro.style.display = "block"
       div_erro.innerHTML = 'Selecione um cargo';
     } else if (tamSenha < 8) {
+      div_erro.style.display = "block"
       div_erro.innerHTML = 'A senha deve possuir ao menos 8 caracteres.';
     } else if (hashtag < 0 && arrobaSenha < 0 && underline < 0 && cifroes < 0 && porcentagem < 0) {
+      div_erro.style.display = "block"
       div_erro.innerHTML = 'Por segurança, a senha deve possuir ao menos um caractere especial!';
     } else if (possuiEmail) {
+      div_erro.style.display = "block"
       div_erro.innerHTML = 'Esse e-mail já esta cadastrado';
     } else if (possuiTelefone) {
+      div_erro.style.display = "block"
       div_erro.innerHTML = 'Esse telefone já esta cadastrado';
     } else {
+      div_erro.style.display = "none"
       telaCadastro.style.display = "none"
       telaCodigo.style.display = "block"
 
