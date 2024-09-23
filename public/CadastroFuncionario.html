@@ -12,7 +12,7 @@
 <body onload="selecionarEmpresa(), capturarDadosFuncionarios()">
   <header>
     <div class="navbar">
-      <div class="logo"><img src="css/imagens/logosemfundo.png" alt=""></div>
+      <div class="logo"><img src="css/imagens/logoSemFundo.png" alt=""></div>
       <div class="logo">VaultWise</div>
       <nav>
         <ul id="link_nav">
@@ -36,8 +36,8 @@
           </div>
           <div class="input_label2">
             <span class="labels">CPF:</span>
-            <input type="text" placeholder="000.000.000-00" class="input_cpf" maxlength="14" onkeypress="mascararCpf(Event)"
-              id="input_cpf">
+            <input type="text" placeholder="000.000.000-00" class="input_cpf" maxlength="14"
+              onkeypress="mascararCpf(Event)" id="input_cpf">
           </div>
         </div>
         <div class="inputs2">
@@ -47,8 +47,8 @@
           </div>
           <div class="input_label2">
             <span class="labels">Telefone:</span>
-            <input type="text" placeholder="(xx) xxxx-xxxx" class="input_tel" onkeypress="mascararTel(Event)" maxlength="15"
-              id="input_telefone">
+            <input type="text" placeholder="(xx) xxxx-xxxx" class="input_tel" onkeypress="mascararTel(Event)"
+              maxlength="15" id="input_telefone">
           </div>
         </div>
         <div class="input_label">
@@ -56,7 +56,7 @@
           <div class="inputs3">
             <select type="text" placeholder="Cargo" id="select_cargo">
               <option value="0" disabled selected>Selecione seu cargo:</option>
-              <option value="Supervisora Técnica">Supervisora Técnica</option>
+              <option value="Supervisor(a) Técnica">Supervisora Técnica</option>
               <option value="Analista de Dados">Analista de Dados</option>
               <option value="Chefe de Ciber Segurança">Chefe de Ciber Segurança</option>
             </select>
@@ -71,13 +71,13 @@
           </div>
         </div>
         <div class="input_label">
-            <span class="labels">Senha</span>
-            <input type="password" placeholder="*********" class="input_senha" id="input_senha">
+          <span class="labels">Senha</span>
+          <input type="password" placeholder="*********" class="input_senha" id="input_senha">
         </div>
         <div class="buttons">
           <button onclick="autenticar()" type="submit" class="btn-primary">Validar Conta</button>
         </div>
-        <div id="div_erro" style="display: none;"></div>
+        
       </form>
     </div>
     <div id="telaCodigo">
@@ -89,7 +89,9 @@
       </form>
     </div>
   </div>
-
+  <div id="msg_alertas" class="msg_alertas">
+    <span class="ms" id="mensagem"></span>
+  </div>
 </body>
 
 </html>
@@ -160,18 +162,15 @@
     var underline = senha.indexOf('_');
     var cifroes = senha.indexOf('$');
     var porcentagens = senha.indexOf('%');
-    // var confirmacaoSenha = confirmarSenha_input.value;
-    // var verificarSenha = confirmacaoSenha;
 
     if (nome == '' ||
       cpf == '' ||
       email == '' ||
       senha == '') {
-        div_erro.style.display = "block"
+      div_erro.style.display = "block"
       div_erro.innerHTML = '<u>Atenção!</u> Todos os campos precisam ser preenchidos para a conclusão do cadastro!';
     } else if (tamNome <= 1) {
-      div_erro.style.display = "block"
-      div_erro.innerHTML = 'O nome inserido é inválido.';
+      buildCardMensagem("block", "erro", "Login ou senha inválidos", true);
     } else if (tamCPF != 11) {
       div_erro.style.display = "block"
       div_erro.innerHTML = 'O CPF inserido deve ser válido para a conclusão do cadastro.'
@@ -197,7 +196,6 @@
       div_erro.style.display = "block"
       div_erro.innerHTML = 'Esse telefone já esta cadastrado';
     } else {
-      div_erro.style.display = "none"
       telaCadastro.style.display = "none"
       telaCodigo.style.display = "block"
 
@@ -345,5 +343,17 @@
     }
 
     return possuiElemento;
+  }
+
+  function buildCardMensagem(display, classe, mensagem, isErro) {
+    const msg = document.getElementById('mensagem');
+
+    msg_alertas.style.display = display;
+    msg.classList.add(classe)
+    msg.innerHTML = mensagem;
+    temErro = isErro;
+    setTimeout(function () {
+      msg_alertas.style.display = "none"
+    }, 3000)
   }
 </script>

@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="shortcut icon" type="imagex/png" href="css/imagens/logosemfundo.png">
+    <link rel="shortcut icon" type="imagex/png" href="css/imagens/logoComFundo.png">
     <title>Vault Wise - Faça seu login</title>
     <link rel="stylesheet" href="css/styleLogin.css">
     <script src="js/sessao.js"></script>
 </head>
+
 <body>
     <div class="conteudoCadastro">
         <header>
             <div class="navbar">
-                <div class="logo"><img src="css/imagens/logosemfundo.png" alt=""></div>
+                <div class="logo"><img src="css/imagens/logoSemFundo.png" alt=""></div>
                 <div class="logo">VaultWise</div>
                 <nav>
                     <ul id="link_nav">
@@ -26,43 +28,41 @@
             <div class="form-container">
                 <h1>Bom te ver de novo!</h1>
                 <h2>Faça seu login<span style="color: #982727;">.</span></h2>
-                <p>Não possui conta?<a href="CadastroFuncionario.html"><span style="color: #81aad2  ;"> Cadastre-se</span></a></p>
+                <p>Não possui conta?<a href="CadastroFuncionario.html"><span style="color: #81aad2  ;">
+                            Cadastre-se</span></a></p>
                 <span class="labels">Email:</span>
                 <input type="text" placeholder="" id="input_email" class="input_email">
                 <span class="labels">Senha:</span>
                 <input type="password" placeholder="" id="input_senha" class="input_senha">
                 <div class="buttons">
-                <button class="btn-primary" onclick="entrar()">Fazer Login</button>
+                    <button class="btn-primary" onclick="entrar()">Fazer Login</button>
                 </div>
                 <div id="div_aguardar" class="loading-div">
-                <img src="css/imagens/aguardar.gif" id="loading-gif">
+                    <img src="css/imagens/aguardar.gif" id="loading-gif">
                 </div>
                 <div id="div_erros_login"></div>
             </div>
         </div>
     </div>
+    <div id="msg_alertas" class="msg_alertas">
+        <span class="ms" id="mensagem"></span>
+    </div>
 </body>
+
 </html>
 
 <script>
+    var temErro = false;
 
     function ativarMenu() {
-      var linknav = document.getElementById("link_nav")
-      linknav.classList.toggle("ativo")
+        var linknav = document.getElementById("link_nav")
+        linknav.classList.toggle("ativo")
     }
 
     function entrar() {
-        aguardar();
+        var emailVar = input_email.value;
+        var senhaVar = input_senha.value;
 
-        if (emailVar == '' || senhaVar == '') {
-        div_erros_login.innerHTML = '<u>Atenção!</u> Todos os campos precisam ser preenchidos para a conclusão do cadastro!';
-      } else if (arrobas < 0 || ponto < 0) {
-        div_erros_login.innerHTML = 'O e-mail inserido deve ser válido para a conclusão do cadastro.';
-      } else if (tamSenha < 8) {
-        div_erros_login.innerHTML = 'A senha deve possuir ao menos 8 caracteres.';
-      } else if (hashtag < 0 && arrobaSenha < 0 && underline < 0 && cifrao < 0 && porcentagem < 0) {
-        div_erros_login.innerHTML = 'Por segurança, a senha deve possuir ao menos um caractere especial!';
-      } else div_erros_login.innerHTML = 'Usuário logado com sucesso! Redirecionando para tela de dashboard.';
         console.log("FORM LOGIN: ", emailVar);
         console.log("FORM SENHA: ", senhaVar);
 
@@ -81,27 +81,21 @@
             if (resposta.ok) {
                 console.log(resposta);
 
+                buildCardMensagem("block", "info", "Logado com sucesso, redirecionando para a dashboard...", false)
+
                 resposta.json().then(json => {
                     console.log(json);
                     console.log(JSON.stringify(json));
-                    sessionStorage.EMAIL_USUARIO = json.email;
-                    sessionStorage.NOME_USUARIO = json.nome;
-                    sessionStorage.ID_USUARIO = json.id;
+
 
                     setTimeout(function () {
-                        window.location = "./dashboard/logado.html";
-                    }, 1000); // apenas para exibir o loading
-
+                        alert("FOI?")
+                        window.location = "Login.html";
+                    }, 1000);
                 });
 
             } else {
-
-                console.log("Houve um erro ao tentar realizar o login!");
-
-                resposta.text().then(texto => {
-                    console.error(texto);
-                    finalizarAguardar(texto);
-                });
+                buildCardMensagem("block", "erro", "Login ou senha inválidos", false);
             }
 
         }).catch(function (erro) {
@@ -111,8 +105,15 @@
         return false;
     }
 
-    function sumirMensagem() {
-        cardErro.style.display = "none"
-    }
+    function buildCardMensagem(display, classe, mensagem, isErro) {
+        const msg = document.getElementById('mensagem');
 
+        msg_alertas.style.display = display;
+        msg.classList.add(classe)
+        msg.innerHTML = mensagem;
+        temErro = isErro;
+        setTimeout(function () {
+            msg_alertas.style.display = "none"
+        }, 3000)
+    }
 </script>

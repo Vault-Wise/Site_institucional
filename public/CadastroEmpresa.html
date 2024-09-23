@@ -32,12 +32,13 @@
       <div class="inputs1">
         <div class="input_label">
           <span class="labels">Razão Social:</span>
-          <input type="text" placeholder="Digite a razão social da empresa" class="input_razaosocial" id="input_razaosocial">
+          <input type="text" placeholder="Digite a razão social da empresa" class="input_razaosocial"
+            id="input_razaosocial">
         </div>
         <div class="input_label2">
           <span class="labels">CNPJ:</span>
-          <input type="text" placeholder="00.000.000/0000-00" maxlength="18" onkeypress="mascararCnpj(Event)" class="input_cnpj"
-            id="input_cnpj">
+          <input type="text" placeholder="00.000.000/0000-00" maxlength="18" onkeypress="mascararCnpj(Event)"
+            class="input_cnpj" id="input_cnpj">
         </div>
       </div>
       <div class="inputs2">
@@ -48,8 +49,8 @@
         </div>
         <div class="input_label2">
           <span class="labels">Telefone:</span>
-          <input type="text" placeholder="(xx) xxxx-xxxx" maxlength="15" onkeypress="mascararTel(Event)" class="input_telefone"
-            id="input_telefone">
+          <input type="text" placeholder="(xx) xxxx-xxxx" maxlength="15" onkeypress="mascararTel(Event)"
+            class="input_telefone" id="input_telefone">
         </div>
       </div>
       <div class="inputs3">
@@ -63,10 +64,12 @@
         <button onclick="mudarCadastro()" type="button" class="btn-secondary">Mudar Cadastro</button>
 
       </div>
-     
+
     </div>
   </div>
-  <div id="mensagem_erro" style="color: red;"></div>
+  <div id="msg_alertas" class="msg_alertas">
+    <span class="ms" id="mensagem"></span>
+  </div>
 </body>
 
 </html>
@@ -114,46 +117,45 @@
     var possuiCnpj = validarLista(cnpj, listaCnpj)
     var possuiTelefone = validarLista(telefone, listaTelefone);
 
-    alert(possuiTelefone)
-
     if (razaoSocial == "" || cnpj == "" || cep == "" || telefone == "" || numero == "") {
-      mensagem_erro.innerHTML = "Preencha todos os campos.";
+      buildCardMensagem("block", "erro", "Complete todos os campos", true);
     } else if (razaoSocial.length < 2) {
-      mensagem_erro.innerHTML = "A razão social deve ter mais de 1 caractere.";
+      buildCardMensagem("block", "erro", "A razão social deve ter mais de 1 caractere.", true);
     } else if (cnpj.length != 14) {
-      mensagem_erro.innerHTML = "Insira um CNPJ válido (14 dígitos).";
+      buildCardMensagem("block", "erro", "Insira um CNPJ válido", true);
     } else if (cep.length != 8) {
-      mensagem_erro.innerHTML = "Insira um CEP válido (8 dígitos).";
+      buildCardMensagem("block", "erro", "Insira um CEP válido", true);
     } else if (telefone.length < 10 || telefone.length > 11) {
-      mensagem_erro.innerHTML = "Insira um telefone válido (10 a 11 dígitos).";
-    }
-    fetch("/empresas/cadastrar", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        razaoSocialServer: razaoSocial,
-        cnpjServer: cnpj,
-        cepServer: cep,
-        telefoneServer: telefone,
-        numeroServer: numero
-      }),
-    })
-      .then(function (resposta) {
-        console.log("resposta: ", resposta);
-
-        if (resposta.ok) {
-          setTimeout(() => {
-            window.location = "CadastroFuncionario.html";
-          }, 2000);
-        } else {
-          throw new Error("Houve um erro ao tentar realizar o cadastro!");
-        }
+      buildCardMensagem("block", "erro", "Insira um telefone válido", true);
+    } else {
+      fetch("/empresas/cadastrar", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          razaoSocialServer: razaoSocial,
+          cnpjServer: cnpj,
+          cepServer: cep,
+          telefoneServer: telefone,
+          numeroServer: numero
+        }),
       })
-      .catch(function (erro) {
-        console.log(`#ERRO: ${erro}`);
-      });
+        .then(function (resposta) {
+          console.log("resposta: ", resposta);
+
+          if (resposta.ok) {
+            setTimeout(() => {
+              window.location = "CadastroFuncionario.html";
+            }, 2000);
+          } else {
+            throw new Error("Houve um erro ao tentar realizar o cadastro!");
+          }
+        })
+        .catch(function (erro) {
+          console.log(`#ERRO: ${erro}`);
+        });
+    }
   }
 
 
@@ -230,11 +232,23 @@
     for (let i = 0; i < listaRecebida.length; i++) {
       const elementoDaVez = listaRecebida[i];
 
-      if(elementoDaVez == argumentoRecebido){
+      if (elementoDaVez == argumentoRecebido) {
         possuiElemento = true
       }
     }
 
     return possuiElemento;
+  }
+
+  function buildCardMensagem(display, classe, mensagem, isErro) {
+    const msg = document.getElementById('mensagem');
+
+    msg_alertas.style.display = display;
+    msg.classList.add(classe)
+    msg.innerHTML = mensagem;
+    temErro = isErro;
+    setTimeout(function () {
+      msg_alertas.style.display = "none"
+    }, 3000)
   }
 </script>

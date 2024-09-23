@@ -39,7 +39,7 @@ header {
     color: #ffffff;
 }
 
-.logo img{
+.logo img {
     width: 42%;
 }
 
@@ -83,7 +83,8 @@ a:hover {
 
 
 .form-container {
-    background-color: rgba(0, 0, 0, 0); /* Fundo transparente para o formulário */
+    background-color: rgba(0, 0, 0, 0);
+    /* Fundo transparente para o formulário */
     padding: 20px;
     border-radius: 20px;
     width: 40%;
@@ -100,7 +101,8 @@ h2 {
     font-size: 32px;
     font-weight: bold;
     margin-bottom: 5px;
-    color: #ffffff; /* Cor do título */
+    color: #ffffff;
+    /* Cor do título */
 }
 
 p {
@@ -167,7 +169,7 @@ p a {
     background-color: #545454;
 }
 
-.input_empresa{
+.input_empresa {
     background-color: #545454;
 }
 
@@ -175,6 +177,7 @@ p a {
     margin-left: 10px;
     background-color: #545454;
 }
+
 .input_cnpj {
     background-color: #545454;
 }
@@ -183,7 +186,7 @@ p a {
     background-color: #545454;
     /* margin-left: 10px; */
 
-    
+
 }
 
 input {
@@ -230,12 +233,13 @@ input::placeholder {
     font-weight: bold;
     height: 80px;
     width: 50%;
-    margin-top: 18px; 
+    margin-top: 18px;
     border-radius: 40px;
-    
+
 }
 
-.btn-primary:hover, .btn-secondary:hover {
+.btn-primary:hover,
+.btn-secondary:hover {
     opacity: 0.8;
 }
 
@@ -298,10 +302,12 @@ select {
 
 /* Footer */
 footer {
-    background-color: rgb(37, 150, 190); /* Cor do fundo do footer, baseada na paleta de cores da imagem */
+    background-color: rgb(37, 150, 190);
+    /* Cor do fundo do footer, baseada na paleta de cores da imagem */
     padding: 20px;
     text-align: center;
-    color: #F2EDE9; /* Cor do texto do footer */
+    color: #F2EDE9;
+    /* Cor do texto do footer */
     position: fixed;
     bottom: 0;
     width: 100%;
@@ -313,25 +319,85 @@ footer p {
 }
 
 .hamburguer {
-    display: none; 
+    display: none;
     font-size: 1.8rem;
     color: white;
     background: none;
     border: none;
     position: absolute;
-    top: 20px; 
+    top: 20px;
     right: 20px;
     z-index: 2;
     cursor: pointer;
 }
 
+#cardMsg {
+    position: fixed;
+    display: none;
+    background-color: #04537D;
+    padding: 10px 20px;
+    top: 80px;
+    right: 20px;
+    font-size: 18px;
+    font-weight: bolder;
+    border-radius: 10px;
+}
+
+.msg_alertas {
+    padding: 20px 30px;
+    border-radius: 1vh;
+    position: fixed;
+    display: none;
+    top: 12%;
+    right: 1%;
+}
+
+.ms {
+    width: 100%;
+    margin: auto;
+    padding: 0.9em;
+    float: left;
+    display: block;
+    margin-bottom: 10px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-weight: 100;
+    font-size: 16px;
+}
+
+.erro {
+    background-color: #FFCACA;
+    border: 2px #a60202 solid;
+    color: #a60202;
+    border-radius: 5px;
+}
+
+.ok {
+    background-color: #A6FFBC;
+    border: 2px #00bd00 solid;
+    color: #00bd00;
+    border-radius: 5px;
+}
+
+.alerta {
+    background-color: #FFFBBF;
+    border: 2px #2b2b2b solid;
+    color: #2b2b2b;
+    border-radius: 5px;
+}
+
+.info {
+    background-color: #B3E7FF;
+    border: 2px #018ace solid;
+    color: #018ace;
+    border-radius: 5px;
+}
 
 @media (max-width: 430px) {
     html {
         height: 100%;
         background-color: #071e26;
     }
-    
+
     body {
         display: flex;
         flex-direction: column;
@@ -362,7 +428,7 @@ footer p {
 
     nav ul {
         gap: 5px;
-        display: none; 
+        display: none;
         flex-direction: column;
         position: absolute;
         top: 80px;

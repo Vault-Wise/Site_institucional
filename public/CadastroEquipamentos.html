@@ -13,7 +13,7 @@
 <body onload="listar()">
     <header>
         <div class="navbar">
-            <div class="logo"><img src="css/imagens/logosemfundo.png" alt=""></div>
+            <div class="logo"><img src="css/imagens/logoSemFundo.png" alt=""></div>
             <div class="logo">VaultWise</div>
             <nav>
                 <ul id="link_nav">
@@ -38,9 +38,11 @@
                     <button onclick="cadastrar()" type="submit" class="btn-primary">Cadastrar</button>
                 </div>
             </form>
-            
+
         </div>
-        <div id="div_mensagemErro" style="display: none;"></div>
+    </div>
+    <div id="msg_alertas" class="msg_alertas"></div>
+    <span class="ms" id="mensagem"></span>
     </div>
 </body>
 
@@ -69,19 +71,19 @@
                     empresaServer: empresaVar
                 }),
             })
-            .then(function (resposta) {
-                if (resposta.ok) {
-                    div_mensagemErro.innerHTML = "Cadastro realizado com sucesso!";
-                    setTimeout(() => {
-                        window.location = "login.html";
-                    }, 2000);
-                } else {
-                    div_mensagemErro.innerHTML = "Houve um erro ao tentar realizar o cadastro!";
-                }
-            })
-            .catch(function (resposta) {
-                console.log(`#ERRO: ${resposta}`);
-            });
+                .then(function (resposta) {
+                    if (resposta.ok) {
+                        div_mensagemErro.innerHTML = "Cadastro realizado com sucesso!";
+                        setTimeout(() => {
+                            window.location = "login.html";
+                        }, 2000);
+                    } else {
+                        div_mensagemErro.innerHTML = "Houve um erro ao tentar realizar o cadastro!";
+                    }
+                })
+                .catch(function (resposta) {
+                    console.log(`#ERRO: ${resposta}`);
+                });
         }
     }
 
@@ -99,5 +101,17 @@
             .catch(function (resposta) {
                 console.log(`#ERRO: ${resposta}`);
             });
+    }
+
+    function buildCardMensagem(display, classe, mensagem, isErro) {
+        const msg = document.getElementById('mensagem');
+
+        msg_alertas.style.display = display;
+        msg.classList.add(classe)
+        msg.innerHTML = mensagem;
+        temErro = isErro;
+        setTimeout(function () {
+            msg_alertas.style.display = "none"
+        }, 3000)
     }
 </script>
