@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vault Wise - Cadastro de Equipamentos</title>
     <link rel="stylesheet" href="css/styleCadastroEquipamento.css">
-    <link rel="shortcut icon" type="imagex/png" href="css/imagens/logosemfundo.png">
+    <link rel="shortcut icon" type="imagex/png" href="css/imagens/logoComFundo.png">
 
 </head>
 
@@ -32,7 +32,7 @@
                 <input type="text" placeholder="ID do equipamento" id="input_equip" class="input_equip">
                 <span class="labels">Empresa</span>
                 <select name="empresas" id="listaEmpresas">
-                    <option selected>Selecione uma empresa</option>
+                    <option selected disabled value="#">Selecione uma empresa</option>
                 </select>
                 <div class="buttons">
                     <button onclick="cadastrar()" type="submit" class="btn-primary">Cadastrar</button>
@@ -54,12 +54,10 @@
         var equipID = input_equip.value;
         var empresaVar = listaEmpresas.value;
 
-        if (equipID == "" || empresaVar == "Selecione uma empresa") {
-            div_mensagemErro.style.display = "block"
-            div_mensagemErro.innerHTML = '<u>Atenção!</u> Todos os campos precisam ser preenchidos para o cadastro!';
+        if (equipID == "" || empresaVar == "#") {
+            buildCardMensagem("block", "erro", "Login ou senha inválidos");
         } else if (equipID.length <= 1) {
-            div_mensagemErro.style.display = "block"
-            div_mensagemErro.innerHTML = 'O ID do equipamento deve ter mais de 1 caractere.';
+            buildCardMensagem("block", "erro", "O nome do equipamento deve ser válido");
         } else {
             fetch("/equipamentos/cadastrar", {
                 method: "POST",
@@ -94,7 +92,7 @@
             .then(function (resposta) {
                 resposta.json().then((empresas) => {
                     empresas.forEach((empresa) => {
-                        listaEmpresas.innerHTML += `<option value='${empresa.id}'>${empresa.cnpj}</option>`;
+                        listaEmpresas.innerHTML += `<option value='${empresa.idEmpresa}'>${empresa.razaoSocial}</option>`;
                     });
                 });
             })
@@ -103,13 +101,12 @@
             });
     }
 
-    function buildCardMensagem(display, classe, mensagem, isErro) {
+    function buildCardMensagem(display, classe, mensagem) {
         const msg = document.getElementById('mensagem');
 
         msg_alertas.style.display = display;
         msg.classList.add(classe)
         msg.innerHTML = mensagem;
-        temErro = isErro;
         setTimeout(function () {
             msg_alertas.style.display = "none"
         }, 3000)

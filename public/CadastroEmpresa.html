@@ -118,15 +118,15 @@
     var possuiTelefone = validarLista(telefone, listaTelefone);
 
     if (razaoSocial == "" || cnpj == "" || cep == "" || telefone == "" || numero == "") {
-      buildCardMensagem("block", "erro", "Complete todos os campos", true);
+      buildCardMensagem("block", "erro", "Complete todos os campos");
     } else if (razaoSocial.length < 2) {
-      buildCardMensagem("block", "erro", "A razão social deve ter mais de 1 caractere.", true);
+      buildCardMensagem("block", "erro", "A razão social deve ter mais de 1 caractere.");
     } else if (cnpj.length != 14) {
-      buildCardMensagem("block", "erro", "Insira um CNPJ válido", true);
+      buildCardMensagem("block", "erro", "Insira um CNPJ válido");
     } else if (cep.length != 8) {
-      buildCardMensagem("block", "erro", "Insira um CEP válido", true);
+      buildCardMensagem("block", "erro", "Insira um CEP válido");
     } else if (telefone.length < 10 || telefone.length > 11) {
-      buildCardMensagem("block", "erro", "Insira um telefone válido", true);
+      buildCardMensagem("block", "erro", "Insira um telefone válido");
     } else {
       fetch("/empresas/cadastrar", {
         method: "POST",
@@ -176,7 +176,7 @@
 
   function mascararTel(Event) {
     var telefonelength = input_telefone.value.length;
-    var ultimoChar = input_telefone.value.charAt(telefonelength - 1);    // Verifica se o último caractere adicionado foi ponto ou traço
+    var ultimoChar = input_telefone.value.charAt(telefonelength - 1);
     if (Event.key == "Backspace") {
 
 
@@ -195,7 +195,7 @@
 
   function mascararCnpj(Event) {
     var tamCpnj = input_cnpj.value.length;
-    var ultimoChar = input_cnpj.value.charAt(tamCpnj - 1);    // Verifica se o último caractere adicionado foi ponto ou traço
+    var ultimoChar = input_cnpj.value.charAt(tamCpnj - 1);
     if (Event.key == "Backspace") {
 
     } else {
@@ -214,7 +214,7 @@
 
   function mascararCep(Event) {
     var tamCep = input_cep.value.length;
-    var ultimoChar = input_cep.value.charAt(tamCep - 1);    // Verifica se o último caractere adicionado foi ponto ou traço
+    var ultimoChar = input_cep.value.charAt(tamCep - 1);
     if (Event.key == "Backspace") {
 
     } else {
@@ -240,13 +240,13 @@
     return possuiElemento;
   }
 
-  function buildCardMensagem(display, classe, mensagem, isErro) {
+  function buildCardMensagem(display, classe, mensagem) {
     const msg = document.getElementById('mensagem');
 
     msg_alertas.style.display = display;
     msg.classList.add(classe)
     msg.innerHTML = mensagem;
-    temErro = isErro;
+
     setTimeout(function () {
       msg_alertas.style.display = "none"
     }, 3000)

@@ -77,7 +77,7 @@
         <div class="buttons">
           <button onclick="autenticar()" type="submit" class="btn-primary">Validar Conta</button>
         </div>
-        
+
       </form>
     </div>
     <div id="telaCodigo">
@@ -163,38 +163,26 @@
     var cifroes = senha.indexOf('$');
     var porcentagens = senha.indexOf('%');
 
-    if (nome == '' ||
-      cpf == '' ||
-      email == '' ||
-      senha == '') {
-      div_erro.style.display = "block"
-      div_erro.innerHTML = '<u>Atenção!</u> Todos os campos precisam ser preenchidos para a conclusão do cadastro!';
+    if (nome == '' || cpf == '' || email == '' || senha == '') {
+      buildCardMensagem("block", "erro", "<u>Atenção!</u> Todos os campos precisam ser preenchidos");
     } else if (tamNome <= 1) {
-      buildCardMensagem("block", "erro", "Login ou senha inválidos", true);
+      buildCardMensagem("block", "erro", "Login ou senha inválidos");
     } else if (tamCPF != 11) {
-      div_erro.style.display = "block"
-      div_erro.innerHTML = 'O CPF inserido deve ser válido para a conclusão do cadastro.'
+      buildCardMensagem("block", "erro", "O CPF inserido deve ser válido para a conclusão do cadastro.");
     } else if (arrobas < 0 || ponto < 0) {
-      div_erro.style.display = "block"
-      div_erro.innerHTML = 'O e-mail inserido deve ser válido para a conclusão do cadastro.';
+      buildCardMensagem("block", "erro", "O e-mail inserido deve ser válido para a conclusão do cadastro.");
     } else if (tamTelefone != 11) {
-      div_erro.style.display = "block"
-      div_erro.innerHTML = 'Telefone inválido';
+      buildCardMensagem("block", "erro", "Insira um telefone válido.");
     } else if (cargo == "0") {
-      div_erro.style.display = "block"
-      div_erro.innerHTML = 'Selecione um cargo';
+      buildCardMensagem("block", "erro", "Selecione um cargo.");
     } else if (tamSenha < 8) {
-      div_erro.style.display = "block"
-      div_erro.innerHTML = 'A senha deve possuir ao menos 8 caracteres.';
+      buildCardMensagem("block", "erro", "A senha deve possuir ao menos 8 caracteres.");
     } else if (hashtag < 0 && arrobaSenha < 0 && underline < 0 && cifroes < 0 && porcentagem < 0) {
-      div_erro.style.display = "block"
-      div_erro.innerHTML = 'Por segurança, a senha deve possuir ao menos um caractere especial!';
+      buildCardMensagem("block", "alerta", "Por segurança, a senha deve possuir ao menos um caractere especial!");
     } else if (possuiEmail) {
-      div_erro.style.display = "block"
-      div_erro.innerHTML = 'Esse e-mail já esta cadastrado';
+      buildCardMensagem("block", "erro", "Esse e-mail já esta cadastrado.");
     } else if (possuiTelefone) {
-      div_erro.style.display = "block"
-      div_erro.innerHTML = 'Esse telefone já esta cadastrado';
+      buildCardMensagem("block", "erro", "Esse telefone já esta cadastrado.");
     } else {
       telaCadastro.style.display = "none"
       telaCodigo.style.display = "block"
@@ -345,13 +333,13 @@
     return possuiElemento;
   }
 
-  function buildCardMensagem(display, classe, mensagem, isErro) {
+  function buildCardMensagem(display, classe, mensagem) {
     const msg = document.getElementById('mensagem');
 
     msg_alertas.style.display = display;
     msg.classList.add(classe)
     msg.innerHTML = mensagem;
-    temErro = isErro;
+
     setTimeout(function () {
       msg_alertas.style.display = "none"
     }, 3000)
