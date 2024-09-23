@@ -6,8 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vault Wise - Crie sua conta</title>
   <link rel="stylesheet" href="css/styleCadastroEmpresa.css">
+  <link rel="stylesheet" href="css/style-Cadastro.css">
   <link rel="shortcut icon" type="imagex/png" href="css/imagens/logoComFundo.png">
-  <script src="js/sessao.js"></script>
 </head>
 
 <body onload="capturarDadosEmpresas()">
@@ -29,35 +29,32 @@
       <h1>Olá XXXXX!</h1>
       <h2>Cadastro de Empresas<span style="color: #982727;">.</span></h2>
       <p>já possui conta?<a href="#"><span style="color: #81aad2;"> Login</span></a></p>
-      <div class="inputs1">
-        <div class="input_label">
-          <span class="labels">Razão Social:</span>
-          <input type="text" placeholder="Digite a razão social da empresa" class="input_razaosocial"
-            id="input_razaosocial">
+      <div class="inputHorizontal">
+        <div class="labelInputHorizontal">
+          <span class="label">Razão Social:</span>
+          <input type="text" placeholder="Digite a razão social da empresa" class="inputMenor" id="input_razaosocial">
         </div>
-        <div class="input_label2">
-          <span class="labels">CNPJ:</span>
+        <div class="labelInputHorizontal">
+          <span class="label">CNPJ:</span>
           <input type="text" placeholder="00.000.000/0000-00" maxlength="18" onkeypress="mascararCnpj(Event)"
-            class="input_cnpj" id="input_cnpj">
+            class="inputMenor" id="input_cnpj">
         </div>
       </div>
-      <div class="inputs2">
-        <div class="input_label">
-          <span class="labels">CEP:</span>
-          <input type="text" placeholder="00000-000" maxlength="9" onkeypress="mascararCep(Event)" class="input_cep"
+      <div class="inputHorizontal">
+        <div class="labelInputHorizontal">
+          <span class="label">CEP:</span>
+          <input type="text" placeholder="00000-000" maxlength="9" onkeypress="mascararCep(Event)" class="inputMenor"
             id="input_cep">
         </div>
-        <div class="input_label2">
-          <span class="labels">Telefone:</span>
+        <div class="labelInputHorizontal">
+          <span class="label">Telefone:</span>
           <input type="text" placeholder="(xx) xxxx-xxxx" maxlength="15" onkeypress="mascararTel(Event)"
-            class="input_telefone" id="input_telefone">
+            class="inputMenor" id="input_telefone">
         </div>
       </div>
-      <div class="inputs3">
-        <div class="input_label">
-          <span class="labels">Número:</span>
-          <input type="text" placeholder="Numero" class="input_email" id="input_numero">
-        </div>
+      <div class="inputVertical">
+          <span class="label">Número:</span>
+          <input type="text" placeholder="Numero" class="inputMaior" id="input_numero">
       </div>
       <div class="buttons">
         <button onclick="cadastrar()" class="btn-primary">Criar Conta</button>
@@ -176,8 +173,7 @@
 
   function mascararTel(Event) {
     var telefonelength = input_telefone.value.length;
-    var ultimoChar = input_telefone.value.charAt(telefonelength - 1);
-    if (Event.key == "Backspace") {
+    var ultimoChar = input_telefone.value.charAt(telefonelength - 1); if (Event.key == "Backspace") {
 
 
     } else {
@@ -195,8 +191,7 @@
 
   function mascararCnpj(Event) {
     var tamCpnj = input_cnpj.value.length;
-    var ultimoChar = input_cnpj.value.charAt(tamCpnj - 1);
-    if (Event.key == "Backspace") {
+    var ultimoChar = input_cnpj.value.charAt(tamCpnj - 1); if (Event.key == "Backspace") {
 
     } else {
       console.log((ultimoChar !== '.' && ultimoChar !== '/' && ultimoChar !== '-') && tamCpnj !== 18)
@@ -214,8 +209,7 @@
 
   function mascararCep(Event) {
     var tamCep = input_cep.value.length;
-    var ultimoChar = input_cep.value.charAt(tamCep - 1);
-    if (Event.key == "Backspace") {
+    var ultimoChar = input_cep.value.charAt(tamCep - 1); if (Event.key == "Backspace") {
 
     } else {
       if ((ultimoChar !== '-') && tamCep !== 9) {

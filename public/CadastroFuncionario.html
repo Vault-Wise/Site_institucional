@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vault Wise - Crie sua conta</title>
   <link rel="stylesheet" href="css/styleCadastroFuncionario.css">
+  <link rel="stylesheet" href="css/style-Cadastro.css">
   <link rel="shortcut icon" type="imagex/png" href="css/imagens/logoComFundo.png">
 </head>
 
@@ -29,50 +30,46 @@
       <h2>Crie sua conta<span style="color: #982727;">.</span></h2>
       <p>Já possui conta?<a href="Login.html"><span style="color: #81aad2;"> Login</span></a></p>
       <form>
-        <div class="inputs1">
-          <div class="input_label">
-            <span class="labels">Nome:</span>
-            <input type="text" placeholder="Digite seu nome" class="input_nome" id="input_nome">
+        <div class="inputHorizontal">
+          <div class="labelInputHorizontal">
+            <span class="label">Nome:</span>
+            <input type="text" class="inputMenor" placeholder="Digite seu nome" id="input_nome">
           </div>
-          <div class="input_label2">
-            <span class="labels">CPF:</span>
-            <input type="text" placeholder="000.000.000-00" class="input_cpf" maxlength="14"
+          <div class="labelInputHorizontal">
+            <span class="label">CPF:</span>
+            <input type="text" class="inputMenor" placeholder="000.000.000-00" maxlength="14"
               onkeypress="mascararCpf(Event)" id="input_cpf">
           </div>
         </div>
-        <div class="inputs2">
-          <div class="input_label">
-            <span class="labels">Email</span>
-            <input type="text" placeholder="exemplo@x.com" class="input_email" id="input_email">
+        <div class="inputHorizontal">
+          <div class="labelInputHorizontal">
+            <span class="label">Email</span>
+            <input type="text" placeholder="exemplo@x.com" class="inputMenor" id="input_email">
           </div>
-          <div class="input_label2">
-            <span class="labels">Telefone:</span>
-            <input type="text" placeholder="(xx) xxxx-xxxx" class="input_tel" onkeypress="mascararTel(Event)"
+          <div class="labelInputHorizontal">
+            <span class="label">Telefone:</span>
+            <input type="text" placeholder="(xx) xxxx-xxxx" class="inputMenor" onkeypress="mascararTel(Event)"
               maxlength="15" id="input_telefone">
           </div>
         </div>
-        <div class="input_label">
-          <span class="labels">Cargo:</span>
-          <div class="inputs3">
-            <select type="text" placeholder="Cargo" id="select_cargo">
-              <option value="0" disabled selected>Selecione seu cargo:</option>
-              <option value="Supervisor(a) Técnica">Supervisora Técnica</option>
-              <option value="Analista de Dados">Analista de Dados</option>
-              <option value="Chefe de Ciber Segurança">Chefe de Ciber Segurança</option>
-            </select>
-          </div>
+        <div class="inputVertical">
+          <span class="label">Cargo:</span>
+          <select type="text" placeholder="Cargo" id="select_cargo">
+            <option value="0" disabled selected>Selecione seu cargo:</option>
+            <option value="Supervisor(a) Técnica">Supervisora Técnica</option>
+            <option value="Analista de Dados">Analista de Dados</option>
+            <option value="Chefe de Ciber Segurança">Chefe de Ciber Segurança</option>
+          </select>
         </div>
-        <div class="input_label">
-          <span class="labels">Selecionar Empresa</span>
-          <div class="inputs4">
-            <select type="text" id="select_empresa">
-              <option disabled selected>Selecione uma Empresa:</option>
-            </select>
-          </div>
+        <div class="inputVertical">
+          <span class="label">Empresa:</span>
+          <select type="text" id="select_empresa">
+            <option disabled selected>Selecione uma Empresa:</option>
+          </select>
         </div>
-        <div class="input_label">
-          <span class="labels">Senha</span>
-          <input type="password" placeholder="*********" class="input_senha" id="input_senha">
+        <div class="inputVertical">
+          <span class="label">Senha</span>
+          <input type="password" placeholder="*********" class="inputMaior" id="input_senha">
         </div>
         <div class="buttons">
           <button onclick="autenticar()" type="submit" class="btn-primary">Validar Conta</button>
