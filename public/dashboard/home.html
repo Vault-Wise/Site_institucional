@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <link rel="shortcut icon" href="../assets/icon/index.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | VETRIC</title>
+
+
+    <link rel="stylesheet" href="./../css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <script src="../js/sessao.js"></script>
+    <script src="../js/alerta.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <nav>
+            <ul>
+                <li><a href="#" class="logo">
+                        <img src="./../css/imagens/icon12.jpg" alt="">
+                        <div class="hello">
+                            <span class="nav-item" id="b_usuario">usuário</span>
+                        </div>
+                    </a></li>
+                <li><a href="#">
+                        <i class="fas fa-lightbulb"></i>
+                        <span class="nav-item">Home</span>
+                    </a></li>
+                <li><a href="#">
+                        <i class="fas fa-ranking-star"></i>
+                        <span class="nav-item">Graficos</span>
+                    </a></li>
+                <li><a href="#">
+                        <i class="fas fa-comments"></i>
+                        <span class="nav-item">Comentários</span>
+                    </a></li>
+                <li><a href="#">
+                        <i class="fas fa-question-circle"></i>
+                        <span class="nav-item">Ajuda</span>
+                    </a></li>
+                <li><a href="./../index.html" class="logout">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span class="nav-item">Sair</span>
+                    </a></li>
+            </ul>
+        </nav>
+        <section class="main">
+            <div class="main-cima">
+                <h1>Home</h1>
+            </div>
+            <div class="investimentos">
+                <div class="card">
+                    <i class="fa-solid fa-chart-simple d"></i>
+                    <h3>GRAFICOS</h3>
+                </div>
+                <div class="card">
+                    <i class="fa-solid fa-chart-pie d"></i>
+                    <h3>GRAFICOS</h3>
+                </div>
+            </div>
+            <section class="analise">
+                <h1>Média de gráficos</h1>
+                <div class="caixa">
+                    <ul>
+                        <li class="texto_caixa">O que deseja ver?</li>
+
+                    </ul>
+                    <div class="course">
+                        <div class="caixa1">
+                            <h3>GRAF 1</h3>
+                            <p>PLOTAR OS GRAFICOS AQUI!</p>
+                            <button>Detalhes</button>
+                            <i class="fa-brands fa-cloudflare a"></i>
+                        </div>
+                        <div class="caixa1">
+                            <h3>GRAF 2</h3>
+                            <p>PLOTAR OS GRAFICOS AQUI!</p>
+                            <i class="fa-solid fa-chart-simple d"></i>
+                        </div>
+                        <div class="caixa1">
+                            <h3>GRAF 3</h3>
+                            <p>PLOTAR OS GRAFICOS AQUI!</p>
+                            <button>Detalhes</button>
+                        </div>
+                        <div class="caixa1">
+                            <h3>GRAF 4</h3>
+                            <p>PLOTAR OS GRAFICOS AQUI!</p>
+                            <button>Detalhes</button>
+                            <i class="fa-brands fa-cloudflare a"></i>
+                        </div>
+                        <div class="caixa1">
+                            <h3>GRAF 5</h3>
+                            <p>PLOTAR OS GRAFICOS AQUI!</p>
+                            <button>Detalhes</button>
+                            <i class="fa-solid fa-chart-simple d"></i>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+    </div>
+</body>
+
+</html>
+
+<script>
+
+    b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
+
+</script>

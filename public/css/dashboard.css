@@ -1,0 +1,360 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700");
+*{
+  margin: 0;
+  padding: 0;
+  outline: none;
+  border: none;
+  text-decoration: none;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+body{
+  background: #0f1923;
+}
+.container{
+  display: flex;
+  background-color: #0f1923;
+}
+nav{
+  position: relative;
+  top: 0;
+  bottom: 0;
+  height: 100vh;
+  left: 0;
+  background: #fff;
+  width: 280px;
+  overflow: hidden;
+  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
+}
+.logo{
+  text-align: center;
+  display: flex;
+  margin: 10px 0 0 10px;
+}
+.logo img{
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+}
+.logo span{
+  font-weight: bold;
+  padding-left: 15px;
+  font-size: 18px;
+  text-transform: uppercase;
+}
+a{
+  position: relative;
+  color: rgb(85, 83, 83);
+  font-size: 14px;
+  display: table;
+  width: 280px;
+  padding: 10px;
+}
+nav .fas{
+  position: relative;
+  width: 70px;
+  height: 40px;
+  top: 14px;
+  font-size: 20px;
+  text-align: center;
+}
+
+.nav-item{
+  position: relative;
+  top: 12px;
+  margin-left: 10px;
+}
+a:hover{
+  background: #c9000093;
+}
+.logout{
+  position: absolute;
+  bottom: 0;
+}
+/* Main Section */
+.main{
+  position: relative;
+  padding: 20px;
+  width: 100%;
+}
+.main-cima{
+  display: flex;
+  width: 100%;
+}
+.main-cima i{
+  position: absolute;
+  right: 0;
+  margin: 10px 30px;
+  color: rgb(110, 109, 109);
+  cursor: pointer;
+}
+
+.analise h1 {
+  color: white;
+}
+
+.main-cima h1 {
+  color: white;
+}
+
+
+.investimentos{
+  display: flex;
+  margin-top: 20px;
+}
+
+.investimentos .card{
+  width: 25%;
+  margin: 10px;
+  background: #fff;
+  text-align: center;
+  border-radius: 20px;
+  padding: 10px;
+  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
+}
+.investimentos .card h3{
+  margin: 10px;
+  text-transform: capitalize;
+}
+.investimentos .card p{
+  font-size: 12px;
+}
+.investimentos .card button{
+  background: #fbd494;
+  color: #000;
+  padding: 7px 15px;
+  border-radius: 10px;
+  margin-top: 15px;
+  cursor: pointer;
+}
+.investimentos .card button:hover{
+  background: #ffc76e;
+}
+.investimentos .card i{
+  font-size: 22px;
+  padding: 10px;
+}
+
+/* CARD2 */
+.investimentos {
+  display: flex;
+
+}
+
+.investimentos .card2{
+  width: 30%;
+  margin: 10px;
+  background: lightgray;
+  text-align: start;
+  border-radius: 20px;
+  padding: 10px;
+  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
+}
+.investimentos .card2 h3{
+  margin: 3px;
+  text-transform: capitalize;
+}
+.investimentos .card2 p{
+  font-size: 12px;
+}
+.investimentos .card2 button{
+  margin-top: 10px;
+  background: #fbd494;
+  padding: 7px 15px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.investimentos .card2 button:hover{
+  background: #ffc76e;
+}
+.investimentos .card2 i{
+  font-size: 22px;
+  padding: 10px;
+}
+
+.investimentos .card2 #form_postagem, .titulo {
+  width: 100%;
+  border: none;
+  border-radius: 10px;
+  padding: 3px;
+  font-size: 12pt;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.investimentos .card2 #form_postagem, .descricao {
+  width: 100%;
+  border: none;
+  border-radius: 10px;
+  padding: 3px;
+  font-size: 12pt;
+  outline: none;
+  box-sizing: border-box;
+}
+
+/* CARD3 */
+
+.investimentos2 {
+  display: flex;
+}
+
+.investimentos2 .card3{
+  width: 30%;
+  margin: 10px;
+  background: lightgray;
+  text-align: start;
+  border-radius: 20px;
+  padding: 10px;
+  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.61);
+}
+.investimentos2 .card3 h3{
+  margin: 14px;
+  text-transform: capitalize;
+}
+.investimentos2 .card3 p{
+  font-size: 12px;
+}
+
+.investimentos2 .card3 button{
+  margin: 3px;
+  background: #fbd494;
+  padding: 7px 15px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.investimentos2 .card3 button:hover{
+  background: #ffc76e;
+}
+
+.investimentos .cartao{
+  width: 100%;
+  height: 100%;
+  margin: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #212529;
+  border-radius: 20px;
+  padding: 10px;
+}
+
+/* Analise */
+
+.analise{
+  margin-top:20px ;
+  text-transform: capitalize;
+}
+.caixa{
+  width: 100%;
+  height: 300px;
+  padding: 10px 10px 30px 10px;
+  margin-top: 10px;
+  background: #d3d3d3;
+  border-radius: 10px;
+  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
+}
+.caixa ul{
+  list-style: none;
+  display: flex;
+}
+.caixa ul li{
+  margin: 10px;
+  color: gray;
+  cursor: pointer;
+}
+.caixa ul .texto_caixa{
+  color: black;
+  border-bottom: 1px solid #000;
+}
+.caixa .course{
+  display: flex;
+}
+.caixa1{
+  width: 33%;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 10px;
+  background: rgb(235, 233, 233);
+  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
+}
+.caixa1 p{
+  font-size: 12px;
+  margin-top: 5px;
+}
+.caixa1 button{
+  background: #212529;
+  color: #fff;
+  padding: 7px 10px;
+  border-radius: 10px;
+  margin-top: 3rem;
+  cursor: pointer;
+}
+.caixa1 button:hover{
+  background: rgba(0, 0, 0, 0.842);
+}
+.caixa1 i{
+  font-size: 7rem;
+  float: right;
+  margin: -20px 20px 20px 0;
+}
+
+.caixa2{
+  width: 33%;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 10px;
+  background: rgb(235, 233, 233);
+  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.5);
+}
+.caixa2 p{
+  text-align: center;
+  text-transform: lowercase;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.caixa2 h3{
+  text-align: center;
+}
+
+.caixa2 i{
+  font-size: 7rem;
+  float: right;
+  margin: -20px 20px 20px 0;
+}
+
+.a{
+  color: #8a0000af;
+}
+.d{
+  color: #8a0000af;
+}
+.rank{
+  color: #8a0000af;
+}
+
+.caixa-ajuda{
+  width: 100%;
+  height: 80vh;
+  padding: 10px 10px 30px 10px;
+  margin-top: 10px;
+  background: #ffc76e;
+  border-radius: 10px;
+  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.5);
+}
+.caixa-ajuda ul{
+  list-style: none;
+  display: flex;
+}
+.caixa-ajuda ul li{
+  margin: 10px;
+  color: gray;
+  cursor: pointer;
+}
+.caixa-ajuda ul .texto_caixa{
+  color: black;
+  border-bottom: 1px solid #000;
+}
+.caixa-ajuda .course{
+  display: flex;
+}

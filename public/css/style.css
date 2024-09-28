@@ -905,7 +905,6 @@ footer {
   .espaco_card {
     overflow-x: scroll;
     overflow-y: hidden;
-    justify-content: last baseline;
     animation: fade 3s normal;
     bottom: -14px;
   }
