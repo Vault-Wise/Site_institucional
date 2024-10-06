@@ -146,38 +146,6 @@ p a {
     align-items: baseline;
 }
 
-.input_nome {
-    background-color: #545454;
-}
-
-.input_cpf {
-    margin-left: 10px;
-    background-color: #545454;
-}
-
-.input_email {
-    background-color: #545454;
-}
-
-.input_tel {
-    margin-left: 10px;
-    background-color: #545454;
-}
-
-.input_empresa {
-    background-color: #545454;
-}
-
-.input_cargo {
-    margin-left: 10px;
-    background-color: #545454;
-}
-
-.input_senha {
-    background-color: #545454;
-
-}
-
 input {
     width: 100%;
     padding: 10px;

@@ -55,7 +55,7 @@
         <div class="inputVertical">
           <span class="label">Cargo:</span>
           <select type="text" placeholder="Cargo" id="select_cargo">
-            <option value="0" disabled selected>Selecione seu cargo:</option>
+            <option value="#" disabled selected>Selecione seu cargo:</option>
             <option value="Supervisor(a) Técnica">Supervisora Técnica</option>
             <option value="Analista de Dados">Analista de Dados</option>
             <option value="Chefe de Ciber Segurança">Chefe de Ciber Segurança</option>
@@ -64,7 +64,7 @@
         <div class="inputVertical">
           <span class="label">Empresa:</span>
           <select type="text" id="select_empresa">
-            <option disabled selected>Selecione uma Empresa:</option>
+            <option value="#" disabled selected>Selecione uma Empresa:</option>
           </select>
         </div>
         <div class="inputVertical">
@@ -78,12 +78,16 @@
       </form>
     </div>
     <div id="telaCodigo">
-      <form>
-        <div class="codigoAutenticacao">
-          <input type="text" id="input_codigo">
-          <button onclick="cadastrar()" class="botaoCodigo">Cadastrar</button>
-        </div>
-      </form>
+      <div class="container">
+        <form>
+          <div class="codigoAutenticacao">
+            <h1>Valide sua conta</h1>
+            <p>Digite o código enviado para xxx@emai.com</p>
+            <input type="text" id="input_codigo">
+            <button onclick="cadastrar()" class="botaoCodigo">Cadastrar</button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
   <div id="msg_alertas" class="msg_alertas">
@@ -95,6 +99,7 @@
 
 <script>
   telaCodigo.style.display = "none"
+
   var codigoEmpresaVar;
   var nome;
   var cpf;
@@ -170,8 +175,10 @@
       buildCardMensagem("block", "erro", "O e-mail inserido deve ser válido para a conclusão do cadastro.");
     } else if (tamTelefone != 11) {
       buildCardMensagem("block", "erro", "Insira um telefone válido.");
-    } else if (cargo == "0") {
+    } else if (cargo == "#") {
       buildCardMensagem("block", "erro", "Selecione um cargo.");
+    } else if (empresa == "#") {
+      buildCardMensagem("block", "erro", "Selecione uma empresa.");
     } else if (tamSenha < 8) {
       buildCardMensagem("block", "erro", "A senha deve possuir ao menos 8 caracteres.");
     } else if (hashtag < 0 && arrobaSenha < 0 && underline < 0 && cifroes < 0 && porcentagem < 0) {
@@ -249,7 +256,7 @@
           console.log(`#ERRO: ${resposta}`);
         });
     } else {
-      alert('Código incorreto')
+      buildCardMensagem("block", "erro", "Código incorreto");
     }
   }
 

@@ -1,6 +1,13 @@
+#telaCodigo {
+    width: 100%;
+    height: 100%;
+}
+
 .codigoAutenticacao {
-    display: flex;
+    width: 100%;
+    height: 100%;
     flex-direction: column;
+    display: flex;
 }
 
 .botaoCodigo {
@@ -13,6 +20,7 @@
     padding: 3%;
     border-radius: 10px;
     margin-top: 30px;
+    align-self: center;
 }
 
 #input_codigo {
@@ -21,6 +29,8 @@
     font-weight: bold;
     text-align: center;
 }
+
+
 
 @media (max-width: 430px) {
     html {
