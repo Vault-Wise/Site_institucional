@@ -39,10 +39,10 @@ CREATE TABLE Agencia (
 
 CREATE TABLE CaixaEletronico (
     idCaixa INT PRIMARY KEY AUTO_INCREMENT,
+	nomeEquipamento VARCHAR(60) NOT NULL,
     sistemaOperacional VARCHAR(60) NOT NULL,
     memoriaTotal DECIMAL(8,2) NOT NULL,
     discoTotal DECIMAL(8,2) NOT NULL,
-    nomeEquipamento VARCHAR(60) NOT NULL,
     freqMaxProcessador DECIMAL(8,2) NOT NULL,
     fkAgencia INT NOT NULL,
     CONSTRAINT fkCaixaAgencia FOREIGN KEY (fkAgencia) REFERENCES Agencia (idAgencia)

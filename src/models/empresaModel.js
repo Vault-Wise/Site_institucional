@@ -25,8 +25,8 @@ function listar() {
   return database.executar(instrucaoSql);
 }
 
-function buscarCodigo(idEmpresa) {
-  var instrucaoSql = `SELECT codigoEmpresa FROM Empresa WHERE idEmpresa = ${idEmpresa}`
+function buscarCodigo(codEmpresa) {
+  var instrucaoSql = `SELECT codigoEmpresa FROM Empresa WHERE codigoEmpresa = '${codEmpresa}'`
 
   return database.executar(instrucaoSql);
 }
@@ -47,7 +47,7 @@ function cadastrar(razaoSocial, cnpj, cep, telefone, numero) {
   var codigo = gerarCodigo();
   var codigoExiste = true;
 
-  buscarPorCodigo(codigo).then((resultado) => {
+  buscarCodigo(codigo).then((resultado) => {
     if (resultado.length > 0) {
       codigo = gerarCodigo();
     }
