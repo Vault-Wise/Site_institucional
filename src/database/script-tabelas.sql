@@ -51,12 +51,15 @@ CREATE TABLE CaixaEletronico (
 
 CREATE TABLE Registro (
     idRegistro INT AUTO_INCREMENT,
+    dtHora DATETIME DEFAULT CURRENT_TIMESTAMP,
     percentDisco DECIMAL(5,2) NOT NULL,
     percentMemoria DECIMAL(5,2) NOT NULL,
     percentProcessador DECIMAL(5,2) NOT NULL,
     memoriaUsada DECIMAL(8,2) NOT NULL,
     discoUsada DECIMAL(8,2) NOT NULL,
     freqProcessador DECIMAL(8,2) NOT NULL,
+    redeAtual DECIMAL(8,2) NOT NULL,
+    tempoAtividade FLOAT,
     fkCaixa INT NOT NULL,
     PRIMARY KEY (idRegistro, fkCaixa),
     CONSTRAINT fkRegistroCaixaEletronico FOREIGN KEY (fkCaixa) REFERENCES CaixaEletronico (idCaixa)
@@ -71,21 +74,4 @@ CREATE TABLE Alerta (
     fkCaixa INT NOT NULL,
     PRIMARY KEY (idAlerta, fkRegistro, fkCaixa),
     CONSTRAINT fkAlertaRegistro FOREIGN KEY (fkRegistro , fkCaixa) REFERENCES Registro (idRegistro , fkCaixa)  
-);
-
-
-CREATE TABLE Componente (
-    idComponente INT PRIMARY KEY AUTO_INCREMENT,
-    nome VARCHAR(60) NOT NULL,
-    unidadeMedida VARCHAR(50) NOT NULL
-);
-
-
-CREATE TABLE ListaComponentes (
-	idListaComponentes INT AUTO_INCREMENT,
-    fkCaixa INT NOT NULL,
-    fkComponente INT NOT NULL,
-    PRIMARY KEY (idListaComponentes, fkCaixa, fkComponente),
-    CONSTRAINT fkCaixaListaComponente FOREIGN KEY (fkCaixa) REFERENCES CaixaEletronico (idCaixa),
-    CONSTRAINT fkComponenteListaComponente FOREIGN KEY (fkComponente) REFERENCES Componente (idComponente)
 );
