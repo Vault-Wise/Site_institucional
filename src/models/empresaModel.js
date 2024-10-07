@@ -26,7 +26,7 @@ function listar() {
 }
 
 function buscarCodigo(codEmpresa) {
-  var instrucaoSql = `SELECT codigoEmpresa FROM Empresa WHERE codigoEmpresa = '${codEmpresa}'`
+  var instrucaoSql = `SELECT codigoEmpresa FROM Empresa WHERE idEmpresa = '${codEmpresa}'`
 
   return database.executar(instrucaoSql);
 }
