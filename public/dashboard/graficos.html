@@ -106,109 +106,113 @@
   fetch("../quiz/mostrar_dados", {
     method: "POST",
     headers: {
-        "Content-Type": "application/json",
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
-        idUsuarioServer: sessionStorage.ID_USUARIO,
+      idUsuarioServer: sessionStorage.ID_USUARIO,
     }),
-}).then(function (resposta) {
+  }).then(function (resposta) {
     if (resposta.ok) {
-        resposta.json().then(function (resultado) {
-            var lista_dados = resultado.dados
-            var lista_dados_limitado = []
+      resposta.json().then(function (resultado) {
+        var lista_dados = resultado.dados;
+        var lista_dados_limitado = [];
 
-            if (lista_dados.length < 10) {
-                lista_dados_limitado = lista_dados
-            } else {
-                for (var index = lista_dados.length - 10; index < lista_dados.length; index++) {
-                    lista_dados_limitado.push(lista_pontuacoes[index])
-                }
-            }
+        if (lista_dados.length < 10) {
+          lista_dados_limitado = lista_dados;
+        } else {
+          for (
+            var index = lista_dados.length - 10;
+            index < lista_dados.length;
+            index++
+          ) {
+            lista_dados_limitado.push(lista_pontuacoes[index]);
+          }
+        }
+      });
 
-            var options = {
-                chart: {
-                  type: "line",
-                },
-                series: [
+      var options = {
+        chart: {
+          type: "line",
+        },
+        series: [
+          {
+            name: "sales",
+            data: [30, 40, 35, 50, 49, 60, 70, 91, 125],
+          },
+        ],
+        xaxis: {
+          categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999],
+        },
+      };
+  
+      var chart = new ApexCharts(document.querySelector("#chart"), options);
+      chart.render();
+  
+      var options2 = {
+        chart: {
+          type: "bar",
+        },
+        series: [
+          {
+            name: "Revenue",
+            data: [30, 40, 35, 50, 49, 60, 70, 91, 125],
+          },
+        ],
+        xaxis: {
+          categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999],
+        },
+      };
+  
+      var chart2 = new ApexCharts(document.querySelector("#chart2"), options2);
+      chart2.render();
+  
+      var options3 = {
+        chart: {
+          type: "bar",
+        },
+        series: [
+          {
+            data: [
+              {
+                x: "category A",
+                y: 10,
+                goals: [
                   {
-                    name: "sales",
-                    data: lista_dados_limitado
+                    name: "Expected",
+                    value: 5,
+                    strokeColor: "#775DD0",
                   },
                 ],
-                xaxis: {
-                  categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999],
-                },
-              };
-            
-              var chart = new ApexCharts(document.querySelector("#chart"), options);
-              chart.render();
-            
-              var options2 = {
-                chart: {
-                  type: "bar",
-                },
-                series: [
+              },
+              {
+                x: "category B",
+                y: 18,
+                goals: [
                   {
-                    name: "Revenue",
-                    data: lista_dados_limitado
+                    name: "Expected",
+                    value: 10,
+                    strokeColor: "#775DD0",
                   },
                 ],
-                xaxis: {
-                  categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999],
-                },
-              };
-            
-              var chart2 = new ApexCharts(document.querySelector("#chart2"), options2);
-              chart2.render();
-            
-              var options3 = {
-                chart: {
-                  type: "bar",
-                },
-                series: [
+              },
+              {
+                x: "category C",
+                y: 13,
+                goals: [
                   {
-                    data: [
-                      {
-                        x: "category A",
-                        y: 10,
-                        goals: [
-                          {
-                            name: "Expected",
-                            value: 5,
-                            strokeColor: "#775DD0",
-                          },
-                        ],
-                      },
-                      {
-                        x: "category B",
-                        y: 18,
-                        goals: [
-                          {
-                            name: "Expected",
-                            value: 10,
-                            strokeColor: "#775DD0",
-                          },
-                        ],
-                      },
-                      {
-                        x: "category C",
-                        y: 13,
-                        goals: [
-                          {
-                            name: "Expected",
-                            value: 13,
-                            strokeColor: "#775DD0",
-                          },
-                        ],
-                      },
-                    ],
+                    name: "Expected",
+                    value: 13,
+                    strokeColor: "#775DD0",
                   },
                 ],
-              };
-            
-              var chart2 = new ApexCharts(document.querySelector("#chart3"), options3);
-              chart2.render();
-        })
+              },
+            ],
+          },
+        ],
+      };
+  
+      var chart2 = new ApexCharts(document.querySelector("#chart3"), options3);
+      chart2.render();
     }
-})
+  });
 </script>
