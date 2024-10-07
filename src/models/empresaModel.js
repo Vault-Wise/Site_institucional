@@ -45,7 +45,6 @@ function capturarDados() {
 
 function cadastrar(razaoSocial, cnpj, cep, telefone, numero) {
   var codigo = gerarCodigo();
-  var codigoExiste = true;
 
   buscarCodigo(codigo).then((resultado) => {
     if (resultado.length > 0) {

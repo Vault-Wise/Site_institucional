@@ -86,10 +86,9 @@
                     console.log(json);
                     console.log(JSON.stringify(json));
 
-
+                    sessionStorage.NOME_USUARIO = json.nome
                     setTimeout(function () {
-                        alert("FOI?")
-                        window.location = "Login.html";
+                        window.location = "dashboard/home.html";
                     }, 1000);
                 });
 
