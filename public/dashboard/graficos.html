@@ -102,15 +102,13 @@
 <script>
   b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
 
-  fetch("../charts/mostrar_dados", {
-    method: "POST",
+  fetch(`../charts/mostrar_dados?idUsuarioServer=${sessionStorage.ID_USUARIO}`, {
+    method: "GET",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({
-      idUsuarioServer: sessionStorage.ID_USUARIO,
-    }),
   }).then(function (resposta) {
+    console.log(sessionStorage.ID_USUARIO);
     if (resposta.ok) {
       resposta.json().then(function (resultado) {
         var lista_dados = resultado.dados;
