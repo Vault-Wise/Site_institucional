@@ -18,7 +18,6 @@
     />
 
     <script src="../js/sessao.js"></script>
-    <script src="../js/alerta.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
   </head>
 
@@ -103,7 +102,7 @@
 <script>
   b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
 
-  fetch("../quiz/mostrar_dados", {
+  fetch("../charts/mostrar_dados", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

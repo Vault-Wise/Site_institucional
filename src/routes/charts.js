@@ -1,9 +1,9 @@
 var express = require("express");
 var router = express.Router();
 
-var quizController = require("../controllers/chartsController");
+var chartsController = require("../controllers/chartsController");
 
-router.post("/inserir_dados", function(req, res) {
-    quizController.inserir_pontuacao(req, res)
-})
+router.post("/mostrar_dados", function (req, res) {
+    chartsController.cadastrar(req, res);
+  });
 module.exports = router

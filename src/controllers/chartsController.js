@@ -12,29 +12,28 @@ function inserir_dados(req, res) {
 }
 
 function mostrar_dados(req, res) {
-
-    var idUsuario = req.body.idUsuarioServer
-
-    chartsModel.mostrar_dados(idUsuario)
-        .then(function (resultado) {
-            if (resultado.length >= 1) {
-                var lista_pontuacao = []
-                var lista_horario = []
-                for (var index = 0; index < resultado.length; index++) {
-                    lista_pontuacao.push(resultado[index].pontuacao)
-                    lista_horario.push(resultado[index].dt)
+    try {
+        var idUsuario = req.query.idUsuarioServer;
+        
+        chartsModel.mostrar_dados(idUsuario)
+            .then(function (resultado) {
+                if (resultado.length >= 1) {
+                    res.json({
+                        dados: resultado.map(row => row.pontuacao),
+                        horario: resultado.map(row => row.dt)
+                    });
+                } else {
+                    res.status(403).send("Sem dados disponíveis");
                 }
-                res.json({
-                    dados:lista_pontuacao,
-                    horario:lista_horario
-                 })
-
-            } else {
-                res.status(403).send("Sem pontuações disponíveis");
-            }
-        }).catch(function (erro) {
-            console.error("Não mostrou", erro)
-        })
+            })
+            .catch(function (erro) {
+                console.error("Erro ao mostrar dados: ", erro);
+                res.status(500).send("Erro no servidor ao buscar dados.");
+            });
+    } catch (erro) {
+        console.error("Erro inesperado:", erro);
+        res.status(500).send("Erro inesperado no servidor.");
+    }
 }
 
 module.exports = {
