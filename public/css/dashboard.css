@@ -16,13 +16,13 @@ body{
   background-color: #0f1923;
 }
 nav{
-  position: relative;
+  position: fixed;
   top: 0;
   bottom: 0;
   height: 100vh;
   left: 0;
   background: #fff;
-  width: 280px;
+  width: 210px;
   overflow: hidden;
   box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
 }
@@ -75,7 +75,7 @@ a:hover{
 .main{
   position: relative;
   padding: 20px;
-  width: 100%;
+  width: 80%;
 }
 .main-cima{
   display: flex;
@@ -95,6 +95,7 @@ a:hover{
 
 .main-cima h1 {
   color: white;
+  margin-left: 212px;
 }
 
 
@@ -109,6 +110,7 @@ a:hover{
   background: #fff;
   text-align: center;
   border-radius: 20px;
+  margin-left: 212px;
   padding: 10px;
   box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
 }
@@ -252,6 +254,8 @@ a:hover{
   background: #d3d3d3;
   border-radius: 10px;
   box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
+  position: relative;
+  margin-left: 212px;
 }
 .caixa ul{
   list-style: none;
@@ -270,13 +274,14 @@ a:hover{
   display: flex;
 }
 .caixa1{
-  width: 33%;
+  width: 30%;
   padding: 10px;
   margin: 10px;
   border-radius: 10px;
   background: rgb(235, 233, 233);
   box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
 }
+
 .caixa1 p{
   font-size: 12px;
   margin-top: 5px;
@@ -357,4 +362,8 @@ a:hover{
 }
 .caixa-ajuda .course{
   display: flex;
+}
+
+@media(max-width: 885px){
+
 }
