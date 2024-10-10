@@ -1,24 +1,5 @@
 var database = require("../database/config");
 
-function gerarCodigo() {
-  var numeros = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-  var letras = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
-  var codigo = "";
-
-  for (let i = 1; i <= 6; i++) {
-    var aleatorio;
-    if (i % 2 == 0) {
-      aleatorio = Number(((Math.random()) * 9).toFixed());
-      codigo += `${numeros[aleatorio]}`
-    } else {
-      aleatorio = Number(((Math.random()) * 25).toFixed());
-      codigo += `${letras[aleatorio]}`
-    }
-  }
-
-  return codigo;
-}
-
 function listar() {
   var instrucaoSql = `SELECT idEmpresa, razaoSocial FROM Empresa`;
 

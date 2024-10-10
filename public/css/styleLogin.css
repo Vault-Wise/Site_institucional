@@ -128,28 +128,10 @@ p a {
     color: #ffffff;
 }
 
-.inputs1 {
-    display: flex;
-    justify-content: baseline;
-    align-items: baseline;
-}
-
-.inputs2 {
-    display: flex;
-    justify-content: baseline;
-    align-items: baseline;
-}
-
-.inputs3 {
-    display: flex;
-    justify-content: baseline;
-    align-items: baseline;
-}
-
 input {
+    background-color: #545454;
     width: 100%;
     padding: 10px;
-    margin: 5px 0px 10px 0px;
     border: none;
     border-radius: 10px;
     color: #d1d1d1;
@@ -158,7 +140,7 @@ input {
 }
 
 input::placeholder {
-    color: #d1d1d1;
+
     font-size: 20px;
 }
 

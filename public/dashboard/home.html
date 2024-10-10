@@ -13,24 +13,24 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
     <script src="../js/sessao.js"></script>
-    <script src="../js/alerta.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 </head>
 
-<body>
+<body onload="capturarDados()">
     <div class="container">
         <nav>
             <ul>
                 <li><a href="#" class="logo">
-                        <img src="./../css/imagens/icon12.jpg" alt="">
+                        <img src="./../css/imagens/icon12.jpg">
                         <div class="hello">
                             <span class="nav-item" id="b_usuario">usuário</span>
                         </div>
                     </a></li>
-                <li><a href="#">
+                <li><a href="home.html">
                         <i class="fas fa-lightbulb"></i>
                         <span class="nav-item">Home</span>
                     </a></li>
-                <li><a href="#">
+                <li><a href="graficos.html">
                         <i class="fas fa-ranking-star"></i>
                         <span class="nav-item">Graficos</span>
                     </a></li>
@@ -54,38 +54,83 @@
             </div>
             <div class="investimentos">
                 <div class="card">
-                    <i class="fa-solid fa-chart-simple d"></i>
-                    <h3>TOTAL DE GRAFICOS</h3>
-                    <p style="font-size: 50px; font: 800;">3</p>
+                    <i class="fa-solid fa-triangle-exclamation d"></i>
+                    <h3>Máquinas em estado de alerta</h3>
+                    <p style="font-size: 50px; font: 800;">06 / 24</p>
                 </div>
                 <div class="card">
-                    <i class="fa-solid fa-chart-pie d"></i>
-                    <h3>TEMPERATURA ATUAL CPU</h3>
-                    <p style="font-size: 50px; font: 800;">80°C</p>
+                    <i class="fa-solid fa-triangle-exclamation d"></i>
+                    <h3>Máquinas em estado de perigo</h3>
+                    <p style="font-size: 50px; font: 800;">07 / 24</p>
                 </div>
             </div>
             <section class="analise">
-                <h1>Média de gráficos</h1>
                 <div class="caixa">
                     <ul>
-                        <li class="texto_caixa">O que deseja ver?</li>
-
+                        <li class="texto_caixa">Filtro!</li>
+                    </ul>
+        <div class="filters">
+            <select id="agencia">
+                <option>Agência</option>
+                <option>Agência</option>
+                <option>Agência</option>
+                <option>Agência</option>
+                <!-- Outras opções -->
+            </select>
+            <select id="situacao">
+                <option>Situação</option>
+                <option>Situação</option>
+                <option>Situação</option>
+                <option>Situação</option>
+                <!-- Outras opções -->
+            </select>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Agência</th>
+                    <th>Máquina</th>
+                    <th>Indicador</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>AAAAAAA</td>
+                    <td>AAAAAAA</td>
+                    <td>AAAAAAA</td>
+                </tr>
+                <tr>
+                    <td>AAAAAAA</td>
+                    <td>AAAAAAA</td>
+                    <td>AAAAAAA</td>
+                </tr>
+                <tr>
+                    <td>AAAAAAA</td>
+                    <td>AAAAAAA</td>
+                    <td>AAAAAAA</td>
+                </tr>
+                <tr>
+                    <td>AAAAAAA</td>
+                    <td>AAAAAAA</td>
+                    <td>AAAAAAA</td>
+                </tr>
+                <tr>
+                    <td>AAAAAAA</td>
+                    <td>AAAAAAA</td>
+                    <td>AAAAAAA</td>
+                </tr>
+            </tbody>
+        </table>
+                </div>
+                <div class="caixa">
+                    <ul>
+                        <li class="texto_caixa">Estado das maquinas!</li>
                     </ul>
                     <div class="course">
                         <div class="caixa1">
-                            <h3>GRAF 1</h3>
-                            <p>PLOTAR OS GRAFICOS AQUI!</p>
-                            <img src="./../css/imagens/GRAFICO 1.PNG" alt="" style="width: 500px;">
-                        </div>
-                        <div class="caixa1">
-                            <h3>GRAF 2</h3>
-                            <p>PLOTAR OS GRAFICOS AQUI!</p>
-                            <img src="./../css/imagens/GRAFICO 1.PNG" alt="" style="width: 500px;">
-                        </div>
-                        <div class="caixa1">
-                            <h3>GRAF 3</h3>
-                            <p>PLOTAR OS GRAFICOS AQUI!</p>
-                            <img src="./../css/imagens/GRAFICO 1.PNG" alt="" style="width: 500px;">
+                            <h3>Maquinas!</h3>
+                            <p>Descrição geral das maquinas</p>
+                            <div id="chart"></div>
                         </div>
                     </div>
                 </div>
@@ -99,5 +144,30 @@
 <script>
 
     b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
+    console.log("teste")
+    function capturarDados() {
+        console.log("Entrando no FETCH");
+    
+        fetch(`/graficoDash/mostrarDados`, {
+          method: "GET",
+        })
+          .then(function (resposta) {
+            console.log("Estou dentro do then! (FUNFO)")
+    
+            var options = {
+                chart: {
+                  type: "pie",
+                },
+                series: [44, 55, 13, 33],
+                labels: ['Apple', 'Mango', 'Orange', 'Watermelon']
+              };
+      
+              var chart = new ApexCharts(document.querySelector("#chart"), options);
+              chart.render();
+          })
+          .catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+          });
+      }
 
 </script>
