@@ -42,7 +42,7 @@ header {
   padding: 0 40px;
   /* margin: 0 auto; */
   cursor: pointer;
-  transition: all 0.6s ease; 
+  transition: all 0.6s ease;
   z-index: 999;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
@@ -320,12 +320,6 @@ footer {
   gap: 40px;
 }
 
-/* .espaco_card :hover{
-  letter-spacing: 1px;
-  box-shadow: 0 10px 15px rgba(0, 0, 0, .3);
-  transform: scale(1.03);
-} */
-
 .card_um {
   padding: 10px;
   display: flex;
@@ -404,7 +398,7 @@ footer {
   flex-direction: column;
 }
 
-.titulo_sobre_nos h1{
+.titulo_sobre_nos h1 {
   text-decoration: underline;
   margin: 10px;
 }
@@ -441,7 +435,8 @@ footer {
   font-family: 'League Spartan', sans-serif;
 }
 
-#section-solucao h1, .p_section-solucao {
+#section-solucao h1,
+.p_section-solucao {
   color: #dddddd;
 }
 
@@ -486,7 +481,7 @@ footer {
   height: 100%;
   background: linear-gradient(to right, #933b3ba6, #ed0101a6);
   clip-path: polygon(0 0, 0 100%, 100% 100%);
-  transform: scaleY(0); 
+  transform: scaleY(0);
   transform-origin: bottom;
   transition: transform 0.5s ease-out;
   z-index: -1;
@@ -650,14 +645,14 @@ footer {
 /* VALORES */
 
 .quatro {
-  height: 84vh; 
-    padding: 336px 38px; 
-    display: flex;
-    flex-direction: column;
-    padding-bottom: 128px;
-    /* align-items: center; */
-    justify-content: center;
-    background: #fff;
+  height: 84vh;
+  padding: 336px 38px;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 128px;
+  /* align-items: center; */
+  justify-content: center;
+  background: #fff;
 }
 
 .fundovalores {
@@ -749,7 +744,7 @@ footer {
 
 /* customização do scroll */
 ::-webkit-scrollbar {
-  width: 10px; 
+  width: 10px;
 }
 
 ::-webkit-scrollbar-track {
@@ -758,86 +753,73 @@ footer {
 
 ::-webkit-scrollbar-thumb {
   background-color: #ba00006d;
-  border-radius: 5px; 
-  border: 1px solid #0f1923; 
+  border-radius: 5px;
+  border: 1px solid #0f1923;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background-color: #cf0707a6; 
+  background-color: #cf0707a6;
 }
 
 /* animacoes */
 @keyframes animacaoFrente {
-  0%, 100% {
-    transform: scale(1); /* Tamanho normal */
+
+  0%,
+  100% {
+    transform: scale(1);
+    /* Tamanho normal */
   }
+
   50% {
-    transform: scale(1.05); /* Aumenta o tamanho, simulando o texto vindo para frente */
+    transform: scale(1.05);
+    /* Aumenta o tamanho, simulando o texto vindo para frente */
   }
 }
+
 /* responsividade */
-
-/* @media (max-width: 768px) {
-
-  /* nav ul {
-    flex-direction: column;
-    align-items: center;
-  } */
-  
-  /* nav ul li a {
-    margin: 5px 0;
-  }
-
-  .containerval {
-    margin-left: 0;
-    padding: 10px;
-  } */
-
-
 
 @media (max-width: 885px) {
 
-  
-@keyframes show-data {
-  50% {
-    transform: translateY(-10rem);
+  @keyframes show-data {
+    50% {
+      transform: translateY(-10rem);
+    }
+
+    100% {
+      transform: translateY(-7rem);
+    }
   }
 
-  100% {
-    transform: translateY(-7rem);
-  }
-}
-
-@keyframes remove-overflow {
-  to {
-    overflow: initial;
-  }
-}
-
-@keyframes remove-data {
-  0% {
-    transform: translateY(-7rem);
+  @keyframes remove-overflow {
+    to {
+      overflow: initial;
+    }
   }
 
-  50% {
-    transform: translateY(-10rem);
+  @keyframes remove-data {
+    0% {
+      transform: translateY(-7rem);
+    }
+
+    50% {
+      transform: translateY(-10rem);
+    }
+
+    100% {
+      transform: translateY(.5rem);
+    }
   }
 
-  100% {
-    transform: translateY(.5rem);
-  }
-}
+  @keyframes show-overflow {
+    0% {
+      overflow: initial;
+      pointer-events: none;
+    }
 
-@keyframes show-overflow {
-  0% {
-    overflow: initial;
-    pointer-events: none;
+    50% {
+      overflow: hidden;
+    }
   }
-
-  50% {
-    overflow: hidden;
-  }
-}
 
   .fundo {
     width: 100%;
@@ -847,28 +829,15 @@ footer {
     background-size: cover;
   }
 
-  /* header {
-    padding: 0;
-    height: 10%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  } */
-
-
   header a {
     font-size: 0.9em;
     color: #000000;
   }
 
   header .logo {
-    /* position: absolute; */
     margin-right: -21px;
     width: 100%;
     top: 5px;
-    /* display: flex;
-    justify-content: center;
-    align-items: flex-start; */
   }
 
   .logo img {
@@ -882,7 +851,7 @@ footer {
   nav ul {
     width: 100%;
     display: flex;
-    justify-content: center; 
+    justify-content: center;
   }
 
   nav ul li {
@@ -907,11 +876,14 @@ footer {
   }
 
   .espaco_card {
-    /* overflow-x: scroll;
-    overflow-y: hidden; */
-    justify-content: last baseline;
-    animation: fade 3s normal;
-    bottom: -14px;
+    width: 89%;
+    height: 166px;
+    z-index: 100;
+    bottom: -43px;
+    display: flex;
+    justify-content: center;
+    gap: 0px;
+    margin-left: 20px;
   }
 
   .carrossel {
@@ -933,7 +905,8 @@ footer {
   }
 
   .um button {
-    margin: -7px;
+    margin-left: -4px;
+    padding: 11px;
   }
 
   @keyframes fade {
@@ -999,9 +972,9 @@ footer {
     justify-self: center;
   }
 
-  #section-solucao{
+  #section-solucao {
     padding: 36px;
-    margin-top: 320px;
+    margin-top: 240px;
   }
 
   .quatro {
@@ -1069,7 +1042,7 @@ footer {
     gap: 5px;
     justify-content: center;
   }
-  
+
   .hamburger span {
     display: block;
     width: 25px;
@@ -1078,19 +1051,19 @@ footer {
     border-radius: 2px;
     transition: 0.4s;
   }
-  
+
   .hamburger.active span:nth-child(1) {
     transform: rotate(45deg) translate(5px, 5px);
   }
-  
+
   .hamburger.active span:nth-child(2) {
     opacity: 0;
   }
-  
+
   .hamburger.active span:nth-child(3) {
     transform: rotate(-45deg) translate(5px, -5px);
   }
-  
+
   nav.active {
     display: flex;
     position: absolute;
@@ -1110,4 +1083,91 @@ footer {
   nav {
     display: none;
   }
+}
+
+@media (max-width: 1209.60px) {
+  .containerval {
+    margin-top: -134px;
+  }
+
+  .titulo_valores {
+    font-size: 20px;
+  }
+
+  .containerval .box-container {
+    display: flex;
+    gap: 15px;
+  }
+
+  .containerval .box-container .box {
+    padding: 20px;
+    text-align: center;
+  }
+
+  .containerval .box-container .box img {
+    height: 60px;
+  }
+
+  .containerval .box-container .box h3 {
+    font-size: 18px;
+  }
+
+  .containerval .box-container .box p {
+    font-size: 14px;
+  }
+
+  footer {
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px 50px;
+  }
+
+  .quatro {
+    height: auto;
+    padding-bottom: 333px;
+  }
+
+}
+
+@media (max-width: 425px) {
+  .dois {
+    height: 64vh;
+  }
+
+  .fundo_sobre_nos {
+    height: 125vh;
+  }
+
+  .texto_sobre_nos2 img {
+    width: 200px;
+    height: 200px;
+    top: -76px;
+  }
+
+  .titulo_sobre_nos {
+    font-size: 20px;
+    width: 93%;
+  }
+
+  #section-solucao {
+    padding: 36px;
+    margin-top: 407px;
+  }
+
+  footer {
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px 50px;
+  }
+
+  .footer-logo {
+    width: 76px;
+    margin-right: -4px;
+  }
+
+  .footer-info {
+    text-align: center;
+    font-size: 11px;
+  }
+
 }

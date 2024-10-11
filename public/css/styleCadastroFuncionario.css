@@ -30,9 +30,7 @@
     text-align: center;
 }
 
-
-
-@media (max-width: 430px) {
+@media (max-width: 885px) {
     html {
         height: 100%;
         background-color: #071e26;

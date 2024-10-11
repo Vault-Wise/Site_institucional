@@ -82,7 +82,7 @@
         <form>
           <div class="codigoAutenticacao">
             <h1>Valide sua conta</h1>
-            <p>Digite o código enviado para xxx@emai.com</p>
+            <p>Digite o código enviado para xxx@email.com</p>
             <input type="text" id="input_codigo">
             <button onclick="cadastrar()" class="botaoCodigo">Cadastrar</button>
           </div>
@@ -187,6 +187,8 @@
       buildCardMensagem("block", "erro", "Esse e-mail já esta cadastrado.");
     } else if (possuiTelefone) {
       buildCardMensagem("block", "erro", "Esse telefone já esta cadastrado.");
+    } else if (possuiCpf) {
+      buildCardMensagem("block", "erro", "Esse CPF já esta cadastrado.");
     } else {
       telaCadastro.style.display = "none"
       telaCodigo.style.display = "block"
@@ -236,18 +238,17 @@
 
           if (resposta.ok) {
             // cardErro.style.display = "block";
-
             // mensagem_erro.innerHTML =
             //   "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
-
-            // setTimeout(() => {
-            //   window.location = "login.html";
-            // }, "2000");
-
+            
             // limparFormulario();
             // finalizarAguardar();
-
+            
             alert("Usuário Cadastrado")
+           
+            setTimeout(() => {
+              window.location = "login.html";
+            }, "2000");
           } else {
             throw "Houve um erro ao tentar realizar o cadastro!";
           }

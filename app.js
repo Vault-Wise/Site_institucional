@@ -21,7 +21,7 @@ var empresasRouter = require("./src/routes/empresas");
 // Rota de cadastro de funcionario
 var usuariosRouter = require("./src/routes/usuarios");
 
-var chartRouter = require("./src/routes/charts");
+var graficosDashRouter = require("./src/routes/graficoDash");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -34,7 +34,7 @@ app.use(cors());
 // Uso da rota 
 app.use("/usuarios", usuariosRouter);
 app.use("/empresas", empresasRouter);
-app.use("/charts", chartRouter);
+app.use("/graficoDash", graficosDashRouter);
 
 app.listen(PORTA_APP, function () {
     console.log(`

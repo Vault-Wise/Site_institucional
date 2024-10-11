@@ -8,16 +8,16 @@
 /* Corpo do site , onde se definiu a fonte , a imagem de fundo e a cor do fundo */
 body {
     font-family: Arial, sans-serif;
-    background: url('imagens/ImagemFundo.png') no-repeat center center/cover;
+    background: url('imagens/ImagemFundo1.png') no-repeat center center/cover;
     color: #982727;
 }
 
-header {
+header { 
+    font-family: 'Roboto Slab', sans-serif;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     width: 100%;
-    height: 95px;
-    padding: 0 50px;
+    height: 100%;
     z-index: 1;
 }
 
@@ -25,9 +25,9 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: #5b0c0c;
-    width: 80%;
-    border-radius: 0px 0px 20px 20px;
+    background: #030f13;
+    width: 100%;
+    /* border-radius: 0px 0px 20px 20px; */
     padding: 10px;
 }
 
@@ -39,7 +39,8 @@ header {
 }
 
 .logo img {
-    width: 42%;
+    width: 25%;
+    margin:20px
 }
 
 /* Elementos presentes no cabeçalho */
@@ -206,7 +207,6 @@ select {
     width: 50%;
     margin-top: 18px;
     border-radius: 40px;
-
 }
 
 .btn-primary:hover,
@@ -288,4 +288,10 @@ select {
     border: 2px #018ace solid;
     color: #018ace;
     border-radius: 5px;
+}
+
+@media (max-width: 885px) {
+    header{
+
+    }
 }
