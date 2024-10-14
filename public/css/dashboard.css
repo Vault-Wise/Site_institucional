@@ -75,7 +75,7 @@ a:hover{
 .main{
   position: relative;
   padding: 20px;
-  width: 80%;
+  width: 100%;
 }
 .main-cima{
   display: flex;
