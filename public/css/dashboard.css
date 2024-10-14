@@ -152,12 +152,8 @@ a:hover{
   border-radius: 20px;
   padding: 10px;
   box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
-<<<<<<< HEAD
   position: relative;
   margin-left: 212px;
-=======
-
->>>>>>> c0e54650645b53110cf5fe4ca0123ad1b1998d7d
 }
 .caixa ul{
   list-style: none;
@@ -178,11 +174,8 @@ a:hover{
   display: flex;
 }
 .caixa1{
-<<<<<<< HEAD
   width: 30%;
-=======
   width: 65%;
->>>>>>> c0e54650645b53110cf5fe4ca0123ad1b1998d7d
   padding: 10px;
   margin: 10px;
   border-radius: 10px;
@@ -272,10 +265,7 @@ a:hover{
   display: flex;
 }
 
-<<<<<<< HEAD
-@media(max-width: 885px){
 
-=======
 h2 {
   font-size: 24px;
   margin-bottom: 10px;
@@ -333,5 +323,4 @@ table tr:hover td {
 table th {
   background-color: #0f1923;
   color: white;
->>>>>>> c0e54650645b53110cf5fe4ca0123ad1b1998d7d
 }
