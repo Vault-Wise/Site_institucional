@@ -105,8 +105,7 @@ a:hover{
 }
 
 .investimentos .card{
-  width: 50%;
-  margin: 10px;
+  width: 100%;
   background: #fff;
   text-align: center;
   border-radius: 20px;
@@ -145,8 +144,7 @@ a:hover{
   text-transform: capitalize;
 }
 .caixa{
-  width: 50%;
-  margin: 10px;
+  width: 100%;
   background: #d3d3d3;
   text-align: center;
   border-radius: 20px;
@@ -174,9 +172,9 @@ a:hover{
   display: flex;
 }
 .caixa1{
-  width: 80%;
+  width: 33.3%;
   padding: 10px;
-  margin: 10px;
+  margin: 5px;
   border-radius: 10px;
   background: rgb(255, 255, 255);
   box-shadow: 0 20px 35px rgba(0, 0, 0, 0.3);
