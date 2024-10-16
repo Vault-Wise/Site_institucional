@@ -63,6 +63,10 @@
                     <h3>Máquinas em estado de perigo</h3>
                     <p style="font-size: 50px; font: 800;">07 / 24</p>
                 </div>
+                <div class="card1">
+                    <h3>Estado das maquinas</h3>
+                    <div id="chart1"></div>
+                </div>
             </div>
             <section class="analise">
                 <div class="caixa">
@@ -178,6 +182,17 @@
               };
       
               var chart = new ApexCharts(document.querySelector("#chart"), options);
+              chart.render();
+
+              var options1 = {
+                chart: {
+                  type: "pie",
+                },
+                series: [44, 55, 13, 33],
+                labels: ['Apple', 'Mango', 'Orange', 'Watermelon']
+              };
+      
+              var chart = new ApexCharts(document.querySelector("#chart1"), options1);
               chart.render();
           })
           .catch(function (resposta) {
