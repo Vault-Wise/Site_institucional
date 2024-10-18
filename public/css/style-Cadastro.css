@@ -289,9 +289,3 @@ select {
     color: #018ace;
     border-radius: 5px;
 }
-
-@media (max-width: 885px) {
-    header{
-
-    }
-}

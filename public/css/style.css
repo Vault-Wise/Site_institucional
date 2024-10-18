@@ -9,6 +9,10 @@
   list-style: none;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background: #0f1b27;
   display: flex;
@@ -30,9 +34,10 @@ body {
   background-size: cover;
 }
 
+/* Navbar */
 header {
   position: fixed;
-  font-family: 'Roboto Slab', sans-serif;
+  font-family: 'League Spartan', sans-serif;
   background: #0f1923;
   width: 100%;
   height: 9%;
@@ -40,8 +45,6 @@ header {
   align-items: center;
   justify-content: space-between;
   padding: 0 40px;
-  /* margin: 0 auto; */
-  cursor: pointer;
   transition: all 0.6s ease;
   z-index: 999;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
@@ -57,12 +60,11 @@ header {
   size: 100%;
 }
 
-.logo p {
-  top: 30px;
-  margin: 20px;
-  font-size: 20px;
-  font-family: 'League Spartan', sans-serif;
+.logo p{
+  margin-top:20px;
   color: #fff;
+  font-family: 'League Spartan', sans-serif;
+  font-size: 18px;
 }
 
 nav ul {
@@ -102,59 +104,7 @@ nav ul li a:hover::before {
   transform: translateX(-50%);
 }
 
-.carrossel {
-  color: #ffffff;
-  background-color: transparent;
-  height: fit-content;
-  align-self: center;
-  font-size: 2.5rem;
-  cursor: pointer;
-  border: 0;
-  display: none;
-}
-
-footer {
-  font-family: 'League Spartan', sans-serif;
-  background: #0f1923;
-  width: 100%;
-  height: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 20px 68px;
-  color: #ffffff;
-  box-sizing: border-box;
-}
-
-.footer-logo {
-  display: flex;
-  width: 110px;
-  margin-bottom: 20px;
-}
-
-.footer-logo img {
-  width: 100%;
-}
-
-.footer-info {
-  text-align: center;
-}
-
-.footer-info p {
-  margin: 5px 0;
-}
-
-.footer-info a {
-  color: #ffffff;
-  text-decoration: none;
-  margin: 0 5px;
-}
-
-.footer-info a:hover {
-  text-decoration: underline;
-}
-
+/* slogam vaultWise */
 .container {
   width: 100%;
   height: 85%;
@@ -177,7 +127,7 @@ footer {
 }
 
 .texto1 {
-  font-size: 20px;
+  font-size: 26px;
   font-family: 'League Spartan', sans-serif;
   color: #fff;
   width: 100%;
@@ -291,6 +241,7 @@ footer {
 .button_text {
   position: relative;
   color: #fff;
+  font-size: 14px;
 }
 
 .button:hover {
@@ -305,12 +256,29 @@ footer {
   background-color: #fff;
 }
 
-
 /* cards */
+
+/* efeito no emoji dos cards */
+.card img {
+  transition: transform 0.3s ease;
+}
+
+.card_um:hover img {
+  transform: rotate(30deg); 
+}
+
+/* efeito de brilho */
+.card_um {
+  transition: box-shadow 0.3s ease;
+}
+
+.card_um:hover {
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.7); /* Brilho ao redor do card */
+}
 
 .espaco_card {
   width: 100%;
-  height: 160px;
+  height: 193px;
   position: absolute;
   justify-content: first baseline;
   z-index: 100;
@@ -318,14 +286,15 @@ footer {
   display: flex;
   justify-content: center;
   gap: 40px;
+  font-size: 18px;
 }
 
 .card_um {
-  padding: 10px;
+  padding: 38px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  width: 250px;
+  width: 307px;
   height: fit-content;
   background: #ba0000;
   text-align: justify;
@@ -341,9 +310,9 @@ footer {
   font-size: 15px;
 }
 
-.card_um .textocard {
+.card_um p{
   align-items: center;
-  font-size: 10px;
+  font-size: 18px;
 }
 
 .card_um img {
@@ -361,18 +330,29 @@ footer {
   color: #fff;
 }
 
+.carrossel {
+  color: #ffffff;
+  background-color: transparent;
+  height: fit-content;
+  align-self: center;
+  font-size: 2.5rem;
+  cursor: pointer;
+  border: 0;
+  display: none;
+}
+
 /*CSS do Sobre Nos*/
 
 .dois {
   width: 100%;
-  height: 60vh;
+  height: 78vh;
   /* overflow: hidden; */
   align-items: center;
 }
 
 .fundo_sobre_nos {
   width: 100%;
-  height: 76vh;
+  height: 94vh;
   background-color: #ffffff;
   position: relative;
   z-index: -1;
@@ -390,7 +370,7 @@ footer {
 .titulo_sobre_nos {
   margin: 10px;
   width: 50%;
-  font-size: 25px;
+  font-size: 28px;
   font-family: 'League Spartan', sans-serif;
   color: #0f1923;
   display: flex;
@@ -405,10 +385,10 @@ footer {
 
 .texto_sobre_nos {
   width: 100%;
-  font-size: 20px;
+  font-size: 23px;
   font-family: 'League Spartan', sans-serif;
   color: #0f1923;
-  width: 87%;
+  width: 100%;
   text-align: justify;
   animation: slideInRight 1s ease-out;
 }
@@ -416,16 +396,13 @@ footer {
 .texto_sobre_nos2 img {
   display: flex;
   position: relative;
-  right: -70px;
+  right: -10px;
   width: 342px;
   height: 322px;
   box-shadow: 10px 10px 15px 0 rgba(0, 0, 0, 0.5);
   border-radius: 20%;
   object-fit: cover;
 }
-
-
-/* seção triangulo */
 
 #section-solucao {
   background-color: #ba000080;
@@ -438,6 +415,7 @@ footer {
 #section-solucao h1,
 .p_section-solucao {
   color: #dddddd;
+  font-size: 25px;
 }
 
 .grid-opcoes {
@@ -453,7 +431,7 @@ footer {
   border-radius: 5px;
   box-shadow: 0 0 0 10px rgba(0, 0, 0, 0.1);
   text-align: center;
-  font-size: 1.1em;
+  font-size: 1.4em;
   transition: all 0.3s ease;
 }
 
@@ -463,6 +441,8 @@ footer {
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
   animation: animacaoFrente 1.5s forwards;
 }
+
+/* seção triangulo */
 
 #scroll {
   position: relative;
@@ -492,6 +472,11 @@ footer {
   position: relative;
   font-size: 2em;
   font-family: 'League Spartan', sans-serif;
+  font-size: 30px;
+}
+
+#scroll p {
+  font-size: 20px;
 }
 
 .logo-vault {
@@ -502,7 +487,6 @@ footer {
 }
 
 /* CSS Contato */
-
 .tres {
   width: 100%;
   height: auto;
@@ -713,13 +697,13 @@ footer {
 
 .containerval .box-container .box h3 {
   color: #444;
-  font-size: 22px;
+  font-size: 24px;
   padding: 10px 0;
 }
 
 .containerval .box-container .box p {
   color: #777;
-  font-size: 15px;
+  font-size: 17px;
   line-height: 1.8;
 }
 
@@ -740,6 +724,49 @@ footer {
 .containerval .box-container .box:hover {
   box-shadow: 0 10px 15px rgba(0, 0, 0, .3);
   transform: scale(1.03);
+}
+
+/* rodapé */
+footer {
+  font-family: 'League Spartan', sans-serif;
+  background: #0f1923;
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 68px;
+  color: #ffffff;
+  box-sizing: border-box;
+}
+
+.footer-logo {
+  display: flex;
+  width: 110px;
+  margin-bottom: 20px;
+}
+
+.footer-logo img {
+  width: 100%;
+}
+
+.footer-info {
+  text-align: center;
+}
+
+.footer-info p {
+  margin: 5px 0;
+}
+
+.footer-info a {
+  color: #ffffff;
+  text-decoration: none;
+  margin: 0 5px;
+}
+
+.footer-info a:hover {
+  text-decoration: underline;
 }
 
 /* customização do scroll */
@@ -1083,50 +1110,6 @@ footer {
   nav {
     display: none;
   }
-}
-
-@media (max-width: 1209.60px) {
-  .containerval {
-    margin-top: -134px;
-  }
-
-  .titulo_valores {
-    font-size: 20px;
-  }
-
-  .containerval .box-container {
-    display: flex;
-    gap: 15px;
-  }
-
-  .containerval .box-container .box {
-    padding: 20px;
-    text-align: center;
-  }
-
-  .containerval .box-container .box img {
-    height: 60px;
-  }
-
-  .containerval .box-container .box h3 {
-    font-size: 18px;
-  }
-
-  .containerval .box-container .box p {
-    font-size: 14px;
-  }
-
-  footer {
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 20px 50px;
-  }
-
-  .quatro {
-    height: auto;
-    padding-bottom: 333px;
-  }
-
 }
 
 @media (max-width: 425px) {

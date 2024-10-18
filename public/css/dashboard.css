@@ -16,14 +16,10 @@ body{
   background-color: #0f1923;
 }
 nav{
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  height: 100vh;
-  left: 0;
+  position: relative;
+  height: 129vh;
+  width: 244px;
   background: #fff;
-  width: 210px;
-  overflow: hidden;
   box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
 }
 .logo{
@@ -43,25 +39,18 @@ nav{
   text-transform: uppercase;
 }
 a{
-  position: relative;
   color: rgb(85, 83, 83);
   font-size: 14px;
-  display: table;
-  width: 280px;
-  padding: 10px;
+  display: flex; 
+  align-items: center;
+  padding: 17px 15px;
 }
 nav .fas{
-  position: relative;
-  width: 70px;
-  height: 40px;
-  top: 14px;
   font-size: 20px;
-  text-align: center;
+  margin-right: 13px; 
+  margin-left: 15px;
 }
-
 .nav-item{
-  position: relative;
-  top: 12px;
   margin-left: 10px;
 }
 a:hover{
@@ -73,7 +62,6 @@ a:hover{
 }
 /* Main Section */
 .main{
-  position: relative;
   padding: 20px;
   width: 100%;
 }
@@ -102,7 +90,8 @@ a:hover{
 .investimentos {
   display: flex;
   justify-content: flex-end;
-  margin-top: 20px;
+  margin-top: 12px;
+  margin-left: -41px;
 }
 
 .investimentos .card {
@@ -143,6 +132,7 @@ a:hover{
   margin-top:50px;
   display: flex;
   text-transform: capitalize;
+  margin-left: -140px;
 }
 .caixa{
   width: 50%;

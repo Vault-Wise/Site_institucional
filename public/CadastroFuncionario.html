@@ -13,15 +13,21 @@
 <body onload="selecionarEmpresa(), capturarDadosFuncionarios()">
   <header>
     <div class="navbar">
-      <div class="logo"><img src="css/imagens/logoSemFundo.png" alt=""></div>
-      <div class="logo">VaultWise</div>
+
+      <div class="logo">
+        <img src="css/imagens/logoSemFundo.png" alt="">
+        <p>VaultWise</p>
+      </div>
+
       <nav>
         <ul id="link_nav">
           <li><a href="index.html">Home</a></li>
           <li class="btn_login"><a href="Login.html">Login</a></li>
         </ul>
       </nav>
+
       <button class="hamburguer" onclick="ativarMenu()">&#9776;</button>
+      
     </div>
   </header>
   <div class="container">
@@ -240,12 +246,12 @@
             // cardErro.style.display = "block";
             // mensagem_erro.innerHTML =
             //   "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
-            
+
             // limparFormulario();
             // finalizarAguardar();
-            
+
             alert("Usuário Cadastrado")
-           
+
             setTimeout(() => {
               window.location = "login.html";
             }, "2000");
