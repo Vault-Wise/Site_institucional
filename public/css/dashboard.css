@@ -17,7 +17,7 @@ body{
 }
 nav{
   position: relative;
-  height: 129vh;
+  height: 100vh;
   width: 244px;
   background: #fff;
   box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
@@ -25,7 +25,7 @@ nav{
 .logo{
   text-align: center;
   display: flex;
-  margin: 10px 0 0 10px;
+  margin: 10px 0 0 0;
 }
 .logo img{
   width: 45px;
@@ -34,7 +34,7 @@ nav{
 }
 .logo span{
   font-weight: bold;
-  padding-left: 15px;
+  padding-left: 2px;
   font-size: 18px;
   text-transform: uppercase;
 }
@@ -70,11 +70,9 @@ a:hover{
   width: 100%;
 }
 .main-cima i{
-  position: absolute;
   right: 0;
-  margin: 10px 30px;
-  color: rgb(110, 109, 109);
-  cursor: pointer;
+  color: white;
+  margin-left: 212px;
 }
 
 .analise h1 {
@@ -83,19 +81,16 @@ a:hover{
 
 .main-cima h1 {
   color: white;
-  margin-left: 212px;
 }
 
-
-.investimentos {
+.investimentos{
   display: flex;
-  justify-content: flex-end;
-  margin-top: 12px;
-  margin-left: -41px;
+  margin-top: 20px;
+  gap: 20px;
 }
 
 .investimentos .card {
-  width: 33%; /* ajustando para caber os dois cards na esquerda */
+  flex: 1;
   margin: 10px;
   background: #fff;
   text-align: center;
@@ -105,7 +100,7 @@ a:hover{
 }
 
 .investimentos .card1 {
-  width: 20%; /* deixando o card da direita ocupar mais espaço */
+  width: 20%;
   margin: 10px;
   background: #fff;
   text-align: center;
@@ -129,13 +124,15 @@ a:hover{
 /* Analise */
 
 .analise{
-  margin-top:50px;
   display: flex;
+  justify-content: center;
+  margin-top:50px;
+  justify-content: center;
   text-transform: capitalize;
-  margin-left: -140px;
+  margin-left: -94px;
 }
 .caixa{
-  width: 50%;
+  width: 40%;
   margin: 10px;
   background: #d3d3d3;
   text-align: center;
@@ -143,7 +140,7 @@ a:hover{
   padding: 10px;
   box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
   position: relative;
-  margin-left: 212px;
+  margin-left: 100px;
 }
 .caixa ul{
   list-style: none;

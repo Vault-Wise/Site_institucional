@@ -65,10 +65,9 @@ a:hover {
   padding: 20px;
   width: 100%;
 }
-.main-cima {
+.main-cima{
   display: flex;
-  justify-content: space-between; 
-  align-items: center; 
+  width: 100%;
 }
 .main-cima h1 {
   color: white;
