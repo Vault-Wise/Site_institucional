@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard | VaultWise</title>
 
-    <link rel="stylesheet" href="./../css/dashboardRede.css" />
+    <link rel="stylesheet" href="./../css/dashboardGraficos.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
@@ -63,45 +63,40 @@
       </nav>
       <section class="main">
         <div class="main-cima">
-          <h1>Monitoramento de REDE</h1>
+          <h1>Monitoramento de CPU e MEMORIA</h1>
         </div>
         <div class="investimentos">
           <div class="card">
-            <i class="fa-solid fa-laptop d"></i>
-              <h3>Maquina a ser monitorada</h3>
-              <div class="filters">
-                <select id="agencia">
-                    <option>Agência</option>
-                    <option>Agência</option>
-                    <option>Agência</option>
-                    <option>Agência</option>
-                    <!-- Outras opções -->
-                </select>
-                <select id="situacao">
-                    <option>Situação</option>
-                    <option>Situação</option>
-                    <option>Situação</option>
-                    <option>Situação</option>
-                    <!-- Outras opções -->
-                </select>
-            </div>
+              <i class="fa-solid fa-triangle-exclamation d"></i>
+              <h3>Quantidade de ocorrências</h3>
+              <p style="font-size: 40px; font: 800;">17</p>
           </div>
+          <div class="card">
+              <i class="fa-solid fa-triangle-exclamation d"></i>
+              <h3>Agência com mais ocorrências</h3>
+              <p style="font-size: 30px; font: 800;">Agência 001</p>
+          </div>
+          <div class="card">
+            <i class="fa-solid fa-triangle-exclamation d"></i>
+            <h3>Agência com menos ocorrências</h3>
+            <p style="font-size: 30px; font: 800;">Agência 002</p>
+        </div>
       </div>
         <section class="analise">
           <div class="caixa">
             <ul>
-              <li class="texto_caixa">Componentes</li>
+              <li class="texto_caixa">Problemas</li>
             </ul>
             <div class="course">
               <div class="caixa1">
-                <h3>Uso da Rede em KBP/s</h3>
-                <p>Rede</p>
+                <h3>Média do desempenho das máquinas</h3>
+                <p>PLOTAR OS GRAFICOS AQUI!</p>
                 <div id="chart"></div>
               </div>
               <div class="caixa1">
-                <h3>Uso de CPU</h3>
-                <p>Porcentagem de Uso</p>
-                <div id="chartREDE"></div>
+                <h3>Métricas de alerta</h3>
+                <p>Quantidade de Alertas</p>
+                <div id="chart2"></div>
               </div>
             </div>
           </div>
@@ -127,57 +122,94 @@
           },
           series: [
             {
-              name: "Enviados",
-              data: [30, 55, 30, 40, 80, 25, 70, 5, 70],
+              name: "Sales",
+              data: [30, 40, 35, 50, 49, 60, 70, 91, 125],
             },
             {
-              name: "Recebidos",
+              name: "Profits",
               data: [20, 30, 25, 40, 45, 55, 65, 80, 100],
             },
           ],
           xaxis: {
-            categories: ["12:15", "12:30", "12:45", "13:00", "13:15", "13:30", "13:45", "14:00", "14:15"],
+            categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999],
           },
         };
         
         var chart = new ApexCharts(document.querySelector("#chart"), options);
         chart.render();
-
-        var optionsREDE = {
-          chart: {
-            type: "line",
-          },
-          series: [
-            {
-              name: "Porcentagem",
-              data: [50, 4, 10, 30, 100, 25, 70, 5, 70],
-            },
-          ],
-          xaxis: {
-            categories: ["12:15", "12:30", "12:45", "13:00", "13:15", "13:30", "13:45", "14:00", "14:15"],
-          },
-        };
         
-        var chartCPU = new ApexCharts(document.querySelector("#chartREDE"), optionsREDE);
-        chartCPU.render();
 
-        var optionsRAM = {
+        var options2 = {
           chart: {
             type: "bar",
           },
           series: [
             {
-              name: "RAM",
-              data: [20, 30, 25, 40, 45, 55, 65, 80, 100],
+              name: "Alertas",
+              data: [3, 4, 1, 0, 4, 6, 7, 4, 2],
             },
           ],
           xaxis: {
-            categories: ["12:15", "12:30", "12:45", "13:00", "13:15", "13:30", "13:45", "14:00", "14:15"],
+            categories: ["10:00", "10:15", "10:30", "10:45", "11:00", "11:15", "11:30", "11:45", "12:00"],
           },
         };
-        
-        var chartRAM = new ApexCharts(document.querySelector("#chartRAM"), optionsRAM);
-        chartRAM.render();
+
+        var chart2 = new ApexCharts(
+          document.querySelector("#chart2"),
+          options2
+        );
+        chart2.render();
+
+        var options3 = {
+          chart: {
+            type: "bar",
+          },
+          series: [
+            {
+              data: [
+                {
+                  x: "category A",
+                  y: 10,
+                  goals: [
+                    {
+                      name: "Expected",
+                      value: 5,
+                      strokeColor: "#775DD0",
+                    },
+                  ],
+                },
+                {
+                  x: "category B",
+                  y: 18,
+                  goals: [
+                    {
+                      name: "Expected",
+                      value: 10,
+                      strokeColor: "#775DD0",
+                    },
+                  ],
+                },
+                {
+                  x: "category C",
+                  y: 13,
+                  goals: [
+                    {
+                      name: "Expected",
+                      value: 13,
+                      strokeColor: "#775DD0",
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        };
+
+        var chart2 = new ApexCharts(
+          document.querySelector("#chart3"),
+          options3
+        );
+        chart2.render();
       })
       .catch(function (resposta) {
         console.log(`#ERRO: ${resposta}`);
