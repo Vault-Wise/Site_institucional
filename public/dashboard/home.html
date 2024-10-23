@@ -1,107 +1,77 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-  <head>
-    <link
-      rel="shortcut icon"
-      href="../assets/icon/index.ico"
-      type="image/x-icon"
-    />
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard | VaultWise</title>
 
-    <link rel="stylesheet" href="./../css/dashboardGraficos.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-    />
+<head>
+  <link rel="shortcut icon" href="../assets/icon/index.ico" type="image/x-icon" />
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard | VaultWise</title>
 
-    <script src="../js/sessao.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-  </head>
+  <link rel="stylesheet" href="./../css/dashboardHome.css" />
+  <link rel="stylesheet" href="./../css/dashboard.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 
-  <body onload="capturarDados()">
-    <div class="container">
-      <nav>
-        <ul>
-          <li><a href="#" class="logo">
-                  <img src="./../css/imagens/icon12.jpg">
-                  <div class="hello">
-                      <span class="nav-item" id="b_usuario">usuário</span>
-                  </div>
-              </a></li>
-          <li><a href="home.html">
-                  <i class="fas fa-lightbulb"></i>
-                  <span class="nav-item">Home</span>
-              </a></li>
-          <li><a href="graficos.html">
-                  <i class="fas fa-ranking-star"></i>
-                  <span class="nav-item">Graficos</span>
-              </a></li>
-              <li><a href="maquinas.html">
-                  <i class="fas fa-solid fa-desktop"></i>
-                  <span class="nav-item">Maquinas</span>
-              </a></li>
-              <li><a href="rede.html">
-                  <i class="fas fa-solid fa-globe"></i>
-                  <span class="nav-item">Rede</span>
-              </a></li>
-          <li><a href="#">
-              <i class="fas fa-solid fa-gear"></i>
-                  <span class="nav-item">Configurações</span>
-              </a></li>
-          <li><a href="#">
-                  <i class="fas fa-question-circle"></i>
-                  <span class="nav-item">Ajuda</span>
-              </a></li>
-          <li><a href="./../index.html" class="logout">
-                  <i class="fas fa-sign-out-alt"></i>
-                  <span class="nav-item">Sair</span>
-              </a></li>
-      </ul>
-      </nav>
-      <section class="main">
-        <div class="main-cima">
-          <h1>Monitoramento de CPU e MEMORIA</h1>
-        </div>
-        <div class="investimentos">
-          <div class="card">
-              <i class="fa-solid fa-triangle-exclamation d"></i>
-              <h3>Quantidade de ocorrências</h3>
-              <p style="font-size: 40px; font: 800;">17</p>
-          </div>
-          <div class="card">
-              <i class="fa-solid fa-triangle-exclamation d"></i>
-              <h3>Agência com mais ocorrências</h3>
-              <p style="font-size: 30px; font: 800;">Agência 001</p>
-          </div>
-          <div class="card">
-            <i class="fa-solid fa-triangle-exclamation d"></i>
-            <h3>Agência com menos ocorrências</h3>
-            <p style="font-size: 30px; font: 800;">Agência 002</p>
-        </div>
-      </div>
-        <section class="analise">
-          <div class="caixa">
-            <ul>
-              <li class="texto_caixa">Problemas</li>
-            </ul>
-            <div class="course">
-              <div class="caixa1">
-                <h3>Média do desempenho das máquinas</h3>
-                <div id="chart"></div>
-              </div>
-              <div class="caixa1">
-                <h3>Métricas de alerta</h3>
-                <p>Quantidade de Alertas</p>
-                <div id="chart2"></div>
-              </div>
+  <script src="../js/sessao.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+</head>
+
+<body>
+  <div class="pagina">
+    <nav>
+      <ul>
+        <li>
+          <a href="#">
+            <img src="../css/imagens/icon12.jpg" alt="">
+            <div class="usuario">
+              <span id="b_usuario">Usuário</span>
             </div>
-          </div>
-        </section>
+          </a>
+        </li>
+        <li>
+          <a href="home.html" class="agora">
+            <i class="fas fa-lightbulb"></i>
+            <span>Home</span>
+          </a>
+        </li>
+        <li>
+          <a href="alerta.html">
+            <i class="fas fa-ranking-star"></i>
+            <span>Alertas</span></a>
+        </li>
+        <li>
+          <a href="maquinas.html">
+            <i class="fas fa-solid fa-desktop"></i>
+            <span>Máquinas</span></a>
+        </li>
+        <li>
+          <a href="rede.html">
+            <i class="fas fa-solid fa-globe"></i>
+            <span>Rede</span></a>
+        </li>
+        <li>
+          <a href="">
+            <i class="fas fa-solid fa-gear"></i>
+            <span>Configurações</span></a>
+        </li>
+        <li>
+          <a href="">
+            <i class="fas fa-question-circle"></i>
+            <span>Ajuda</span></a>
+        </li>
+        <li class="logout">
+          <a href="../index.html">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Sair</span></a>
+        </li>
+      </ul>
+    </nav>
+    <div class="content">
+      
     </div>
-  </body>
+  </div>
+</body>
+
 </html>
 
 <script>
@@ -113,7 +83,7 @@
       method: "GET",
     })
       .then(function (resposta) {
-        console.log("Estou dentro do then! (FUNFO)")
+        console.log("Estou dentro do then!")
 
         var options = {
           chart: {
@@ -121,22 +91,22 @@
           },
           series: [
             {
-              name: "RAM",
-              data: [30, 40, 35, 50, 49, 60, 70],
+              name: "Sales",
+              data: [30, 40, 35, 50, 49, 60, 70, 91, 125],
             },
             {
-              name: "CPU",
-              data: [20, 30, 25, 40, 45, 55, 65],
+              name: "Profits",
+              data: [20, 30, 25, 40, 45, 55, 65, 80, 100],
             },
           ],
           xaxis: {
-            categories: ["Sexta-Feira", "Sábado", "Domingo", "Segunda-Feira", "Terça-Feira", "Quarta-Feira", "Quinta-Feira"],
+            categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999],
           },
         };
-        
+
         var chart = new ApexCharts(document.querySelector("#chart"), options);
         chart.render();
-        
+
 
         var options2 = {
           chart: {
@@ -144,12 +114,12 @@
           },
           series: [
             {
-              name: "Alertas",
-              data: [3, 4, 1, 0, 4, 6, 7, 4, 2],
+              name: "Revenue",
+              data: [30, 40, 35, 50, 49, 60, 70, 91, 125],
             },
           ],
           xaxis: {
-            categories: ["10:00", "10:15", "10:30", "10:45", "11:00", "11:15", "11:30", "11:45", "12:00"],
+            categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999],
           },
         };
 

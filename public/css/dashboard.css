@@ -11,53 +11,52 @@
 }
 
 body {
-  background: #0f1923;
-}
-
-.container {
-  display: flex;
   background-color: #0f1923;
 }
 
-nav {
-  position: relative;
-  height: 100vh;
-  width: 244px;
-  background: #fff;
-  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
-}
-
-.logo {
-  text-align: center;
+.pagina {
   display: flex;
-  margin: 10px 0 0 0;
+  flex-direction: row;
 }
 
-.logo img {
+nav {
+  overflow-x: hidden;
+  height: 100vh;
+  width: 15%;
+  background-color: #ffff;
+}
+
+nav a {
+  font-size: 20px;
+  text-decoration: none;
+  color: #0f1923;
+  display: flex;
+  padding: 17px 15px;
+}
+
+nav ul li img {
   width: 45px;
   height: 45px;
   border-radius: 50%;
 }
 
-.logo span {
-  font-weight: bold;
-  padding-left: 2px;
-  font-size: 18px;
-  text-transform: uppercase;
+nav ul li span,
+nav ul li i {
+  padding: 2px 10px;
+  display: flex;
+  align-self: center;
 }
 
-a {
-  color: rgb(85, 83, 83);
-  font-size: 14px;
+.usuario {
   display: flex;
   align-items: center;
-  padding: 17px 15px;
+  justify-content: center;
 }
 
-nav .fas {
-  font-size: 20px;
-  margin-right: 13px;
-  margin-left: 15px;
+.usuario span {
+  font-weight: bold;
+  font-size: 18px;
+  text-transform: uppercase;
 }
 
 .nav-item {
@@ -68,279 +67,18 @@ a:hover {
   background: #c4c4c4;
 }
 
+.agora {
+  background-color: #000000;
+  color: #ffff;
+}
+
 .logout {
+  width: 15%;
   position: absolute;
   bottom: 0;
 }
 
-/* Main Section */
-.main {
-  padding: 20px;
-  width: 100%;
-}
-
-.main-cima {
-  display: flex;
-  width: 100%;
-}
-
-.main-cima i {
-  right: 0;
-  color: white;
-  margin-left: 212px;
-}
-
-.analise h1 {
-  color: white;
-}
-
-.main-cima h1 {
-  color: white;
-}
-
-.investimentos {
-  display: flex;
-  margin-top: 20px;
-  gap: 20px;
-}
-
-.investimentos .card {
-  flex: 1;
-  margin: 10px;
-  background: #fff;
-  text-align: center;
-  border-radius: 20px;
-  padding: 10px;
-  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
-}
-
-.investimentos .card1 {
-  width: 20%;
-  margin: 10px;
-  background: #fff;
-  text-align: center;
-  border-radius: 20px;
-  padding: 10px;
-  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
-}
-
-.investimentos .card h3,
-.investimentos .card1 h3 {
-  text-align: center;
-  margin: 10px;
-  text-transform: capitalize;
-}
-
-.investimentos .card p,
-.investimentos .card1 p {
-  text-align: center;
-  font-size: 12px;
-}
-
-
-/* Analise */
-
-.analise {
-  display: flex;
-  justify-content: center;
-  margin-top: 50px;
-  justify-content: center;
-  text-transform: capitalize;
-  margin-left: -94px;
-}
-
-.caixa {
-  width: 40%;
-  margin: 10px;
-  background: #d3d3d3;
-  text-align: center;
-  border-radius: 20px;
-  padding: 10px;
-  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
-  position: relative;
-  margin-left: 100px;
-}
-
-.caixa ul {
-  list-style: none;
-  display: flex;
-}
-
-.caixa ul li {
-  margin: 10px;
-  color: gray;
-  cursor: pointer;
-}
-
-.caixa ul .texto_caixa {
-  text-align: center;
-  color: black;
-  border-bottom: 1px solid #000;
-}
-
-.caixa .course {
-  width: 100%;
-  display: flex;
-}
-
-.caixa1 {
-  width: 80%;
-  padding: 10px;
-  margin: 10px;
-  border-radius: 10px;
-  background: rgb(255, 255, 255);
-  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.3);
-}
-
-.caixa1 p {
-  font-size: 12px;
-  margin-top: 5px;
-}
-
-.caixa1 button {
-  background: #212529;
-  color: #fff;
-  padding: 7px 10px;
-  border-radius: 10px;
-  margin-top: 3rem;
-  cursor: pointer;
-}
-
-.caixa1 button:hover {
-  background: rgba(0, 0, 0, 0.842);
-}
-
-.caixa1 i {
-  font-size: 7rem;
-  float: right;
-  margin: -20px 20px 20px 0;
-}
-
-.caixa2 {
-  width: 45%;
-  padding: 10px;
-  margin: 10px;
-  border-radius: 10px;
-  background: rgb(235, 233, 233);
-  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.5);
-}
-
-.caixa2 p {
-  text-align: center;
-  text-transform: lowercase;
-  font-size: 14px;
-  margin-top: 5px;
-}
-
-.caixa2 h3 {
-  text-align: center;
-}
-
-.caixa2 i {
-  font-size: 7rem;
-  float: right;
-  margin: -20px 20px 20px 0;
-}
-
-.a {
-  color: #8a0000af;
-}
-
-.d {
-  color: #8a0000af;
-}
-
-.rank {
-  color: #8a0000af;
-}
-
-.caixa-ajuda {
-  width: 100%;
-  height: 80vh;
-  padding: 10px 10px 30px 10px;
-  margin-top: 10px;
-  background: #ffc76e;
-  border-radius: 10px;
-  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.5);
-}
-
-.caixa-ajuda ul {
-  list-style: none;
-  display: flex;
-}
-
-.caixa-ajuda ul li {
-  margin: 10px;
-  color: gray;
-  cursor: pointer;
-}
-
-.caixa-ajuda ul .texto_caixa {
-  color: black;
-  border-bottom: 1px solid #000;
-}
-
-.caixa-ajuda .course {
-  display: flex;
-}
-
-
-h2 {
-  font-size: 24px;
-  margin-bottom: 10px;
-}
-
-.filters {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
-select {
-  background-color: #0f1923;
-  color: white;
-  padding: 8px;
-  font-size: 16px;
-  border-radius: 5px;
-  cursor: pointer;
-  border-radius: 10px;
-  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.2);
-  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
-}
-
-select:hover,
-select:focus {
-  transform: scale(1.05);
-  box-shadow: 0 25px 40px rgba(0, 0, 0, 0.3);
-  background-color: #0f1923;
-  /* Mudança sutil de cor no hover */
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  text-align: center;
-  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.2);
-  transition: box-shadow 0.3s ease;
-}
-
-table:hover {
-  box-shadow: 0 25px 40px rgba(0, 0, 0, 0.3);
-}
-
-table th,
-table td {
-  padding: 10px;
-  border: 2px solid #0f1923;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-table tr:hover td {
-  background-color: #f0f0f0;
-  transform: scale(1.05);
-}
-
-table th {
-  background-color: #0f1923;
-  color: white;
+.content {
+  width: 85%;
+  height: 100vh;
 }
