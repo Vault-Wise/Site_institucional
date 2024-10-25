@@ -19,26 +19,26 @@ function validarSessao() {
           </a>
         </li>
         <li>
-          <a id="" href="dashPresilli.html">
+          <a id="dashPresilli" href="dashPresilli.html">
             <i class="fas fa-solid fa-desktop"></i>
-            <span>Máquinas</span></a>
+            <span>Maquina</span></a>
         </li>
         `
   } else if (cargo == "Analista de Dados") {
     listaNavegacao.innerHTML += `
       <li>
-        <a href="dashPedro.html" class="agora">
+        <a id="dashPedro" href="dashPedro.html" class="agora">
           <i class="fas fa-lightbulb"></i>
           <span>Home</span>
         </a>
       </li>
       <li>
-        <a href="dashNicolas.html">
-          <i class="fas fa-solid fa-desktop"></i>
-          <span>Máquinas</span></a>
+        <a id="dashNicolas" href="dashNicolas.html">
+         <i class="fa-solid fa-heart"></i>
+          <span>Alerta</span></a>
       </li>
       <li>
-          <a href="">
+          <a href="CadastroAgencia.html">
             <i class="fas fa-solid fa-gear"></i>
             <span>Configurações</span></a>
         </li>
@@ -46,15 +46,15 @@ function validarSessao() {
   } else if (cargo == "Chefe de Ciber Segurança") {
     listaNavegacao.innerHTML += `
       <li>
-        <a href="dashVinicius.html" class="agora">
+        <a id="dashVini" href="dashVinicius.html" class="agora">
           <i class="fas fa-lightbulb"></i>
           <span>Home</span>
         </a>
       </li>
       <li>
-        <a href="dashPassini.html">
-          <i class="fas fa-solid fa-desktop"></i>
-          <span>Máquinas</span></a>
+        <a id="dashPassini" href="dashPassini.html">
+          <i class="fas fa-solid fa-globe"></i>
+          <span>Rede</span></a>
       </li>
       `
   }

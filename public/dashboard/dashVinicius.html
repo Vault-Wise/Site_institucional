@@ -15,7 +15,7 @@
   <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 </head>
 
-<body onload="validarSessao()">
+<body>
   <div class="pagina">
     <nav>
       <ul id="listaNavegacao">
@@ -35,4 +35,20 @@
 </html>
 
 <script>
+  validarSessao()
+
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const dashPassini = document.getElementById("dashPassini");
+    const dashVini = document.getElementById("dashVini");
+
+    if (dashPassini.classList.contains("agora")) {
+      dashPassini.classList.remove("agora");
+    }
+
+    if (!dashVini.classList.contains("agora")) {
+      dashVini.classList.add("agora")
+    }
+  });
+
 </script>
