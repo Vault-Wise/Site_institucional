@@ -37,17 +37,7 @@ function autenticar(req, res) {
                     console.log(`Resultados: ${JSON.stringify(resultadoAutenticar)}`); // transforma JSON em String
 
                     if (resultadoAutenticar.length == 1) {
-                        console.log(resultadoAutenticar);
-                        if (resultadoAutenticar.length > 0) {
-                            res.json({
-                                id: resultadoAutenticar[0].id,
-                                email: resultadoAutenticar[0].email,
-                                nome: resultadoAutenticar[0].nome,
-                                senha: resultadoAutenticar[0].senha
-                            });
-                        } else {
-                            res.status(204).json({ aquarios: [] });
-                        }
+                        res.json(resultadoAutenticar[0]);
                     } else if (resultadoAutenticar.length == 0) {
                         res.status(403).send("Email e/ou senha inválido(s)");
                     } else {

@@ -8,18 +8,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dashboard | VaultWise</title>
 
-  <link rel="stylesheet" href="./../css/dashboardHome.css" />
-  <link rel="stylesheet" href="./../css/dashboard.css" />
+  <link rel="stylesheet" href="../css/dashboardHome.css" />
+  <link rel="stylesheet" href="../css/dashboard.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 
   <script src="../js/sessao.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 </head>
 
-<body>
+<body onload="validarSessao()">
   <div class="pagina">
     <nav>
-      <ul>
+      <ul id="listaNavegacao">
         <li>
           <a href="#">
             <img src="../css/imagens/icon12.jpg" alt="">
@@ -28,54 +28,14 @@
             </div>
           </a>
         </li>
-        <li>
-          <a href="home.html" class="agora">
-            <i class="fas fa-lightbulb"></i>
-            <span>Home</span>
-          </a>
-        </li>
-        <li>
-          <a href="alerta.html">
-            <i class="fas fa-ranking-star"></i>
-            <span>Alertas</span></a>
-        </li>
-        <li>
-          <a href="maquinas.html">
-            <i class="fas fa-solid fa-desktop"></i>
-            <span>Máquinas</span></a>
-        </li>
-        <li>
-          <a href="rede.html">
-            <i class="fas fa-solid fa-globe"></i>
-            <span>Rede</span></a>
-        </li>
-        <li>
-          <a href="">
-            <i class="fas fa-solid fa-gear"></i>
-            <span>Configurações</span></a>
-        </li>
-        <li>
-          <a href="">
-            <i class="fas fa-question-circle"></i>
-            <span>Ajuda</span></a>
-        </li>
-        <li class="logout">
-          <a href="../index.html">
-            <i class="fas fa-sign-out-alt"></i>
-            <span>Sair</span></a>
-        </li>
       </ul>
     </nav>
-    <div class="content">
-      
-    </div>
   </div>
 </body>
 
 </html>
 
 <script>
-  b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
   function capturarDados() {
     console.log("Entrando no FETCH");
 

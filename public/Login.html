@@ -78,8 +78,6 @@
                 senhaServer: senhaVar
             })
         }).then(function (resposta) {
-            console.log("ESTOU NO THEN DO entrar()!")
-
             if (resposta.ok) {
                 console.log(resposta);
 
@@ -87,9 +85,13 @@
 
                 resposta.json().then(json => {
                     console.log(json);
-                    console.log(JSON.stringify(json));
+                    
+                    sessionStorage.NOME_USUARIO = json.nome;
+                    sessionStorage.CARGO_USUARIO = json.cargo;
+                    sessionStorage.EMAIL_USUARIO = json.email;
+                    sessionStorage.IDFUNCIONARIO_USUARIO = json.idFuncionario;
+                    sessionStorage.IDEMPRESA_USUARIO = json.fkEmpresa;
 
-                    sessionStorage.NOME_USUARIO = json.nome
                     setTimeout(function () {
                         window.location = "dashboard/home.html";
                     }, 1000);
