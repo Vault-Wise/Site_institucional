@@ -21,9 +21,14 @@
       <ul id="listaNavegacao">
         <li>
           <a href="#">
-            <img src="../css/imagens/icon12.jpg" alt="">
-            <div class="usuario">
-              <span id="b_usuario">Usuário</span>
+            <div class="cargoUsuario">
+              <div class="usuario">
+                <img src="../css/imagens/icon12.jpg" alt="">
+                <span id="b_usuario">Usuário</span>
+              </div>
+              <div class="cargo">
+                <span id="cargo_usuario"></span>
+              </div>
             </div>
           </a>
         </li>
@@ -38,9 +43,10 @@
 </html>
 
 <script>
-  validarSessao()
-
+  
   document.addEventListener("DOMContentLoaded", () => {
+    validarSessao()
+    
     const dashPedro = document.getElementById("dashPedro");
     const dashNicolas = document.getElementById("dashNicolas");
 

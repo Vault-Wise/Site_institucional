@@ -6,6 +6,7 @@ function validarSessao() {
 
   if (email != null || nome != null) {
     b_usuario.innerHTML = nome
+    cargo_usuario.innerHTML = cargo
   } else {
     window.location = "../login.html";
   }

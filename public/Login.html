@@ -115,14 +115,20 @@
     }
 
     function redirecionarCargo(cargo) {
+        pagina = "";
+
         if (cargo == "Supervisor(a) Técnica") {
-            window.location = "dashboard/dashMarcela.html"
+            pagina = "dashboard/dashMarcela.html"
         } else if (cargo == "Chefe de Ciber Segurança") {
-            window.location = "dashboard/dashVinicius.html"
+            pagina = "dashboard/dashVinicius.html"
         } else if (cargo == "Analista de Dados") {
-            window.location = "dashboard/dashPedro.html"
+            pagina = "dashboard/dashPedro.html"
         } else {
             alert("Cargo inválido")
         }
+
+        setTimeout(() => {
+            window.location = pagina
+        }, 1500)
     }
 </script>
