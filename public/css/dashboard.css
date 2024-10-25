@@ -17,6 +17,7 @@ body {
 .pagina {
   display: flex;
   flex-direction: row;
+  height: 100vh;
 }
 
 nav {
@@ -78,7 +79,7 @@ a:hover {
   bottom: 0;
 }
 
-.pagina {
+.content {
   width: 85%;
-  height: 100vh;
+  height: 100%;
 }

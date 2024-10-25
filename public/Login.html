@@ -88,7 +88,7 @@
                     sessionStorage.IDFUNCIONARIO_USUARIO = json.idFuncionario;
                     sessionStorage.IDEMPRESA_USUARIO = json.fkEmpresa;
 
-                    redirecionarCargo(cargo)
+                    redirecionarCargo(json.cargo)
                 });
 
             } else {
@@ -116,11 +116,11 @@
 
     function redirecionarCargo(cargo) {
         if (cargo == "Supervisor(a) Técnica") {
-            window.location = "dashboardMarcela.html"
+            window.location = "dashboard/dashMarcela.html"
         } else if (cargo == "Chefe de Ciber Segurança") {
-            window.location = "dashboardVinicius.html"
+            window.location = "dashboard/dashVinicius.html"
         } else if (cargo == "Analista de Dados") {
-            window.location = "dashboardPedro.html"
+            window.location = "dashboard/dashPedro.html"
         } else {
             alert("Cargo inválido")
         }
