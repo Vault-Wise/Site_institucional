@@ -3,9 +3,10 @@ var agenciaModel = require("../models/agenciaModel");
 function cadastrar(req, res) {
   var numero = req.body.numeroServer;
   var cep = req.body.cepServer;
+  var empresa = req.body.empresaServer;
 
 
-  agenciaModel.cadastrar(cep, numero)
+  agenciaModel.cadastrar(cep, numero, empresa)
       .then(() => {
           res.status(201).json({ mensagem: "Agencia cadastrada com sucesso!" });
       })
@@ -15,6 +16,13 @@ function cadastrar(req, res) {
       });
 }
 
+function listar(req, res) {
+  agenciaModel.listar().then((resultado) => {
+    res.status(200).json(resultado);
+  });
+}
+
 module.exports = {
-  cadastrar
+  cadastrar,
+  listar
 };

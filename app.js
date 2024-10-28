@@ -18,6 +18,9 @@ var app = express();
 // Rota de cadastro da Empresa
 var empresasRouter = require("./src/routes/empresas");
 
+// Rota de cadastro da Agencia
+var agenciasRouter = require("./src/routes/agencia");
+
 // Rota de cadastro de funcionario
 var usuariosRouter = require("./src/routes/usuarios");
 
@@ -35,6 +38,7 @@ app.use(cors());
 app.use("/usuarios", usuariosRouter);
 app.use("/empresas", empresasRouter);
 app.use("/graficoDash", graficosDashRouter);
+app.use("/agencia", agenciasRouter);
 
 app.listen(PORTA_APP, function () {
     console.log(`
