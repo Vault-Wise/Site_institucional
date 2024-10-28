@@ -8,30 +8,36 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dashboard | VaultWise</title>
   <link rel="stylesheet" href="../css/agencia.css" />
+  <link rel="stylesheet" href="../css/dashboard.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 
   <script src="../js/sessao.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 </head>
 
-<body onload="validarSessao()">
+<body onload="selecionarAgencia(), selecionarMaquina()">
   <div class="pagina">
     <nav>
       <ul id="listaNavegacao">
         <li>
           <a href="#">
-            <img src="../css/imagens/icon12.jpg" alt="">
-            <div class="usuario">
-              <span id="b_usuario">Usuário</span>
+            <div class="cargoUsuario">
+              <div class="usuario">
+                <img src="../css/imagens/icon12.jpg" alt="">
+                <span id="b_usuario">Usuário</span>
+              </div>
+              <div class="cargo">
+                <span id="cargo_usuario"></span>
+              </div>
             </div>
           </a>
         </li>
       </ul>
     </nav>
     <div class="content">
-      <div class="container">
+      <div class="container" id="container1" style="display: flex;">
         <div class="container-flex">
-          <div class="registrar_agencia">
+          <div class="registrar_agencia" id="registrar_agencia">
             <h2>Registrar Agência</h2>
             <div class="form-container">
               <div class="inputHorizontal">
@@ -50,33 +56,43 @@
               </div>
             </div>
           </div>
+          <div class="seta">
+            <i class="fa-solid fa-angle-right" id="setaTrocar" onclick="trocar()"></i>
+          </div>
         </div>
+        
 
         <div id="msg_alertas" class="msg_alertas">
           <span class="ms" id="mensagem"></span>
-        </div>  
+        </div>
+      </div>
+      <div class="container" id="container2" style="display: none;">
         <div class="container-flex">
-          <div class="registrar_agencia">
+          <div class="seta">
+            <i class="fa-solid fa-angle-left" id="setaVoltar" onclick="trocar()" style="display: none;"></i>
+          </div>
+          <div class="registrar_maquina" id="registrar_maquina" style="display: none;">
             <h2>Associar Máquina</h2>
             <div class="form-container">
               <div class="inputHorizontal">
                 <div class="labelInputHorizontal">
-                  <span class="label">Máquina</span>
+                  <span class="label">Máquina:</span>
                   <select type="text" id="select_maquina">
                     <option value="#" disabled selected>Selecione uma máquina:</option>
                   </select>
+                </div>
+                <div class="labelInputHorizontal">
+                  <span class="label">Agência:</span>
                   <select type="text" id="select_agencia">
                     <option value="#" disabled selected>Selecione uma agência:</option>
-                    <option value="1">Teste</option>
                   </select>
                 </div>
                 <div class="labelInputHorizontal">
-                  <span class="label">Numero da Agência</span>
-                  <input type="text" placeholder="0000" maxlength="4" class="inputMenor" id="input_x">
+
                 </div>
               </div>
               <div class="buttons">
-                <button onclick="associar()" class="btn-primary">Cadastrar Agência</button>
+                <button onclick="associar()" class="btn-primary">Associar Máquina</button>
               </div>
             </div>
           </div>
@@ -95,7 +111,7 @@
 
   var listaCnpj = [];
   var listaTelefone = [];
-  const select_agencia = document.getElementById("select_agencia");
+  var select_agencia = document.getElementById("select_agencia");
 
   function capturarDadosEmpresas() {
     fetch("/empresas/capturarDados", {
@@ -152,7 +168,7 @@
 
           if (!resposta.ok) {
             throw new Error("Houve um erro ao tentar realizar o cadastro!");
-          } 
+          }
         })
         .catch(function (erro) {
           console.log(`#ERRO: ${erro}`);
@@ -174,7 +190,55 @@
       .catch(function (resposta) {
         console.log(`#ERRO: ${resposta}`);
       });
+  }
 
+  function selecionarMaquina() {
+    fetch("/agencia/listarMaquina", {
+      method: "GET",
+    })
+      .then(function (resposta) {
+        resposta.json().then((maquina) => {
+          maquina.forEach((maquina) => {
+            select_maquina.innerHTML += `<option value="${maquina.nomeEquipamento}">Máquina ${maquina.nomeEquipamento}</option>`
+          });
+        });
+      })
+      .catch(function (resposta) {
+        console.log(`#ERRO: ${resposta}`);
+      });
+  }
+
+  function associar() {
+    event.preventDefault();
+    
+    var maquina = select_maquina.value;
+    var agencia = select_agencia.value;
+
+
+    if (maquina == "#" || agencia == "#") {
+      buildCardMensagem("block", "erro", "Selecione todos os campos");
+    } else {
+      fetch("../agencia/associar", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          maquinaServer: maquina,
+          agenciaServer: agencia
+        }),
+      })
+        .then(function (resposta) {
+          console.log("resposta: ", resposta);
+
+          if (!resposta.ok) {
+            throw new Error("Houve um erro ao tentar associar a Máquina!");
+          }
+        })
+        .catch(function (erro) {
+          console.log(`#ERRO: ${erro}`);
+        });
+    }
   }
 
   function removerMascara(valorComMascara) {
@@ -230,4 +294,63 @@
       msg_alertas.style.display = "none"
     }, 3000)
   }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    validarSessao()
+
+    const dashPedro = document.getElementById("dashPedro");
+    const dashNicolas = document.getElementById("dashNicolas");
+    const configuracao = document.getElementById("configuracao");
+
+    if (dashPedro.classList.contains("agora")) {
+      dashPedro.classList.remove("agora");
+    }
+
+    if (dashNicolas.classList.contains("agora")) {
+      dashNicolas.classList.remove("agora")
+    }
+
+    if (!configuracao.classList.contains("agora")) {
+      configuracao.classList.add("agora")
+    }
+  });
+
+  var trocou = 1;
+
+  function trocar() {    
+
+    var container1 = document.getElementById("container1")
+    var container2 = document.getElementById("container2")
+    var registrar_agencia = document.getElementById("registrar_agencia");
+    var registrar_maquina = document.getElementById("registrar_maquina");
+    var iconeIr = document.getElementById("setaTrocar");
+    var iconeVoltar = document.getElementById("setaVoltar");
+    
+    if (trocou == 1) {
+      container1.style.display = 'none';
+      container2.style.display = 'flex';
+
+      registrar_agencia.style.display = 'none';
+      registrar_maquina.style.display = 'flex';
+
+      iconeIr.style.display = 'none'
+      iconeVoltar.style.display = 'flex'
+
+      trocou = 0
+    } else {
+      container1.style.display = 'flex';
+      container2.style.display = 'none';
+
+      registrar_agencia.style.display = 'flex';
+      registrar_maquina.style.display = 'none';
+
+      iconeIr.style.display = 'flex'
+      iconeVoltar.style.display = 'none'
+      
+      trocou = 1
+    }
+    
+  }
+
+  
 </script>

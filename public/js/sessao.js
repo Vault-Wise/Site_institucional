@@ -39,7 +39,7 @@ function validarSessao() {
           <span>Alerta</span></a>
       </li>
       <li>
-          <a href="CadastroAgencia.html">
+          <a id="configuracao" href="CadastroAgencia.html">
             <i class="fas fa-solid fa-gear"></i>
             <span>Configurações</span></a>
         </li>
