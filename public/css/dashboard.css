@@ -48,10 +48,27 @@ nav ul li i {
   align-self: center;
 }
 
+.cargoUsuario {
+  display: flex;
+  flex-direction: column;
+}
+
 .usuario {
+  width: 70%;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: row;
+}
+
+.usuario p {
+  align-self: flex-start;
+  font-size: 14px;
+}
+
+.cargo {
+  width: 100%;
+  font-size: 16px;
 }
 
 .usuario span {
