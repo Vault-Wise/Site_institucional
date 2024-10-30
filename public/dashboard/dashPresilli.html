@@ -7,8 +7,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard | VaultWise</title>
+    <link rel="shortcut icon" type="imagex/png" href="../css/imagens/logoSemFundo.png">
 
     <link rel="stylesheet" href="../css/dashboard.css" />
+    <link rel="stylesheet" href="../css/dashboardPresilli.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 
     <script src="../js/sessao.js"></script>
@@ -34,8 +36,84 @@
                 </li>
             </ul>
         </nav>
-        <div class="content">
-
+        <div class="content ai-center d-flex flex-column">
+            <div class="titulo d-flex jc-center ai-center">
+                <h1>Dia 29/10/2024 - Terça-Feira, 12:06:01</h1>
+            </div>
+            <div class="botoes d-flex">
+                <button class="filtro d-flex">Filtrar <img src="../css/imagens/icone-filtro.png"></button>
+                <button class="relatorio d-flex">Gerar Relatório <i class="fa-solid fa-file-lines"></i></button>
+            </div>
+            <div class="container row d-flex ai-center">
+                <div class="cardGrafico d-flex flex-column ai-center">
+                    <h1>Processador X Memória / Tempo</h1>
+                    <div id="graficoLinha"></div>
+                </div>
+                <div class="containerCard d-flex flex-column ai-center">
+                    <div class="card flex-column d-flex ai-center">
+                        <h2>Processo</h2>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Processador</th>
+                                    <th>Memória</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Chrome</td>
+                                    <td>23%</td>
+                                    <td>50%</td>
+                                </tr>
+                                <tr>
+                                    <td>Pagamento</td>
+                                    <td>10%</td>
+                                    <td>05%</td>
+                                </tr>
+                                <tr>
+                                    <td>Depósito</td>
+                                    <td>05%</td>
+                                    <td>12%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <button>Monitorar</button>
+                    </div>
+                    <div class="card flex-column d-flex ai-center">
+                        <h2>Variação</h2>
+                        <div class="variacao d-flex ai-center">
+                            <div class="container flex-column ai-center">
+                                <h3>Processador</h3>
+                                <div class="containerMinMax d-flex row">
+                                    <div class="container ai-center flex-column">
+                                        <h3>Min</h3>
+                                        <span class="seguro">18%</span>
+                                    </div>
+                                    <div class="container ai-center flex-column">
+                                        <h3>Max</h3>
+                                        <span class="perigo">19%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="container flex-column ai-center">
+                                <h3>Memória</h3>
+                                <div class="containerMinMax d-flex row">
+                                    <div class="container ai-center flex-column">
+                                        <h3>Min</h3>
+                                        <span class="seguro">18%</span>
+                                    </div>
+                                    <div class="container ai-center flex-column">
+                                        <h3>Max</h3>
+                                        <span class="seguro-perigo">19%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </body>
@@ -43,10 +121,10 @@
 </html>
 
 <script>
-    
+
     document.addEventListener("DOMContentLoaded", () => {
         validarSessao()
-        
+
         const dashMarcela = document.getElementById("dashMarcela");
         const dashPresilli = document.getElementById("dashPresilli");
 
@@ -58,4 +136,25 @@
             dashPresilli.classList.add("agora")
         }
     });
+
+    var options = {
+        chart: {
+            type: 'line'
+        },
+        series: [{
+            name: 'Processador',
+            data: [61, 68, 72, 55, 53, 55, 57]
+        },{
+            name: 'Memória',
+            data: [76, 78, 85, 72, 68, 40, 35]
+        }],
+        xaxis: {
+            categories: ["Sexta-Feira", "Sábado", "Domingo", "Segunda-Feira", "Terça-Feira", "Quarta-Feira", "Quinta-Feira"]
+        },
+        colors: ['#702f94', '#004aad']
+    }
+
+    var chart = new ApexCharts(document.querySelector("#graficoLinha"), options);
+
+    chart.render();
 </script>
