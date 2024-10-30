@@ -119,11 +119,13 @@ table td {
     padding: 10px;
     border: 1.5px solid #000;
     transition: background-color 0.3s ease, transform 0.3s ease;
+    cursor: default;
 }
 
 .card table tr:hover td {
-    background-color: #f0f0f0;
-    transform: scale(1.05);
+    background-color: #c3c3c3;
+    color: #000000;
+    transform: scale(1.2);
 }
 
 .card table th {
@@ -193,4 +195,47 @@ table td {
 
 .perigo {
     color: red;
+}
+
+#cardFiltro {
+    z-index: 12;
+    border: 2px solid #000;
+    border-radius: 10px;
+    position: absolute;
+    width: 450px;
+    height: 450px;
+    background-color: #fff;
+    display: none;
+    opacity: 0;
+    transform-origin: top left; /* Origem da transformação */
+    transform: scale(0.2); /* Card começa menor */
+    transition: opacity 0.5s, transform 0.5s, top 0.5s, left 0.5s;
+} 
+
+#blur {
+    display: none;
+    z-index: 11;
+    width: 85%;
+    height: 100vh;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+.cardRelatorio {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.2);
+    width: 450px;
+    height: 450px;
+    background-color: white;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
+    display: none;
+    opacity: 0;
+    transition: all 0.5s ease-in-out;
+    z-index: 13;
+    border-radius: 10px;
+    padding: 20px;
 }

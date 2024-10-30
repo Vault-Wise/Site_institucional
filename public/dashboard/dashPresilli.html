@@ -37,12 +37,16 @@
             </ul>
         </nav>
         <div class="content ai-center d-flex flex-column">
+
             <div class="titulo d-flex jc-center ai-center">
-                <h1>Dia 29/10/2024 - Terça-Feira, 12:06:01</h1>
+                <h1 id="tituloDash">Horário</h1>
             </div>
             <div class="botoes d-flex">
-                <button class="filtro d-flex">Filtrar <img src="../css/imagens/icone-filtro.png"></button>
-                <button class="relatorio d-flex">Gerar Relatório <i class="fa-solid fa-file-lines"></i></button>
+                <button class="filtro d-flex" opo onclick="aparecerCard(this)">Filtrar <img
+                        src="../css/imagens/icone-filtro.png"></button>
+                <button class="relatorio d-flex" onclick="aparecerCardRelatorio(this)">
+                    Gerar Relatório <i class="fa-solid fa-file-lines"></i>
+                </button>
             </div>
             <div class="container row d-flex ai-center">
                 <div class="cardGrafico d-flex flex-column ai-center">
@@ -114,6 +118,16 @@
                     </div>
                 </div>
             </div>
+            <div id="blur">
+            </div>
+        </div>
+        <div class="cardFiltro" id="cardFiltro">
+
+        </div>
+        <div class="cardRelatorio" id="cardRelatorio">
+            <h2>Relatório</h2>
+            <p>Conteúdo específico do relatório será exibido aqui.</p>
+            <button onclick="fecharCardRelatorio()">Fechar</button>
         </div>
     </div>
 </body>
@@ -121,9 +135,42 @@
 </html>
 
 <script>
+    const DiasdaSemana = [
+        "Domingo",
+        "Segunda-Feira",
+        "Terça-Feira",
+        "Quarta-Feira",
+        "Quinta-Feira",
+        "Sexta-Feira",
+        "Sábado"
+    ]
+
+    let data = new Date()
+
+    tituloDash.innerHTML = `${DiasdaSemana[data.getDay()]} - ${data.toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })}`
+
+
+    function mostrarHoraAtual() {
+        const DiasdaSemana = [
+            "Domingo",
+            "Segunda-Feira",
+            "Terça-Feira",
+            "Quarta-Feira",
+            "Quinta-Feira",
+            "Sexta-Feira",
+            "Sábado"
+        ]
+
+        setInterval(() => {
+            let data = new Date()
+
+            tituloDash.innerHTML = `${DiasdaSemana[data.getDay()]} - ${data.toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })}`
+        }, 1000)
+    }
 
     document.addEventListener("DOMContentLoaded", () => {
         validarSessao()
+        mostrarHoraAtual()
 
         const dashMarcela = document.getElementById("dashMarcela");
         const dashPresilli = document.getElementById("dashPresilli");
@@ -139,22 +186,157 @@
 
     var options = {
         chart: {
-            type: 'line'
+            background: "#fff",
+            foreColor: '#373d3f',
+            fontFamily: "Poppins, sans-serif",
+            type: 'line',
+            toolbar: {
+                show: true,
+                offsetX: 0,
+                offsetY: 0,
+                tools: {
+                    download: true,
+                    selection: true,
+                    zoom: true,
+                    zoomin: true,
+                    zoomout: true,
+                    pan: true,
+                    reset: true | '<img src="/static/icons/reset.png" width="20">',
+                    customIcons: []
+                },
+                export: {
+                    csv: {
+                        filename: "dados_grafico",
+                        columnDelimiter: ',',
+                        headerCategory: 'category',
+                        headerValue: 'value',
+                        categoryFormatter(x) {
+                            return new Date(x).toDateString()
+                        },
+                        valueFormatter(y) {
+                            return y
+                        }
+                    },
+                    svg: {
+                        filename: "imagem_grafico",
+                    },
+                    png: {
+                        filename: "imagem_grafico",
+                    }
+                },
+                autoSelected: 'zoom'
+            },
+            animations: {
+                enabled: true,
+                speed: 300,
+                animateGradually: {
+                    enabled: true,
+                    delay: 150
+                },
+                dynamicAnimation: {
+                    enabled: true,
+                    speed: 350
+                }
+            }
+
         },
         series: [{
             name: 'Processador',
             data: [61, 68, 72, 55, 53, 55, 57]
-        },{
+        }, {
             name: 'Memória',
             data: [76, 78, 85, 72, 68, 40, 35]
         }],
         xaxis: {
             categories: ["Sexta-Feira", "Sábado", "Domingo", "Segunda-Feira", "Terça-Feira", "Quarta-Feira", "Quinta-Feira"]
         },
-        colors: ['#702f94', '#004aad']
+        colors: ['#702f94', '#004aad'],
+        tooltip: {
+            y: {
+                formatter: function (val) {
+                    return `${val}%`;
+                }
+            }
+        }
     }
 
     var chart = new ApexCharts(document.querySelector("#graficoLinha"), options);
 
     chart.render();
+
+    function aparecerCard(button) {
+        const blur = document.getElementById('blur');
+        const card = document.getElementById('cardFiltro');
+
+        const rect = button.getBoundingClientRect();
+
+        card.style.top = `${rect.top}px`;
+        card.style.left = `${rect.left}px`;
+        card.style.width = `${rect.width}px`;
+        card.style.height = `${rect.height}px`;
+        card.style.display = 'block';
+        card.style.transform = 'scale(0.2)';
+
+        blur.style.display = 'block';
+        setTimeout(() => {
+            blur.style.opacity = '1';
+        }, 10);
+
+        setTimeout(() => {
+            card.style.top = '19vh';
+            card.style.left = '50vh';
+            card.style.width = '450px';
+            card.style.height = '450px';
+            card.style.opacity = '1';
+            card.style.transform = 'scale(1)';
+        }, 10);
+    }
+
+    document.getElementById("blur").onclick = function () {
+        const blur = document.getElementById('blur');
+        const cards = [document.getElementById('cardFiltro'), document.getElementById('cardRelatorio')];
+
+        cards.forEach(card => {
+            if (card.style.display === 'block') {
+                card.style.opacity = '0';
+                card.style.transform = 'scale(0.2)';
+            }
+        });
+
+        blur.style.opacity = '0';
+
+        setTimeout(() => {
+            blur.style.display = 'none';
+            cards.forEach(card => card.style.display = 'none');
+        }, 500);
+    };
+
+    function aparecerCardRelatorio(button) {
+        const blur = document.getElementById('blur');
+        const card = document.getElementById('cardRelatorio');
+
+        const rect = button.getBoundingClientRect();
+
+        card.style.top = `${rect.top}px`;
+        card.style.left = `${rect.left}px`;
+        card.style.width = `${rect.width}px`;
+        card.style.height = `${rect.height}px`;
+        card.style.display = 'block';
+        card.style.transform = 'scale(0.2)';
+
+        blur.style.display = 'block';
+        setTimeout(() => {
+            blur.style.opacity = '1';
+        }, 10);
+
+        // Ajusta o tamanho e posicionamento do card
+        setTimeout(() => {
+            card.style.top = '19vh';
+            card.style.left = '82.5vh';
+            card.style.width = '450px';
+            card.style.height = '450px';
+            card.style.opacity = '1';
+            card.style.transform = 'scale(1)';
+        }, 10);
+    }
 </script>
