@@ -122,12 +122,64 @@
             </div>
         </div>
         <div class="cardFiltro" id="cardFiltro">
-
+            <div class="container flex-column ai-center">
+                <i class="fa-solid fa-xmark fa-2xl" id="iconeX"></i>
+                <h2>Componente</h2>
+                <div class="botoesFiltro d-flex ai-center">
+                    <button onclick="selecionarComponente(this)" id="processador" class="botaoDeselecionado">
+                        Processador</button>
+                    <button onclick="selecionarComponente(this)" id="memoria" class="botaoDeselecionado">
+                        Memória</button>
+                </div>
+                <h2>Intervalo</h2>
+                <div class="slider-container">
+                    <span id="valorRange">Tempo Real</span>
+                    <input type="range" id="rangeInput" min="0" max="90" value="0" step="1"
+                        oninput="atualizarValorFiltro(this.value)">
+                    <div class="range-labels">
+                        <span>|</span>
+                        <span>|</span>
+                        <span>|</span>
+                        <span>|</span>
+                        <span>|</span>
+                        <span>|</span>
+                        <span>|</span>
+                        <span>|</span>
+                        <span>|</span>
+                    </div>
+                    <div class="range-labels">
+                        <span>0</span>
+                        <span>10</span>
+                        <span>20</span>
+                        <span>30</span>
+                        <span>40</span>
+                        <span>50</span>
+                        <span>60</span>
+                        <span>70</span>
+                        <span>80</span>
+                        <span>90</span>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="cardRelatorio" id="cardRelatorio">
-            <h2>Relatório</h2>
-            <p>Conteúdo específico do relatório será exibido aqui.</p>
-            <button onclick="fecharCardRelatorio()">Fechar</button>
+            <div class="container flex-column ai-center">
+                <i class="fa-solid fa-xmark fa-2xl" id="iconeX2"></i>
+                <h2>Relatório</h2>
+                <div class="label d-flex row ai-center">
+                    <input type="checkbox"><span>Gráfico</span>
+                </div>
+                <div class="label d-flex row ai-center">
+                    <input type="checkbox"><label>Processos</label>
+                </div>
+                <div class="label d-flex row ai-center">
+                    <input type="checkbox"><label>Variação</label>
+                </div>
+                <div class="label d-flex row ai-center">
+                    <input type="checkbox"><label>Regressão</label>
+                </div>
+                <button>Baixar</button>
+            </div>
         </div>
     </div>
 </body>
@@ -284,7 +336,7 @@
 
         setTimeout(() => {
             card.style.top = '19vh';
-            card.style.left = '50vh';
+            card.style.left = '49.5vh';
             card.style.width = '450px';
             card.style.height = '450px';
             card.style.opacity = '1';
@@ -292,7 +344,7 @@
         }, 10);
     }
 
-    document.getElementById("blur").onclick = function () {
+    function aplicarEfeito() {
         const blur = document.getElementById('blur');
         const cards = [document.getElementById('cardFiltro'), document.getElementById('cardRelatorio')];
 
@@ -308,8 +360,12 @@
         setTimeout(() => {
             blur.style.display = 'none';
             cards.forEach(card => card.style.display = 'none');
-        }, 500);
-    };
+        }, 400);
+    }
+
+    document.getElementById("blur").onclick = aplicarEfeito;
+    document.getElementById("iconeX").onclick = aplicarEfeito;
+    document.getElementById("iconeX2").onclick = aplicarEfeito
 
     function aparecerCardRelatorio(button) {
         const blur = document.getElementById('blur');
@@ -329,14 +385,33 @@
             blur.style.opacity = '1';
         }, 10);
 
-        // Ajusta o tamanho e posicionamento do card
         setTimeout(() => {
             card.style.top = '19vh';
-            card.style.left = '82.5vh';
+            card.style.left = '82vh';
             card.style.width = '450px';
             card.style.height = '450px';
             card.style.opacity = '1';
             card.style.transform = 'scale(1)';
         }, 10);
+    }
+
+    function atualizarValorFiltro(value) {
+        const valorRange = document.getElementById("valorRange");
+
+        if (value == 0) {
+            valorRange.innerHTML = `Tempo Real`
+        } else {
+            valorRange.innerHTML = `Agora até ${value} Dias atrás`;
+        }
+    }
+
+    function selecionarComponente(situacao) {
+        if (situacao.classList.contains("botaoSelecionado")) {
+            situacao.classList.add("botaoDeselecionado")
+            situacao.classList.remove("botaoSelecionado");
+        } else {
+            situacao.classList.remove("botaoDeselecionado")
+            situacao.classList.add("botaoSelecionado");
+        }
     }
 </script>

@@ -107,7 +107,7 @@
     border-collapse: collapse;
     text-align: center;
     box-shadow: 0 20px 35px rgba(0, 0, 0, 0.2);
-    transition: box-shadow 0.3s ease;
+    transition: box-shadow 0.4s ease;
 }
 
 .card table:hover {
@@ -197,45 +197,132 @@ table td {
     color: red;
 }
 
-#cardFiltro {
+.cardFiltro {
     z-index: 12;
     border: 2px solid #000;
     border-radius: 10px;
     position: absolute;
-    width: 450px;
-    height: 450px;
+    width: 380px;
+    height: 380px;
     background-color: #fff;
-    display: none;
     opacity: 0;
-    transform-origin: top left; /* Origem da transformação */
-    transform: scale(0.2); /* Card começa menor */
-    transition: opacity 0.5s, transform 0.5s, top 0.5s, left 0.5s;
-} 
+    transform: translate(-50%, -50%) scale(0.2);
+    transition: all 0.4s ease-in-out;
+}
+
+.cardFiltro .container {
+    height: 90%;
+}
+
+.cardFiltro i {
+    margin-left: -10px;
+    position: relative;
+    left: 190px;
+    top: 20px;
+    cursor: pointer;
+}
+
+.cardRelatorio i {
+    position: relative;
+    left: 190px;
+    top: 6px;
+    cursor: pointer;
+}
+
+.cardFiltro .botoesFiltro {
+    width: 100%;
+    height: 30%;
+    justify-content: space-around;
+}
+
+.cardFiltro .botoesFiltro button {
+    height: 50%;
+    width: 30%;
+    border-radius: 5px;
+    font-size: 13px;
+    transition: 0.4s cubic-bezier(0.49, 0.675, 0.665, 1.2);
+    cursor: pointer;
+}
+
+.botaoSelecionado {
+    border: 2px solid #707bdd;
+    background-color: #000;
+    color: #fff;
+}
+
+.botaoDeselecionado {
+    border: 2px solid #70ddc4b5;
+    opacity: 0.5;
+    background-color: #fff;
+    color: #000;
+}
 
 #blur {
-    display: none;
     z-index: 11;
     width: 85%;
     height: 100vh;
     position: absolute;
+    display: none;
     background-color: rgba(0, 0, 0, 0.3);
     opacity: 0;
     transition: opacity 0.5s;
 }
 
+.slider-container {
+    width: 80%;
+}
+
+input[type="range"] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 8px;
+    background: #4d4d4d;
+    outline: none;
+    border-radius: 5px;
+    margin-top: 25px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    background: white;
+    border: 2px solid #007bff;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.range-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: gray;
+}
+
 .cardRelatorio {
-    position: fixed;
+    position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) scale(0.2);
-    width: 450px;
-    height: 450px;
+    width: 380px;
+    height: 380px;
     background-color: white;
     box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
     display: none;
     opacity: 0;
-    transition: all 0.5s ease-in-out;
+    transition: all 0.4s ease-in-out;
     z-index: 13;
     border-radius: 10px;
     padding: 20px;
+}
+
+.cardRelatorio .container {
+    height: 90%;
+    justify-content: space-around;
+}
+
+.label {
+    width: 100%;
+    gap: 10%;
+    height: 10%;
 }
