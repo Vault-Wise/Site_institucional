@@ -154,9 +154,9 @@
     idEmpresa = select_empresa.value;
     senha = input_senha.value;
 
-    var possuiCpf = validarLista(input_cpf.value, listaCpf);
-    var possuiEmail = validarLista(input_email.value, listaEmail);
-    var possuiTelefone = validarLista(input_telefone.value, listaTelefone)
+    var possuiCpf = validarLista(cpf, listaCpf);
+    var possuiEmail = validarLista(email, listaEmail);
+    var possuiTelefone = validarLista(telefone, listaTelefone)
     var tamNome = nome.length;
     var tamTelefone = telefone.length;
     var arrobas = email.indexOf('@');

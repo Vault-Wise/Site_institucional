@@ -37,13 +37,15 @@
             </ul>
         </nav>
         <div class="content ai-center d-flex flex-column">
-
-            <div class="titulo d-flex jc-center ai-center">
-                <h1 id="tituloDash">Horário</h1>
+            <div class="titulo d-flex flex-column jc-center ai-center">
+                <h1>Máquina 1</h1>
+                <h3 id="tituloDash">Horário</h3>
             </div>
             <div class="botoes d-flex">
-                <button class="filtro d-flex" opo onclick="aparecerCard(this)">Filtrar <img
+                <button class="filtro d-flex" onclick="aparecerCard(this)">Filtrar <img
                         src="../css/imagens/icone-filtro.png"></button>
+                <div id="cardFiltroSelecionado" class="cardFiltroSelecionado d-flex row">
+                </div>
                 <button class="relatorio d-flex" onclick="aparecerCardRelatorio(this)">
                     Gerar Relatório <i class="fa-solid fa-file-lines"></i>
                 </button>
@@ -51,14 +53,17 @@
             <div class="container row d-flex ai-center">
                 <div class="cardGrafico d-flex flex-column ai-center">
                     <h1 id="tituloGrafico">Processador X Memória / Tempo</h1>
+                    <sub>No tempo selecionado</sub>
                     <div id="graficoLinha"></div>
                 </div>
                 <div class="containerCard d-flex flex-column ai-center">
                     <div class="card flex-column d-flex ai-center">
-                        <h2>Processo</h2>
+                        <h2>Principais Processos</h2>
+                        <sub>No tempo selecionado</sub>
                         <table>
                             <thead>
                                 <tr>
+                                    <th>Posição</th>
                                     <th>Nome</th>
                                     <th>Processador</th>
                                     <th>Memória</th>
@@ -66,16 +71,19 @@
                             </thead>
                             <tbody>
                                 <tr>
+                                    <td><b>1º</b></td>
                                     <td>Chrome</td>
                                     <td>23%</td>
                                     <td>50%</td>
                                 </tr>
                                 <tr>
+                                    <td><b>2º</b></td>
                                     <td>Pagamento</td>
                                     <td>10%</td>
                                     <td>05%</td>
                                 </tr>
                                 <tr>
+                                    <td><b>3º</b></td>
                                     <td>Depósito</td>
                                     <td>05%</td>
                                     <td>12%</td>
@@ -86,17 +94,18 @@
                     </div>
                     <div class="card flex-column d-flex ai-center">
                         <h2>Variação</h2>
+                        <sub>No tempo selecionado</sub>
                         <div class="variacao d-flex ai-center">
                             <div class="container flex-column ai-center">
                                 <h3>Processador</h3>
                                 <div class="containerMinMax d-flex row">
                                     <div class="container ai-center flex-column">
                                         <h3>Min</h3>
-                                        <span class="seguro">18%</span>
+                                        <span class="seguro-perigo">57%</span>
                                     </div>
                                     <div class="container ai-center flex-column">
                                         <h3>Max</h3>
-                                        <span class="perigo">19%</span>
+                                        <span class="perigo">72%</span>
                                     </div>
                                 </div>
                             </div>
@@ -106,11 +115,11 @@
                                 <div class="containerMinMax d-flex row">
                                     <div class="container ai-center flex-column">
                                         <h3>Min</h3>
-                                        <span class="seguro">18%</span>
+                                        <span class="seguro">35%</span>
                                     </div>
                                     <div class="container ai-center flex-column">
                                         <h3>Max</h3>
-                                        <span class="seguro-perigo">19%</span>
+                                        <span class="perigo">85%</span>
                                     </div>
                                 </div>
                             </div>
@@ -126,7 +135,8 @@
                 <i class="fa-solid fa-xmark fa-2xl" id="iconeX"></i>
                 <h2>Componente</h2>
                 <div class="botoesFiltro d-flex ai-center">
-                    <button onclick="selecionarComponente(this, 'Processador')" id="processador" class="botaoSelecionado">
+                    <button onclick="selecionarComponente(this, 'Processador')" id="processador"
+                        class="botaoSelecionado">
                         Processador</button>
                     <button onclick="selecionarComponente(this, 'Memoria')" id="memoria" class="botaoSelecionado">
                         Memória</button>
@@ -137,15 +147,9 @@
                     <input type="range" id="rangeInput" min="0" max="90" value="0" step="1"
                         oninput="atualizarValorFiltro(this.value)">
                     <div class="range-labels">
-                        <span>|</span>
-                        <span>|</span>
-                        <span>|</span>
-                        <span>|</span>
-                        <span>|</span>
-                        <span>|</span>
-                        <span>|</span>
-                        <span>|</span>
-                        <span>|</span>
+                        <span>|</span><span>|</span><span>|</span>
+                        <span>|</span><span>|</span><span>|</span>
+                        <span>|</span><span>|</span><span>|</span>
                     </div>
                     <div class="range-labels">
                         <span>0</span>
