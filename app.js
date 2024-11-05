@@ -24,7 +24,9 @@ var agenciasRouter = require("./src/routes/agencia");
 // Rota de cadastro de funcionario
 var usuariosRouter = require("./src/routes/usuarios");
 
+// Rotas de Dashboard
 var graficosDashRouter = require("./src/routes/graficoDash");
+var dashPresilli = require("./src/routes/dashPresilli")
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -39,6 +41,7 @@ app.use("/usuarios", usuariosRouter);
 app.use("/empresas", empresasRouter);
 app.use("/graficoDash", graficosDashRouter);
 app.use("/agencia", agenciasRouter);
+app.use("/dashPresilli", dashPresilli)
 
 app.listen(PORTA_APP, function () {
     console.log(`

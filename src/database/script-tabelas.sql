@@ -74,3 +74,7 @@ CREATE TABLE Alerta (
     PRIMARY KEY (idAlerta, fkRegistro, fkCaixa),
     CONSTRAINT fkAlertaRegistro FOREIGN KEY (fkRegistro , fkCaixa) REFERENCES Registro (idRegistro , fkCaixa)  
 );
+
+CREATE VIEW dashPresilli AS 
+SELECT dtHora, percentMemoria, percentProcessador, fkCaixa 
+FROM Registro;

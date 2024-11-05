@@ -11,7 +11,6 @@ const DiasdaSemana = [
 let listaComponentes = ["Memoria", "Processador"];
 let valorIntervalo = "Tempo Real";
 
-
 document.addEventListener("DOMContentLoaded", () => {
     inicializarPagina();
 });
@@ -21,7 +20,7 @@ function inicializarPagina() {
     validarSessao();
     mostrarHoraAtual();
     exibirGrafico();
-    validarFiltro(listaComponentes, valorIntervalo);
+    debouncedValidarFiltro(listaComponentes, valorIntervalo);
     alternarDashboards();
     tituloDash.innerHTML = obterTituloDash()
 }
@@ -129,7 +128,8 @@ function obterSeriesGrafico() {
 
 // Validar os componentes monitorados e o filtro
 
-function validarFiltro(listaComponentesFiltro, intervalo) {
+const debouncedValidarFiltro = debounce((listaComponentesFiltro, intervalo) => {
+    console.log("Executando consulta com:", listaComponentesFiltro, intervalo);
     cardFiltroSelecionado.innerHTML = "";
 
     listaComponentesFiltro.forEach(componente => {
@@ -147,6 +147,231 @@ function validarFiltro(listaComponentesFiltro, intervalo) {
             ${intervaloExibido}
             <i class="fa-solid fa-filter fa-l"></i>
         </div>`;
+
+
+    fetch(`/dashPresilli/capturarInformacoes/${intervalo}/${1}`, {
+        method: "GET",
+    })
+        .then(function (resposta) {
+            resposta.json().then((dadosMaquina) => {
+                alert("Select OK")
+            });
+        })
+        .catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+        });
+
+
+    if (listaComponentes.length == 0) {
+        exibirNenhumComponente()
+    } else {
+        tituloGrafico.innerHTML = listaComponentes.length > 1 ? "Processador X Memoria / Tempo" : `${listaComponentes} / Tempo`
+        if (listaComponentes.length == 2) {
+            exibirTodosComponentes()
+        } else {
+
+            listaComponentes.forEach(componente => {
+                if (componente == "Processador") {
+                    exibirProcessador()
+                } else {
+                    exibirMemoria()
+                }
+            })
+        }
+    }
+}, 200);  // atraso de 500 ms
+
+function exibirProcessador() {
+    variacao.innerHTML =
+        `
+    <div class="container flex-column ai-center">
+        <h3>Processador</h3>
+        <div class="containerMinMax d-flex row">
+            <div class="container ai-center flex-column">
+                <h3>Min</h3>
+                <span class="seguro-perigo">57%</span>
+            </div>
+            <div class="container ai-center flex-column">
+                <h3>Max</h3>
+                <span class="perigo">72%</span>
+            </div>
+        </div>
+    </div>
+    `
+
+    tabelaProcessos.innerHTML =
+        `
+    <thead>
+        <tr>
+            <th>Posição</th>
+            <th>Nome</th>
+            <th>Processador</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><b>1º</b></td>
+            <td>Chrome</td>
+            <td>50%</td>
+        </tr>
+        <tr>
+            <td><b>2º</b></td>
+            <td>Pagamento</td>
+            <td>05%</td>
+        </tr>
+        <tr>
+            <td><b>3º</b></td>
+            <td>Depósito</td>
+            <td>12%</td>
+            </tr>
+    </tbody>
+`
+
+}
+
+function exibirMemoria() {
+    variacao.innerHTML =
+        `
+    <div class="container flex-column ai-center">
+        <h3>Memória</h3>
+        <div class="containerMinMax d-flex row">
+            <div class="container ai-center flex-column">
+                <h3>Min</h3>
+                <span class="seguro">35%</span>
+            </div>
+            <div class="container ai-center flex-column">
+                <h3>Max</h3>
+                <span class="perigo">85%</span>
+            </div>
+        </div>
+    </div>
+    `
+
+    tabelaProcessos.innerHTML =
+        `
+    <thead>
+        <tr>
+            <th>Posição</th>
+            <th>Nome</th>
+            <th>Memória</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><b>1º</b></td>
+            <td>Chrome</td>
+            <td>50%</td>
+        </tr>
+        <tr>
+            <td><b>2º</b></td>
+            <td>Pagamento</td>
+            <td>05%</td>
+        </tr>
+        <tr>
+            <td><b>3º</b></td>
+            <td>Depósito</td>
+            <td>12%</td>
+            </tr>
+    </tbody>
+    `
+
+}
+
+function exibirTodosComponentes() {
+    variacao.innerHTML =
+        `
+    <div class="container flex-column ai-center">
+        <h3>Processador</h3>
+        <div class="containerMinMax d-flex row">
+            <div class="container ai-center flex-column">
+                <h3>Min</h3>
+                <span class="seguro-perigo">57%</span>
+            </div>
+            <div class="container ai-center flex-column">
+                <h3>Max</h3>
+                <span class="perigo">72%</span>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="container flex-column ai-center">
+        <h3>Memória</h3>
+        <div class="containerMinMax d-flex row">
+            <div class="container ai-center flex-column">
+                <h3>Min</h3>
+                <span class="seguro">35%</span>
+            </div>
+            <div class="container ai-center flex-column">
+                <h3>Max</h3>
+                <span class="perigo">85%</span>
+            </div>
+        </div>
+    </div>
+    `
+
+    tabelaProcessos.innerHTML =
+        `
+    <thead>
+        <tr>
+            <th>Posição</th>
+            <th>Nome</th>
+            <th>Processador</th>
+            <th>Memória</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><b>1º</b></td>
+            <td>Chrome</td>
+            <td>23%</td>
+            <td>50%</td>
+        </tr>
+        <tr>
+            <td><b>2º</b></td>
+            <td>Pagamento</td>
+            <td>10%</td>
+            <td>05%</td>
+        </tr>
+        <tr>
+            <td><b>3º</b></td>
+            <td>Depósito</td>
+            <td>05%</td>
+            <td>12%</td>
+            </tr>
+    </tbody>
+    `
+
+}
+
+function exibirNenhumComponente() {
+    tituloGrafico.innerHTML = "Sem Componentes"
+    tabelaProcessos.innerHTML = `
+        <thead>
+            <tr>
+                <th>Posição</th>
+                <th>Nome</th>
+                <tbody>
+                    <tr>
+                        <td><b>1º</b></td>
+                        <td>Chrome</td>
+                    </tr>
+                    <tr>
+                        <td><b>2º</b></td>
+                        <td>Pagamento</td>
+                    </tr>
+                    <tr>
+                        <td><b>3º</b></td>
+                        <td>Depósito</td>
+                    </tr>
+                </tbody>
+            </tr>
+        </thead>
+        `
+    variacao.innerHTML = `
+    <div style="width: 100%;" class="container jc-center ai-center">
+            <h2>Sem Componente</h2>
+    </div>
+    `
 }
 
 function selecionarComponente(situacao, componente) {
@@ -161,7 +386,7 @@ function selecionarComponente(situacao, componente) {
     situacao.classList.toggle("botaoSelecionado");
     situacao.classList.toggle("botaoDeselecionado");
 
-    validarFiltro(listaComponentes, valorIntervalo);
+    debouncedValidarFiltro(listaComponentes, valorIntervalo);
 }
 
 function formatarIntervalo(intervalo) {
@@ -180,23 +405,34 @@ function formatarIntervalo(intervalo) {
 
 function atualizarValorFiltro(value) {
     const valorRange = document.getElementById("valorRange");
-    valorIntervalo = value
+    valorIntervalo = value;
 
     if (value == 0) {
-        valorRange.innerHTML = "Tempo Real"
-        valorIntervalo = "Tempo Real"
+        valorRange.innerHTML = "Tempo Real";
+        valorIntervalo = "Tempo Real";
     } else if (value >= 30 && value <= 59) {
-        valorRange.innerHTML = `Agora até 1 mês atrás (${value} Dias)`
+        valorRange.innerHTML = `Agora até 1 mês atrás (${value} Dias)`;
     } else if (value >= 60 && value <= 89) {
-        valorRange.innerHTML = `Agora até 2 meses atrás (${value} Dias)`
+        valorRange.innerHTML = `Agora até 2 meses atrás (${value} Dias)`;
     } else if (value == 90) {
-        valorRange.innerHTML = `Agora até 3 meses atrás`
+        valorRange.innerHTML = `Agora até 3 meses atrás`;
     } else {
         valorRange.innerHTML = `Agora até ${value} Dias atrás`;
     }
 
-    validarFiltro(listaComponentes, valorIntervalo)
+    // Chama a função de validação com debounce para evitar múltiplas consultas ao banco
+    debouncedValidarFiltro(listaComponentes, valorIntervalo);
 }
+
+// Função debounce para atrasar a execução
+function debounce(func, delay) {
+    let timer;
+    return function (...args) {
+        clearTimeout(timer);
+        timer = setTimeout(() => func(...args), delay);
+    };
+}
+
 
 // Parte da aparição dos Cards 
 
