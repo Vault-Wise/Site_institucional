@@ -4,7 +4,7 @@ function capturarInformacoes(dias, fkCaixa) {
     if(dias == "Tempo Real") {
         var instrucaoSql = 
         `
-        SELECT * FROM Registro;
+        SELECT * FROM dashPresilli;
         `
     } else {
         var instrucaoSql = `

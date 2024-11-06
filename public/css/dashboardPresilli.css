@@ -25,6 +25,14 @@
     font-weight: 400;
 }
 
+.titulo select {
+    margin-top: 2%;
+    padding: 10px 25px;
+    font-size: 25px;
+    background-color: #0f1923;
+    color: #ffff;
+}
+
 .botoes {
     width: 94%;
     height: 15%;

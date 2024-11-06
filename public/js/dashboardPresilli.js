@@ -119,7 +119,7 @@ function obterAnimacoesGrafico() {
     };
 }
 
-function obterSeriesGrafico() {
+function obterSeriesGrafico(dadosProcessador, dadosMemoria) {
     return [
         { name: 'Processador', data: [61, 68, 72, 55, 53, 55, 57] },
         { name: 'Memória', data: [76, 78, 85, 72, 68, 40, 35] }
@@ -148,20 +148,23 @@ const debouncedValidarFiltro = debounce((listaComponentesFiltro, intervalo) => {
             <i class="fa-solid fa-filter fa-l"></i>
         </div>`;
 
+    if (intervalo == "Tempo Real") {
+        exibirEmTempoReal()
+    } else {
+        fetch(`/dashPresilli/capturarInformacoes/${intervalo}/${1}`, {
 
-    fetch(`/dashPresilli/capturarInformacoes/${intervalo}/${1}`, {
-        method: "GET",
-    })
-        .then(function (resposta) {
-            resposta.json().then((dadosMaquina) => {
-                alert("Select OK")
-            });
+            method: "GET",
         })
-        .catch(function (resposta) {
-            console.log(`#ERRO: ${resposta}`);
-        });
+            .then(function (resposta) {
+                resposta.json().then((dadosMaquina) => {
 
+                });
+            })
+            .catch(function (resposta) {
+                console.log(`#ERRO: ${resposta}`);
+            });
 
+    }
     if (listaComponentes.length == 0) {
         exibirNenhumComponente()
     } else {
@@ -180,6 +183,10 @@ const debouncedValidarFiltro = debounce((listaComponentesFiltro, intervalo) => {
         }
     }
 }, 200);  // atraso de 500 ms
+
+function exibirEmTempoReal() {
+
+}
 
 function exibirProcessador() {
     variacao.innerHTML =

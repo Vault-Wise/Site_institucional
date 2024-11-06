@@ -38,7 +38,10 @@
         </nav>
         <div class="content ai-center d-flex flex-column">
             <div class="titulo d-flex flex-column jc-center ai-center">
-                <h1>Máquina 1</h1>
+                <select id="">
+                    <option value="">Maquina 1</option>
+                    <option value="">Maquina 2</option>
+                </select>
                 <h3 id="tituloDash">Horário</h3>
             </div>
             <div class="botoes d-flex">
@@ -57,6 +60,39 @@
                     <div id="graficoLinha"></div>
                 </div>
                 <div class="containerCard d-flex flex-column ai-center">
+                    <div class="card flex-column d-flex ai-center">
+                        <h2>Variação</h2>
+                        <sub>No tempo selecionado</sub>
+                        <div class="variacao d-flex ai-center" id="variacao">
+                            <div class="container flex-column ai-center">
+                                <h3>Processador</h3>
+                                <div class="containerMinMax d-flex row">
+                                    <div class="container ai-center flex-column">
+                                        <h3>Min</h3>
+                                        <span class="seguro-perigo">57%</span>
+                                    </div>
+                                    <div class="container ai-center flex-column">
+                                        <h3>Max</h3>
+                                        <span class="perigo">72%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="container flex-column ai-center">
+                                <h3>Memória</h3>
+                                <div class="containerMinMax d-flex row">
+                                    <div class="container ai-center flex-column">
+                                        <h3>Min</h3>
+                                        <span class="seguro">35%</span>
+                                    </div>
+                                    <div class="container ai-center flex-column">
+                                        <h3>Max</h3>
+                                        <span class="perigo">85%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="card flex-column d-flex ai-center">
                         <h2>Principais Processos</h2>
                         <sub>No tempo selecionado</sub>
@@ -91,40 +127,7 @@
                             </tbody>
                         </table>
                         <button>Monitorar</button>
-                    </div>
-                    <div class="card flex-column d-flex ai-center">
-                        <h2>Variação</h2>
-                        <sub>No tempo selecionado</sub>
-                        <div class="variacao d-flex ai-center" id="variacao">
-                            <div class="container flex-column ai-center">
-                                <h3>Processador</h3>
-                                <div class="containerMinMax d-flex row">
-                                    <div class="container ai-center flex-column">
-                                        <h3>Min</h3>
-                                        <span class="seguro-perigo">57%</span>
-                                    </div>
-                                    <div class="container ai-center flex-column">
-                                        <h3>Max</h3>
-                                        <span class="perigo">72%</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="container flex-column ai-center">
-                                <h3>Memória</h3>
-                                <div class="containerMinMax d-flex row">
-                                    <div class="container ai-center flex-column">
-                                        <h3>Min</h3>
-                                        <span class="seguro">35%</span>
-                                    </div>
-                                    <div class="container ai-center flex-column">
-                                        <h3>Max</h3>
-                                        <span class="perigo">85%</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    </div>  
                 </div>
 
             </div>
