@@ -9,6 +9,15 @@ function capturarInformacoes(req, res) {
     });
 }
 
+function capturarDadosTempoReal(req, res) {
+    var fkCaixa = req.params.fkCaixa
+
+    dashPresilliModel.capturarDadosTempoReal(fkCaixa).then((resultado) => {
+        res.status(200).json(resultado);
+    });
+}
+
 module.exports = {
-    capturarInformacoes
+    capturarInformacoes,
+    capturarDadosTempoReal
 };

@@ -11,6 +11,41 @@ const DiasdaSemana = [
 let listaComponentes = ["Memoria", "Processador"];
 let valorIntervalo = "Tempo Real";
 
+let intervaloTempoReal;
+let chart; 
+
+async function capturarPrimeiroDado() {
+    await fetch(`/dashPresilli/capturarDadosTempoReal/${2}`, {
+        method: "GET",
+    })
+    .then(async function (resposta) {
+        await resposta.json().then(async (dadosMaquinaTempoReal) => {
+            var listaProcessador = [];
+            var listaMemoria = [];
+            var listaEixoX = [];
+
+            for (let i = dadosMaquinaTempoReal.length - 1; i >= 0; i--) {
+                const dadoDaVez = dadosMaquinaTempoReal[i];
+                
+                listaProcessador.push(dadoDaVez.percentProcessador);
+                listaMemoria.push(dadoDaVez.percentMemoria);
+                listaEixoX.push(dadoDaVez.dtHora);
+            }
+
+            console.log(listaProcessador);
+
+            // Primeiro, configurar as opções do gráfico
+            obterOpcoesGrafico(listaProcessador, listaMemoria, listaEixoX);
+            
+            // Em seguida, exibir o gráfico
+            exibirGrafico();
+        });
+    })
+    .catch(function (resposta) {
+        console.log(`#ERRO: ${resposta}`);
+    });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     inicializarPagina();
 });
@@ -19,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
 function inicializarPagina() {
     validarSessao();
     mostrarHoraAtual();
-    exibirGrafico();
+    capturarPrimeiroDado();
     debouncedValidarFiltro(listaComponentes, valorIntervalo);
     alternarDashboards();
     tituloDash.innerHTML = obterTituloDash()
@@ -46,11 +81,12 @@ function mostrarHoraAtual() {
 // Gráfico
 function exibirGrafico() {
     const options = obterOpcoesGrafico();
-    const chart = new ApexCharts(document.querySelector("#graficoLinha"), options);
+
+    chart = new ApexCharts(document.querySelector("#graficoLinha"), options);
     chart.render();
 }
 
-function obterOpcoesGrafico() {
+function obterOpcoesGrafico(listaProcessador, listaMemoria, dadosEixoX) {
     return {
         chart: {
             background: "#fff",
@@ -60,9 +96,9 @@ function obterOpcoesGrafico() {
             toolbar: obterToolbarOpcoes(),
             animations: obterAnimacoesGrafico()
         },
-        series: obterSeriesGrafico(),
+        series: obterSeriesGrafico(listaProcessador, listaMemoria),
         xaxis: {
-            categories: ["Sexta-Feira", "Sábado", "Domingo", "Segunda-Feira", "Terça-Feira", "Quarta-Feira", "Quinta-Feira"]
+            categories: dadosEixoX
         },
         colors: ['#702f94', '#004aad'],
         tooltip: {
@@ -121,12 +157,25 @@ function obterAnimacoesGrafico() {
 
 function obterSeriesGrafico(dadosProcessador, dadosMemoria) {
     return [
-        { name: 'Processador', data: [61, 68, 72, 55, 53, 55, 57] },
-        { name: 'Memória', data: [76, 78, 85, 72, 68, 40, 35] }
+        { name: 'Processador', data: dadosProcessador},
+        { name: 'Memória', data: dadosMemoria}
     ];
 }
 
-// Validar os componentes monitorados e o filtro
+function atualizarGrafico(novosDadosProcessador, novosDadosMemoria, novasCategoriasX) {
+    chart.resetSeries();
+
+    chart.updateOptions({
+        xaxis: {
+            categories: novasCategoriasX
+        }
+    });
+    chart.updateSeries([
+        { name: 'Processador', data: novosDadosProcessador },
+        { name: 'Memória', data: novosDadosMemoria }
+    ]);
+}
+
 
 const debouncedValidarFiltro = debounce((listaComponentesFiltro, intervalo) => {
     console.log("Executando consulta com:", listaComponentesFiltro, intervalo);
@@ -151,13 +200,14 @@ const debouncedValidarFiltro = debounce((listaComponentesFiltro, intervalo) => {
     if (intervalo == "Tempo Real") {
         exibirEmTempoReal()
     } else {
+        clearInterval(intervaloTempoReal)
         fetch(`/dashPresilli/capturarInformacoes/${intervalo}/${1}`, {
 
             method: "GET",
         })
             .then(function (resposta) {
                 resposta.json().then((dadosMaquina) => {
-
+                    console.log("Intervalo")
                 });
             })
             .catch(function (resposta) {
@@ -182,10 +232,38 @@ const debouncedValidarFiltro = debounce((listaComponentesFiltro, intervalo) => {
             })
         }
     }
-}, 200);  // atraso de 500 ms
+}, 200); 
 
 function exibirEmTempoReal() {
+    intervaloTempoReal = setInterval(() => {        
+        fetch(`/dashPresilli/capturarDadosTempoReal/${2}`, {
 
+            method: "GET",
+        })
+            .then(function (resposta) {
+                resposta.json().then((dadosMaquinaTempoReal) => {
+                    var listaProcessador = []
+                    var listaMemoria = []
+                    var listaEixoX = []
+
+                    for (let i = dadosMaquinaTempoReal.length - 1; i >= 0; i--) {
+                        const dadoDaVez = dadosMaquinaTempoReal[i];
+                        
+                        listaProcessador.push(dadoDaVez.percentProcessador)
+                        listaMemoria.push(dadoDaVez.percentMemoria)
+                        listaEixoX.push(dadoDaVez.dtHora)
+
+                    }
+
+                    console.log(listaProcessador)
+                    atualizarGrafico(listaProcessador, listaMemoria, listaEixoX);
+                });
+            })
+            .catch(function (resposta) {
+                console.log(`#ERRO: ${resposta}`);
+            });
+       
+    }, 5000);
 }
 
 function exibirProcessador() {

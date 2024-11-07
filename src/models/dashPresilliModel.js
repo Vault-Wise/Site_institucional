@@ -1,12 +1,7 @@
 var database = require("../database/config");
 
 function capturarInformacoes(dias, fkCaixa) {
-    if(dias == "Tempo Real") {
-        var instrucaoSql = 
-        `
-        SELECT * FROM dashPresilli;
-        `
-    } else {
+    if(dias != "Tempo Real") {
         var instrucaoSql = `
         SELECT * 
         FROM dashPresilli
@@ -18,8 +13,21 @@ function capturarInformacoes(dias, fkCaixa) {
     return database.executar(instrucaoSql);
 }
 
+function capturarDadosTempoReal(fkCaixa) {
+    var instrucaoSql = `
+    SELECT * 
+    FROM dashPresilli
+    WHERE fkCaixa = ${fkCaixa} ORDER BY dtHora DESC LIMIT 10;
+    `;
+
+    return database.executar(instrucaoSql);
+}
+
+
+
 
 
 module.exports = {
-    capturarInformacoes
+    capturarInformacoes,
+    capturarDadosTempoReal
 };
