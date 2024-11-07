@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Função principal de inicialização da página
 function inicializarPagina() {
+    capturarMaquinas()
     validarSessao();
     mostrarHoraAtual();
     capturarPrimeiroDado();
@@ -36,18 +37,27 @@ function alternarDashboards() {
 }
 
 function capturarMaquinas() {
-    // fetch(`/dashPresilli/capturarMaquinas/${idEmpresa}`, {
+    fetch(`/dashPresilli/capturarMaquinas/${1}`, {
+        method: "GET",
+    })
+        .then(function (resposta) {
+            resposta.json().then((maquinasCadsatradas) => {
+                maquinasCadsatradas.forEach(maquina => {
+                    console.log(maquinasCadsatradas)
+                    select_maquina.innerHTML += `
+                    <option value="${maquina.idCaixa}">
+                    ${maquina.nomeEquipamento}</option>
+                    `
+                })
+            });
+        })
+        .catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+        });
+}
 
-    //     method: "GET",
-    // })
-    //     .then(function (resposta) {
-    //         resposta.json().then((maquinasCadsatradas) => {
+function mudarMaquina() {
 
-    //         });
-    //     })
-    //     .catch(function (resposta) {
-    //         console.log(`#ERRO: ${resposta}`);
-    //     });
 }
 
 function obterTituloDash() {
@@ -228,7 +238,6 @@ const debouncedValidarFiltro = debounce((listaComponentesFiltro, intervalo) => {
         var listaDatas = []
 
         fetch(`/dashPresilli/capturarInformacoes/${intervalo}/${1}`, {
-
             method: "GET",
         })
             .then(function (resposta) {

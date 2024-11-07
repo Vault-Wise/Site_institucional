@@ -19,11 +19,18 @@ function capturarDadosTempoReal(fkCaixa) {
     return database.executar(instrucaoSql);
 }
 
+function capturarMaquinas(fkAgencia) {
+    var instrucaoSql = `
+    SELECT * 
+    FROM CaixaEletronico WHERE fkAgencia = ${fkAgencia};
+    `;
 
-
+    return database.executar(instrucaoSql);
+}
 
 
 module.exports = {
     capturarInformacoes,
-    capturarDadosTempoReal
+    capturarDadosTempoReal,
+    capturarMaquinas
 };

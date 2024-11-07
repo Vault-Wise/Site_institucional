@@ -17,7 +17,16 @@ function capturarDadosTempoReal(req, res) {
     });
 }
 
+function capturarMaquinas(req, res) {
+    var idAgencia = req.params.idAgencia
+
+    dashPresilliModel.capturarMaquinas(idAgencia).then((resultado) => {
+        res.status(200).json(resultado);
+    });
+}
+
 module.exports = {
     capturarInformacoes,
-    capturarDadosTempoReal
+    capturarDadosTempoReal,
+    capturarMaquinas
 };
