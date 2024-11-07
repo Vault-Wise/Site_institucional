@@ -12,39 +12,7 @@ let listaComponentes = ["Memoria", "Processador"];
 let valorIntervalo = "Tempo Real";
 
 let intervaloTempoReal;
-let chart; 
-
-async function capturarPrimeiroDado() {
-    await fetch(`/dashPresilli/capturarDadosTempoReal/${2}`, {
-        method: "GET",
-    })
-    .then(async function (resposta) {
-        await resposta.json().then(async (dadosMaquinaTempoReal) => {
-            var listaProcessador = [];
-            var listaMemoria = [];
-            var listaEixoX = [];
-
-            for (let i = dadosMaquinaTempoReal.length - 1; i >= 0; i--) {
-                const dadoDaVez = dadosMaquinaTempoReal[i];
-                
-                listaProcessador.push(dadoDaVez.percentProcessador);
-                listaMemoria.push(dadoDaVez.percentMemoria);
-                listaEixoX.push(dadoDaVez.dtHora);
-            }
-
-            console.log(listaProcessador);
-
-            // Primeiro, configurar as opções do gráfico
-            obterOpcoesGrafico(listaProcessador, listaMemoria, listaEixoX);
-            
-            // Em seguida, exibir o gráfico
-            exibirGrafico();
-        });
-    })
-    .catch(function (resposta) {
-        console.log(`#ERRO: ${resposta}`);
-    });
-}
+let chart;
 
 document.addEventListener("DOMContentLoaded", () => {
     inicializarPagina();
@@ -67,6 +35,21 @@ function alternarDashboards() {
     dashPresilli.classList.toggle("agora", true);
 }
 
+function capturarMaquinas() {
+    // fetch(`/dashPresilli/capturarMaquinas/${idEmpresa}`, {
+
+    //     method: "GET",
+    // })
+    //     .then(function (resposta) {
+    //         resposta.json().then((maquinasCadsatradas) => {
+
+    //         });
+    //     })
+    //     .catch(function (resposta) {
+    //         console.log(`#ERRO: ${resposta}`);
+    //     });
+}
+
 function obterTituloDash() {
     let data = new Date();
     return `${DiasdaSemana[data.getDay()]} - ${data.toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })}`;
@@ -79,8 +62,8 @@ function mostrarHoraAtual() {
 }
 
 // Gráfico
-function exibirGrafico() {
-    const options = obterOpcoesGrafico();
+function exibirGrafico(listaProcessador, listaMemoria, listaEixoX) {
+    const options = obterOpcoesGrafico(listaProcessador, listaMemoria, listaEixoX);
 
     chart = new ApexCharts(document.querySelector("#graficoLinha"), options);
     chart.render();
@@ -99,6 +82,10 @@ function obterOpcoesGrafico(listaProcessador, listaMemoria, dadosEixoX) {
         series: obterSeriesGrafico(listaProcessador, listaMemoria),
         xaxis: {
             categories: dadosEixoX
+        },
+        yaxis: {
+            min: 0,
+            max: 100
         },
         colors: ['#702f94', '#004aad'],
         tooltip: {
@@ -143,22 +130,22 @@ function obterToolbarOpcoes() {
 function obterAnimacoesGrafico() {
     return {
         enabled: true,
-        speed: 300,
+        speed: 500,
         animateGradually: {
             enabled: true,
             delay: 200
         },
         dynamicAnimation: {
             enabled: true,
-            speed: 200
+            speed: 600
         }
     };
 }
 
 function obterSeriesGrafico(dadosProcessador, dadosMemoria) {
     return [
-        { name: 'Processador', data: dadosProcessador},
-        { name: 'Memória', data: dadosMemoria}
+        { name: 'Processador', data: dadosProcessador },
+        { name: 'Memória', data: dadosMemoria }
     ];
 }
 
@@ -170,12 +157,47 @@ function atualizarGrafico(novosDadosProcessador, novosDadosMemoria, novasCategor
             categories: novasCategoriasX
         }
     });
+
     chart.updateSeries([
         { name: 'Processador', data: novosDadosProcessador },
         { name: 'Memória', data: novosDadosMemoria }
     ]);
 }
 
+
+function atualizarGraficoTempoReal(novoDadoProcessador, novoDadoMemoria, novaCategoriaX) {
+    let seriesData = chart.w.globals.series;
+    let eixoXAtual = chart.w.globals.categoryLabels;
+
+    // console.log(seriesData[0]);
+    // console.log(seriesData[0][seriesData[0].length - 1]);
+    // console.log(eixoXAtual)
+
+
+    if (novoDadoProcessador != seriesData[0][seriesData[0].length - 1]) {
+        seriesData[0].shift()
+        seriesData[1].shift()
+        seriesData[0].push(novoDadoProcessador)
+        seriesData[1].push(novoDadoMemoria)
+        eixoXAtual.shift()
+        eixoXAtual.push(novaCategoriaX)
+
+        chart.updateSeries(
+            seriesData.map(data => ({
+                data: data
+            }))
+        );
+
+        chart.updateOptions(
+            eixoXAtual.map(dados => ({
+                categories: dados
+            }))
+        );
+
+    } else {
+        console.log("Sem atualizações")
+    }
+}
 
 const debouncedValidarFiltro = debounce((listaComponentesFiltro, intervalo) => {
     console.log("Executando consulta com:", listaComponentesFiltro, intervalo);
@@ -201,13 +223,21 @@ const debouncedValidarFiltro = debounce((listaComponentesFiltro, intervalo) => {
         exibirEmTempoReal()
     } else {
         clearInterval(intervaloTempoReal)
+        var listaProcessador = []
+        var listaMemoria = []
+        var listaDatas = []
+
         fetch(`/dashPresilli/capturarInformacoes/${intervalo}/${1}`, {
 
             method: "GET",
         })
             .then(function (resposta) {
                 resposta.json().then((dadosMaquina) => {
-                    console.log("Intervalo")
+                    dadosMaquina.forEach(dado => {
+                        listaProcessador.push(dado.percentProcessador)
+                        listaMemoria.push(dado.percentMemoria)
+                        listaDatas.push(dado.dtHora)
+                    })
                 });
             })
             .catch(function (resposta) {
@@ -215,6 +245,7 @@ const debouncedValidarFiltro = debounce((listaComponentesFiltro, intervalo) => {
             });
 
     }
+
     if (listaComponentes.length == 0) {
         exibirNenhumComponente()
     } else {
@@ -232,39 +263,70 @@ const debouncedValidarFiltro = debounce((listaComponentesFiltro, intervalo) => {
             })
         }
     }
-}, 200); 
+}, 200);
+
+function capturarPrimeiroDado() {
+    fetch(`/dashPresilli/capturarDadosTempoReal/${1}`, {
+        method: "GET",
+    })
+        .then(function (resposta) {
+            resposta.json().then((dadosMaquinaTempoReal) => {
+                var listaProcessador = [];
+                var listaMemoria = [];
+                var listaEixoX = [];
+
+                for (let i = dadosMaquinaTempoReal.length - 1; i >= 0; i--) {
+                    const dadoDaVez = dadosMaquinaTempoReal[i];
+
+                    listaProcessador.push(dadoDaVez.percentProcessador);
+                    listaMemoria.push(dadoDaVez.percentMemoria);
+                    listaEixoX.push(dadoDaVez.dtHora);
+                }
+
+                // Em seguida, exibir o gráfico
+                exibirGrafico(listaProcessador, listaMemoria, listaEixoX);
+            });
+        })
+        .catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+        });
+}
 
 function exibirEmTempoReal() {
-    intervaloTempoReal = setInterval(() => {        
-        fetch(`/dashPresilli/capturarDadosTempoReal/${2}`, {
-
+    intervaloTempoReal = setInterval(() => {
+        fetch(`/dashPresilli/capturarDadosTempoReal/${1}`, {
             method: "GET",
         })
             .then(function (resposta) {
                 resposta.json().then((dadosMaquinaTempoReal) => {
-                    var listaProcessador = []
-                    var listaMemoria = []
-                    var listaEixoX = []
+                    var dadoProcessador;
+                    var dadoMemoria;
+                    var dadoEixoX;
 
                     for (let i = dadosMaquinaTempoReal.length - 1; i >= 0; i--) {
                         const dadoDaVez = dadosMaquinaTempoReal[i];
-                        
-                        listaProcessador.push(dadoDaVez.percentProcessador)
-                        listaMemoria.push(dadoDaVez.percentMemoria)
-                        listaEixoX.push(dadoDaVez.dtHora)
+
+                        dadoProcessador = dadoDaVez.percentProcessador
+                        dadoMemoria = dadoDaVez.percentMemoria
+                        dadoEixoX = dadoDaVez.dtHora
 
                     }
 
-                    console.log(listaProcessador)
-                    atualizarGrafico(listaProcessador, listaMemoria, listaEixoX);
+                    atualizarGraficoTempoReal(dadoProcessador, dadoMemoria, dadoEixoX);
                 });
             })
             .catch(function (resposta) {
                 console.log(`#ERRO: ${resposta}`);
             });
-       
+
     }, 5000);
 }
+
+function formatarData(data) {
+
+}
+
+// Exibição com filtro
 
 function exibirProcessador() {
     variacao.innerHTML =
