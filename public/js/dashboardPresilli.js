@@ -93,6 +93,31 @@ function obterOpcoesGrafico(listaProcessador, listaMemoria, dadosEixoX) {
         xaxis: {
             categories: dadosEixoX
         },
+        markers: {
+            size: 3,  // Tamanho do marcador
+            colors: ['#373d3f'],  // Cor do marcador (pode ser um array para múltiplos pontos)
+            strokeColor: '#373d3f',  // Cor da borda
+            strokeWidth: 2,  // Largura da borda
+            hover: {
+                size: 8,  // Tamanho do marcador ao passar o mouse
+                sizeOffset: 3,  // Aumento adicional do marcador
+            },
+            shape: 'circle',  // Forma do marcador
+            radius: 2,  // Raio do marcador (apenas para pontos circulares)
+            borderWidth: 2,  // Largura da borda do marcador
+            fillOpacity: 0.8
+        },
+        legend: {
+            onItemClick: {
+                toggleDataSeries: true
+            },
+            onItemHover: {
+                highlightDataSeries: true
+            },
+            show: true,
+            position: 'top',
+            horizontalAlign: 'center',
+        },
         yaxis: {
             min: 0,
             max: 100
@@ -101,6 +126,16 @@ function obterOpcoesGrafico(listaProcessador, listaMemoria, dadosEixoX) {
         tooltip: {
             y: {
                 formatter: val => `${val}%`
+            }
+        },
+        stroke: {
+            width: 5,
+        },
+        fill: {
+            type: 'gradient',
+            gradient: {
+                shade: 'light',
+                type: 'vertical',
             }
         }
     };
@@ -139,16 +174,18 @@ function obterToolbarOpcoes() {
 
 function obterAnimacoesGrafico() {
     return {
-        enabled: true,
-        speed: 500,
+        enabled: true,  // Habilita a animação
+        easing: 'easeinout',  // Tipo de animação (pode ser 'linear', 'easein', 'easeout', etc.)
+        speed: 800,  // Duração da animação em milissegundos
         animateGradually: {
-            enabled: true,
-            delay: 200
+            enabled: true,  // Se for ativado, a animação acontece gradualmente
+            delay: 150  // Atraso entre as animações das diferentes partes do gráfico
         },
         dynamicAnimation: {
             enabled: true,
-            speed: 600
+            speed: 350  // Velocidade da animação para a atualização dinâmica
         }
+
     };
 }
 
@@ -237,7 +274,7 @@ const debouncedValidarFiltro = debounce((listaComponentesFiltro, intervalo) => {
         var listaMemoria = []
         var listaDatas = []
 
-        fetch(`/dashPresilli/capturarInformacoes/${intervalo}/${1}`, {
+        fetch(`/dashPresilli/capturarInformacoes/${intervalo}/${2}`, {
             method: "GET",
         })
             .then(function (resposta) {
@@ -275,7 +312,7 @@ const debouncedValidarFiltro = debounce((listaComponentesFiltro, intervalo) => {
 }, 200);
 
 function capturarPrimeiroDado() {
-    fetch(`/dashPresilli/capturarDadosTempoReal/${1}`, {
+    fetch(`/dashPresilli/capturarDadosTempoReal/${2}`, {
         method: "GET",
     })
         .then(function (resposta) {
@@ -303,7 +340,7 @@ function capturarPrimeiroDado() {
 
 function exibirEmTempoReal() {
     intervaloTempoReal = setInterval(() => {
-        fetch(`/dashPresilli/capturarDadosTempoReal/${1}`, {
+        fetch(`/dashPresilli/capturarDadosTempoReal/${2}`, {
             method: "GET",
         })
             .then(function (resposta) {
