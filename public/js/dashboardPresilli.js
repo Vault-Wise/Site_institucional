@@ -205,10 +205,20 @@ function atualizarGrafico(novosDadosProcessador, novosDadosMemoria, novasCategor
         }
     });
 
-    chart.updateSeries([
-        { name: 'Processador', data: novosDadosProcessador },
-        { name: 'Memória', data: novosDadosMemoria }
-    ]);
+    if (novosDadosMemoria != null && novosDadosProcessador != null) {
+        chart.updateSeries([
+            { name: 'Processador', data: novosDadosProcessador },
+            { name: 'Memória', data: novosDadosMemoria }
+        ]);
+    } else if (novosDadosProcessador != null) {
+        chart.updateSeries([
+            { name: 'Processador', data: novosDadosProcessador }
+        ]);
+    } else if (novosDadosMemoria != null) [
+        chart.updateSeries([
+            { name: 'Memória', data: novosDadosMemoria }
+        ])
+    ]
 }
 
 
@@ -219,35 +229,59 @@ function atualizarGraficoTempoReal(novoDadoProcessador, novoDadoMemoria, novaCat
     // console.log(seriesData[0]);
     // console.log(seriesData[0][seriesData[0].length - 1]);
     // console.log(eixoXAtual)
+    if (novoDadoMemoria != null && novoDadoProcessador != null) {
+        if (novoDadoProcessador != seriesData[0][seriesData[0].length - 1]) {
+            seriesData[0].shift()
+            seriesData[1].shift()
+            seriesData[0].push(novoDadoProcessador)
+            seriesData[1].push(novoDadoMemoria)
+            eixoXAtual.shift()
+            eixoXAtual.push(novaCategoriaX)
 
+            chart.updateSeries(
+                seriesData.map(data => ({
+                    data: data
+                }))
+            );
 
-    if (novoDadoProcessador != seriesData[0][seriesData[0].length - 1]) {
-        seriesData[0].shift()
-        seriesData[1].shift()
-        seriesData[0].push(novoDadoProcessador)
-        seriesData[1].push(novoDadoMemoria)
-        eixoXAtual.shift()
-        eixoXAtual.push(novaCategoriaX)
+            chart.updateOptions({
+                xaxis: {
+                    categories: eixoXAtual
+                }
+            });
+        } else {
+            console.log("Sem atualizações")
+        }
+    } else if (novoDadoProcessador != null) {
+        if (novoDadoProcessador != seriesData[0][seriesData[0].length - 1]) {
+            seriesData[0].shift()
+            seriesData[1].shift()
+            seriesData[0].push(novoDadoProcessador)
+            seriesData[1].push(novoDadoMemoria)
+            eixoXAtual.shift()
+            eixoXAtual.push(novaCategoriaX)
 
-        chart.updateSeries(
-            seriesData.map(data => ({
-                data: data
-            }))
-        );
+            chart.updateSeries(
+                seriesData.map(data => ({
+                    data: data
+                }))
+            );
 
-        chart.updateOptions(
-            eixoXAtual.map(dados => ({
-                categories: dados
-            }))
-        );
-
-    } else {
-        console.log("Sem atualizações")
-    }
+            chart.updateOptions({
+                xaxis: {
+                    categories: eixoXAtual
+                }
+            });
+        } else {
+            console.log("Sem atualizações")
+        }
+    } 
 }
 
 const debouncedValidarFiltro = debounce((listaComponentesFiltro, intervalo) => {
     console.log("Executando consulta com:", listaComponentesFiltro, intervalo);
+    // ? Aqui temos a parte para mostrar os filtros selecionados na página
+
     cardFiltroSelecionado.innerHTML = "";
 
     listaComponentesFiltro.forEach(componente => {
@@ -258,46 +292,52 @@ const debouncedValidarFiltro = debounce((listaComponentesFiltro, intervalo) => {
             </div>`;
     });
 
-    const intervaloExibido = formatarIntervalo(intervalo);
-
     cardFiltroSelecionado.innerHTML += `
         <div class="filtroSelecionado d-flex ai-center row">
-            ${intervaloExibido}
+            ${formatarIntervalo(intervalo)}
             <i class="fa-solid fa-filter fa-l"></i>
         </div>`;
 
     if (intervalo == "Tempo Real") {
-        exibirEmTempoReal()
+        if (listaComponentes.length == 0) {
+            exibirNenhumComponente()
+        } else if (listaComponentes.length == 2) {
+            exibirEmTempoReal()
+        } else if (listaComponentes.includes("Processador")) {
+            exibirTempoRealProcessador()
+        } else {
+            exibirTempoRealMemoria()
+        }
     } else {
         clearInterval(intervaloTempoReal)
         var listaProcessador = []
         var listaMemoria = []
         var listaDatas = []
 
-        fetch(`/dashPresilli/capturarInformacoes/${intervalo}/${2}`, {
+        fetch(`/dashPresilli/capturarInformacoes/${intervalo}/${1}`, {
             method: "GET",
         })
             .then(function (resposta) {
                 resposta.json().then((dadosMaquina) => {
                     dadosMaquina.forEach(dado => {
-                        listaProcessador.push(dado.percentProcessador)
-                        listaMemoria.push(dado.percentMemoria)
-                        listaDatas.push(dado.dtHora)
+                        listaProcessador.push(dado.dia)
+                        listaMemoria.push(dado.mediamemoria)
+                        listaDatas.push(dado.dia)
                     })
                 });
             })
             .catch(function (resposta) {
                 console.log(`#ERRO: ${resposta}`);
             });
-
     }
+
 
     if (listaComponentes.length == 0) {
         exibirNenhumComponente()
     } else {
         tituloGrafico.innerHTML = listaComponentes.length > 1 ? "Processador X Memoria / Tempo" : `${listaComponentes} / Tempo`
         if (listaComponentes.length == 2) {
-            exibirTodosComponentes()
+            exibirTodosComponentes(listaProcessador, listaMemoria, listaDatas)
         } else {
 
             listaComponentes.forEach(componente => {
@@ -309,10 +349,12 @@ const debouncedValidarFiltro = debounce((listaComponentesFiltro, intervalo) => {
             })
         }
     }
+
+
 }, 200);
 
 function capturarPrimeiroDado() {
-    fetch(`/dashPresilli/capturarDadosTempoReal/${2}`, {
+    fetch(`/dashPresilli/capturarDadosTempoReal/${1}`, {
         method: "GET",
     })
         .then(function (resposta) {
@@ -326,7 +368,7 @@ function capturarPrimeiroDado() {
 
                     listaProcessador.push(dadoDaVez.percentProcessador);
                     listaMemoria.push(dadoDaVez.percentMemoria);
-                    listaEixoX.push(dadoDaVez.dtHora);
+                    listaEixoX.push(formatarData(dadoDaVez.dtHora));
                 }
 
                 // Em seguida, exibir o gráfico
@@ -340,7 +382,7 @@ function capturarPrimeiroDado() {
 
 function exibirEmTempoReal() {
     intervaloTempoReal = setInterval(() => {
-        fetch(`/dashPresilli/capturarDadosTempoReal/${2}`, {
+        fetch(`/dashPresilli/capturarDadosTempoReal/${1}`, {
             method: "GET",
         })
             .then(function (resposta) {
@@ -354,7 +396,7 @@ function exibirEmTempoReal() {
 
                         dadoProcessador = dadoDaVez.percentProcessador
                         dadoMemoria = dadoDaVez.percentMemoria
-                        dadoEixoX = dadoDaVez.dtHora
+                        dadoEixoX = formatarData(dadoDaVez.dtHora)
 
                     }
 
@@ -368,13 +410,119 @@ function exibirEmTempoReal() {
     }, 5000);
 }
 
-function formatarData(data) {
+function exibirTempoRealMemoria() {
+    fetch(`/dashPresilli/capturarDadosTempoReal/${1}`, {
+        method: "GET",
+    })
+        .then(function (resposta) {
+            resposta.json().then((dadosMaquinaTempoReal) => {
+                var listaMemoria = [];
+                var listaEixoX = [];
 
+                for (let i = dadosMaquinaTempoReal.length - 1; i >= 0; i--) {
+                    const dadoDaVez = dadosMaquinaTempoReal[i];
+
+                    listaMemoria.push(dadoDaVez.percentProcessador);
+
+                    listaEixoX.push(formatarData(dadoDaVez.dtHora));
+                }
+
+                // Em seguida, exibir o gráfico
+                exibirGrafico(null, listaMemoria, listaEixoX);
+            });
+        })
+        .catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+        });
+
+    intervaloTempoReal = setInterval(() => {
+        fetch(`/dashPresilli/capturarDadosTempoReal/${1}`, {
+            method: "GET",
+        })
+            .then(function (resposta) {
+                resposta.json().then((dadosMaquinaTempoReal) => {
+                    var dadoMemoria;
+                    var dadoEixoX;
+
+                    for (let i = dadosMaquinaTempoReal.length - 1; i >= 0; i--) {
+                        const dadoDaVez = dadosMaquinaTempoReal[i];
+
+                        dadoMemoria = dadoDaVez.percentMemoria
+                        dadoEixoX = formatarData(dadoDaVez.dtHora)
+
+                    }
+
+                    atualizarGraficoTempoReal(null, dadoMemoria, dadoEixoX);
+                });
+            })
+            .catch(function (resposta) {
+                console.log(`#ERRO: ${resposta}`);
+            });
+
+    }, 5000);
+}
+
+function exibirTempoRealProcessador() {
+    fetch(`/dashPresilli/capturarDadosTempoReal/${1}`, {
+        method: "GET",
+    })
+        .then(function (resposta) {
+            resposta.json().then((dadosMaquinaTempoReal) => {
+                var listaProcessador = [];
+                var listaEixoX = [];
+
+                for (let i = dadosMaquinaTempoReal.length - 1; i >= 0; i--) {
+                    const dadoDaVez = dadosMaquinaTempoReal[i];
+
+                    listaProcessador.push(dadoDaVez.percentProcessador);
+
+                    listaEixoX.push(formatarData(dadoDaVez.dtHora));
+                }
+
+                // Em seguida, exibir o gráfico
+                exibirGrafico(listaProcessador, null, listaEixoX);
+            });
+        })
+        .catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+        });
+
+    intervaloTempoReal = setInterval(() => {
+        fetch(`/dashPresilli/capturarDadosTempoReal/${1}`, {
+            method: "GET",
+        })
+            .then(function (resposta) {
+                resposta.json().then((dadosMaquinaTempoReal) => {
+                    var dadoProcessador;
+                    var dadoMemoria;
+                    var dadoEixoX;
+
+                    for (let i = dadosMaquinaTempoReal.length - 1; i >= 0; i--) {
+                        const dadoDaVez = dadosMaquinaTempoReal[i];
+
+                        dadoProcessador = dadoDaVez.percentProcessador
+                        dadoMemoria = dadoDaVez.percentMemoria
+                        dadoEixoX = formatarData(dadoDaVez.dtHora)
+
+                    }
+
+                    atualizarGraficoTempoReal(dadoProcessador, null, dadoEixoX);
+                });
+            })
+            .catch(function (resposta) {
+                console.log(`#ERRO: ${resposta}`);
+            });
+
+    }, 5000);
+}
+
+function formatarData(data) {
+    return `${new Date(data).toLocaleTimeString('pt-BR', { timeZone: 'America/Sao_Paulo' })}`;
 }
 
 // Exibição com filtro
 
-function exibirProcessador() {
+function exibirProcessador(dadosProcessador, dadosData) {
     variacao.innerHTML =
         `
     <div class="container flex-column ai-center">
@@ -420,9 +568,11 @@ function exibirProcessador() {
     </tbody>
 `
 
+
+    atualizarGrafico(dadosProcessador, null, dadosData)
 }
 
-function exibirMemoria() {
+function exibirMemoria(dadosMemoria, dadosData) {
     variacao.innerHTML =
         `
     <div class="container flex-column ai-center">
@@ -468,9 +618,10 @@ function exibirMemoria() {
     </tbody>
     `
 
+    atualizarGrafico(null, dadosMemoria, dadosData)
 }
 
-function exibirTodosComponentes() {
+function exibirTodosComponentes(dadosProcessador, dadosMemoria, dadosData) {
     variacao.innerHTML =
         `
     <div class="container flex-column ai-center">
@@ -534,6 +685,7 @@ function exibirTodosComponentes() {
     </tbody>
     `
 
+    atualizarGrafico(dadosProcessador, dadosMemoria, dadosData)
 }
 
 function exibirNenhumComponente() {

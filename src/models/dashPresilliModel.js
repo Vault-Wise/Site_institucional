@@ -2,7 +2,7 @@ var database = require("../database/config");
 
 function capturarInformacoes(dias, fkCaixa) {
     var instrucaoSql = `
-        SELECT DAY(dtHora), AVG(percentProcessador), AVG(percentMemoria)
+        SELECT DAY(dtHora) AS dia, AVG(percentProcessador) AS mediaProcessador, AVG(percentMemoria) AS mediaMemoria
 	    FROM dashPresilli WHERE dtHora BETWEEN DATE_SUB(NOW(), INTERVAL ${dias} DAY) AND NOW() AND fkCaixa = ${fkCaixa} 
 		GROUP BY DAY(dtHora);`;
 
