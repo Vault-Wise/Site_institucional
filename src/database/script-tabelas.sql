@@ -56,7 +56,7 @@ CREATE TABLE Registro (
     memoriaUsada DECIMAL(8,2) NOT NULL,
     freqProcessador DECIMAL(8,2) NOT NULL,
     velocidadeUpload DECIMAL(8,2) NOT NULL,
-    velocidadeDowload DECIMAL(8,2) NOT NULL,
+    velocidadeDownload DECIMAL(8,2) NOT NULL,
     tempoAtividade FLOAT,
     fkCaixa INT NOT NULL,
     PRIMARY KEY (idRegistro, fkCaixa),
