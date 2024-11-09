@@ -93,6 +93,31 @@ function obterOpcoesGrafico(listaProcessador, listaMemoria, dadosEixoX) {
         xaxis: {
             categories: dadosEixoX
         },
+        markers: {
+            size: 3,  // Tamanho do marcador
+            colors: ['#373d3f'],  // Cor do marcador (pode ser um array para múltiplos pontos)
+            strokeColor: '#373d3f',  // Cor da borda
+            strokeWidth: 2,  // Largura da borda
+            hover: {
+                size: 8,  // Tamanho do marcador ao passar o mouse
+                sizeOffset: 3,  // Aumento adicional do marcador
+            },
+            shape: 'circle',  // Forma do marcador
+            radius: 2,  // Raio do marcador (apenas para pontos circulares)
+            borderWidth: 2,  // Largura da borda do marcador
+            fillOpacity: 0.8
+        },
+        legend: {
+            onItemClick: {
+                toggleDataSeries: true
+            },
+            onItemHover: {
+                highlightDataSeries: true
+            },
+            show: true,
+            position: 'top',
+            horizontalAlign: 'center',
+        },
         yaxis: {
             min: 0,
             max: 100
@@ -101,6 +126,16 @@ function obterOpcoesGrafico(listaProcessador, listaMemoria, dadosEixoX) {
         tooltip: {
             y: {
                 formatter: val => `${val}%`
+            }
+        },
+        stroke: {
+            width: 5,
+        },
+        fill: {
+            type: 'gradient',
+            gradient: {
+                shade: 'light',
+                type: 'vertical',
             }
         }
     };
@@ -139,16 +174,18 @@ function obterToolbarOpcoes() {
 
 function obterAnimacoesGrafico() {
     return {
-        enabled: true,
-        speed: 500,
+        enabled: true,  // Habilita a animação
+        easing: 'easeinout',  // Tipo de animação (pode ser 'linear', 'easein', 'easeout', etc.)
+        speed: 800,  // Duração da animação em milissegundos
         animateGradually: {
-            enabled: true,
-            delay: 200
+            enabled: true,  // Se for ativado, a animação acontece gradualmente
+            delay: 150  // Atraso entre as animações das diferentes partes do gráfico
         },
         dynamicAnimation: {
             enabled: true,
-            speed: 600
+            speed: 350  // Velocidade da animação para a atualização dinâmica
         }
+
     };
 }
 
@@ -168,10 +205,20 @@ function atualizarGrafico(novosDadosProcessador, novosDadosMemoria, novasCategor
         }
     });
 
-    chart.updateSeries([
-        { name: 'Processador', data: novosDadosProcessador },
-        { name: 'Memória', data: novosDadosMemoria }
-    ]);
+    if (novosDadosMemoria != null && novosDadosProcessador != null) {
+        chart.updateSeries([
+            { name: 'Processador', data: novosDadosProcessador },
+            { name: 'Memória', data: novosDadosMemoria }
+        ]);
+    } else if (novosDadosProcessador != null) {
+        chart.updateSeries([
+            { name: 'Processador', data: novosDadosProcessador }
+        ]);
+    } else if (novosDadosMemoria != null) [
+        chart.updateSeries([
+            { name: 'Memória', data: novosDadosMemoria }
+        ])
+    ]
 }
 
 
@@ -182,35 +229,59 @@ function atualizarGraficoTempoReal(novoDadoProcessador, novoDadoMemoria, novaCat
     // console.log(seriesData[0]);
     // console.log(seriesData[0][seriesData[0].length - 1]);
     // console.log(eixoXAtual)
+    if (novoDadoMemoria != null && novoDadoProcessador != null) {
+        if (novoDadoProcessador != seriesData[0][seriesData[0].length - 1]) {
+            seriesData[0].shift()
+            seriesData[1].shift()
+            seriesData[0].push(novoDadoProcessador)
+            seriesData[1].push(novoDadoMemoria)
+            eixoXAtual.shift()
+            eixoXAtual.push(novaCategoriaX)
 
+            chart.updateSeries(
+                seriesData.map(data => ({
+                    data: data
+                }))
+            );
 
-    if (novoDadoProcessador != seriesData[0][seriesData[0].length - 1]) {
-        seriesData[0].shift()
-        seriesData[1].shift()
-        seriesData[0].push(novoDadoProcessador)
-        seriesData[1].push(novoDadoMemoria)
-        eixoXAtual.shift()
-        eixoXAtual.push(novaCategoriaX)
+            chart.updateOptions({
+                xaxis: {
+                    categories: eixoXAtual
+                }
+            });
+        } else {
+            console.log("Sem atualizações")
+        }
+    } else if (novoDadoProcessador != null) {
+        if (novoDadoProcessador != seriesData[0][seriesData[0].length - 1]) {
+            seriesData[0].shift()
+            seriesData[1].shift()
+            seriesData[0].push(novoDadoProcessador)
+            seriesData[1].push(novoDadoMemoria)
+            eixoXAtual.shift()
+            eixoXAtual.push(novaCategoriaX)
 
-        chart.updateSeries(
-            seriesData.map(data => ({
-                data: data
-            }))
-        );
+            chart.updateSeries(
+                seriesData.map(data => ({
+                    data: data
+                }))
+            );
 
-        chart.updateOptions(
-            eixoXAtual.map(dados => ({
-                categories: dados
-            }))
-        );
-
-    } else {
-        console.log("Sem atualizações")
-    }
+            chart.updateOptions({
+                xaxis: {
+                    categories: eixoXAtual
+                }
+            });
+        } else {
+            console.log("Sem atualizações")
+        }
+    } 
 }
 
 const debouncedValidarFiltro = debounce((listaComponentesFiltro, intervalo) => {
     console.log("Executando consulta com:", listaComponentesFiltro, intervalo);
+    // ? Aqui temos a parte para mostrar os filtros selecionados na página
+
     cardFiltroSelecionado.innerHTML = "";
 
     listaComponentesFiltro.forEach(componente => {
@@ -221,16 +292,22 @@ const debouncedValidarFiltro = debounce((listaComponentesFiltro, intervalo) => {
             </div>`;
     });
 
-    const intervaloExibido = formatarIntervalo(intervalo);
-
     cardFiltroSelecionado.innerHTML += `
         <div class="filtroSelecionado d-flex ai-center row">
-            ${intervaloExibido}
+            ${formatarIntervalo(intervalo)}
             <i class="fa-solid fa-filter fa-l"></i>
         </div>`;
 
     if (intervalo == "Tempo Real") {
-        exibirEmTempoReal()
+        if (listaComponentes.length == 0) {
+            exibirNenhumComponente()
+        } else if (listaComponentes.length == 2) {
+            exibirEmTempoReal()
+        } else if (listaComponentes.includes("Processador")) {
+            exibirTempoRealProcessador()
+        } else {
+            exibirTempoRealMemoria()
+        }
     } else {
         clearInterval(intervaloTempoReal)
         var listaProcessador = []
@@ -243,24 +320,24 @@ const debouncedValidarFiltro = debounce((listaComponentesFiltro, intervalo) => {
             .then(function (resposta) {
                 resposta.json().then((dadosMaquina) => {
                     dadosMaquina.forEach(dado => {
-                        listaProcessador.push(dado.percentProcessador)
-                        listaMemoria.push(dado.percentMemoria)
-                        listaDatas.push(dado.dtHora)
+                        listaProcessador.push(dado.dia)
+                        listaMemoria.push(dado.mediamemoria)
+                        listaDatas.push(dado.dia)
                     })
                 });
             })
             .catch(function (resposta) {
                 console.log(`#ERRO: ${resposta}`);
             });
-
     }
+
 
     if (listaComponentes.length == 0) {
         exibirNenhumComponente()
     } else {
         tituloGrafico.innerHTML = listaComponentes.length > 1 ? "Processador X Memoria / Tempo" : `${listaComponentes} / Tempo`
         if (listaComponentes.length == 2) {
-            exibirTodosComponentes()
+            exibirTodosComponentes(listaProcessador, listaMemoria, listaDatas)
         } else {
 
             listaComponentes.forEach(componente => {
@@ -272,6 +349,8 @@ const debouncedValidarFiltro = debounce((listaComponentesFiltro, intervalo) => {
             })
         }
     }
+
+
 }, 200);
 
 function capturarPrimeiroDado() {
@@ -289,7 +368,7 @@ function capturarPrimeiroDado() {
 
                     listaProcessador.push(dadoDaVez.percentProcessador);
                     listaMemoria.push(dadoDaVez.percentMemoria);
-                    listaEixoX.push(dadoDaVez.dtHora);
+                    listaEixoX.push(formatarData(dadoDaVez.dtHora));
                 }
 
                 // Em seguida, exibir o gráfico
@@ -317,7 +396,7 @@ function exibirEmTempoReal() {
 
                         dadoProcessador = dadoDaVez.percentProcessador
                         dadoMemoria = dadoDaVez.percentMemoria
-                        dadoEixoX = dadoDaVez.dtHora
+                        dadoEixoX = formatarData(dadoDaVez.dtHora)
 
                     }
 
@@ -331,13 +410,119 @@ function exibirEmTempoReal() {
     }, 5000);
 }
 
-function formatarData(data) {
+function exibirTempoRealMemoria() {
+    fetch(`/dashPresilli/capturarDadosTempoReal/${1}`, {
+        method: "GET",
+    })
+        .then(function (resposta) {
+            resposta.json().then((dadosMaquinaTempoReal) => {
+                var listaMemoria = [];
+                var listaEixoX = [];
 
+                for (let i = dadosMaquinaTempoReal.length - 1; i >= 0; i--) {
+                    const dadoDaVez = dadosMaquinaTempoReal[i];
+
+                    listaMemoria.push(dadoDaVez.percentProcessador);
+
+                    listaEixoX.push(formatarData(dadoDaVez.dtHora));
+                }
+
+                // Em seguida, exibir o gráfico
+                exibirGrafico(null, listaMemoria, listaEixoX);
+            });
+        })
+        .catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+        });
+
+    intervaloTempoReal = setInterval(() => {
+        fetch(`/dashPresilli/capturarDadosTempoReal/${1}`, {
+            method: "GET",
+        })
+            .then(function (resposta) {
+                resposta.json().then((dadosMaquinaTempoReal) => {
+                    var dadoMemoria;
+                    var dadoEixoX;
+
+                    for (let i = dadosMaquinaTempoReal.length - 1; i >= 0; i--) {
+                        const dadoDaVez = dadosMaquinaTempoReal[i];
+
+                        dadoMemoria = dadoDaVez.percentMemoria
+                        dadoEixoX = formatarData(dadoDaVez.dtHora)
+
+                    }
+
+                    atualizarGraficoTempoReal(null, dadoMemoria, dadoEixoX);
+                });
+            })
+            .catch(function (resposta) {
+                console.log(`#ERRO: ${resposta}`);
+            });
+
+    }, 5000);
+}
+
+function exibirTempoRealProcessador() {
+    fetch(`/dashPresilli/capturarDadosTempoReal/${1}`, {
+        method: "GET",
+    })
+        .then(function (resposta) {
+            resposta.json().then((dadosMaquinaTempoReal) => {
+                var listaProcessador = [];
+                var listaEixoX = [];
+
+                for (let i = dadosMaquinaTempoReal.length - 1; i >= 0; i--) {
+                    const dadoDaVez = dadosMaquinaTempoReal[i];
+
+                    listaProcessador.push(dadoDaVez.percentProcessador);
+
+                    listaEixoX.push(formatarData(dadoDaVez.dtHora));
+                }
+
+                // Em seguida, exibir o gráfico
+                exibirGrafico(listaProcessador, null, listaEixoX);
+            });
+        })
+        .catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+        });
+
+    intervaloTempoReal = setInterval(() => {
+        fetch(`/dashPresilli/capturarDadosTempoReal/${1}`, {
+            method: "GET",
+        })
+            .then(function (resposta) {
+                resposta.json().then((dadosMaquinaTempoReal) => {
+                    var dadoProcessador;
+                    var dadoMemoria;
+                    var dadoEixoX;
+
+                    for (let i = dadosMaquinaTempoReal.length - 1; i >= 0; i--) {
+                        const dadoDaVez = dadosMaquinaTempoReal[i];
+
+                        dadoProcessador = dadoDaVez.percentProcessador
+                        dadoMemoria = dadoDaVez.percentMemoria
+                        dadoEixoX = formatarData(dadoDaVez.dtHora)
+
+                    }
+
+                    atualizarGraficoTempoReal(dadoProcessador, null, dadoEixoX);
+                });
+            })
+            .catch(function (resposta) {
+                console.log(`#ERRO: ${resposta}`);
+            });
+
+    }, 5000);
+}
+
+function formatarData(data) {
+    return `${new Date(data).toLocaleTimeString('pt-BR', { timeZone: 'America/Sao_Paulo' })}`;
 }
 
 // Exibição com filtro
 
-function exibirProcessador() {
+function exibirProcessador(dadosProcessador, dadosData) {
     variacao.innerHTML =
         `
     <div class="container flex-column ai-center">
@@ -383,9 +568,11 @@ function exibirProcessador() {
     </tbody>
 `
 
+
+    atualizarGrafico(dadosProcessador, null, dadosData)
 }
 
-function exibirMemoria() {
+function exibirMemoria(dadosMemoria, dadosData) {
     variacao.innerHTML =
         `
     <div class="container flex-column ai-center">
@@ -431,9 +618,10 @@ function exibirMemoria() {
     </tbody>
     `
 
+    atualizarGrafico(null, dadosMemoria, dadosData)
 }
 
-function exibirTodosComponentes() {
+function exibirTodosComponentes(dadosProcessador, dadosMemoria, dadosData) {
     variacao.innerHTML =
         `
     <div class="container flex-column ai-center">
@@ -497,6 +685,7 @@ function exibirTodosComponentes() {
     </tbody>
     `
 
+    atualizarGrafico(dadosProcessador, dadosMemoria, dadosData)
 }
 
 function exibirNenhumComponente() {
