@@ -191,8 +191,16 @@ function obterAnimacoesGrafico() {
 
 function obterSeriesGrafico(dadosProcessador, dadosMemoria) {
     return [
-        { name: 'Processador', data: dadosProcessador },
-        { name: 'Memória', data: dadosMemoria }
+        {
+            name: 'Processador',
+            data: dadosProcessador,
+            color: '#702f94'  // Cor específica para o Processador
+        },
+        {
+            name: 'Memória',
+            data: dadosMemoria,
+            color: '#004aad'  // Cor específica para a Memória
+        }
     ];
 }
 
@@ -207,16 +215,28 @@ function atualizarGrafico(novosDadosProcessador, novosDadosMemoria, novasCategor
 
     if (novosDadosMemoria != null && novosDadosProcessador != null) {
         chart.updateSeries([
-            { name: 'Processador', data: novosDadosProcessador },
-            { name: 'Memória', data: novosDadosMemoria }
+            {
+                name: 'Processador', data: novosDadosProcessador,
+                color: '#702f94'
+            },
+            {
+                name: 'Memória', data: novosDadosMemoria,
+                color: '#004aad'
+            }
         ]);
     } else if (novosDadosProcessador != null) {
         chart.updateSeries([
-            { name: 'Processador', data: novosDadosProcessador }
+            {
+                name: 'Processador', data: novosDadosProcessador,
+                color: '#702f94'
+            }
         ]);
     } else if (novosDadosMemoria != null) [
         chart.updateSeries([
-            { name: 'Memória', data: novosDadosMemoria }
+            {
+                name: 'Memória', data: novosDadosMemoria,
+                color: '#004aad'
+            }
         ])
     ]
 }
@@ -255,9 +275,7 @@ function atualizarGraficoTempoReal(novoDadoProcessador, novoDadoMemoria, novaCat
     } else if (novoDadoProcessador != null) {
         if (novoDadoProcessador != seriesData[0][seriesData[0].length - 1]) {
             seriesData[0].shift()
-            seriesData[1].shift()
             seriesData[0].push(novoDadoProcessador)
-            seriesData[1].push(novoDadoMemoria)
             eixoXAtual.shift()
             eixoXAtual.push(novaCategoriaX)
 
@@ -275,7 +293,7 @@ function atualizarGraficoTempoReal(novoDadoProcessador, novoDadoMemoria, novaCat
         } else {
             console.log("Sem atualizações")
         }
-    } 
+    }
 }
 
 const debouncedValidarFiltro = debounce((listaComponentesFiltro, intervalo) => {
@@ -314,7 +332,7 @@ const debouncedValidarFiltro = debounce((listaComponentesFiltro, intervalo) => {
         var listaMemoria = []
         var listaDatas = []
 
-        fetch(`/dashPresilli/capturarInformacoes/${intervalo}/${1}`, {
+        fetch(`/dashPresilli/capturarInformacoes/${intervalo}/${2}`, {
             method: "GET",
         })
             .then(function (resposta) {
@@ -329,32 +347,30 @@ const debouncedValidarFiltro = debounce((listaComponentesFiltro, intervalo) => {
             .catch(function (resposta) {
                 console.log(`#ERRO: ${resposta}`);
             });
-    }
 
-
-    if (listaComponentes.length == 0) {
-        exibirNenhumComponente()
-    } else {
-        tituloGrafico.innerHTML = listaComponentes.length > 1 ? "Processador X Memoria / Tempo" : `${listaComponentes} / Tempo`
-        if (listaComponentes.length == 2) {
-            exibirTodosComponentes(listaProcessador, listaMemoria, listaDatas)
+        if (listaComponentes.length == 0) {
+            exibirNenhumComponente()
         } else {
+            tituloGrafico.innerHTML = listaComponentes.length > 1 ? "Processador X Memoria / Tempo" : `${listaComponentes} / Tempo`
+            if (listaComponentes.length == 2) {
+                exibirTodosComponentes(listaProcessador, listaMemoria, listaDatas)
+            } else {
 
-            listaComponentes.forEach(componente => {
-                if (componente == "Processador") {
-                    exibirProcessador()
-                } else {
-                    exibirMemoria()
-                }
-            })
+                listaComponentes.forEach(componente => {
+                    if (componente == "Processador") {
+                        exibirProcessador()
+                    } else {
+                        exibirMemoria()
+                    }
+                })
+            }
         }
     }
-
 
 }, 200);
 
 function capturarPrimeiroDado() {
-    fetch(`/dashPresilli/capturarDadosTempoReal/${1}`, {
+    fetch(`/dashPresilli/capturarDadosTempoReal/${2}`, {
         method: "GET",
     })
         .then(function (resposta) {
@@ -381,8 +397,36 @@ function capturarPrimeiroDado() {
 }
 
 function exibirEmTempoReal() {
+    clearInterval(intervaloTempoReal)
+
+    fetch(`/dashPresilli/capturarDadosTempoReal/${2}`, {
+        method: "GET",
+    })
+        .then(function (resposta) {
+            resposta.json().then((dadosMaquinaTempoReal) => {
+                var listaProcessador = [];
+                var listaMemoria = [];
+                var listaEixoX = [];
+
+                for (let i = dadosMaquinaTempoReal.length - 1; i >= 0; i--) {
+                    const dadoDaVez = dadosMaquinaTempoReal[i];
+
+                    listaProcessador.push(dadoDaVez.percentProcessador);
+                    listaMemoria.push(dadoDaVez.percentMemoria);
+                    listaEixoX.push(formatarData(dadoDaVez.dtHora));
+                }
+
+                // Em seguida, exibir o gráfico
+                atualizarGrafico(listaProcessador, listaMemoria, listaEixoX);
+                exibirTodosComponentes()
+            });
+        })
+        .catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+        });
+
     intervaloTempoReal = setInterval(() => {
-        fetch(`/dashPresilli/capturarDadosTempoReal/${1}`, {
+        fetch(`/dashPresilli/capturarDadosTempoReal/${2}`, {
             method: "GET",
         })
             .then(function (resposta) {
@@ -401,17 +445,21 @@ function exibirEmTempoReal() {
                     }
 
                     atualizarGraficoTempoReal(dadoProcessador, dadoMemoria, dadoEixoX);
+                    exibirTodosComponentes()
                 });
             })
             .catch(function (resposta) {
                 console.log(`#ERRO: ${resposta}`);
             });
 
+
     }, 5000);
 }
 
 function exibirTempoRealMemoria() {
-    fetch(`/dashPresilli/capturarDadosTempoReal/${1}`, {
+    clearInterval(intervaloTempoReal)
+
+    fetch(`/dashPresilli/capturarDadosTempoReal/${2}`, {
         method: "GET",
     })
         .then(function (resposta) {
@@ -422,13 +470,14 @@ function exibirTempoRealMemoria() {
                 for (let i = dadosMaquinaTempoReal.length - 1; i >= 0; i--) {
                     const dadoDaVez = dadosMaquinaTempoReal[i];
 
-                    listaMemoria.push(dadoDaVez.percentProcessador);
+                    listaMemoria.push(dadoDaVez.percentMemoria);
 
                     listaEixoX.push(formatarData(dadoDaVez.dtHora));
                 }
 
                 // Em seguida, exibir o gráfico
-                exibirGrafico(null, listaMemoria, listaEixoX);
+                atualizarGrafico(null, listaMemoria, listaEixoX);
+                exibirMemoria()
             });
         })
         .catch(function (resposta) {
@@ -436,7 +485,7 @@ function exibirTempoRealMemoria() {
         });
 
     intervaloTempoReal = setInterval(() => {
-        fetch(`/dashPresilli/capturarDadosTempoReal/${1}`, {
+        fetch(`/dashPresilli/capturarDadosTempoReal/${2}`, {
             method: "GET",
         })
             .then(function (resposta) {
@@ -453,6 +502,7 @@ function exibirTempoRealMemoria() {
                     }
 
                     atualizarGraficoTempoReal(null, dadoMemoria, dadoEixoX);
+                    exibirMemoria()
                 });
             })
             .catch(function (resposta) {
@@ -463,7 +513,9 @@ function exibirTempoRealMemoria() {
 }
 
 function exibirTempoRealProcessador() {
-    fetch(`/dashPresilli/capturarDadosTempoReal/${1}`, {
+    clearInterval(intervaloTempoReal)
+
+    fetch(`/dashPresilli/capturarDadosTempoReal/${2}`, {
         method: "GET",
     })
         .then(function (resposta) {
@@ -480,7 +532,8 @@ function exibirTempoRealProcessador() {
                 }
 
                 // Em seguida, exibir o gráfico
-                exibirGrafico(listaProcessador, null, listaEixoX);
+                atualizarGrafico(listaProcessador, null, listaEixoX);
+                exibirProcessador()
             });
         })
         .catch(function (resposta) {
@@ -488,7 +541,7 @@ function exibirTempoRealProcessador() {
         });
 
     intervaloTempoReal = setInterval(() => {
-        fetch(`/dashPresilli/capturarDadosTempoReal/${1}`, {
+        fetch(`/dashPresilli/capturarDadosTempoReal/${2}`, {
             method: "GET",
         })
             .then(function (resposta) {
@@ -507,6 +560,7 @@ function exibirTempoRealProcessador() {
                     }
 
                     atualizarGraficoTempoReal(dadoProcessador, null, dadoEixoX);
+                    exibirProcessador()
                 });
             })
             .catch(function (resposta) {
@@ -522,7 +576,13 @@ function formatarData(data) {
 
 // Exibição com filtro
 
-function exibirProcessador(dadosProcessador, dadosData) {
+// ! Exibição dos componentes exibirEmTempoReal tempo de intervalo
+
+function exibirProcessador() {
+    let seriesData = chart.w.globals.series;
+
+    let retornoDados = validarMaiorDado(seriesData)
+
     variacao.innerHTML =
         `
     <div class="container flex-column ai-center">
@@ -530,11 +590,11 @@ function exibirProcessador(dadosProcessador, dadosData) {
         <div class="containerMinMax d-flex row">
             <div class="container ai-center flex-column">
                 <h3>Min</h3>
-                <span class="seguro-perigo">57%</span>
+                <span class="${retornoDados.dadosProcessador.classeMenor}">${retornoDados.dadosProcessador.menor}%</span>
             </div>
             <div class="container ai-center flex-column">
                 <h3>Max</h3>
-                <span class="perigo">72%</span>
+                <span class="${retornoDados.dadosProcessador.classeMaior}">${retornoDados.dadosProcessador.maior}%</span>
             </div>
         </div>
     </div>
@@ -567,12 +627,13 @@ function exibirProcessador(dadosProcessador, dadosData) {
             </tr>
     </tbody>
 `
-
-
-    atualizarGrafico(dadosProcessador, null, dadosData)
 }
 
-function exibirMemoria(dadosMemoria, dadosData) {
+function exibirMemoria() {
+    let seriesData = chart.w.globals.series;
+
+    let retornoDados = validarMaiorDado(seriesData)
+
     variacao.innerHTML =
         `
     <div class="container flex-column ai-center">
@@ -580,11 +641,11 @@ function exibirMemoria(dadosMemoria, dadosData) {
         <div class="containerMinMax d-flex row">
             <div class="container ai-center flex-column">
                 <h3>Min</h3>
-                <span class="seguro">35%</span>
+                <span class="${retornoDados.dadosMemoria.classeMenor}">${retornoDados.dadosMemoria.menor}%</span>
             </div>
             <div class="container ai-center flex-column">
                 <h3>Max</h3>
-                <span class="perigo">85%</span>
+                <span class="${retornoDados.dadosMemoria.classeMaior}">${retornoDados.dadosMemoria.maior}%</span>
             </div>
         </div>
     </div>
@@ -617,11 +678,13 @@ function exibirMemoria(dadosMemoria, dadosData) {
             </tr>
     </tbody>
     `
-
-    atualizarGrafico(null, dadosMemoria, dadosData)
 }
 
-function exibirTodosComponentes(dadosProcessador, dadosMemoria, dadosData) {
+function exibirTodosComponentes() {
+    let seriesData = chart.w.globals.series;
+
+    let retornoDados = validarMaiorDado(seriesData)
+
     variacao.innerHTML =
         `
     <div class="container flex-column ai-center">
@@ -629,11 +692,11 @@ function exibirTodosComponentes(dadosProcessador, dadosMemoria, dadosData) {
         <div class="containerMinMax d-flex row">
             <div class="container ai-center flex-column">
                 <h3>Min</h3>
-                <span class="seguro-perigo">57%</span>
+                <span class="${retornoDados.dadosProcessador.classeMenor}">${retornoDados.dadosProcessador.menor}%</span>
             </div>
             <div class="container ai-center flex-column">
                 <h3>Max</h3>
-                <span class="perigo">72%</span>
+                <span class="${retornoDados.dadosProcessador.classeMaior}">${retornoDados.dadosProcessador.maior}%</span>
             </div>
         </div>
     </div>
@@ -643,11 +706,11 @@ function exibirTodosComponentes(dadosProcessador, dadosMemoria, dadosData) {
         <div class="containerMinMax d-flex row">
             <div class="container ai-center flex-column">
                 <h3>Min</h3>
-                <span class="seguro">35%</span>
+                <span class="${retornoDados.dadosMemoria.classeMenor}">${retornoDados.dadosMemoria.menor}%</span>
             </div>
             <div class="container ai-center flex-column">
                 <h3>Max</h3>
-                <span class="perigo">85%</span>
+                <span class="${retornoDados.dadosMemoria.classeMaior}">${retornoDados.dadosMemoria.maior}%</span>
             </div>
         </div>
     </div>
@@ -684,8 +747,6 @@ function exibirTodosComponentes(dadosProcessador, dadosMemoria, dadosData) {
             </tr>
     </tbody>
     `
-
-    atualizarGrafico(dadosProcessador, dadosMemoria, dadosData)
 }
 
 function exibirNenhumComponente() {
@@ -717,6 +778,99 @@ function exibirNenhumComponente() {
             <h2>Sem Componente</h2>
     </div>
     `
+}
+
+function validarMaiorDado(dadosDoGrafico) {
+    var dadosMemoria;
+    var dadosProcessador;
+    var maiorDadoMemoria;
+    var maiorDadoProcessador;
+    var menorDadoMemoria;
+    var menorDadoProcessador
+
+    if (dadosDoGrafico.length == 2) {
+        dadosProcessador = dadosDoGrafico[0];
+        dadosMemoria = dadosDoGrafico[1];
+        menorDadoProcessador = dadosProcessador[0];
+        maiorDadoProcessador = dadosProcessador[0];
+        menorDadoMemoria = dadosMemoria[0];
+        maiorDadoMemoria = dadosMemoria[0];   
+
+        for (const dadoMemoria of dadosMemoria) {
+            if (dadoMemoria > maiorDadoMemoria) {
+                maiorDadoMemoria = dadoMemoria
+            }
+    
+            if (dadoMemoria < menorDadoMemoria) {
+                menorDadoMemoria = dadoMemoria
+            }
+        }
+
+        for (const dadoProcessador of dadosProcessador) {
+            if (dadoProcessador > maiorDadoProcessador) {
+                maiorDadoProcessador = dadoProcessador
+            }
+    
+            if (dadoProcessador < menorDadoProcessador) {
+                menorDadoProcessador = dadoProcessador
+            }
+        }
+    } else if (chart.w.globals.seriesNames.includes("Processador")) {
+        dadosProcessador = dadosDoGrafico[0];
+        menorDadoProcessador = dadosProcessador[0];
+        maiorDadoProcessador = dadosProcessador[0];
+
+        for (const dadoProcessador of dadosProcessador) {
+            if (dadoProcessador > maiorDadoProcessador) {
+                maiorDadoProcessador = dadoProcessador
+            }
+    
+            if (dadoProcessador < menorDadoProcessador) {
+                menorDadoProcessador = dadoProcessador
+            }
+        }
+    } else {
+        dadosMemoria = dadosDoGrafico[0];
+        menorDadoMemoria = dadosMemoria[0];
+        maiorDadoMemoria = dadosMemoria[0];    
+        for (const dadoMemoria of dadosMemoria) {
+            if (dadoMemoria > maiorDadoMemoria) {
+                maiorDadoMemoria = dadoMemoria
+            }
+    
+            if (dadoMemoria < menorDadoMemoria) {
+                menorDadoMemoria = dadoMemoria
+            }
+        }
+    }
+
+    return {
+        "dadosProcessador": {
+            maior: maiorDadoProcessador,
+            classeMaior: retornarClasseDado(maiorDadoProcessador),
+            menor: menorDadoProcessador,
+            classeMenor: retornarClasseDado(menorDadoProcessador)
+        },
+        "dadosMemoria": {
+            maior: maiorDadoMemoria,
+            classeMaior: retornarClasseDado(maiorDadoMemoria),
+            menor: menorDadoMemoria,
+            classeMenor: retornarClasseDado(menorDadoMemoria)
+        }
+
+    }
+}
+
+function retornarClasseDado(dadoValidado) {
+    if (dadoValidado <= 40) {
+        return "seguro"
+    } else if (dadoValidado <= 60) {
+        return "seguro-perigo"
+    } else if (dadoValidado <= 75) {
+        return "alerta"
+    } else {
+        return "perigo"
+    }
 }
 
 function selecionarComponente(situacao, componente) {
