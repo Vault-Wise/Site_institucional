@@ -42,9 +42,50 @@ function listarMaquina(req, res) {
   });
 }
 
+function buscarAgencia(req, res) {
+  agenciaModel.buscarAgencia().then((resultado) => {
+    res.status(200).json(resultado);
+  });
+}
+
+function alertaHorario(req, res) {
+  
+  var agencia = req.body.agenciaServer;
+
+  agenciaModel.alertaHorario().then((resultado) => {
+    res.status(200).json(resultado);
+  });
+  
+  agenciaModel.alertaHorario(agencia)
+      .then(() => {
+          res.status(201).json({ mensagem: "Máquina associada com sucesso!" });
+      })
+      .catch(erro => {
+          console.error("Erro ao associar máquina: ", erro);
+          res.status(500).json({ erro: "Erro ao associar máquina." });
+      });
+}
+
+function agenciaSelecionadaAtual(req, res) {
+  var componente = req.body.componenteServer;
+  var agencia = req.body.agenciaServer;
+
+  agenciaModel.agenciaSelecionadaAtual(componente, agencia)
+      .then(() => {
+          res.status(201).json({ mensagem: "Select funcionou" });
+      })
+      .catch(erro => {
+          console.error("Erro ao realizar o select da dashNicolas: ", erro);
+          res.status(500).json({ erro: "Erro ao realizar o select da dashNicolas." });
+      });
+}
+
 module.exports = {
   cadastrar,
   listar,
   listarMaquina,
-  associar
+  associar,
+  buscarAgencia,
+  alertaHorario,
+  agenciaSelecionadaAtual
 };

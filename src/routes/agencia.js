@@ -19,4 +19,16 @@ router.get("/listarMaquina", function (req, res) {
     agenciaController.listarMaquina(req, res);
 })
 
+router.get("/buscarAgencia", function (req, res) {
+    agenciaController.buscarAgencia(req, res);
+})
+
+router.get("/alertaHorario", function (req, res) {
+    agenciaController.alertaHorario(req, res);
+})
+
+router.get("/agenciaSelecionadaAtual", function (req, res) {
+    agenciaController.agenciaSelecionadaAtual(req, res);
+})
+
 module.exports = router;

@@ -30,8 +30,15 @@ body {
     width: 100%;
 }
 
+.titulo_dash {
+    text-align: center;
+    color: #fff;
+    margin: 10px 0px;
+    justify-content: center;
+    display: flex;
+}
+
 .kpis {
-    margin-top: 40px;
     display: flex;
     width: 100%;
     height: 22%;
@@ -43,8 +50,19 @@ body {
     width: 40%;
     background-color: #ffff;
     border-radius: 10px;
-    box-shadow: 0px 0px 15px #09194f8a;
-    border: 3px solid #030b28;
+    box-shadow: 0px 0px 15px #ffffff24;
+    border: 2px solid #000000;
+}
+
+.card2 {
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    background-color: #ffff;
+    border-radius: 10px;
+    box-shadow: 0px 0px 15px #ffffff24;
+    border: 2px solid #000000;
+    justify-content: space-evenly;
 }
 
 .cardSpan {
@@ -64,10 +82,37 @@ body {
     font-weight: bold;
 }
 
+.cardParte1 .cardSpanDestaque {
+    color: #ce2d2d;
+}
+
 .cardParte1 {
     width: 50%;
     display: flex;
     justify-content: space-evenly;
+    flex-direction: column;
+}
+
+.cardParte2 {
+    width: 50%;
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+}
+
+.cardParte3 {
+    width: 50%;
+    align-self: center;
+}
+
+.cardParte4 {
+    display: flex;
+    width: 100%;
+    justify-content: space-evenly;
+}
+
+.periodos {
+    display: flex;
     flex-direction: column;
 }
 
@@ -80,12 +125,6 @@ body {
     border: 1px solid #fffF;
 }
 
-.cardParte2 {
-    width: 50%;
-    display: flex;
-    justify-content: space-evenly;
-    flex-direction: column;
-}
 
 .espacamento {
     margin-left: 10px;
@@ -97,6 +136,7 @@ body {
     border: 1px solid #0f1923;
     box-shadow: 0px 0px 10px #ffffff21;
     margin-right: 20px;
+    text-align: center;
 }
 
 #chart2 {
@@ -124,12 +164,14 @@ body {
     display: flex;
     justify-content: space-evenly;
     margin-bottom: 4%;
+    max-height: 200px;
 }
 
 select {
     padding: 8px;
     border-radius: 5px;
     font-size: 15px;
+    max-height: 200px;
 }
 
 .check {
@@ -154,14 +196,14 @@ select {
 .grafico {
     display: flex;
     flex-direction: column;
-    width: 50%;
+    width: 45%;
     transition: all 1s ease-out;
 }
 
 .grafico2 {
     display: flex;
     flex-direction: column;
-    width: 50%;
+    width: 45%;
 }
 
 .fa-solid.fa-plus {
@@ -204,6 +246,8 @@ select {
     margin-left: -100px;
     opacity: 0;
     transition: opacity 0.3s;
+    font-weight: normal;
+    
 }
 
 .conteudo_info::after {
@@ -222,4 +266,12 @@ select {
     opacity: 1;
 }
 
-/* .info-container .fa-circle-info:hover + .conteudo_info */
+.titulo_grafico {
+    font-size: 16px;
+    font-weight: normal;
+    padding: 10px 0px 0px 0px;
+}
+
+#agencia_top_alerta {
+    margin-left: 8px;
+}
