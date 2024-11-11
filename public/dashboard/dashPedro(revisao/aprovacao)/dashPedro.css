@@ -1,0 +1,235 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700");
+
+* {
+  margin: 0;
+  padding: 0;
+  outline: none;
+  border: none;
+  text-decoration: none;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #0f1923;
+  display: flex;
+  min-height: 100vh;
+}
+
+
+
+.pagina {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+nav, .sidebar {
+  width: 15%;
+  background-color: #ffffff;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 5px;
+}
+
+nav a, .sidebar .menu a {
+  font-size: 20px;
+  color: #0f1923;
+  display: flex;
+  padding: 10px 10px;
+  text-align: center;
+}
+
+nav ul li img, .sidebar .profile img {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+}
+
+.usuario {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 18px;
+  text-transform: uppercase;
+}
+
+.nav-item, .sidebar .menu {
+  width: 5%;
+  display: flex;
+  flex-direction: column;
+}
+
+a:hover, .sidebar .menu a:hover {
+  background: #808080;
+}
+
+
+.agora, .sidebar .menu a.active {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+.logout {
+  width: 15%;
+  position: absolute;
+  bottom: 0;
+}
+
+.content, .main-content {
+  width: 85%;
+  padding: 20px;
+  background-color: #0f1923;
+}
+
+h1, .main-content h1 {
+  margin-bottom: 20px;
+}
+
+.alert-summary {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+  
+}
+
+.alert-item {
+  flex: 1;
+  padding: 15px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.alert-item.yellow {
+  background-color: #ffe066;
+}
+
+.alert-item.red {
+  background-color: #ff6b6b;
+}
+
+.alert-item img {
+  width: 30px;
+}
+
+.dashboard {
+  display: flex;
+  gap: 20px;
+}
+
+.tabela {
+  flex: 2;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.tabela h2 {
+  margin-bottom: 10px;
+  text-align: center;
+  color: white;
+}
+
+.filtrar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  justify-content: center;
+}
+
+.tabela table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #ffffff;
+}
+
+.tabela table th, .tabela table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+
+
+.ocorrencias {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 50%;
+  height: 2000px;
+  
+  
+}
+
+
+.conteudo_alerta {
+  display: flex;
+  flex-direction: row;
+}
+
+
+.statusOcorrencia{
+  width: "40px"; 
+  height:"40px";
+  margin: 40%;
+  width: 100% !important;
+  height: auto !important;
+}
+
+
+
+
+.itensOcorrencia {
+  padding: 15px;
+  background-color: #ffffff;
+  border-radius: 5px;
+  text-align: center;
+  justify-self: center;
+}
+
+.itensOcorrencia {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #f9f9f9; /* Cor de fundo para destaque */
+  border-radius: 8px;
+  max-width: 300px; /* Largura máxima para centralizar */
+  margin: 0 auto; /* Centraliza horizontalmente */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para dar destaque */
+}
+
+.itensOcorrencia h3 {
+  margin-bottom: 15px;
+  color: #000000;
+  font-size: 1.5em;
+  text-align: center;
+}
+
+.itensOcorrencia table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.itensOcorrencia table th,
+.itensOcorrencia table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.itensOcorrencia table tr:nth-child(even) {
+  background-color: #f2f2f2; /* Cor de fundo para linhas pares */
+}
+
