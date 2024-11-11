@@ -1,11 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-  <head>
-    <link
-      rel="shortcut icon"
-      href="../assets/icon/index.ico"
-      type="image/x-icon"
-    />
+<head>
+    <link rel="shortcut icon" href="../assets/icon/index.ico" type="image/x-icon" />
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -13,221 +9,147 @@
 
     <link rel="stylesheet" href="./../css/dashboards.css" />
     <link rel="stylesheet" href="./../css/dashboardVinicius.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 
     <script src="../js/sessao.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-  </head>
+</head>
 
-  <body onload="capturarDados()">
+<body onload="inicializar()">
     <div class="container">
-      <nav>
-        <ul id="listaNavegacao">
-          <li>
-            <a href="#">
-              <div class="cargoUsuario">
-                <div class="usuario">
-                  <img src="../css/imagens/icon12.jpg" alt="" />
-                  <span id="b_usuario">Usuário</span>
-                </div>
-                <div class="cargo">
-                  <span id="cargo_usuario" style="font-size: 15px; margin-top: 10px"></span>
-                </div>
-              </div>
-            </a>
-          </li>
-        </ul>
-      </nav>
-      <section class="main">
-        <div class="main-cima">
-          <h1>Monitoramento de REDE</h1>
-        </div>
-        <div class="investimentos">
-          <div class="card">
-            <i class="fa-solid fa-laptop d"></i>
-            <h3>Máquina a ser monitorada</h3>
-            <div class="filters">
-              <select class="agencia-select">
-                <option disabled selected>Agências</option>
-                <option>Itau</option>
-                <option>C6</option>
-                <option>Bradesco</option>
-              </select>
-              <select class="situacao-select">
-                <option disabled selected>Situações</option>
-                <option>Alerta</option>
-                <option>Perigo</option>
-                <option>Seguro</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <section class="analise">
-          <div class="caixa">
-            <ul>
-              <li class="texto_caixa">Componentes</li>
+        <nav>
+            <ul id="listaNavegacao">
+                <li>
+                    <a href="#">
+                        <div class="cargoUsuario">
+                            <div class="usuario">
+                                <img src="../css/imagens/icon12.jpg" alt="" />
+                                <span id="b_usuario">Usuário</span>
+                            </div>
+                            <div class="cargo">
+                                <span id="cargo_usuario" style="font-size: 15px; margin-top: 10px"></span>
+                            </div>
+                        </div>
+                    </a>
+                </li>
             </ul>
-            <div class="course">
-              <div class="caixa1">
-                <h3>ACHAR MÊTRICA PARA CPU</h3>
-                <p>Rede</p>
-                <div id="chartMemoria"></div>
-              </div>
-              <div class="caixa1">
-                <h3>Uso de CPU</h3>
-                <p>Porcentagem de Uso</p>
-                <div id="chartProcessador"></div>
-              </div>
+        </nav>
+        <section class="main">
+            <div class="main-cima">
+                <h1>Monitoramento de REDE</h1>
             </div>
-          </div>
-
-          <div class="caixa">
-            <div class="filters">
-              <select class="agencia-select">
-                <option disabled selected>Agências</option>
-                <option>Itau</option>
-                <option>C6</option>
-                <option>Bradesco</option>
-              </select>
-              <select class="situacao-select">
-                <option disabled selected>Situações</option>
-                <option>Alerta</option>
-                <option>Perigo</option>
-                <option>Seguro</option>
-              </select>
+            <div class="investimentos">
+                <div class="card">
+                    <i class="fa-solid fa-laptop d"></i>
+                    <h3>Máquina a ser monitorada</h3>
+                    <div class="filters">
+                        <select class="agencia-select" id="caixaSelect">
+                            <option disabled selected>Selecione uma máquina</option>
+                        </select>
+                    </div>
+                </div>
             </div>
-            <table>
-              <thead>
-                <tr>
-                  <th>Agência</th>
-                  <th>Máquina</th>
-                  <th>Indicador</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Agência A</td>
-                  <td>Máquina 1</td>
-                  <td>Ativo</td>
-                </tr>
-                <tr>
-                  <td>Agência B</td>
-                  <td>Máquina 2</td>
-                  <td>Inativo</td>
-                </tr>
-                <tr>
-                  <td>Agência B</td>
-                  <td>Máquina 2</td>
-                  <td>Inativo</td>
-                </tr>
-                <tr>
-                  <td>Agência B</td>
-                  <td>Máquina 2</td>
-                  <td>Inativo</td>
-                </tr>
-                <tr>
-                  <td>Agência B</td>
-                  <td>Máquina 2</td>
-                  <td>Inativo</td>
-                </tr>
-                <tr>
-                  <td>Agência B</td>
-                  <td>Máquina 2</td>
-                  <td>Inativo</td>
-                </tr>
-
-                <!-- Outros registros -->
-              </tbody>
-            </table>
-          </div>
+            <section class="analise">
+                <div class="caixa">
+                    <ul>
+                        <li class="texto_caixa">Componentes</li>
+                    </ul>
+                    <div class="course">
+                        <div class="caixa1">
+                            <h3>Memória</h3>
+                            <p>Percentual de uso</p>
+                            <div id="chartMemoria"></div>
+                        </div>
+                        <div class="caixa1">
+                            <h3>CPU</h3>
+                            <p>Percentual de uso</p>
+                            <div id="chartProcessador"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </section>
-      </section>
     </div>
 
     <script>
-      validarSessao();
+        validarSessao();
 
-      document.addEventListener("DOMContentLoaded", () => {
-        const dashVini = document.getElementById("dashVini");
-        if (!dashVini.classList.contains("agora")) {
-          dashVini.classList.add("agora");
+        document.addEventListener("DOMContentLoaded", () => {
+            b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
+        });
+
+        let chartMemoria, chartProcessador;
+        
+        function inicializar() {
+            carregarMaquinas();
+            inicializarGraficos();
+            document.getElementById("caixaSelect").addEventListener("change", function () {
+                capturarDados(this.value);
+            });
         }
-        b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
-      });
 
-      function capturarDados() {
-    // Inicializa gráficos com animação
-    const chartMemoria = new ApexCharts(document.querySelector("#chartMemoria"), {
-        chart: { 
-            type: "line", 
-            animations: {
-                enabled: true, 
-                easing: 'easeinout', 
-                speed: 800,
-                animateGradually: {
-                    enabled: true,
-                    delay: 150
-                },
-                dynamicAnimation: {
-                    enabled: true,
-                    speed: 500
-                }
+        function carregarMaquinas() {
+            fetch("/caixas/listarCaixas")
+                .then(response => response.json())
+                .then(data => {
+                    const caixaSelect = document.getElementById("caixaSelect");
+                    caixaSelect.innerHTML = `<option disabled selected>Selecione uma máquina</option>`;
+                    data.forEach(caixa => {
+                        const option = document.createElement("option");
+                        option.value = caixa.idCaixa;
+                        option.textContent = caixa.nomeEquipamento;
+                        caixaSelect.appendChild(option);
+                    });
+                })
+                .catch(error => console.error("Erro ao carregar máquinas:", error));
+        }
+
+        function inicializarGraficos() {
+            chartMemoria = new ApexCharts(document.querySelector("#chartMemoria"), {
+                chart: { type: "line", animations: { enabled: true, speed: 800 } },
+                series: [{ name: "Memória (%)", data: [] }],
+                xaxis: { categories: [] }
+            });
+            chartMemoria.render();
+
+            chartProcessador = new ApexCharts(document.querySelector("#chartProcessador"), {
+                chart: { type: "line", animations: { enabled: true, speed: 800 } },
+                series: [{ name: "Processador (%)", data: [] }],
+                xaxis: { categories: [] }
+            });
+            chartProcessador.render();
+        }
+
+        function capturarDados(caixaId) {
+            if (!caixaId) return;
+
+            // Limpa os dados dos gráficos antes de atualizar
+            chartMemoria.updateSeries([{ data: [] }]);
+            chartProcessador.updateSeries([{ data: [] }]);
+
+            // Função de atualização dos gráficos
+            function atualizarGraficos() {
+                fetch(`/graficoDash/mostrarDados?caixaId=${caixaId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const times = data.map(item => new Date(item.dtHora).toLocaleTimeString());
+                        const percentMemoriaData = data.map(item => item.percentMemoria);
+                        const percentProcessadorData = data.map(item => item.percentProcessador);
+
+                        chartMemoria.updateSeries([{ name: "Memória (%)", data: percentMemoriaData }]);
+                        chartMemoria.updateOptions({ xaxis: { categories: times } });
+
+                        chartProcessador.updateSeries([{ name: "Processador (%)", data: percentProcessadorData }]);
+                        chartProcessador.updateOptions({ xaxis: { categories: times } });
+                    })
+                    .catch(error => console.log("Erro ao acessar dados: ", error));
             }
-        },
-        series: [{ name: "Memória (%)", data: [] }],
-        xaxis: { categories: [] }
-    });
-    chartMemoria.render();
 
-    const chartProcessador = new ApexCharts(document.querySelector("#chartProcessador"), {
-        chart: { 
-            type: "line", 
-            animations: {
-                enabled: true,
-                easing: 'easeinout',
-                speed: 800,
-                animateGradually: {
-                    enabled: true,
-                    delay: 150
-                },
-                dynamicAnimation: {
-                    enabled: true,
-                    speed: 500
-                }
-            }
-        },
-        series: [{ name: "Processador (%)", data: [] }],
-        xaxis: { categories: [] }
-    });
-    chartProcessador.render();
-
-    // Função de atualização dos gráficos
-    function atualizarGraficos() {
-        fetch("/graficoDash/mostrarDados", { method: "GET" })
-            .then((response) => response.json())
-            .then((data) => {
-                const times = data.map(item => new Date(item.dtHora).toLocaleTimeString());
-                const percentMemoriaData = data.map(item => item.percentMemoria);
-                const percentProcessadorData = data.map(item => item.percentProcessador);
-
-                // Atualiza os gráficos com animação
-                chartMemoria.updateSeries([{ data: percentMemoriaData }], true);
-                chartMemoria.updateOptions({ xaxis: { categories: times } });
-
-                chartProcessador.updateSeries([{ data: percentProcessadorData }], true);
-                chartProcessador.updateOptions({ xaxis: { categories: times } });
-            })
-            .catch((error) => console.log("Erro ao acessar dados: ", error));
-    }
-
-    // Atualiza os gráficos a cada 5 segundos
-    atualizarGraficos();
-    setInterval(atualizarGraficos, 5000);
-}
-
+            // Atualiza os gráficos imediatamente e a cada 5 segundos
+            atualizarGraficos();
+            clearInterval(window.graficoInterval);  // Limpa intervalo anterior
+            window.graficoInterval = setInterval(atualizarGraficos, 5000);
+        }
     </script>
-  </body>
+</body>
 </html>

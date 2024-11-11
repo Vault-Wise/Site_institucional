@@ -10,11 +10,20 @@ function mostrarDados() {
             velocidadeDownload 
         FROM Registro 
         ORDER BY dtHora DESC 
-        LIMIT 10
+        LIMIT 30
+    `;
+    return database.executar(instrucaoSql);
+}
+
+function obterMaquinas() {
+    var instrucaoSql = `
+        SELECT DISTINCT agencia, maquina 
+        FROM Registro
     `;
     return database.executar(instrucaoSql);
 }
 
 module.exports = {
-    mostrarDados
-}
+    mostrarDados,
+    obterMaquinas
+};
