@@ -1,10 +1,10 @@
 var database = require("../database/config");
 
-function capturarInformacoes(dias, fkCaixa) {
+function capturarInformacoes(horas, fkCaixa) {
     var instrucaoSql = `
-        SELECT DAY(dtHora) AS dia, AVG(percentProcessador) AS mediaProcessador, AVG(percentMemoria) AS mediaMemoria
-	    FROM dashPresilli WHERE dtHora BETWEEN DATE_SUB(NOW(), INTERVAL ${dias} DAY) AND NOW() AND fkCaixa = ${fkCaixa} 
-		GROUP BY DAY(dtHora);`;
+        SELECT HOUR(dtHora) AS hora, ROUND(AVG(percentProcessador), 2) AS mediaProcessador, ROUND(AVG(percentMemoria), 2) AS mediaMemoria
+	    FROM dashPresilli WHERE dtHora BETWEEN DATE_SUB(NOW(), INTERVAL ${horas} HOUR) AND NOW() AND fkCaixa = ${fkCaixa}
+		GROUP BY HOUR(dtHora);`;
 
     return database.executar(instrucaoSql);
 }

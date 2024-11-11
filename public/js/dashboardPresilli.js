@@ -317,6 +317,7 @@ const debouncedValidarFiltro = debounce((listaComponentesFiltro, intervalo) => {
         </div>`;
 
     if (intervalo == "Tempo Real") {
+        tituloGrafico.innerHTML = listaComponentes.length > 1 ? "Processador X Memoria / Tempo" : `${listaComponentes} / Tempo`
         if (listaComponentes.length == 0) {
             exibirNenhumComponente()
         } else if (listaComponentes.length == 2) {
@@ -328,41 +329,19 @@ const debouncedValidarFiltro = debounce((listaComponentesFiltro, intervalo) => {
         }
     } else {
         clearInterval(intervaloTempoReal)
-        var listaProcessador = []
-        var listaMemoria = []
-        var listaDatas = []
-
-        fetch(`/dashPresilli/capturarInformacoes/${intervalo}/${2}`, {
-            method: "GET",
-        })
-            .then(function (resposta) {
-                resposta.json().then((dadosMaquina) => {
-                    dadosMaquina.forEach(dado => {
-                        listaProcessador.push(dado.dia)
-                        listaMemoria.push(dado.mediamemoria)
-                        listaDatas.push(dado.dia)
-                    })
-                });
-            })
-            .catch(function (resposta) {
-                console.log(`#ERRO: ${resposta}`);
-            });
 
         if (listaComponentes.length == 0) {
             exibirNenhumComponente()
         } else {
             tituloGrafico.innerHTML = listaComponentes.length > 1 ? "Processador X Memoria / Tempo" : `${listaComponentes} / Tempo`
             if (listaComponentes.length == 2) {
-                exibirTodosComponentes(listaProcessador, listaMemoria, listaDatas)
+                exibirTodosComponentesIntervalo(intervalo)
             } else {
-
-                listaComponentes.forEach(componente => {
-                    if (componente == "Processador") {
-                        exibirProcessador()
-                    } else {
-                        exibirMemoria()
-                    }
-                })
+                if (listaComponentes.includes("Processador")) {
+                    exibirProcessadorIntervalo(intervalo)
+                } else {
+                    exibirMemoriaIntervalo(intervalo)
+                }
             }
         }
     }
@@ -370,7 +349,7 @@ const debouncedValidarFiltro = debounce((listaComponentesFiltro, intervalo) => {
 }, 200);
 
 function capturarPrimeiroDado() {
-    fetch(`/dashPresilli/capturarDadosTempoReal/${2}`, {
+    fetch(`/dashPresilli/capturarDadosTempoReal/${1}`, {
         method: "GET",
     })
         .then(function (resposta) {
@@ -399,7 +378,7 @@ function capturarPrimeiroDado() {
 function exibirEmTempoReal() {
     clearInterval(intervaloTempoReal)
 
-    fetch(`/dashPresilli/capturarDadosTempoReal/${2}`, {
+    fetch(`/dashPresilli/capturarDadosTempoReal/${1}`, {
         method: "GET",
     })
         .then(function (resposta) {
@@ -426,7 +405,7 @@ function exibirEmTempoReal() {
         });
 
     intervaloTempoReal = setInterval(() => {
-        fetch(`/dashPresilli/capturarDadosTempoReal/${2}`, {
+        fetch(`/dashPresilli/capturarDadosTempoReal/${1}`, {
             method: "GET",
         })
             .then(function (resposta) {
@@ -459,7 +438,7 @@ function exibirEmTempoReal() {
 function exibirTempoRealMemoria() {
     clearInterval(intervaloTempoReal)
 
-    fetch(`/dashPresilli/capturarDadosTempoReal/${2}`, {
+    fetch(`/dashPresilli/capturarDadosTempoReal/${1}`, {
         method: "GET",
     })
         .then(function (resposta) {
@@ -485,7 +464,7 @@ function exibirTempoRealMemoria() {
         });
 
     intervaloTempoReal = setInterval(() => {
-        fetch(`/dashPresilli/capturarDadosTempoReal/${2}`, {
+        fetch(`/dashPresilli/capturarDadosTempoReal/${1}`, {
             method: "GET",
         })
             .then(function (resposta) {
@@ -515,7 +494,7 @@ function exibirTempoRealMemoria() {
 function exibirTempoRealProcessador() {
     clearInterval(intervaloTempoReal)
 
-    fetch(`/dashPresilli/capturarDadosTempoReal/${2}`, {
+    fetch(`/dashPresilli/capturarDadosTempoReal/${1}`, {
         method: "GET",
     })
         .then(function (resposta) {
@@ -541,7 +520,7 @@ function exibirTempoRealProcessador() {
         });
 
     intervaloTempoReal = setInterval(() => {
-        fetch(`/dashPresilli/capturarDadosTempoReal/${2}`, {
+        fetch(`/dashPresilli/capturarDadosTempoReal/${1}`, {
             method: "GET",
         })
             .then(function (resposta) {
@@ -569,6 +548,80 @@ function exibirTempoRealProcessador() {
 
     }, 5000);
 }
+
+function exibirTodosComponentesIntervalo(intervalo) {
+    fetch(`/dashPresilli/capturarInformacoes/${intervalo}/${1}`, {
+        method: "GET",
+    })
+        .then(function (resposta) {
+            resposta.json().then((dadosMaquina) => {
+                var listaProcessador = []
+                var listaMemoria = []
+                var listaDatas = []
+
+                dadosMaquina.forEach(dado => {
+                    listaProcessador.push(dado.mediaProcessador)
+                    listaMemoria.push(dado.mediaMemoria)
+                    listaDatas.push(`${dado.hora} : 00`)
+                })
+
+                atualizarGrafico(listaProcessador, listaMemoria, listaDatas)
+                exibirTodosComponentes()
+            });
+        })
+        .catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+        });
+
+}
+
+function exibirProcessadorIntervalo(intervalo) {
+    fetch(`/dashPresilli/capturarInformacoes/${intervalo}/${1}`, {
+        method: "GET",
+    })
+        .then(function (resposta) {
+            resposta.json().then((dadosMaquina) => {
+                var listaProcessador = []
+                var listaDatas = []
+
+                dadosMaquina.forEach(dado => {
+                    listaProcessador.push(dado.mediaProcessador)
+                    listaDatas.push(`${dado.hora} : 00`)
+                })
+
+                atualizarGrafico(listaProcessador, null, listaDatas)
+                exibirProcessador()
+            });
+        })
+        .catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+        });
+}
+
+function exibirMemoriaIntervalo(intervalo) {
+    fetch(`/dashPresilli/capturarInformacoes/${intervalo}/${1}`, {
+        method: "GET",
+    })
+        .then(function (resposta) {
+            resposta.json().then((dadosMaquina) => {
+                var listaMemoria = []
+                var listaDatas = []
+
+                dadosMaquina.forEach(dado => {
+                    listaMemoria.push(dado.mediaMemoria)
+                    listaDatas.push(`${dado.hora} : 00`)
+                })
+
+                atualizarGrafico(null, listaMemoria, listaDatas)
+                exibirMemoria()
+            });
+        })
+        .catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+        });
+
+}
+
 
 function formatarData(data) {
     return `${new Date(data).toLocaleTimeString('pt-BR', { timeZone: 'America/Sao_Paulo' })}`;
@@ -781,6 +834,7 @@ function exibirNenhumComponente() {
 }
 
 function validarMaiorDado(dadosDoGrafico) {
+    console.log(dadosDoGrafico)
     var dadosMemoria;
     var dadosProcessador;
     var maiorDadoMemoria;
@@ -794,13 +848,13 @@ function validarMaiorDado(dadosDoGrafico) {
         menorDadoProcessador = dadosProcessador[0];
         maiorDadoProcessador = dadosProcessador[0];
         menorDadoMemoria = dadosMemoria[0];
-        maiorDadoMemoria = dadosMemoria[0];   
+        maiorDadoMemoria = dadosMemoria[0];
 
         for (const dadoMemoria of dadosMemoria) {
             if (dadoMemoria > maiorDadoMemoria) {
                 maiorDadoMemoria = dadoMemoria
             }
-    
+
             if (dadoMemoria < menorDadoMemoria) {
                 menorDadoMemoria = dadoMemoria
             }
@@ -810,7 +864,7 @@ function validarMaiorDado(dadosDoGrafico) {
             if (dadoProcessador > maiorDadoProcessador) {
                 maiorDadoProcessador = dadoProcessador
             }
-    
+
             if (dadoProcessador < menorDadoProcessador) {
                 menorDadoProcessador = dadoProcessador
             }
@@ -824,7 +878,7 @@ function validarMaiorDado(dadosDoGrafico) {
             if (dadoProcessador > maiorDadoProcessador) {
                 maiorDadoProcessador = dadoProcessador
             }
-    
+
             if (dadoProcessador < menorDadoProcessador) {
                 menorDadoProcessador = dadoProcessador
             }
@@ -832,12 +886,12 @@ function validarMaiorDado(dadosDoGrafico) {
     } else {
         dadosMemoria = dadosDoGrafico[0];
         menorDadoMemoria = dadosMemoria[0];
-        maiorDadoMemoria = dadosMemoria[0];    
+        maiorDadoMemoria = dadosMemoria[0];
         for (const dadoMemoria of dadosMemoria) {
             if (dadoMemoria > maiorDadoMemoria) {
                 maiorDadoMemoria = dadoMemoria
             }
-    
+
             if (dadoMemoria < menorDadoMemoria) {
                 menorDadoMemoria = dadoMemoria
             }
@@ -891,14 +945,8 @@ function selecionarComponente(situacao, componente) {
 function formatarIntervalo(intervalo) {
     if (intervalo == "Tempo Real") {
         return "Tempo Real";
-    } else if (intervalo >= 30 && intervalo <= 59) {
-        return `1 mês (${intervalo} Dias)`;
-    } else if (intervalo >= 60 && intervalo <= 89) {
-        return `2 meses (${intervalo} Dias)`;
-    } else if (intervalo == 90) {
-        return "3 meses";
     } else {
-        return `${intervalo} Dias`;
+        return `${intervalo} horas`;
     }
 }
 
@@ -909,14 +957,9 @@ function atualizarValorFiltro(value) {
     if (value == 0) {
         valorRange.innerHTML = "Tempo Real";
         valorIntervalo = "Tempo Real";
-    } else if (value >= 30 && value <= 59) {
-        valorRange.innerHTML = `Agora até 1 mês atrás (${value} Dias)`;
-    } else if (value >= 60 && value <= 89) {
-        valorRange.innerHTML = `Agora até 2 meses atrás (${value} Dias)`;
-    } else if (value == 90) {
-        valorRange.innerHTML = `Agora até 3 meses atrás`;
     } else {
-        valorRange.innerHTML = `Agora até ${value} Dias atrás`;
+        valorIntervalo = `${value}`;
+        valorRange.innerHTML = `Agora até ${value} horas atrás`;
     }
 
     // Chama a função de validação com debounce para evitar múltiplas consultas ao banco

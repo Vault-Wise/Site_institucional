@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="../css/dashboard.css" />
     <link rel="stylesheet" href="../css/dashboardPresilli.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
-    
+
     <script src="../js/sessao.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 </head>
@@ -39,7 +39,7 @@
         <div class="content ai-center d-flex flex-column">
             <div class="titulo d-flex flex-column jc-center ai-center">
                 <select onchange="mudarMaquina()" id="select_maquina">
-                    
+
                 </select>
                 <h3 id="tituloDash">Horário</h3>
             </div>
@@ -126,7 +126,7 @@
                             </tbody>
                         </table>
                         <button>Monitorar</button>
-                    </div>  
+                    </div>
                 </div>
 
             </div>
@@ -147,24 +147,28 @@
                 <h2>Intervalo</h2>
                 <div class="slider-container">
                     <span id="valorRange">Tempo Real</span>
-                    <input type="range" id="rangeInput" min="0" max="90" value="0" step="1"
+                    <input type="range" id="rangeInput" min="0" max="24" value="0" step="1"
                         oninput="atualizarValorFiltro(this.value)">
                     <div class="range-labels">
+                        <span>|</span><span>|</span><span>|</span>
                         <span>|</span><span>|</span><span>|</span>
                         <span>|</span><span>|</span><span>|</span>
                         <span>|</span><span>|</span><span>|</span>
                     </div>
                     <div class="range-labels">
                         <span>0</span>
+                        <span>2</span>
+                        <span>4</span>
+                        <span>6</span>
+                        <span>8</span>
                         <span>10</span>
+                        <span>12</span>
+                        <span>14</span>
+                        <span>16</span>
+                        <span>18</span>
                         <span>20</span>
-                        <span>30</span>
-                        <span>40</span>
-                        <span>50</span>
-                        <span>60</span>
-                        <span>70</span>
-                        <span>80</span>
-                        <span>90</span>
+                        <span>22</span>
+                        <span>24</span>
                     </div>
                 </div>
             </div>
