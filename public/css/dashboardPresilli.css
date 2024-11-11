@@ -223,6 +223,10 @@ table td {
     color: rgb(41, 102, 0);
 }
 
+.alerta {
+    color: #dc8b19;
+}
+
 .perigo {
     color: red;
 }
