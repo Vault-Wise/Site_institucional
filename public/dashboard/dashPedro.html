@@ -1,52 +1,234 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 
-<head>
-  <link rel="shortcut icon" href="../assets/icon/index.ico" type="image/x-icon" />
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dashboard | VaultWise</title>
+  <head>
+    <link rel="shortcut icon" href="../assets/icon/index.ico" type="image/x-icon" />
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard | Home | VaultWise</title>
 
-  <link rel="stylesheet" href="../css/dashboard.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 
-  <script src="../js/sessao.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-</head>
+    <link rel="stylesheet" href="../css/dashPedro.css" />
+    <link rel="stylesheet" href="../css/dashboard.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 
-<body>
-  <div class="pagina">
-    <nav>
-      <ul id="listaNavegacao">
-        <li>
-          <a href="#">
-            <div class="cargoUsuario">
+    <script src="../js/dashPedro.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  </head>
+
+  <body>
+
+
+    <div class="pagina">
+
+      <!--Navbar início-->
+      <nav>
+        <ul id="listaNavegacao">
+          <li>
+            <a href="#">
+              <img src="../css/imagens/icon12.jpg" alt="">
               <div class="usuario">
-                <img src="../css/imagens/icon12.jpg" alt="">
                 <span id="b_usuario">Usuário</span>
               </div>
-              <div class="cargo">
-                <span id="cargo_usuario"></span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <!--Navbar fim-->
+
+      <div class="content">
+
+
+        <!--Alertas início-->
+        <h1 style="justify-self: center; color:white;">Alertas</h1>
+
+        <div class="conteudo_alerta">
+          <div class="head">
+            
+            <div class="alert-summary">
+              <div class="alert-item yellow">
+                <p>Máquinas em estado de alerta</p>
+                <span>06/24</span>
+                <img src="css/img/alerta.png" style="border-radius: 50%;"alt="iconAlerta">
+              </div>
+              
+              <div class="alert-item red">
+                <p>Máquinas em estado de perigo</p>
+                <span>07/24</span>
+                <img src="css/img/perigo.png" style="border-radius: 50%;"alt="prerigo">
               </div>
             </div>
-          </a>
-        </li>
-      </ul>
-    </nav>
-    <div class="content">
+            
+            <div class="dashboard">
+              <div class="tabela">
+                <h2 style="justify-self: center; color:rgb(0, 0, 0)">Máquinas em alerta</h2> <br>
+                <div class="filtrar">
+                  <select style="display: flex; gap: 500px;">
+                    <option id="0">Agência</option>
+                    <option id="1">1</option>
+                    <option id="2">2</option>
+                    <option id="3">3</option>
+                    <option id="4">4</option>
+                    <option id="5">5</option>
+                    <option id="6">6</option>
+                  </select>
+                  <select>
+                    <option id="0">Situação</option>
+                    <option id="1">1</option>
+                    <option id="2">2</option>
+                    <option id="3">3</option>
+                    <option id="4">4</option>
+                    <option id="5">5</option>
+                    <option id="6">6</option>
+                  </select>
+                </div>
+                <!--
+                tabelaond evai mostrar a
+                agência, máquina e indicador
+                após a escolha do filtro
+                -->
+                <table>
+                  <thead>
+                    <tr>
+                      <th style="color:rgb(0, 0, 0)">Agência</th>
+                      <th style="color:rgb(0, 0, 0)">Máquina</th>
+                      <th style="color:rgb(0, 0, 0)">Indicador</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!--
+                    Dados coletados do dos alertas
+                    -->
+                    <tr style="color:rgb(0, 0, 0)">
+                      <td>Agência 1</td>
+                      <td>Máquina A</td>
+                      <td>Alerta</td>
+                    </tr>
+
+                    <tr style="color:rgb(0, 0, 0)">
+                      <td>Agência 2</td>
+                      <td>Máquina B</td>
+                      <td>Crítico</td>
+                    </tr>
+
+                    <tr style="color:rgb(0, 0, 0)">
+                      <td>Agência 3</td>
+                      <td>Máquina C</td>
+                      <td>Normal</td>
+                    </tr>
+
+                    <!--
+                    Dados coletados do dos alertas
+                    -->
+
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- Gráfico início-->
+          <div class="ocorrencias">
+            <div class="itensOcorrencia">
+              <h3>Estado de Máquina</h3>
+              <canvas id="myPieChart"></canvas>
+          </div>
+          <!-- Gráfico fim-->
+
+
+          <br> <br>                  
+          <br> <br>
+
+
+          <!--Ocorrencias início-->
+            <div class="itensOcorrencia">
+              <h3>Quantidade de Ocorrências</h3>
+              <table>
+                <thead>
+          
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Total</td>
+                    <td>17</td>
+                    <td>13</td>
+                  </tr>
+                  <tr>
+                    <td>Alerta</td>
+                    <td>08</td>
+                    <td>02</td>
+                  </tr>
+          
+                  <tr>
+                    <td>Crítico</td>
+                    <td>09</td>
+                    <td>07</td>
+                  </tr>
+          
+                </tbody>
+              </table>
+            </div>
+          <!--Ocorrencias fim-->
+
+
+      </div>
 
     </div>
-  </div>
-</body>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+  </body>
 
 </html>
 
+
+
+
+<!--Script do grafico em pizza-->
 <script>
-  
   document.addEventListener("DOMContentLoaded", () => {
-    validarSessao()
+    const ctx = document.getElementById("myPieChart").getContext("2d");
     
+    new Chart(ctx, {
+      type: "pie",
+      data: {
+        labels: ["Seguro", "Alerta", "Perigo"],
+        datasets: [{
+          data: [48.8, 25, 29.2], // Dados de exemplo
+          backgroundColor: ["#4CAF50", "#FFE066", "#FF6B6B"],
+          hoverBackgroundColor: ["#4CAF50", "#FFE066", "#FF6B6B"]
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: "top"
+          },
+          tooltip: {
+            callbacks: {
+              label: function(tooltipItem) {
+                return `${tooltipItem.label}: ${tooltipItem.raw}%`;
+              }
+            }
+          }
+        }
+      }
+    });
+  });
+</script>
+
+
+
+
+<!--Transição de dash-->
+<script>
+  validarSessao()
+
+  document.addEventListener("DOMContentLoaded", () => {
     const dashPedro = document.getElementById("dashPedro");
     const dashNicolas = document.getElementById("dashNicolas");
 
