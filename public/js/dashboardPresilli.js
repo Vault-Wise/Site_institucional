@@ -562,7 +562,7 @@ function exibirTodosComponentesIntervalo(intervalo) {
                 dadosMaquina.forEach(dado => {
                     listaProcessador.push(dado.mediaProcessador)
                     listaMemoria.push(dado.mediaMemoria)
-                    listaDatas.push(`${dado.hora} : 00`)
+                    listaDatas.push(`${DiasdaSemana[new Date(dado.dia).getDay()]} ${dado.hora} : 00`)
                 })
 
                 atualizarGrafico(listaProcessador, listaMemoria, listaDatas)
