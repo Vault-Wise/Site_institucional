@@ -1,13 +1,11 @@
-var database = require("../database/config");
+  var database = require("../database/config");
 
-function listarCaixas() {
-    var instrucaoSql = `
-        SELECT idCaixa, nomeEquipamento 
-        FROM CaixaEletronico;
-    `;
-    return database.executar(instrucaoSql);
-}
+  function listarCaixas() {
+      var instrucaoSql = `SELECT * FROM CaixaEletronico`;
+    
+      return database.executar(instrucaoSql);
+    }
 
-module.exports = {
-    listarCaixas
-};
+  module.exports = {
+      listarCaixas
+  };
