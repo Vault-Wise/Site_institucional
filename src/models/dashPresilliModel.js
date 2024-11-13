@@ -2,9 +2,10 @@ var database = require("../database/config");
 
 function capturarInformacoes(horas, fkCaixa) {
     var instrucaoSql = `
-        SELECT HOUR(dtHora) AS hora, ROUND(AVG(percentProcessador), 2) AS mediaProcessador, ROUND(AVG(percentMemoria), 2) AS mediaMemoria
+        SELECT DATE(dtHora) as dia, HOUR(dtHora) AS hora, ROUND(AVG(percentProcessador), 2) AS mediaProcessador, ROUND(AVG(percentMemoria), 2) AS mediaMemoria
 	    FROM dashPresilli WHERE dtHora BETWEEN DATE_SUB(NOW(), INTERVAL ${horas} HOUR) AND NOW() AND fkCaixa = ${fkCaixa}
-		GROUP BY HOUR(dtHora);`;
+		GROUP BY hora, dia 
+        ORDER BY dia ASC, hora ASC;`;
 
     return database.executar(instrucaoSql);
 }

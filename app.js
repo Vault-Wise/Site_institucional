@@ -29,6 +29,8 @@ var graficosDashRouter = require("./src/routes/graficoDash");
 
 var dashPresilli = require("./src/routes/dashPresilli");
 
+var dashPedro = require("./src/routes/dashPedro");
+
 var caixaRouter = require("./src/routes/caixas");
 
 
@@ -46,6 +48,7 @@ app.use("/empresas", empresasRouter);
 app.use("/graficoDash", graficosDashRouter);
 app.use("/agencia", agenciasRouter);
 app.use("/dashPresilli", dashPresilli);
+app.use("/dashPedro", dashPedro);
 app.use("/caixas", caixaRouter);
 
 app.listen(PORTA_APP, function () {
