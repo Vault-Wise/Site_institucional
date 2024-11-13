@@ -234,14 +234,26 @@ function atualizarGrafico(novosDadosProcessador, novosDadosMemoria, novasCategor
                 color: '#702f94'
             }
         ]);
-    } else if (novosDadosMemoria != null) [
+    } else if (novosDadosMemoria != null) {
         chart.updateSeries([
             {
                 name: 'Memória', data: novosDadosMemoria,
                 color: '#004aad'
             }
         ])
-    ]
+    } else {
+        chart.updateOptions({
+            xaxis: {
+                categories: []
+            }
+        });
+        chart.updateSeries([
+            {
+                name: 'Memória', data: [],
+                name: 'Processador', data: [],
+            }
+        ])
+    }
 }
 
 
@@ -834,6 +846,8 @@ function exibirNenhumComponente() {
             <h2>Sem Componente</h2>
     </div>
     `
+
+    atualizarGrafico(null, null, null)
 }
 
 function validarMaiorDado(dadosDoGrafico) {
