@@ -28,10 +28,22 @@
 .titulo select {
     margin-top: 2%;
     padding: 10px 25px;
-    font-size: 25px;
+    font-size: 20px;
     background-color: #0f1923;
-    color: #ffff;
-    border: none;   
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    outline: none;
+}
+
+.titulo select:hover {
+    background-color: #1a2532;
+}
+
+
+.titulo select:active {
+    background-color: #2a3a4b;
 }
 
 .botoes {
