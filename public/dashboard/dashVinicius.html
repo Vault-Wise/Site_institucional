@@ -70,10 +70,10 @@
                 <table id="caixasTable">
                     <thead>
                         <tr>
-                            <th>ID</th>
                             <th>Nome do Equipamento</th>
-                            <th>Sistema Operacional</th>
-                            <th>Memória Total</th>
+                            <th>Memória mínima</th>
+                            <th>Memória máxima</th>
+                            <th>Frequência Minima do Processador</th>
                             <th>Frequência Máxima do Processador</th>
                         </tr>
                     </thead>
@@ -169,7 +169,7 @@
         }
 
         document.addEventListener("DOMContentLoaded", function () {
-            fetch('/caixas/listarCaixas')
+            fetch('/caixas/listarCaixasTabela')
                 .then(response => response.json())
                 .then(data => {
                     const tbody = document.getElementById('caixasTable').getElementsByTagName('tbody')[0];
@@ -178,11 +178,11 @@
         
                         // Insira cada coluna com os valores do banco de dados
                         row.innerHTML = `
-                            <td>${caixa.idCaixa}</td>
                             <td>${caixa.nomeEquipamento}</td>
-                            <td>${caixa.sistemaOperacional}</td>
-                            <td>${caixa.memoriaTotal}</td>
-                            <td>${caixa.freqMaxProcessador}</td>
+                            <td>${caixa.memoriaPercentMinima}</td>
+                            <td>${caixa.memoriaPercentMaxima}</td>
+                            <td>${caixa.processadorPercentMinimo}</td>
+                            <td>${caixa.processadorPercentMaximo}</td>
                         `;
                         tbody.appendChild(row);
                     });

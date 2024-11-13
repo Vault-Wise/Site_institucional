@@ -6,6 +6,13 @@ function listarCaixas(req, res) {
     });
   }
 
+function listarCaixasTabela(req, res) {
+    caixaModel.listarCaixasTabela().then((resultado) => {
+      res.status(200).json(resultado);
+    });
+  }
+
 module.exports = {
-    listarCaixas
+    listarCaixas,
+    listarCaixasTabela
 };
