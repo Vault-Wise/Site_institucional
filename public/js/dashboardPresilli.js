@@ -14,6 +14,8 @@ let valorIntervalo = "Tempo Real";
 let intervaloTempoReal;
 let chart;
 
+let idMaquina = 2;
+
 document.addEventListener("DOMContentLoaded", () => {
     inicializarPagina();
 });
@@ -24,7 +26,7 @@ function inicializarPagina() {
     validarSessao();
     mostrarHoraAtual();
     capturarPrimeiroDado();
-    debouncedValidarFiltro(listaComponentes, valorIntervalo);
+    debouncedValidarFiltro(listaComponentes, valorIntervalo, idMaquina);
     alternarDashboards();
     tituloDash.innerHTML = obterTituloDash()
 }
@@ -57,7 +59,8 @@ function capturarMaquinas() {
 }
 
 function mudarMaquina() {
-
+    idMaquina = select_maquina.value
+    debouncedValidarFiltro(listaComponentes, valorIntervalo, select_maquina.value)
 }
 
 function obterTituloDash() {
@@ -296,8 +299,8 @@ function atualizarGraficoTempoReal(novoDadoProcessador, novoDadoMemoria, novaCat
     }
 }
 
-const debouncedValidarFiltro = debounce((listaComponentesFiltro, intervalo) => {
-    console.log("Executando consulta com:", listaComponentesFiltro, intervalo);
+const debouncedValidarFiltro = debounce((listaComponentesFiltro, intervalo, idMaquina) => {
+    console.log("Executando consulta com:", listaComponentesFiltro, intervalo, idMaquina);
     // ? Aqui temos a parte para mostrar os filtros selecionados na página
 
     cardFiltroSelecionado.innerHTML = "";
@@ -321,11 +324,11 @@ const debouncedValidarFiltro = debounce((listaComponentesFiltro, intervalo) => {
         if (listaComponentes.length == 0) {
             exibirNenhumComponente()
         } else if (listaComponentes.length == 2) {
-            exibirEmTempoReal()
+            exibirEmTempoReal(idMaquina)
         } else if (listaComponentes.includes("Processador")) {
-            exibirTempoRealProcessador()
+            exibirTempoRealProcessador(idMaquina)
         } else {
-            exibirTempoRealMemoria()
+            exibirTempoRealMemoria(idMaquina)
         }
     } else {
         clearInterval(intervaloTempoReal)
@@ -335,12 +338,12 @@ const debouncedValidarFiltro = debounce((listaComponentesFiltro, intervalo) => {
         } else {
             tituloGrafico.innerHTML = listaComponentes.length > 1 ? "Processador X Memoria / Tempo" : `${listaComponentes} / Tempo`
             if (listaComponentes.length == 2) {
-                exibirTodosComponentesIntervalo(intervalo)
+                exibirTodosComponentesIntervalo(intervalo, idMaquina)
             } else {
                 if (listaComponentes.includes("Processador")) {
-                    exibirProcessadorIntervalo(intervalo)
+                    exibirProcessadorIntervalo(intervalo, idMaquina)
                 } else {
-                    exibirMemoriaIntervalo(intervalo)
+                    exibirMemoriaIntervalo(intervalo, idMaquina)
                 }
             }
         }
@@ -349,7 +352,7 @@ const debouncedValidarFiltro = debounce((listaComponentesFiltro, intervalo) => {
 }, 200);
 
 function capturarPrimeiroDado() {
-    fetch(`/dashPresilli/capturarDadosTempoReal/${1}`, {
+    fetch(`/dashPresilli/capturarDadosTempoReal/${idMaquina}`, {
         method: "GET",
     })
         .then(function (resposta) {
@@ -375,10 +378,10 @@ function capturarPrimeiroDado() {
         });
 }
 
-function exibirEmTempoReal() {
+function exibirEmTempoReal(idMaquina) {
     clearInterval(intervaloTempoReal)
 
-    fetch(`/dashPresilli/capturarDadosTempoReal/${1}`, {
+    fetch(`/dashPresilli/capturarDadosTempoReal/${idMaquina}`, {
         method: "GET",
     })
         .then(function (resposta) {
@@ -405,7 +408,7 @@ function exibirEmTempoReal() {
         });
 
     intervaloTempoReal = setInterval(() => {
-        fetch(`/dashPresilli/capturarDadosTempoReal/${1}`, {
+        fetch(`/dashPresilli/capturarDadosTempoReal/${idMaquina}`, {
             method: "GET",
         })
             .then(function (resposta) {
@@ -435,10 +438,10 @@ function exibirEmTempoReal() {
     }, 5000);
 }
 
-function exibirTempoRealMemoria() {
+function exibirTempoRealMemoria(idMaquina) {
     clearInterval(intervaloTempoReal)
 
-    fetch(`/dashPresilli/capturarDadosTempoReal/${1}`, {
+    fetch(`/dashPresilli/capturarDadosTempoReal/${idMaquina}`, {
         method: "GET",
     })
         .then(function (resposta) {
@@ -464,7 +467,7 @@ function exibirTempoRealMemoria() {
         });
 
     intervaloTempoReal = setInterval(() => {
-        fetch(`/dashPresilli/capturarDadosTempoReal/${1}`, {
+        fetch(`/dashPresilli/capturarDadosTempoReal/${idMaquina}`, {
             method: "GET",
         })
             .then(function (resposta) {
@@ -491,10 +494,10 @@ function exibirTempoRealMemoria() {
     }, 5000);
 }
 
-function exibirTempoRealProcessador() {
+function exibirTempoRealProcessador(idMaquina) {
     clearInterval(intervaloTempoReal)
 
-    fetch(`/dashPresilli/capturarDadosTempoReal/${1}`, {
+    fetch(`/dashPresilli/capturarDadosTempoReal/${idMaquina}`, {
         method: "GET",
     })
         .then(function (resposta) {
@@ -520,7 +523,7 @@ function exibirTempoRealProcessador() {
         });
 
     intervaloTempoReal = setInterval(() => {
-        fetch(`/dashPresilli/capturarDadosTempoReal/${1}`, {
+        fetch(`/dashPresilli/capturarDadosTempoReal/${idMaquina}`, {
             method: "GET",
         })
             .then(function (resposta) {
@@ -549,8 +552,8 @@ function exibirTempoRealProcessador() {
     }, 5000);
 }
 
-function exibirTodosComponentesIntervalo(intervalo) {
-    fetch(`/dashPresilli/capturarInformacoes/${intervalo}/${1}`, {
+function exibirTodosComponentesIntervalo(intervalo, idMaquina) {
+    fetch(`/dashPresilli/capturarInformacoes/${intervalo}/${idMaquina}`, {
         method: "GET",
     })
         .then(function (resposta) {
@@ -575,8 +578,8 @@ function exibirTodosComponentesIntervalo(intervalo) {
 
 }
 
-function exibirProcessadorIntervalo(intervalo) {
-    fetch(`/dashPresilli/capturarInformacoes/${intervalo}/${1}`, {
+function exibirProcessadorIntervalo(intervalo, idMaquina) {
+    fetch(`/dashPresilli/capturarInformacoes/${intervalo}/${idMaquina}`, {
         method: "GET",
     })
         .then(function (resposta) {
@@ -598,8 +601,8 @@ function exibirProcessadorIntervalo(intervalo) {
         });
 }
 
-function exibirMemoriaIntervalo(intervalo) {
-    fetch(`/dashPresilli/capturarInformacoes/${intervalo}/${1}`, {
+function exibirMemoriaIntervalo(intervalo, idMaquina) {
+    fetch(`/dashPresilli/capturarInformacoes/${intervalo}/${idMaquina}`, {
         method: "GET",
     })
         .then(function (resposta) {
@@ -843,6 +846,24 @@ function validarMaiorDado(dadosDoGrafico) {
     var menorDadoProcessador
 
     if (dadosDoGrafico.length == 2) {
+        if (dadosDoGrafico[0].length == 0 || dadosDoGrafico[1].length == 0) {
+            return {
+                "dadosProcessador": {
+                    maior: "0",
+                    classeMaior: "perigo",
+                    menor: "0",
+                    classeMenor: "perigo"
+                },
+                "dadosMemoria": {
+                    maior: "0",
+                    classeMaior: "perigo",
+                    menor: "0",
+                    classeMenor: "perigo"
+                }
+
+            }
+        }
+
         dadosProcessador = dadosDoGrafico[0];
         dadosMemoria = dadosDoGrafico[1];
         menorDadoProcessador = dadosProcessador[0];
@@ -870,6 +891,24 @@ function validarMaiorDado(dadosDoGrafico) {
             }
         }
     } else if (chart.w.globals.seriesNames.includes("Processador")) {
+        if (dadosDoGrafico[0].length == 0) {
+            return {
+                "dadosProcessador": {
+                    maior: "0",
+                    classeMaior: "perigo",
+                    menor: "0",
+                    classeMenor: "perigo"
+                },
+                "dadosMemoria": {
+                    maior: "0",
+                    classeMaior: "perigo",
+                    menor: "0",
+                    classeMenor: "perigo"
+                }
+
+            }
+        }
+
         dadosProcessador = dadosDoGrafico[0];
         menorDadoProcessador = dadosProcessador[0];
         maiorDadoProcessador = dadosProcessador[0];
@@ -883,7 +922,25 @@ function validarMaiorDado(dadosDoGrafico) {
                 menorDadoProcessador = dadoProcessador
             }
         }
-    } else {
+    } else if (chart.w.globals.seriesNames.includes("Memória")) {
+        if (dadosDoGrafico[0].length == 0) {
+            return {
+                "dadosProcessador": {
+                    maior: "0",
+                    classeMaior: "perigo",
+                    menor: "0",
+                    classeMenor: "perigo"
+                },
+                "dadosMemoria": {
+                    maior: "0",
+                    classeMaior: "perigo",
+                    menor: "0",
+                    classeMenor: "perigo"
+                }
+
+            }
+        }
+
         dadosMemoria = dadosDoGrafico[0];
         menorDadoMemoria = dadosMemoria[0];
         maiorDadoMemoria = dadosMemoria[0];
@@ -939,7 +996,7 @@ function selecionarComponente(situacao, componente) {
     situacao.classList.toggle("botaoSelecionado");
     situacao.classList.toggle("botaoDeselecionado");
 
-    debouncedValidarFiltro(listaComponentes, valorIntervalo);
+    debouncedValidarFiltro(listaComponentes, valorIntervalo, idMaquina);
 }
 
 function formatarIntervalo(intervalo) {
@@ -963,7 +1020,7 @@ function atualizarValorFiltro(value) {
     }
 
     // Chama a função de validação com debounce para evitar múltiplas consultas ao banco
-    debouncedValidarFiltro(listaComponentes, valorIntervalo);
+    debouncedValidarFiltro(listaComponentes, valorIntervalo, idMaquina);
 }
 
 // Função debounce para atrasar a execução
