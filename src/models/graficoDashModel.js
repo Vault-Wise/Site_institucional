@@ -1,6 +1,6 @@
 var database = require("../database/config");
 
-function mostrarDados() {
+function mostrarDados(caixaId) {
     var instrucaoSql = `
         SELECT 
             dtHora, 
@@ -9,6 +9,7 @@ function mostrarDados() {
             velocidadeUpload, 
             velocidadeDownload 
         FROM Registro 
+        WHERE fkCaixa = ${caixaId} 
         ORDER BY dtHora DESC 
         LIMIT 30
     `;
