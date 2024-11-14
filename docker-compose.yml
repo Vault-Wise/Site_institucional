@@ -1,0 +1,20 @@
+services:
+  site:
+      image: nicolasrslopes/projeto_principal:v1.0
+      ports:
+              - "3333:8080"
+      networks:
+              - rede-compose
+      depends_on:
+              - db
+
+  db:
+      image: nicolasrslopes/projeto_principal:latest
+      ports:
+             - "3306:3306"
+      networks:
+             - rede-compose
+
+  networks:
+        rede-compose:
+                driver: bridge                 

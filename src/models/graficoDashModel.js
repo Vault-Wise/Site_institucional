@@ -15,15 +15,6 @@ function mostrarDados() {
     return database.executar(instrucaoSql);
 }
 
-function obterMaquinas() {
-    var instrucaoSql = `
-        SELECT DISTINCT agencia, maquina 
-        FROM Registro
-    `;
-    return database.executar(instrucaoSql);
-}
-
 module.exports = {
-    mostrarDados,
-    obterMaquinas
+    mostrarDados
 };

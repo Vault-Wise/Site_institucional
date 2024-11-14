@@ -43,7 +43,7 @@
                     <i class="fa-solid fa-laptop d"></i>
                     <h3>Máquina a ser monitorada</h3>
                     <div class="filters">
-                        <select class="agencia-select" id="caixaSelect">
+                        <select onselect="carregarMaquinas()" class="agencia-select" id="caixaSelect">
                             <option disabled selected>Selecione uma máquina</option>
                         </select>
                     </div>
@@ -67,33 +67,50 @@
                         </div>
                     </div>
                 </div>
+                <table id="caixasTable">
+                    <thead>
+                        <tr>
+                            <th>Nome do Equipamento</th>
+                            <th>Memória mínima</th>
+                            <th>Memória máxima</th>
+                            <th>Frequência Minima do Processador</th>
+                            <th>Frequência Máxima do Processador</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Dados serão inseridos aqui dinamicamente -->
+                    </tbody>
+                </table>
             </section>
         </section>
     </div>
 
     <script>
         validarSessao();
-
+    
         document.addEventListener("DOMContentLoaded", () => {
             b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
         });
-
+    
         let chartMemoria, chartProcessador;
-        
+    
         function inicializar() {
             carregarMaquinas();
             inicializarGraficos();
+            
+            // Adiciona o evento de "change" para atualizar gráficos ao selecionar uma máquina
             document.getElementById("caixaSelect").addEventListener("change", function () {
                 capturarDados(this.value);
             });
         }
-
+    
         function carregarMaquinas() {
             fetch("/caixas/listarCaixas")
                 .then(response => response.json())
                 .then(data => {
                     const caixaSelect = document.getElementById("caixaSelect");
                     caixaSelect.innerHTML = `<option disabled selected>Selecione uma máquina</option>`;
+                    
                     data.forEach(caixa => {
                         const option = document.createElement("option");
                         option.value = caixa.idCaixa;
@@ -103,7 +120,7 @@
                 })
                 .catch(error => console.error("Erro ao carregar máquinas:", error));
         }
-
+    
         function inicializarGraficos() {
             chartMemoria = new ApexCharts(document.querySelector("#chartMemoria"), {
                 chart: { type: "line", animations: { enabled: true, speed: 800 } },
@@ -111,7 +128,7 @@
                 xaxis: { categories: [] }
             });
             chartMemoria.render();
-
+    
             chartProcessador = new ApexCharts(document.querySelector("#chartProcessador"), {
                 chart: { type: "line", animations: { enabled: true, speed: 800 } },
                 series: [{ name: "Processador (%)", data: [] }],
@@ -119,14 +136,14 @@
             });
             chartProcessador.render();
         }
-
+    
         function capturarDados(caixaId) {
             if (!caixaId) return;
-
+    
             // Limpa os dados dos gráficos antes de atualizar
             chartMemoria.updateSeries([{ data: [] }]);
             chartProcessador.updateSeries([{ data: [] }]);
-
+    
             // Função de atualização dos gráficos
             function atualizarGraficos() {
                 fetch(`/graficoDash/mostrarDados?caixaId=${caixaId}`)
@@ -135,21 +152,45 @@
                         const times = data.map(item => new Date(item.dtHora).toLocaleTimeString());
                         const percentMemoriaData = data.map(item => item.percentMemoria);
                         const percentProcessadorData = data.map(item => item.percentProcessador);
-
+    
                         chartMemoria.updateSeries([{ name: "Memória (%)", data: percentMemoriaData }]);
                         chartMemoria.updateOptions({ xaxis: { categories: times } });
-
+    
                         chartProcessador.updateSeries([{ name: "Processador (%)", data: percentProcessadorData }]);
                         chartProcessador.updateOptions({ xaxis: { categories: times } });
                     })
                     .catch(error => console.log("Erro ao acessar dados: ", error));
             }
-
+    
             // Atualiza os gráficos imediatamente e a cada 5 segundos
             atualizarGraficos();
             clearInterval(window.graficoInterval);  // Limpa intervalo anterior
             window.graficoInterval = setInterval(atualizarGraficos, 5000);
         }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch('/caixas/listarCaixasTabela')
+                .then(response => response.json())
+                .then(data => {
+                    const tbody = document.getElementById('caixasTable').getElementsByTagName('tbody')[0];
+                    data.forEach(caixa => {
+                        const row = document.createElement('tr');
+        
+                        // Insira cada coluna com os valores do banco de dados
+                        row.innerHTML = `
+                            <td>${caixa.nomeEquipamento}</td>
+                            <td>${caixa.memoriaPercentMinima}</td>
+                            <td>${caixa.memoriaPercentMaxima}</td>
+                            <td>${caixa.processadorPercentMinimo}</td>
+                            <td>${caixa.processadorPercentMaximo}</td>
+                        `;
+                        tbody.appendChild(row);
+                    });
+                })
+                .catch(error => console.error('Erro ao buscar dados dos caixas:', error));
+        });
+        
     </script>
+    
 </body>
 </html>
