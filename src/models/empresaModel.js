@@ -25,8 +25,9 @@ function listar() {
   return database.executar(instrucaoSql);
 }
 
-function buscarCodigo(codEmpresa) {
-  var instrucaoSql = `SELECT codigoEmpresa FROM Empresa WHERE idEmpresa = '${codEmpresa}'`
+function buscarCodigo(idEmpresa) {
+  var instrucaoSql = `SELECT email, codigoEmpresa FROM Funcionario JOIN Empresa ON fkEmpresa = idEmpresa WHERE idEmpresa = ${idEmpresa} 
+  AND idFuncionario = (SELECT idFuncionario FROM Funcionario ORDER BY idFuncionario LIMIT 1);`
 
   return database.executar(instrucaoSql);
 }

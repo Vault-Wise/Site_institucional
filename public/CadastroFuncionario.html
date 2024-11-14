@@ -86,9 +86,11 @@
         <form>
           <div class="codigoAutenticacao">
             <h1>Valide sua conta</h1>
-            <p>Digite o código enviado para xxx@email.com</p>
+            <p>Digite o código enviado para <span id="emailFuncionario"></span></p>
             <input type="text" id="input_codigo">
-            <button onclick="cadastrar()" class="botaoCodigo">Cadastrar</button>
+            <div class="buttons">
+              <button onclick="cadastrar()" class="btn-primary">Cadastrar</button>
+            </div>
           </div>
         </form>
       </div>
@@ -272,6 +274,7 @@
       .then(function (resposta) {
         resposta.json().then((codigo) => {
           codigoEmpresaVar = codigo[0].codigoEmpresa
+          emailFuncionario.innerHTML = `${codigo[0].email}`
         });
       })
       .catch(function (resposta) {

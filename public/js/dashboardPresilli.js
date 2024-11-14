@@ -14,7 +14,7 @@ let valorIntervalo = "Tempo Real";
 let intervaloTempoReal;
 let chart;
 
-let idMaquina = 2;
+let idMaquina = 1;
 
 document.addEventListener("DOMContentLoaded", () => {
     inicializarPagina();
