@@ -41,18 +41,6 @@
             </div>
             <div class="investimentos">
                 <div class="card">
-                    <i class="fa-solid fa-memory d"></i>
-                    <h3>Ocorrências de Memória > 90%</h3>
-                    <span id="ocorrenciasMemoria" class="kpis">0</span>
-                </div>
-                <div class="card">
-                    <i class="fa-solid fa-microchip d"></i>
-                    <h3>Ocorrências de CPU > 90%</h3>
-                    <span id="ocorrenciasCPU" class="kpis">0</span>
-                </div>
-            </div>
-            <div class="investimentos">
-                <div class="card">
                     <i class="fa-solid fa-laptop d"></i>
                     <h3>Máquina a ser monitorada</h3>
                     <div class="filters">
@@ -60,6 +48,18 @@
                             <option disabled selected>Selecione uma máquina</option>
                         </select>
                     </div>
+                </div>
+            </div>
+            <div class="investimentos">
+                <div class="card">
+                    <i class="fa-solid fa-memory d"></i>
+                    <h3>Ocorrências de Memória > 80%</h3>
+                    <span id="ocorrenciasMemoria" class="kpis">0</span>
+                </div>
+                <div class="card">
+                    <i class="fa-solid fa-microchip d"></i>
+                    <h3>Ocorrências de CPU > 80%</h3>
+                    <span id="ocorrenciasCPU" class="kpis">0</span>
                 </div>
             </div>
             <section class="analise">
@@ -113,19 +113,39 @@
             fetch(`/graficoDash/mostrarDados?caixaId=${caixaId}`)
                 .then(response => response.json())
                 .then(data => {
-                    const ocorrenciasMemoria = data.filter(item => item.percentMemoria > 90).length;
-                    const ocorrenciasCPU = data.filter(item => item.percentProcessador > 90).length;
+                    const ocorrenciasMemoria = data.filter(item => item.percentMemoria > 80).length;
+                    const ocorrenciasCPU = data.filter(item => item.percentProcessador > 80).length;
 
-                    document.getElementById("ocorrenciasMemoria").textContent = ocorrenciasMemoria;
-                    document.getElementById("ocorrenciasCPU").textContent = ocorrenciasCPU;
+                    const spanMemoria = document.getElementById("ocorrenciasMemoria");
+                    const spanCPU = document.getElementById("ocorrenciasCPU");
+
+                    // Atualiza os textos
+                    spanMemoria.textContent = ocorrenciasMemoria;
+                    spanCPU.textContent = ocorrenciasCPU;
+
+                    // Altera a classe baseado no limite
+                    if (ocorrenciasMemoria > 5) {
+                        spanMemoria.classList.add("alerta");
+                    } else {
+                        spanMemoria.classList.remove("alerta");
+                    }
+
+                    if (ocorrenciasCPU > 5) {
+                        spanCPU.classList.add("alerta");
+                    } else {
+                        spanCPU.classList.remove("alerta");
+                    }
                 })
                 .catch(error => console.error("Erro ao calcular KPIs:", error));
         }
 
-        // Atualiza os KPIs sempre que uma máquina é selecionada
         document.getElementById("caixaSelect").addEventListener("change", function () {
             const caixaId = this.value;
-            atualizarKPIs(caixaId);
+
+            const limiteMemoria = 90;
+            const limiteCPU = 90;
+
+            atualizarKPIs(caixaId, limiteMemoria, limiteCPU);
         });
 
         function inicializar() {

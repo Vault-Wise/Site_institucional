@@ -399,8 +399,9 @@ select:focus {
 table {
   width: 100%;
   border-collapse: collapse;
+  margin-top: 60px;
   text-align: center;
-  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.5);
   transition: box-shadow 0.3s ease;
 }
 
@@ -620,6 +621,12 @@ table th {
   color: #0f1923;
   }
 
-.kpis {
-  font-size: 30px;
+  .kpis {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: black;
+}
+
+.alerta {
+    color: #D2042D;
 }
