@@ -19,11 +19,11 @@ router.get("/listarMaquina", function (req, res) {
     agenciaController.listarMaquina(req, res);
 })
 
-router.get("/buscarAgencia", function (req, res) {
+router.get("/buscarAgencia/:agencias/:anos", function (req, res) {
     agenciaController.buscarAgencia(req, res);
 })
 
-router.get("/alertaHorario", function (req, res) {
+router.get("/alertaHorario/:agencias/:anos", function (req, res) {
     agenciaController.alertaHorario(req, res);
 })
 
