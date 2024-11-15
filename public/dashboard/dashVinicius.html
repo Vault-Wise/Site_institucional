@@ -41,6 +41,18 @@
             </div>
             <div class="investimentos">
                 <div class="card">
+                    <i class="fa-solid fa-memory d"></i>
+                    <h3>Ocorrências de Memória > 90%</h3>
+                    <span id="ocorrenciasMemoria" class="kpis">0</span>
+                </div>
+                <div class="card">
+                    <i class="fa-solid fa-microchip d"></i>
+                    <h3>Ocorrências de CPU > 90%</h3>
+                    <span id="ocorrenciasCPU" class="kpis">0</span>
+                </div>
+            </div>
+            <div class="investimentos">
+                <div class="card">
                     <i class="fa-solid fa-laptop d"></i>
                     <h3>Máquina a ser monitorada</h3>
                     <div class="filters">
@@ -94,6 +106,27 @@
         });
 
         let chartMemoria, chartProcessador;
+
+        function atualizarKPIs(caixaId) {
+            if (!caixaId) return;
+
+            fetch(`/graficoDash/mostrarDados?caixaId=${caixaId}`)
+                .then(response => response.json())
+                .then(data => {
+                    const ocorrenciasMemoria = data.filter(item => item.percentMemoria > 90).length;
+                    const ocorrenciasCPU = data.filter(item => item.percentProcessador > 90).length;
+
+                    document.getElementById("ocorrenciasMemoria").textContent = ocorrenciasMemoria;
+                    document.getElementById("ocorrenciasCPU").textContent = ocorrenciasCPU;
+                })
+                .catch(error => console.error("Erro ao calcular KPIs:", error));
+        }
+
+        // Atualiza os KPIs sempre que uma máquina é selecionada
+        document.getElementById("caixaSelect").addEventListener("change", function () {
+            const caixaId = this.value;
+            atualizarKPIs(caixaId);
+        });
 
         function inicializar() {
             carregarMaquinas();

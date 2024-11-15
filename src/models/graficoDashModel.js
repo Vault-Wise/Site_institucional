@@ -16,6 +16,7 @@ function mostrarDados(caixaId) {
     return database.executar(instrucaoSql);
 }
 
+
 module.exports = {
     mostrarDados
 };
