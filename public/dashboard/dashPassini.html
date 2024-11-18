@@ -72,7 +72,7 @@
             }
 
             // Enviar uma requisição para o backend (API Node.js)
-            fetch(`http://localhost:3333/dashPassini/rota`)
+            fetch(`http://localhost:3333/dashPassini/rota/${pid}`)
             // http://localhost:3333/matar-processo/${pid}
                 .then(response => response.text())
                 .then(data => {

@@ -4,8 +4,8 @@ const { exec } = require('child_process');
 const router = express.Router();
 
 // Rota para matar um processo
-router.get('/rota/', (req, res) => { // Alterado para capturar o PID na URL
-  const pid = +(req.params.pid, 10);
+router.get('/rota/:pid', (req, res) => { // Alterado para capturar o PID na URL
+  const pid = +(req.params.pid);
 
   // Verificar se o PID fornecido é válido
   if (isNaN(pid)) {
