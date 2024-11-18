@@ -37,7 +37,10 @@
         <div class="content">
 
         </div>
-    </div>
+        <h1>Finalizar Processo via Node.js</h1>
+    <input type="number" id="pidInput" placeholder="Digite o PID">
+    <button id="finalizarBtn">Finalizar Processo</button>
+    <p id="status"></p>
 </body>
 
 </html>
@@ -58,36 +61,27 @@
             dashVini.classList.remove("agora")
         }
     });
-    const readline = require('readline');
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
+    document.getElementById('finalizarBtn').addEventListener('click', () => {
+      
+            const pid = document.getElementById('pidInput').value;
 
-rl.question('Digite o PID do processo que você deseja finalizar: ', (pidInput) => {
-  const pid = parseInt(pidInput, 10);
+            if (!pid || isNaN(pid)) {
+                document.getElementById('status').innerText = 'Por favor, insira um PID válido.';
+                return;
+            }
 
-  if (isNaN(pid)) {
-    console.error('PID inválido. Certifique-se de digitar um número.');
-    rl.close();
-    return;
-  }
-
-  try {
-    process.kill(pid, 'SIGTERM');
-    console.log(`Processo com PID ${pid} foi finalizado com sucesso.`);
-  } catch (err) {
-    if (err.code === 'ESRCH') {
-      console.error(`Nenhum processo encontrado com o PID ${pid}.`);
-    } else if (err.code === 'EPERM') {
-      console.error(`Permissão negada para finalizar o processo com PID ${pid}.`);
-    } else {
-      console.error(`Erro ao tentar finalizar o processo: ${err.message}`);
-    }
-  }
-
-  rl.close();
-});
-
+            // Enviar uma requisição para o backend (API Node.js)
+            fetch(`http://localhost:3333/dashPassini/rota`)
+            // http://localhost:3333/matar-processo/${pid}
+                .then(response => response.text())
+                .then(data => {
+                  console.log(data)
+                    document.getElementById('status').innerText = `Resultado: ${data}`;
+                })
+                .catch(error => {
+                    document.getElementById('status').innerText = `Erro: ${error.message}`;
+                });
+        });
+    
 </script>

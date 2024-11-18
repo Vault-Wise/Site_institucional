@@ -33,6 +33,7 @@ var dashPresilli = require("./src/routes/dashPresilli");
 
 var caixaRouter = require("./src/routes/caixas");
 
+var apiKillPDI = require("./src/dashPassini/routerDash")
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -50,6 +51,7 @@ app.use("/agencia", agenciasRouter);
 app.use("/dashPresilli", dashPresilli);
 // app.use("/dashPedro", dashPedro);
 app.use("/caixas", caixaRouter);
+app.use("/dashPassini", apiKillPDI)
 
 app.listen(PORTA_APP, function () {
     console.log(`
