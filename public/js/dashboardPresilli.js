@@ -363,7 +363,7 @@ const debouncedValidarFiltro = debounce((listaComponentesFiltro, intervalo, idMa
         }
     }
 
-}, 200);
+}, 500);
 
 function capturarPrimeiroDado() {
     fetch(`/dashPresilli/capturarDadosTempoReal/${idMaquina}`, {

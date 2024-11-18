@@ -63,6 +63,26 @@ CREATE TABLE Registro (
     CONSTRAINT fkRegistroCaixaEletronico FOREIGN KEY (fkCaixa) REFERENCES CaixaEletronico (idCaixa)
 );
 
+CREATE TABLE Processo (
+    idProcesso INT AUTO_INCREMENT,	
+    percentMemoria DECIMAL(5, 2),
+    percentProcessador DECIMAL(5, 2),
+    dtHora DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    fkRegistro INT NOT NULL,
+    fkCaixa INT NOT NULL,
+    CONSTRAINT fkProcessoRegistro FOREIGN KEY (fkRegistro , fkCaixa) REFERENCES Registro (idRegistro , fkCaixa),
+    PRIMARY KEY (idProcesso, fkRegistro, fkCaixa)
+);
+
+CREATE TABLE PID (
+	idPID INT PRIMARY KEY AUTO_INCREMENT,
+    numeroPID VARCHAR(20),
+    nivelAmeaca INT,
+    fkProcesso INT,
+    fkRegistro INT, 
+    fkCaixa INT,
+    CONSTRAINT fkPIDProcesso FOREIGN KEY (fkProcesso, fkRegistro, fkCaixa) REFERENCES Processo (idProcesso, fkRegistro, fkCaixa)
+);
 
 CREATE TABLE Alerta (
     idAlerta INT AUTO_INCREMENT,

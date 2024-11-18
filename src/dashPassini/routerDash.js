@@ -13,7 +13,7 @@ router.get('/rota/:pid', (req, res) => { // Alterado para capturar o PID na URL
   }
 
   // Tentar finalizar o processo com o comando kill
-  exec(`kill -15 ${pid}`, (error, stdout, stderr) => {
+  exec(`sudo kill -15 ${pid}`, (error, stdout, stderr) => {
     if (error) {
       return res.status(500).send(`Erro ao tentar matar o processo: ${error.message}`);
     }
