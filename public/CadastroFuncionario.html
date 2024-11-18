@@ -83,16 +83,14 @@
     </div>
     <div id="telaCodigo">
       <div class="container">
-        <form>
-          <div class="codigoAutenticacao">
-            <h1>Valide sua conta</h1>
-            <p>Digite o código enviado para <span id="emailFuncionario"></span></p>
-            <input type="text" id="input_codigo">
-            <div class="buttons">
-              <button onclick="cadastrar()" class="btn-primary">Cadastrar</button>
-            </div>
+        <div class="codigoAutenticacao">
+          <h1>Valide sua conta</h1>
+          <p>Digite o código enviado para <span id="emailFuncionario"></span></p>
+          <input type="text" id="input_codigo">
+          <div class="buttons">
+            <button onclick="cadastrar()" class="btn-primary">Cadastrar</button>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   </div>
@@ -140,10 +138,6 @@
   function ativarMenu() {
     var linknav = document.getElementById("link_nav")
     linknav.classList.toggle("ativo")
-  }
-
-  function mudarCadastro() {
-    window.location.href = "CadastroEmpresa.html"
   }
 
   function autenticar() {
@@ -243,21 +237,13 @@
           console.log("resposta: ", resposta);
 
           if (resposta.ok) {
-            // cardErro.style.display = "block";
-            // mensagem_erro.innerHTML =
-            //   "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
-
-            // limparFormulario();
-            // finalizarAguardar();
-
-            alert("Usuário Cadastrado")
+            buildCardMensagem("block", "ok", "Cadastro realizado com sucesso, redirecionando ao login...");
 
             setTimeout(() => {
-              window.location = "login.html";
-            }, "2000");
-          } else {
-            throw "Houve um erro ao tentar realizar o cadastro!";
+              window.location = "Login.html";
+            }, 2000);
           }
+
         })
         .catch(function (resposta) {
           console.log(`#ERRO: ${resposta}`);
