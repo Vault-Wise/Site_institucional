@@ -76,5 +76,5 @@ CREATE TABLE Alerta (
 );
 
 CREATE VIEW dashPresilli AS 
-SELECT dtHora, percentMemoria, percentProcessador, fkCaixa 
+SELECT dtHora, percentMemoria, percentProcessador AS percentCPU, fkCaixa 
 FROM Registro;
