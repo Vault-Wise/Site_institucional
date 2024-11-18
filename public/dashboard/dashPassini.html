@@ -58,4 +58,36 @@
             dashVini.classList.remove("agora")
         }
     });
+    const readline = require('readline');
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+rl.question('Digite o PID do processo que você deseja finalizar: ', (pidInput) => {
+  const pid = parseInt(pidInput, 10);
+
+  if (isNaN(pid)) {
+    console.error('PID inválido. Certifique-se de digitar um número.');
+    rl.close();
+    return;
+  }
+
+  try {
+    process.kill(pid, 'SIGTERM');
+    console.log(`Processo com PID ${pid} foi finalizado com sucesso.`);
+  } catch (err) {
+    if (err.code === 'ESRCH') {
+      console.error(`Nenhum processo encontrado com o PID ${pid}.`);
+    } else if (err.code === 'EPERM') {
+      console.error(`Permissão negada para finalizar o processo com PID ${pid}.`);
+    } else {
+      console.error(`Erro ao tentar finalizar o processo: ${err.message}`);
+    }
+  }
+
+  rl.close();
+});
+
 </script>

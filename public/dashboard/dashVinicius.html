@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <link rel="shortcut icon" href="../assets/icon/index.ico" type="image/x-icon" />
     <meta charset="UTF-8" />
@@ -49,6 +50,18 @@
                     </div>
                 </div>
             </div>
+            <div class="investimentos">
+                <div class="card">
+                    <i class="fa-solid fa-memory d"></i>
+                    <h3>Ocorrências de Memória > 80%</h3>
+                    <span id="ocorrenciasMemoria" class="kpis">0</span>
+                </div>
+                <div class="card">
+                    <i class="fa-solid fa-microchip d"></i>
+                    <h3>Ocorrências de CPU > 80%</h3>
+                    <span id="ocorrenciasCPU" class="kpis">0</span>
+                </div>
+            </div>
             <section class="analise">
                 <div class="caixa">
                     <ul>
@@ -87,30 +100,71 @@
 
     <script>
         validarSessao();
-    
+
         document.addEventListener("DOMContentLoaded", () => {
             b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
         });
-    
+
         let chartMemoria, chartProcessador;
-    
+
+        function atualizarKPIs(caixaId) {
+            if (!caixaId) return;
+
+            fetch(`/graficoDash/mostrarDados?caixaId=${caixaId}`)
+                .then(response => response.json())
+                .then(data => {
+                    const ocorrenciasMemoria = data.filter(item => item.percentMemoria > 80).length;
+                    const ocorrenciasCPU = data.filter(item => item.percentProcessador > 80).length;
+
+                    const spanMemoria = document.getElementById("ocorrenciasMemoria");
+                    const spanCPU = document.getElementById("ocorrenciasCPU");
+
+                    // Atualiza os textos
+                    spanMemoria.textContent = ocorrenciasMemoria;
+                    spanCPU.textContent = ocorrenciasCPU;
+
+                    // Altera a classe baseado no limite
+                    if (ocorrenciasMemoria > 5) {
+                        spanMemoria.classList.add("alerta");
+                    } else {
+                        spanMemoria.classList.remove("alerta");
+                    }
+
+                    if (ocorrenciasCPU > 5) {
+                        spanCPU.classList.add("alerta");
+                    } else {
+                        spanCPU.classList.remove("alerta");
+                    }
+                })
+                .catch(error => console.error("Erro ao calcular KPIs:", error));
+        }
+
+        document.getElementById("caixaSelect").addEventListener("change", function () {
+            const caixaId = this.value;
+
+            const limiteMemoria = 90;
+            const limiteCPU = 90;
+
+            atualizarKPIs(caixaId, limiteMemoria, limiteCPU);
+        });
+
         function inicializar() {
             carregarMaquinas();
             inicializarGraficos();
-            
+
             // Adiciona o evento de "change" para atualizar gráficos ao selecionar uma máquina
             document.getElementById("caixaSelect").addEventListener("change", function () {
                 capturarDados(this.value);
             });
         }
-    
+
         function carregarMaquinas() {
             fetch("/caixas/listarCaixas")
                 .then(response => response.json())
                 .then(data => {
                     const caixaSelect = document.getElementById("caixaSelect");
                     caixaSelect.innerHTML = `<option disabled selected>Selecione uma máquina</option>`;
-                    
+
                     data.forEach(caixa => {
                         const option = document.createElement("option");
                         option.value = caixa.idCaixa;
@@ -120,7 +174,7 @@
                 })
                 .catch(error => console.error("Erro ao carregar máquinas:", error));
         }
-    
+
         function inicializarGraficos() {
             chartMemoria = new ApexCharts(document.querySelector("#chartMemoria"), {
                 chart: { type: "line", animations: { enabled: true, speed: 800 } },
@@ -128,7 +182,7 @@
                 xaxis: { categories: [] }
             });
             chartMemoria.render();
-    
+
             chartProcessador = new ApexCharts(document.querySelector("#chartProcessador"), {
                 chart: { type: "line", animations: { enabled: true, speed: 800 } },
                 series: [{ name: "Processador (%)", data: [] }],
@@ -136,15 +190,13 @@
             });
             chartProcessador.render();
         }
-    
+
         function capturarDados(caixaId) {
             if (!caixaId) return;
-    
-            // Limpa os dados dos gráficos antes de atualizar
+
             chartMemoria.updateSeries([{ data: [] }]);
             chartProcessador.updateSeries([{ data: [] }]);
-    
-            // Função de atualização dos gráficos
+
             function atualizarGraficos() {
                 fetch(`/graficoDash/mostrarDados?caixaId=${caixaId}`)
                     .then(response => response.json())
@@ -152,19 +204,18 @@
                         const times = data.map(item => new Date(item.dtHora).toLocaleTimeString());
                         const percentMemoriaData = data.map(item => item.percentMemoria);
                         const percentProcessadorData = data.map(item => item.percentProcessador);
-    
+
                         chartMemoria.updateSeries([{ name: "Memória (%)", data: percentMemoriaData }]);
                         chartMemoria.updateOptions({ xaxis: { categories: times } });
-    
+
                         chartProcessador.updateSeries([{ name: "Processador (%)", data: percentProcessadorData }]);
                         chartProcessador.updateOptions({ xaxis: { categories: times } });
                     })
                     .catch(error => console.log("Erro ao acessar dados: ", error));
             }
-    
-            // Atualiza os gráficos imediatamente e a cada 5 segundos
+
             atualizarGraficos();
-            clearInterval(window.graficoInterval);  // Limpa intervalo anterior
+            clearInterval(window.graficoInterval);
             window.graficoInterval = setInterval(atualizarGraficos, 5000);
         }
 
@@ -175,7 +226,7 @@
                     const tbody = document.getElementById('caixasTable').getElementsByTagName('tbody')[0];
                     data.forEach(caixa => {
                         const row = document.createElement('tr');
-        
+
                         // Insira cada coluna com os valores do banco de dados
                         row.innerHTML = `
                             <td>${caixa.nomeEquipamento}</td>
@@ -189,8 +240,9 @@
                 })
                 .catch(error => console.error('Erro ao buscar dados dos caixas:', error));
         });
-        
+
     </script>
-    
+
 </body>
+
 </html>

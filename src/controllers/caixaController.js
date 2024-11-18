@@ -11,6 +11,7 @@ function listarCaixasTabela(req, res) {
       res.status(200).json(resultado);
     });
   }
+  
 
 module.exports = {
     listarCaixas,

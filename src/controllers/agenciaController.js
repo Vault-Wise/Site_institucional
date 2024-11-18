@@ -43,6 +43,15 @@ function listarMaquina(req, res) {
 }
 
 function buscarAgencia(req, res) {
+  var agencia = req.params.agencias;
+  var ano = req.params.anos;
+
+  agenciaModel.buscarAgencia(agencia, ano).then((resultado) => {
+    res.status(200).json(resultado);
+  });
+}
+
+function selectsDaPagina(req, res) {
   agenciaModel.buscarAgencia().then((resultado) => {
     res.status(200).json(resultado);
   });
@@ -50,20 +59,12 @@ function buscarAgencia(req, res) {
 
 function alertaHorario(req, res) {
   
-  var agencia = req.body.agenciaServer;
+  var agencia = req.params.agencias;
+  var ano = req.params.anos;
 
-  agenciaModel.alertaHorario().then((resultado) => {
+  agenciaModel.alertaHorario(agencia, ano).then((resultado) => {
     res.status(200).json(resultado);
   });
-  
-  agenciaModel.alertaHorario(agencia)
-      .then(() => {
-          res.status(201).json({ mensagem: "Máquina associada com sucesso!" });
-      })
-      .catch(erro => {
-          console.error("Erro ao associar máquina: ", erro);
-          res.status(500).json({ erro: "Erro ao associar máquina." });
-      });
 }
 
 function agenciaSelecionadaAtual(req, res) {

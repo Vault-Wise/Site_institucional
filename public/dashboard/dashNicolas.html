@@ -16,7 +16,7 @@
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 </head>
 
-<body onload="carregar(), buscarAgencia(), selecionarAgencia(), VisuAlertaHorario(), buscarAgenciaSelecionada()">
+<body onload="carregar(), selecionarAgencia()">
     <div class="pagina">
         <nav>
             <ul id="listaNavegacao">
@@ -37,7 +37,9 @@
         </nav>
         <div class="content">
             <div class="conteudo-dash">
-                <h1 class="titulo_dash">Mês - 0 | Agência <div id="agencia_top_alerta">0</div>
+                <h1 class="titulo_dash">Ano -
+                    <select type="text" id="select_ano" onchange="VisuAlertaHorario(), buscarAgencia()"></select>
+                    | Agência <div id="agencia_top_alerta">0</div>
                 </h1>
                 <div class="kpis">
                     <div class="card">
@@ -96,10 +98,9 @@
                                     <option value="">CPU</option>
                                     <option value="">RAM</option>
                                 </select>
-                                <select type="text" id="select_agencia">
+                                <select type="text" id="select_agencia" onchange="VisuAlertaHorario()">
 
                                 </select>
-                                <button class="check" onclick="associar()"><i class="fa-solid fa-check"></i></button>
                             </div>
                             <div id="chart">
                                 <h2 class="titulo_grafico">Desempenho Médio Anual de x - Agência 01 (2023-2024)</h2>
@@ -287,7 +288,13 @@
         var menosAlertas = document.getElementById("menos_alerta");
         var selectAgencia = document.getElementById("select_agencia");
 
-        fetch("/agencia/buscarAgencia", {
+        var select_ano = document.getElementById("select_ano");
+        var anos = select_ano.value;
+
+        var select_agencia = document.getElementById("select_agencia")
+        var agencias = select_agencia.value;
+
+        fetch(`/agencia/buscarAgencia/${agencias}/${anos}`, {
             method: "GET",
         })
             .then(function (resposta) {
@@ -297,11 +304,11 @@
                 if (agencias.length > 0) {
 
                     const agenciaMaisAlertas = agencias[0];
-                    const agenciaMenosAlertas = agencias[agencias.length - 1];
+                    const agenciaMenosAlertas = agencias[1];
 
                     maisAlertas.innerHTML = `${agenciaMaisAlertas.fkAgencia} (${agenciaMaisAlertas.totalAlertas} alertas)`;
                     menosAlertas.innerHTML = `${agenciaMenosAlertas.fkAgencia} (${agenciaMenosAlertas.totalAlertas} alertas)`;
-                    agenciaTopAlertas.innerHTML = `${agenciaMaisAlertas.fkAgencia}`;
+
 
                 } else {
                     maisAlertas.innerHTML = "0";
@@ -314,10 +321,13 @@
     }
 
     function buscarAgenciaSelecionada() {
-        var agenciaTopAlertas = document.getElementById("agencia_top_alerta");
-        var selectAgencia = document.getElementById("select_agencia");
+        var select_agencia = document.getElementById("select_agencia")
+        var agencias = select_agencia.value;
 
-        fetch("/agencia/buscarAgencia", {
+        var selectAno = document.getElementById("select_ano");
+        var anos = select_ano.value;
+
+        fetch(`/agencia/buscarAgencia/${agencias}/${anos}`, {
             method: "GET",
         })
             .then(function (resposta) {
@@ -328,8 +338,6 @@
 
                     const agenciaMaisAlertas = agencias[0];
                     const agenciaMenosAlertas = agencias[agencias.length - 1];
-
-                    agenciaTopAlertas.innerHTML = `${agenciaMaisAlertas.fkAgencia}`;
 
                     const opcaoExistente = document.querySelector(`#select_agencia option[value="${agenciaMaisAlertas.fkAgencia}"]`);
                     if (opcaoExistente) {
@@ -347,27 +355,38 @@
                     maisAlertas.innerHTML = "0";
                     menosAlertas.innerHTML = "0";
                 }
+
+                VisuAlertaHorario();
             })
             .catch(function (resposta) {
                 console.log(`#ERRO: ${resposta}`);
             });
     }
 
-    setInterval(buscarAgencia, 5000);
-
     // SELECT DA TELA
     function selecionarAgencia() {
-        fetch("/agencia/listar", {
+        fetch(`/agencia/listar`, {
             method: "GET",
         })
             .then(function (resposta) {
-                resposta.json().then((agencias) => {
-                    agencias.forEach((agencia) => {
+                resposta.json().then((dados) => {
+                    
+                    dados.agencias.forEach((agencia) => {
                         if (!document.querySelector(`#select_agencia option[value="${agencia.idAgencia}"]`)) {
                             select_agencia.innerHTML += `<option value="${agencia.idAgencia}">Agência ${agencia.idAgencia}</option>`;
                             select_agencia2.innerHTML += `<option value="${agencia.idAgencia}">Agência ${agencia.idAgencia}</option>`;
                         }
                     });
+
+                    
+                    dados.anos.forEach((ano) => {
+                        if (!document.querySelector(`#select_ano option[value="${ano.anoAtual}"]`)) {
+                            select_ano.innerHTML += `<option value="${ano.anoAtual}">${ano.anoAtual}</option>`;
+                        }
+                    });
+
+                    buscarAgenciaSelecionada();
+                    buscarAgencia();
                 });
             })
             .catch(function (resposta) {
@@ -375,26 +394,26 @@
             });
     }
 
+    var agencias = select_agencia.value;
+
     //KPI 2
     function VisuAlertaHorario() {
 
+        var agenciaTopAlertas = document.getElementById("agencia_top_alerta");
+        var select_agencia = document.getElementById("select_agencia")
         var agencias = select_agencia.value;
+        var select_ano = document.getElementById("select_ano");
+        var anos = select_ano.value;
+
+        agenciaTopAlertas.innerHTML = agencias;
+
         var qtd_manha = document.getElementById("qtd_manha");
         var qtd_tarde = document.getElementById("qtd_tarde");
         var qtd_noite = document.getElementById("qtd_noite");
 
-        fetch("../agencia/alertaHorario", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                agenciaServer: agencias
-            }),
-        }).then(function (resposta) {console.log("resposta: ", resposta);})
-
+        console.log(agencias)
         // COLOCAR O RESULTADO NA KPI
-        fetch("/agencia/alertaHorario", {
+        fetch(`/agencia/alertaHorario/${agencias}/${anos}`, {
             method: "GET",
         })
             .then(function (resposta) {
@@ -425,6 +444,15 @@
                             qtd_noite.innerHTML = `${agencia.noite} alertas`
                         }
 
+                        var allOptions = select_agencia.querySelectorAll('option');
+                        allOptions.forEach(option => {
+                            if (option.value === agencias) {
+                                option.disabled = true;
+                            } else {
+                                option.disabled = false;
+                            }
+                        });
+
                     });
                 });
             })
@@ -432,6 +460,8 @@
                 console.log(`#ERRO: ${resposta}`);
             });
     }
+
+    setInterval(buscarAgencia, 5000);
 
     function agenciaSelecionadaAtual() {
 

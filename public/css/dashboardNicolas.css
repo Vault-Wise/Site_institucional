@@ -275,3 +275,20 @@ select {
 #agencia_top_alerta {
     margin-left: 8px;
 }
+
+h1 > select {
+    padding: 0px;
+    border-radius: 5px;
+    font-size: 0.9em;
+    font-weight: bold;
+    background-color: #0f1923;
+    color: #fff;
+    
+    margin: 0px 4px;
+}
+
+option {
+    background-color: #fff;
+    font-size: 15px;
+    color: #000000;
+}
