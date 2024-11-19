@@ -1,10 +1,10 @@
 var dashPresilliModel = require("../models/dashPresilliModel");
 
 function capturarInformacoes(req, res) {
-    var intervaloDias = req.params.intervalo;
+    var intervaloHoras = req.params.intervalo;
     var fkCaixa = req.params.fkCaixa
 
-    dashPresilliModel.capturarInformacoes(intervaloDias, fkCaixa).then((resultado) => {
+    dashPresilliModel.capturarInformacoes(intervaloHoras, fkCaixa).then((resultado) => {
         res.status(200).json(resultado);
     });
 }
@@ -25,8 +25,27 @@ function capturarMaquinas(req, res) {
     });
 }
 
+function capturaProcessosTempoReal(req, res) {
+    var fkCaixa = req.params.fkCaixa
+
+    dashPresilliModel.capturaProcessosTempoReal(fkCaixa).then((resultado) => {
+        res.status(200).json(resultado);
+    });
+}
+
+function capturaProcessosIntervalo(req, res) {
+    var fkCaixa = req.params.fkCaixa
+    var intervalo = req.params.intervalo
+
+    dashPresilliModel.capturaProcessosIntervalo(fkCaixa, intervalo).then((resultado) => {
+        res.status(200).json(resultado)
+    });
+}
+
 module.exports = {
     capturarInformacoes,
     capturarDadosTempoReal,
-    capturarMaquinas
+    capturarMaquinas,
+    capturaProcessosTempoReal,
+    capturaProcessosIntervalo
 };

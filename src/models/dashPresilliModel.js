@@ -29,9 +29,44 @@ function capturarMaquinas(fkAgencia) {
     return database.executar(instrucaoSql);
 }
 
+function capturaProcessosTempoReal(fkCaixa) {
+    var instrucaoSql = `
+    SELECT *
+    FROM Processo
+    WHERE dtHora >= (
+        SELECT MAX(dtHora) - INTERVAL 45 SECOND
+        FROM Processo
+        WHERE fkCaixa = ${fkCaixa}
+    )
+    AND fkCaixa = ${fkCaixa}
+    ORDER BY percentProcessador DESC, percentMemoria DESC, dtHora DESC
+    LIMIT 3;
+   `;
+
+    return database.executar(instrucaoSql);
+}
+
+function capturaProcessosIntervalo(fkCaixa, intervalo) {
+    var instrucaoSql = `
+    SELECT *
+    FROM Processo
+    WHERE dtHora >= (
+        SELECT MAX(dtHora) - INTERVAL ${intervalo} HOUR
+        FROM Processo
+        WHERE fkCaixa = ${fkCaixa}
+    )
+    AND fkCaixa = ${fkCaixa}
+    ORDER BY percentProcessador DESC, percentMemoria DESC, dtHora DESC
+    LIMIT 3;
+   `;
+
+   return database.executar(instrucaoSql);
+}
 
 module.exports = {
     capturarInformacoes,
     capturarDadosTempoReal,
-    capturarMaquinas
+    capturarMaquinas,
+    capturaProcessosTempoReal,
+    capturaProcessosIntervalo
 };

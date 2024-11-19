@@ -12,6 +12,7 @@ let listaComponentes = ["Memoria", "CPU"];
 let valorIntervalo = "Tempo Real";
 
 let intervaloTempoReal;
+let intervaloTempoRealProcesso;
 let chart;
 
 let idMaquina = 1;
@@ -43,9 +44,8 @@ function capturarMaquinas() {
         method: "GET",
     })
         .then(function (resposta) {
-            resposta.json().then((maquinasCadsatradas) => {
-                maquinasCadsatradas.forEach(maquina => {
-                    console.log(maquinasCadsatradas)
+            resposta.json().then((maquinasCadastradas) => {
+                maquinasCadastradas.forEach(maquina => {
                     select_maquina.innerHTML += `
                     <option value="${maquina.idCaixa}">
                     ${maquina.nomeEquipamento}</option>
@@ -87,7 +87,7 @@ function obterOpcoesGrafico(listaCPU, listaMemoria, dadosEixoX) {
         chart: {
             background: "#fff",
             foreColor: '#373d3f',
-            width: '100%', 
+            width: '100%',
             height: '85%',
             fontFamily: "Poppins, sans-serif",
             type: 'line',
@@ -188,7 +188,7 @@ function obterAnimacoesGrafico() {
         },
         dynamicAnimation: {
             enabled: true,
-            speed: 350  
+            speed: 350
         }
 
     };
@@ -260,7 +260,7 @@ function atualizarGrafico(novosDadosCPU, novosDadosMemoria, novasCategoriasX) {
 
 
 function atualizarGraficoTempoReal(novoDadoCPU, novoDadoMemoria, novaCategoriaX) {
-    let seriesData = chart.w.globals.series ;
+    let seriesData = chart.w.globals.series;
     let eixoXAtual = chart.w.globals.categoryLabels;
 
     // console.log(seriesData[0]);
@@ -339,13 +339,17 @@ const debouncedValidarFiltro = debounce((listaComponentesFiltro, intervalo, idMa
             exibirNenhumComponente()
         } else if (listaComponentes.length == 2) {
             exibirEmTempoReal(idMaquina)
+            exibirProcessos(idMaquina)
         } else if (listaComponentes.includes("CPU")) {
             exibirTempoRealCPU(idMaquina)
+            exibirProcessoProcessador(idMaquina)
         } else {
             exibirTempoRealMemoria(idMaquina)
+            exibirProcessoMemoria(idMaquina)
         }
     } else {
         clearInterval(intervaloTempoReal)
+        clearInterval(intervaloTempoRealProcesso)
 
         if (listaComponentes.length == 0) {
             exibirNenhumComponente()
@@ -353,6 +357,7 @@ const debouncedValidarFiltro = debounce((listaComponentesFiltro, intervalo, idMa
             tituloGrafico.innerHTML = listaComponentes.length > 1 ? "CPU X Memória / Tempo" : `${listaComponentes} / Tempo`
             if (listaComponentes.length == 2) {
                 exibirTodosComponentesIntervalo(intervalo, idMaquina)
+                exibirProcessoIntervalo(intervalo, idMaquina)
             } else {
                 if (listaComponentes.includes("CPU")) {
                     exibirCPUIntervalo(intervalo, idMaquina)
@@ -449,7 +454,7 @@ function exibirEmTempoReal(idMaquina) {
             });
 
 
-    }, 5000);
+    }, 7000);
 }
 
 function exibirTempoRealMemoria(idMaquina) {
@@ -505,7 +510,7 @@ function exibirTempoRealMemoria(idMaquina) {
                 console.log(`#ERRO: ${resposta}`);
             });
 
-    }, 5000);
+    }, 7000);
 }
 
 function exibirTempoRealCPU(idMaquina) {
@@ -543,14 +548,12 @@ function exibirTempoRealCPU(idMaquina) {
             .then(function (resposta) {
                 resposta.json().then((dadosMaquinaTempoReal) => {
                     var dadoCPU;
-                    var dadoMemoria;
                     var dadoEixoX;
 
                     for (let i = dadosMaquinaTempoReal.length - 1; i >= 0; i--) {
                         const dadoDaVez = dadosMaquinaTempoReal[i];
 
                         dadoCPU = dadoDaVez.percentCPU
-                        dadoMemoria = dadoDaVez.percentMemoria
                         dadoEixoX = formatarData(dadoDaVez.dtHora)
 
                     }
@@ -563,7 +566,256 @@ function exibirTempoRealCPU(idMaquina) {
                 console.log(`#ERRO: ${resposta}`);
             });
 
-    }, 5000);
+    }, 7000);
+}
+
+function exibirProcessos(idMaquina) {
+    fetch(`/dashPresilli/capturaProcessosTempoReal/${idMaquina}`, {
+        method: "GET",
+    })
+        .then(function (resposta) {
+            resposta.json().then((dadosProcessos) => {
+                tabelaProcessos.innerHTML =
+                    `
+                <thead>
+                    <tr>
+                        <th>Posição</th>
+                        <th>Nome</th>
+                        <th>CPU</th>
+                        <th>Memória</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><b>1º</b></td>
+                        <td>${dadosProcessos[0].nome}</td>
+                        <td>${dadosProcessos[0].percentProcessador}%</td>
+                        <td>${dadosProcessos[0].percentMemoria}%</td>
+                    </tr>
+                    <tr>
+                        <td><b>2º</b></td>
+                        <td>${dadosProcessos[1].nome}</td>
+                        <td>${dadosProcessos[1].percentProcessador}%</td>
+                        <td>${dadosProcessos[1].percentMemoria}%</td>
+                    </tr>
+                    <tr>
+                        <td><b>3º</b></td>
+                        <td>${dadosProcessos[2].nome}</td>
+                        <td>${dadosProcessos[2].percentProcessador}%</td>
+                        <td>${dadosProcessos[2].percentMemoria}%</td>
+                    </tr>
+                </tbody>
+                `
+            });
+        })
+        .catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+        });
+
+    intervaloTempoRealProcesso = setInterval(() => {
+        fetch(`/dashPresilli/capturaProcessosTempoReal/${idMaquina}`, {
+            method: "GET",
+        })
+            .then(function (resposta) {
+                resposta.json().then((dadosProcessos) => {
+                    tabelaProcessos.innerHTML =
+                        `
+                    <thead>
+                        <tr>
+                            <th>Posição</th>
+                            <th>Nome</th>
+                            <th>CPU</th>
+                            <th>Memória</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><b>1º</b></td>
+                            <td>${dadosProcessos[0].nome}</td>
+                            <td>${dadosProcessos[0].percentProcessador}%</td>
+                            <td>${dadosProcessos[0].percentMemoria}%</td>
+                        </tr>
+                        <tr>
+                            <td><b>2º</b></td>
+                            <td>${dadosProcessos[1].nome}</td>
+                            <td>${dadosProcessos[1].percentProcessador}%</td>
+                            <td>${dadosProcessos[1].percentMemoria}%</td>
+                        </tr>
+                        <tr>
+                            <td><b>3º</b></td>
+                            <td>${dadosProcessos[2].nome}</td>
+                            <td>${dadosProcessos[2].percentProcessador}%</td>
+                            <td>${dadosProcessos[2].percentMemoria}%</td>
+                        </tr>
+                    </tbody>
+                    `
+                });
+            })
+            .catch(function (resposta) {
+                console.log(`#ERRO: ${resposta}`);
+            });
+    }, 60000);
+}
+
+function exibirProcessoProcessador(idMaquina) {
+    fetch(`/dashPresilli/capturaProcessosTempoReal/${idMaquina}`, {
+        method: "GET",
+    })
+        .then(function (resposta) {
+            resposta.json().then((dadosProcessos) => {
+                tabelaProcessos.innerHTML =
+                    `
+                <thead>
+                    <tr>
+                        <th>Posição</th>
+                        <th>Nome</th>
+                        <th>CPU</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><b>1º</b></td>
+                        <td>${dadosProcessos[0].nome}</td>
+                        <td>${dadosProcessos[0].percentProcessador}%</td>
+                    </tr>
+                    <tr>
+                        <td><b>2º</b></td>
+                        <td>${dadosProcessos[1].nome}</td>
+                        <td>${dadosProcessos[1].percentProcessador}%</td>
+                    </tr>
+                    <tr>
+                        <td><b>3º</b></td>
+                        <td>${dadosProcessos[2].nome}</td>
+                        <td>${dadosProcessos[2].percentProcessador}%</td>
+                    </tr>
+                </tbody>
+                `
+            });
+        })
+        .catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+        });
+
+    intervaloTempoRealProcesso = setInterval(() => {
+        fetch(`/dashPresilli/capturaProcessosTempoReal/${idMaquina}`, {
+            method: "GET",
+        })
+            .then(function (resposta) {
+                resposta.json().then((dadosProcessos) => {
+                    tabelaProcessos.innerHTML =
+                        tabelaProcessos.innerHTML =
+                        `
+                <thead>
+                    <tr>
+                        <th>Posição</th>
+                        <th>Nome</th>
+                        <th>CPU</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><b>1º</b></td>
+                        <td>${dadosProcessos[0].nome}</td>
+                        <td>${dadosProcessos[0].percentProcessador}%</td>
+                    </tr>
+                    <tr>
+                        <td><b>2º</b></td>
+                        <td>${dadosProcessos[1].nome}</td>
+                        <td>${dadosProcessos[1].percentProcessador}%</td>
+                    </tr>
+                    <tr>
+                        <td><b>3º</b></td>
+                        <td>${dadosProcessos[2].nome}</td>
+                        <td>${dadosProcessos[2].percentProcessador}%</td>
+                    </tr>
+                </tbody>
+                `
+                });
+            })
+            .catch(function (resposta) {
+                console.log(`#ERRO: ${resposta}`);
+            });
+    }, 60000);
+}
+
+function exibirProcessoMemoria(idMaquina) {
+    fetch(`/dashPresilli/capturaProcessosTempoReal/${idMaquina}`, {
+        method: "GET",
+    })
+        .then(function (resposta) {
+            resposta.json().then((dadosProcessos) => {
+                tabelaProcessos.innerHTML =
+                    `
+                <thead>
+                    <tr>
+                        <th>Posição</th>
+                        <th>Nome</th>
+                        <th>Memória</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><b>1º</b></td>
+                        <td>${dadosProcessos[0].nome}</td>
+                        <td>${dadosProcessos[0].percentMemoria}%</td>
+                    </tr>
+                    <tr>
+                        <td><b>2º</b></td>
+                        <td>${dadosProcessos[1].nome}</td>
+                        <td>${dadosProcessos[1].percentMemoria}%</td>
+                    </tr>
+                    <tr>
+                        <td><b>3º</b></td>
+                        <td>${dadosProcessos[2].nome}</td>
+                        <td>${dadosProcessos[2].percentMemoria}%</td>
+                    </tr>
+                </tbody>
+                `
+            });
+        })
+        .catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+        });
+
+    intervaloTempoRealProcesso = setInterval(() => {
+        fetch(`/dashPresilli/capturaProcessosTempoReal/${idMaquina}`, {
+            method: "GET",
+        })
+            .then(function (resposta) {
+                resposta.json().then((dadosProcessos) => {
+                    tabelaProcessos.innerHTML =
+                        `
+                <thead>
+                    <tr>
+                        <th>Posição</th>
+                        <th>Nome</th>
+                        <th>Memória</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><b>1º</b></td>
+                        <td>${dadosProcessos[0].nome}</td>
+                        <td>${dadosProcessos[0].percentMemoria}%</td>
+                    </tr>
+                    <tr>
+                        <td><b>2º</b></td>
+                        <td>${dadosProcessos[1].nome}</td>
+                        <td>${dadosProcessos[1].percentMemoria}%</td>
+                    </tr>
+                    <tr>
+                        <td><b>3º</b></td>
+                        <td>${dadosProcessos[2].nome}</td>
+                        <td>${dadosProcessos[2].percentMemoria}%</td>
+                    </tr>
+                </tbody>
+                `
+                });
+            })
+            .catch(function (resposta) {
+                console.log(`#ERRO: ${resposta}`);
+            });
+    }, 60000);
 }
 
 function exibirTodosComponentesIntervalo(intervalo, idMaquina) {
@@ -639,14 +891,133 @@ function exibirMemoriaIntervalo(intervalo, idMaquina) {
 
 }
 
+function exibirProcessoIntervalo(intervalo, idMaquina) {
+    fetch(`/dashPresilli/capturaProcessosIntervalo/${intervalo}/${idMaquina}`, {
+        method: "GET",
+    })
+        .then(function (resposta) {
+            resposta.json().then((dadosProcessos) => {
+                tabelaProcessos.innerHTML =
+                    `
+                    <thead>
+                        <tr>
+                            <th>Posição</th>
+                            <th>Nome</th>
+                            <th>CPU</th>
+                            <th>Memória</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><b>1º</b></td>
+                            <td>${dadosProcessos[0].nome}</td>
+                            <td>${dadosProcessos[0].percentProcessador}%</td>
+                            <td>${dadosProcessos[0].percentMemoria}%</td>
+                        </tr>
+                        <tr>
+                            <td><b>2º</b></td>
+                            <td>${dadosProcessos[1].nome}</td>
+                            <td>${dadosProcessos[1].percentProcessador}%</td>
+                            <td>${dadosProcessos[1].percentMemoria}%</td>
+                        </tr>
+                        <tr>
+                            <td><b>3º</b></td>
+                            <td>${dadosProcessos[2].nome}</td>
+                            <td>${dadosProcessos[2].percentProcessador}%</td>
+                            <td>${dadosProcessos[2].percentMemoria}%</td>
+                        </tr>
+                    </tbody>
+                    `
+            });
+        })
+        .catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+        });
+}
+
+function exibirProcessoIntervaloProcessador(intervalo, idMaquina) {
+    fetch(`/dashPresilli/capturaProcessosIntervalo/${intervalo}/${idMaquina}`, {
+        method: "GET",
+    })
+        .then(function (resposta) {
+            resposta.json().then((dadosProcessos) => {
+                tabelaProcessos.innerHTML =
+                    `
+                <thead>
+                    <tr>
+                        <th>Posição</th>
+                        <th>Nome</th>
+                        <th>CPU</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><b>1º</b></td>
+                        <td>${dadosProcessos[0].nome}</td>
+                        <td>${dadosProcessos[0].percentProcessador}%</td>
+                    </tr>
+                    <tr>
+                        <td><b>2º</b></td>
+                        <td>${dadosProcessos[1].nome}</td>
+                        <td>${dadosProcessos[1].percentProcessador}%</td>
+                    </tr>
+                    <tr>
+                        <td><b>3º</b></td>
+                        <td>${dadosProcessos[2].nome}</td>
+                        <td>${dadosProcessos[2].percentProcessador}%</td>
+                    </tr>
+                </tbody>
+                `
+            });
+        })
+        .catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+        });
+}
+
+function exibirProcessoIntervaloMemoria(intervalo, idMaquina) {
+    fetch(`/dashPresilli/capturaProcessosIntervalo/${intervalo}/${idMaquina}`, {
+        method: "GET",
+    })
+        .then(function (resposta) {
+            resposta.json().then((dadosProcessos) => {
+                tabelaProcessos.innerHTML =
+                `
+                <thead>
+                    <tr>
+                        <th>Posição</th>
+                        <th>Nome</th>
+                        <th>Memória</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><b>1º</b></td>
+                        <td>${dadosProcessos[0].nome}</td>
+                        <td>${dadosProcessos[0].percentMemoria}%</td>
+                    </tr>
+                    <tr>
+                        <td><b>2º</b></td>
+                        <td>${dadosProcessos[1].nome}</td>
+                        <td>${dadosProcessos[1].percentMemoria}%</td>
+                    </tr>
+                    <tr>
+                        <td><b>3º</b></td>
+                        <td>${dadosProcessos[2].nome}</td>
+                        <td>${dadosProcessos[2].percentMemoria}%</td>
+                    </tr>
+                </tbody>
+                `
+            });
+        })
+        .catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+        });
+}
 
 function formatarData(data) {
     return `${new Date(data).toLocaleTimeString('pt-BR', { timeZone: 'America/Sao_Paulo' })}`;
 }
-
-// Exibição com filtro
-
-// ! Exibição dos componentes exibirEmTempoReal tempo de intervalo
 
 function exibirCPU() {
     let seriesData = chart.w.globals.series;
@@ -669,34 +1040,6 @@ function exibirCPU() {
         </div>
     </div>
     `
-
-    tabelaProcessos.innerHTML =
-        `
-    <thead>
-        <tr>
-            <th>Posição</th>
-            <th>Nome</th>
-            <th>CPU</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td><b>1º</b></td>
-            <td>Chrome</td>
-            <td>50%</td>
-        </tr>
-        <tr>
-            <td><b>2º</b></td>
-            <td>Pagamento</td>
-            <td>05%</td>
-        </tr>
-        <tr>
-            <td><b>3º</b></td>
-            <td>Depósito</td>
-            <td>12%</td>
-            </tr>
-    </tbody>
-`
 }
 
 function exibirMemoria() {
@@ -719,34 +1062,6 @@ function exibirMemoria() {
             </div>
         </div>
     </div>
-    `
-
-    tabelaProcessos.innerHTML =
-        `
-    <thead>
-        <tr>
-            <th>Posição</th>
-            <th>Nome</th>
-            <th>Memória</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td><b>1º</b></td>
-            <td>Chrome</td>
-            <td>50%</td>
-        </tr>
-        <tr>
-            <td><b>2º</b></td>
-            <td>Pagamento</td>
-            <td>05%</td>
-        </tr>
-        <tr>
-            <td><b>3º</b></td>
-            <td>Depósito</td>
-            <td>12%</td>
-            </tr>
-    </tbody>
     `
 }
 
@@ -785,75 +1100,57 @@ function exibirTodosComponentes() {
         </div>
     </div>
     `
-
-    tabelaProcessos.innerHTML =
-        `
-    <thead>
-        <tr>
-            <th>Posição</th>
-            <th>Nome</th>
-            <th>CPU</th>
-            <th>Memória</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td><b>1º</b></td>
-            <td>Chrome</td>
-            <td>23%</td>
-            <td>50%</td>
-        </tr>
-        <tr>
-            <td><b>2º</b></td>
-            <td>Pagamento</td>
-            <td>10%</td>
-            <td>05%</td>
-        </tr>
-        <tr>
-            <td><b>3º</b></td>
-            <td>Depósito</td>
-            <td>05%</td>
-            <td>12%</td>
-            </tr>
-    </tbody>
-    `
 }
 
 function exibirNenhumComponente() {
-    tituloGrafico.innerHTML = "Sem Componentes"
-    tabelaProcessos.innerHTML = `
-        <thead>
-            <tr>
-                <th>Posição</th>
-                <th>Nome</th>
-                <tbody>
-                    <tr>
-                        <td><b>1º</b></td>
-                        <td>Chrome</td>
-                    </tr>
-                    <tr>
-                        <td><b>2º</b></td>
-                        <td>Pagamento</td>
-                    </tr>
-                    <tr>
-                        <td><b>3º</b></td>
-                        <td>Depósito</td>
-                    </tr>
-                </tbody>
-            </tr>
-        </thead>
-        `
-    variacao.innerHTML = `
-    <div style="width: 100%;" class="container jc-center ai-center">
-            <h2>Sem Componente</h2>
-    </div>
-    `
+    fetch(`/dashPresilli/capturaProcessosTempoReal/${idMaquina}`, {
+        method: "GET",
+    })
+        .then(function (resposta) {
+            resposta.json().then((dadosProcessos) => {
+                tabelaProcessos.innerHTML =
+                    tabelaProcessos.innerHTML =
+                    `
+                   <thead>
+                        <tr>
+                            <th>Posição</th>
+                            <th>Nome</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><b>1º</b></td>
+                            <td>${dadosProcessos[0].nome}</td>
+                        </tr>
+                        <tr>
+                            <td><b>2º</b></td>
+                            <td>${dadosProcessos[1].nome}</td>
+                        </tr>
+                        <tr>
+                            <td><b>3º</b></td>
+                            <td>${dadosProcessos[2].nome}</td>
+                        </tr>
+                    </tbody>
+            `
 
-    atualizarGrafico(null, null, null)
+                tituloGrafico.innerHTML = "Sem Componentes"
+
+                variacao.innerHTML =
+                    `
+            <div style="width: 100%;" class="container jc-center ai-center">
+                <h2>Sem Componente</h2>
+            </div>
+            `
+
+                atualizarGrafico(null, null, null)
+            });
+        })
+        .catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+        });
 }
 
 function validarMaiorDado(dadosDoGrafico) {
-    console.log(dadosDoGrafico)
     var dadosMemoria;
     var dadosCPU;
     var maiorDadoMemoria;

@@ -65,6 +65,7 @@ CREATE TABLE Registro (
 
 CREATE TABLE Processo (
     idProcesso INT AUTO_INCREMENT,	
+    nome VARCHAR(90),
     percentMemoria DECIMAL(5, 2),
     percentProcessador DECIMAL(5, 2),
     dtHora DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
