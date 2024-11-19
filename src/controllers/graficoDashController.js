@@ -8,7 +8,16 @@ function mostrarDados(req, res) {
         });
 }
 
+function obterDowntime(req, res) {
+    const caixaId = req.query.caixaId;
+    graficosDashModel.obterDowntime(caixaId)
+        .then((resultado) => {
+            res.status(200).json(resultado);
+        })
+}
+
 
 module.exports = {
-    mostrarDados
+    mostrarDados,
+    obterDowntime
 }
