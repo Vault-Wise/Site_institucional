@@ -16,7 +16,7 @@
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 </head>
 
-<body onload="carregar(), selecionarAgencia()">
+<body onload="selecionarAgencia()">
     <div class="pagina">
         <nav>
             <ul id="listaNavegacao">
@@ -39,7 +39,6 @@
             <div class="conteudo-dash">
                 <h1 class="titulo_dash">Ano -
                     <select type="text" id="select_ano" onchange="VisuAlertaHorario(), buscarAgencia()"></select>
-                    | Agência <div id="agencia_top_alerta">0</div>
                 </h1>
                 <div class="kpis">
                     <div class="card">
@@ -47,17 +46,23 @@
                             <span class="cardSpan">Agência com mais alertas</span>
                             <div class="info-container">
                                 <span class="cardSpanDestaque">Agência<div id="maior_alerta" class="espacamento">x</div>
-                                    <div class="conteudo_info">CEP: xxx Número: xxx</div>
+                                    <div class="conteudo_info">
+                                        <p>CEP: <span id="cep_menos_alertas"></span></p>
+                                        <p>Número: <span id="numero_menos_alertas"></span></p>  
+                                    </div>
                             </div>
                             </span>
                         </div>
                         <div class="borda"></div>
                         <div class="cardParte2">
-                            <span class="cardSpan">Agência com menos alertas</span>
+                            <span class="cardSpan">Segunda agência com mais alertas</span>
                             <div class="info-container">
                                 <span class="cardSpanDestaque">Agência <div id="menos_alerta" class="espacamento">x
                                     </div>
-                                    <div class="conteudo_info">CEP: xxx Número: xxx</div>
+                                    <div class="conteudo_info">
+                                        <p>CEP: <span id="cep_mais_alertas"></span></p>
+                                        <p>Número: <span id="numero_mais_alertas"></span></p>  
+                                    </div>
                             </div>
                             </span>
                         </div>
@@ -93,31 +98,30 @@
                     <div class="conteudo-grafico">
                         <div class="grafico">
                             <div class="selects">
-                                <select type="text" id="select_componente">
-                                    <option value="#" disabled selected>Selecionar componente</option>
-                                    <option value="">CPU</option>
-                                    <option value="">RAM</option>
-                                </select>
-                                <select type="text" id="select_agencia" onchange="VisuAlertaHorario()">
-
+                                <select class="select_estilo" type="text" id="select_agencia" onchange="VisuAlertaHorario()"></select>
+                                <select type="text" id="select_componente" onchange="dadosGrafico(), dadosGrafico2()">
+                                    <option value="CPU">CPU</option>
+                                    <option value="RAM">RAM</option>
                                 </select>
                             </div>
                             <div id="chart">
-                                <h2 class="titulo_grafico">Desempenho Médio Anual de x - Agência 01 (2023-2024)</h2>
+                                <h2 class="titulo_grafico"></h2>
                             </div>
                         </div>
-                        <button class="check" onclick="adicionarGrafico()" id="botaoPlus"><i
-                                class="fa-solid fa-plus"></i></button>
+                        <button class="check" onclick="adicionarGrafico()" id="botaoPlus">
+                            <div class="botao_comparacao">
+                                <span>Criar Comparação</span>
+                                <i class="fa-solid fa-chart-simple"></i>
+                            </div>
+                        </button>
                         <div id="bordaGrafico" style="display: none;"></div>
                         <div class="grafico2" style="display: none;" id="grafico2">
                             <div class="selects">
-                                <select type="text" id="select_agencia2">
-                                    <option value="" disabled selected>Selecionar agência</option>
-                                </select>
+                                <select class="select_estilo" type="text" id="select_agencia2" onchange="dadosGrafico2()"></select>
                                 <button class="check" onclick="fecharGrafico()"><i class="fa-solid fa-x"></i></button>
                             </div>
                             <div id="chart2">
-                                <h2 class="titulo_grafico">Desempenho Médio Anual de x - Agência 01 (2023-2024)</h2>
+                                <h2 class="titulo_grafico"></h2>
                             </div>
                         </div>
                     </div>
@@ -135,75 +139,6 @@
 
     function carregar() {
 
-        var options = {
-            chart: {
-                type: "bar",
-            },
-            series: [
-                {
-                    name: "2023",
-                    data: [67, 68, 72, 71, 75, 60, 70, 67, 68, 72, 71, 75],
-                },
-                {
-                    name: "2024",
-                    data: [60, 67, 65, 62, 58, 55, 65, 60, 67, 65, 62],
-                },
-            ],
-            xaxis: {
-                categories: ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"],
-            },
-            legend: {
-                position: 'top',
-            },
-            dataLabels: {
-                enabled: false
-            },
-            yaxis: {
-                labels: {
-                    formatter: function (val) {
-                        return val + "%";
-                    }
-                }
-            }
-        };
-
-        var chart = new ApexCharts(document.querySelector("#chart"), options);
-        chart.render();
-
-        var options = {
-            chart: {
-                type: "bar",
-            },
-            series: [
-                {
-                    name: "2023",
-                    data: [67, 68, 72, 71, 75, 60, 70, 67, 68, 72, 71, 75],
-                },
-                {
-                    name: "2024",
-                    data: [60, 67, 65, 62, 58, 55, 65, 60, 67, 65, 62],
-                },
-            ],
-            xaxis: {
-                categories: ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"],
-            },
-            legend: {
-                position: 'top',
-            },
-            dataLabels: {
-                enabled: false
-            },
-            yaxis: {
-                labels: {
-                    formatter: function (val) {
-                        return val + "%";
-                    }
-                }
-            }
-        };
-
-        var chart2 = new ApexCharts(document.querySelector("#chart2"), options);
-        chart2.render();
     }
 
     document.addEventListener("DOMContentLoaded", () => {
@@ -281,12 +216,216 @@
 
     }
 
+    let chart;
+
+    function dadosGrafico() {
+        var select_agencia = document.getElementById("select_agencia")
+        var agencias = select_agencia.value;
+
+        var select_componente = document.getElementById("select_componente")
+        var componente = select_componente.value;
+
+        fetch(`/agencia/dados/${agencias}`, {
+            method: "GET",
+        })
+            .then(function (resposta) {
+                resposta.json().then((dados) => {
+
+                    var arrayDados2023CPU = [];
+                    var arrayDados2024CPU = [];
+                    var arrayDados2023RAM = [];
+                    var arrayDados2024RAM = [];
+
+                    dados.agencias.forEach((agencia) => {
+
+                        if (agencia.ano == 2023) {
+
+                            arrayDados2023RAM.push(agencia.MediaRAM);
+                            arrayDados2023CPU.push(agencia.MediaCPU);
+                        } else if (agencia.ano == 2024) {
+
+                            arrayDados2024RAM.push(agencia.MediaRAM);
+                            arrayDados2024CPU.push(agencia.MediaCPU);
+                        }
+                    });
+
+                    var serieData = [];
+
+                    if (componente == "CPU") {
+                        serieData = [
+                            { name: "2023", data: arrayDados2023CPU },
+                            { name: "2024", data: arrayDados2024CPU }
+                        ];
+                    } else if (componente == "RAM") {
+                        serieData = [
+                            { name: "2023", data: arrayDados2023RAM },
+                            { name: "2024", data: arrayDados2024RAM }
+                        ];
+                    }
+
+                    if (chart) {
+                        chart.destroy();
+                    }
+
+                    var options = {
+                        chart: {
+                            type: "bar",
+                        },
+                        series: serieData,
+                        xaxis: {
+                            categories: ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"],
+                        },
+                        legend: {
+                            position: 'top',
+                        },
+                        dataLabels: {
+                            enabled: false
+                        },
+                        yaxis: {
+                            labels: {
+                                formatter: function (val) {
+                                    return val + "%";
+                                }
+                            }
+                        },
+                        colors: [
+                            "#247497",
+                            "#0f1023"
+                        ],
+                        title: {
+                            text: `Média de ${componente} por mês da Agência ${agencias}`,
+                            style: {
+                                fontSize: '20px',
+                                fontWeight: 'normal',
+                                fontFamily: "Poppins",
+                                color: '#000',
+                            },
+                            align: 'center',
+                            marginTop: 10,
+                            marginBottom: 10,
+                            paddingTop: 10,
+                        }
+                    };
+
+                    chart = new ApexCharts(document.querySelector("#chart"), options);
+                    chart.render();
+                });
+            })
+            .catch(function (resposta) {
+                console.log(`#ERRO: ${resposta}`);
+            });
+    }
+
+    let chart2;
+
+    function dadosGrafico2() {
+        var select_agencia = document.getElementById("select_agencia");
+        var agencias = select_agencia.value;
+
+        var select_agencia2 = document.getElementById("select_agencia2");
+        var agencias2 = select_agencia2.value;
+
+        var select_componente = document.getElementById("select_componente");
+        var componente = select_componente.value;
+
+        fetch(`/agencia/dados/${agencias2}`, {
+            method: "GET",
+        })
+            .then(function (resposta) {
+                resposta.json().then((dados) => {
+
+                    var arrayDados2023CPU = [];
+                    var arrayDados2024CPU = [];
+                    var arrayDados2023RAM = [];
+                    var arrayDados2024RAM = [];
+
+                    dados.agencias.forEach((agencia) => {
+                        if (agencia.ano == 2023) {
+                            arrayDados2023RAM.push(agencia.MediaRAM);
+                            arrayDados2023CPU.push(agencia.MediaCPU);
+                        } else if (agencia.ano == 2024) {
+                            arrayDados2024RAM.push(agencia.MediaRAM);
+                            arrayDados2024CPU.push(agencia.MediaCPU);
+                        }
+                    });
+
+                    var serieData = [];
+                    if (componente == "CPU") {
+                        serieData = [
+                            { name: "2023", data: arrayDados2023CPU },
+                            { name: "2024", data: arrayDados2024CPU }
+                        ];
+                    } else if (componente == "RAM") {
+                        serieData = [
+                            { name: "2023", data: arrayDados2023RAM },
+                            { name: "2024", data: arrayDados2024RAM }
+                        ];
+                    }
+
+                    if (chart2) {
+                        chart2.destroy();
+                    }
+
+                    var options2 = {
+                        chart: {
+                            type: "bar",
+                        },
+                        series: serieData,
+                        xaxis: {
+                            categories: ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"],
+                        },
+                        legend: {
+                            position: 'top',
+                        },
+                        dataLabels: {
+                            enabled: false
+                        },
+                        yaxis: {
+                            labels: {
+                                formatter: function (val) {
+                                    return val + "%";
+                                }
+                            }
+                        },
+                        colors: [
+                            "#247497",
+                            "#0f1023"
+                        ],
+                        title: {
+                            text: `Média de ${componente} por mês da Agência ${agencias2}`,
+                            style: {
+                                fontSize: '20px',
+                                fontWeight: 'normal',
+                                fontFamily: "Poppins",
+                                color: '#000',
+                            },
+                            align: 'center',
+                            marginTop: 10,
+                            marginBottom: 10,
+                            paddingTop: 10,
+                        }
+                    };
+
+                    chart2 = new ApexCharts(document.querySelector("#chart2"), options2); 
+                    chart2.render();
+                });
+            })
+            .catch(function (resposta) {
+                console.log(`#ERRO: ${resposta}`);
+            });
+    }
+
     //KPI 1
     function buscarAgencia() {
-        var agenciaTopAlertas = document.getElementById("agencia_top_alerta");
         var maisAlertas = document.getElementById("maior_alerta");
         var menosAlertas = document.getElementById("menos_alerta");
         var selectAgencia = document.getElementById("select_agencia");
+
+        var cepMaisAlertas = document.getElementById("cep_mais_alertas");
+        var cepMenosAlertas = document.getElementById("cep_menos_alertas");
+
+        var numeroMaisAlertas = document.getElementById("numero_mais_alertas");
+        var numeroMenosAlertas = document.getElementById("numero_menos_alertas");
 
         var select_ano = document.getElementById("select_ano");
         var anos = select_ano.value;
@@ -307,8 +446,12 @@
                     const agenciaMenosAlertas = agencias[1];
 
                     maisAlertas.innerHTML = `${agenciaMaisAlertas.fkAgencia} (${agenciaMaisAlertas.totalAlertas} alertas)`;
-                    menosAlertas.innerHTML = `${agenciaMenosAlertas.fkAgencia} (${agenciaMenosAlertas.totalAlertas} alertas)`;
+                    cepMaisAlertas.innerHTML = `${agenciaMaisAlertas.cep}`;
+                    numeroMaisAlertas.innerHTML = `${agenciaMaisAlertas.numero}`;
 
+                    menosAlertas.innerHTML = `${agenciaMenosAlertas.fkAgencia} (${agenciaMenosAlertas.totalAlertas} alertas)`;
+                    cepMenosAlertas.innerHTML = `${agenciaMenosAlertas.cep}`;
+                    numeroMenosAlertas.innerHTML = `${agenciaMenosAlertas.numero}`;
 
                 } else {
                     maisAlertas.innerHTML = "0";
@@ -356,7 +499,10 @@
                     menosAlertas.innerHTML = "0";
                 }
 
+                dadosGrafico();
+                dadosGrafico2();
                 VisuAlertaHorario();
+
             })
             .catch(function (resposta) {
                 console.log(`#ERRO: ${resposta}`);
@@ -370,7 +516,7 @@
         })
             .then(function (resposta) {
                 resposta.json().then((dados) => {
-                    
+
                     dados.agencias.forEach((agencia) => {
                         if (!document.querySelector(`#select_agencia option[value="${agencia.idAgencia}"]`)) {
                             select_agencia.innerHTML += `<option value="${agencia.idAgencia}">Agência ${agencia.idAgencia}</option>`;
@@ -378,7 +524,7 @@
                         }
                     });
 
-                    
+
                     dados.anos.forEach((ano) => {
                         if (!document.querySelector(`#select_ano option[value="${ano.anoAtual}"]`)) {
                             select_ano.innerHTML += `<option value="${ano.anoAtual}">${ano.anoAtual}</option>`;
@@ -399,13 +545,10 @@
     //KPI 2
     function VisuAlertaHorario() {
 
-        var agenciaTopAlertas = document.getElementById("agencia_top_alerta");
         var select_agencia = document.getElementById("select_agencia")
         var agencias = select_agencia.value;
         var select_ano = document.getElementById("select_ano");
         var anos = select_ano.value;
-
-        agenciaTopAlertas.innerHTML = agencias;
 
         var qtd_manha = document.getElementById("qtd_manha");
         var qtd_tarde = document.getElementById("qtd_tarde");

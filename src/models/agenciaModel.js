@@ -41,11 +41,12 @@ function listarMaquina() {
 
 function buscarAgencia(agencia, ano) {
   var instrucaoSql = `
-  SELECT fkAgencia, count(idAlerta) AS totalAlertas FROM alerta 
-	  JOIN caixaeletronico ON idCaixa = fkCaixa
-    JOIN registro ON fkRegistro = idRegistro
-    WHERE YEAR(dtHora) = ${ano}
-    GROUP BY fkAgencia ORDER BY totalAlertas DESC;
+  SELECT fkAgencia, count(idAlerta) AS totalAlertas, cep, numero FROM alerta 
+		JOIN caixaeletronico ON idCaixa = fkCaixa
+		JOIN registro ON fkRegistro = idRegistro
+		JOIN agencia on fkAgencia = idAgencia
+		WHERE YEAR(dtHora) = ${ano}
+		GROUP BY fkAgencia ORDER BY totalAlertas DESC;
   `;
 
   return database.executar(instrucaoSql);
@@ -69,6 +70,36 @@ function agenciaSelecionadaAtual(maquina, agencia) {
   return database.executar(instrucaoSql);
 }
 
+function dadosGrafico(agencia) {
+
+  var instrucaoSql = `SELECT ROUND(AVG(percentMemoria), 2) AS MediaRAM, 
+    ROUND(AVG(percentProcessador), 2) AS MediaCPU,
+    DATE_FORMAT(dtHora, '%Y-%m') AS AnoMes,
+    YEAR(dtHora) AS ano
+      FROM registro
+      join caixaEletronico on fkCaixa = idCaixa
+      WHERE fkAgencia = ${agencia}
+      GROUP BY AnoMes, fkAgencia, ano
+      ORDER BY AnoMes`;
+
+  return database.executar(instrucaoSql);
+}
+
+function dadosGrafico2(agencia2) {
+
+  var instrucaoSql = `SELECT ROUND(AVG(percentMemoria), 2) AS MediaRAM, 
+    ROUND(AVG(percentProcessador), 2) AS MediaCPU,
+    DATE_FORMAT(dtHora, '%Y-%m') AS AnoMes,
+    YEAR(dtHora) AS ano
+      FROM registro
+      join caixaEletronico on fkCaixa = idCaixa
+      WHERE fkAgencia = ${agencia2}
+      GROUP BY AnoMes, fkAgencia, ano
+      ORDER BY AnoMes`;
+
+  return database.executar(instrucaoSql);
+}
+
 
 
 module.exports = {
@@ -78,5 +109,7 @@ module.exports = {
   associar,
   buscarAgencia,
   alertaHorario,
-  agenciaSelecionadaAtual
+  agenciaSelecionadaAtual,
+  dadosGrafico,
+  dadosGrafico2
 };
