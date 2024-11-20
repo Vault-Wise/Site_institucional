@@ -9,6 +9,7 @@
     <title>Dashboard | VaultWise</title>
 
     <link rel="stylesheet" href="../css/dashboard.css" />
+    <link rel = "stylesheet" href="../css/dashboardPassini.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 
     <script src="../js/sessao.js"></script>
@@ -34,14 +35,40 @@
                 </li>
             </ul>
         </nav>
-        <div class="content">
+        <div class="course">
+            <div class="caixa">
+                <ul>
+                    <li class="texto_caixa">Componentes</li>
+                </ul>
+                <div class="course">
+                    <div class="caixaGrafico">
+                        <h3>Rede</h3>
+                        <p>Envio em Kpbp/s</p>
+                        <i class="fa-solid fa-circle-info info-icon" onclick="openPopup('popupMemoria')"
+                            style="font-size: 20px;"></i>
+                        <div id="chartRedeEnvio"></div>
+                    </div>
+                    <div class="caixaGrafico2">
+                        <h3>Rede</h3>
+                        <p>Recebimento em Kpbp/s</p>
+                        <i class="fa-solid fa-circle-info info-icon" onclick="openPopup('popupMemoria')"
+                            style="font-size: 20px;"></i>
+                        <div id="chartRedeRecebimento"></div>
+                    </div>
+                    
+                </div>
 
+            </div>
+            <div id="chart"></div>
+            <h1>Finalizar Processo via Node.js</h1>
+            <input type="number" id="pidInput" placeholder="Digite o PID">
+            <button id="finalizarBtn">Finalizar Processo</button>
+            <p id="status"></p>
+            
         </div>
-        <h1>Finalizar Processo via Node.js</h1>
-    <input type="number" id="pidInput" placeholder="Digite o PID">
-    <button id="finalizarBtn">Finalizar Processo</button>
-    <p id="status"></p>
-</body>
+        </body>
+        
+        
 
 </html>
 
@@ -83,5 +110,72 @@
                     document.getElementById('status').innerText = `Erro: ${error.message}`;
                 });
         });
+        var options = {
+          series: [{
+            name: "Desktops",
+            data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+        }],
+          chart: {
+          height: 250,
+          type: 'line',
+          zoom: {
+            enabled: false
+          }
+        },
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          curve: 'straight'
+        },
+        title: {          align: 'left'
+        },
+        grid: {
+          row: {
+            colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+            opacity: 0.5
+          },
+        },
+        xaxis: {
+          categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+        }
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chartRedeEnvio"), options);
+        chart.render();
+        
+        var options = {
+          series: [{
+            name: "Desktops",
+            data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+        }],
+          chart: {
+          height: 250,
+          type: 'line',
+          zoom: {
+            enabled: false
+          }
+        },
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          curve: 'straight'
+        },
+        title: {          align: 'left'
+        },
+        grid: {
+          row: {
+            colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+            opacity: 0.5
+          },
+        },
+        xaxis: {
+          categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+        }
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chartRedeRecebimento"), options);
+        chart.render();
     
 </script>
