@@ -40,7 +40,7 @@
                 <h1>Monitoramento de CPU e RAM</h1>
             </div>
             <div class="investimentos">
-                <div class="card">
+                <div class="card3">
                     <i class="fa-solid fa-laptop d"></i>
                     <h3>Máquina a ser monitorada</h3>
                     <div class="filters">
@@ -49,17 +49,28 @@
                         </select>
                     </div>
                 </div>
+                <div class="card3">
+                    <i class="fa-solid fa-laptop d"></i>
+                    <h3>Tempo de Downtime</h3>
+                    <div class="filters">
+                    </div>
+                </div>
             </div>
             <div v class="investimentos">
                 <div class="card">
                     <i class="fa-solid fa-memory d"></i>
-                    <h3>Ocorrências de Memória > 80%</h3>
+                    <h3>Alertas de Memória > 80%</h3>
                     <span id="ocorrenciasMemoria" class="kpis">0</span>
                 </div>
                 <div class="card">
                     <i class="fa-solid fa-microchip d"></i>
-                    <h3>Ocorrências de CPU > 80%</h3>
+                    <h3>Alertas de CPU > 80%</h3>
                     <span id="ocorrenciasCPU" class="kpis">0</span>
+                </div>
+                <div class="card2">
+                    <i class="fa-solid fa-microchip d"></i>
+                    <h3>Downtime/Uptime em minutos</h3>
+                    <div id="chartDowntime"></div>
                 </div>
             </div>
             <section class="analise">
@@ -81,13 +92,6 @@
                             <i class="fa-solid fa-circle-info info-icon" onclick="openPopup('popupCPU')"
                                 style="font-size: 20px;"></i>
                             <div id="chartProcessador"></div>
-                        </div>
-                        <div class="caixa1">
-                            <h3>Downtime</h3>
-                            <p>Downtime em Minutos/p>
-                            <i class="fa-solid fa-circle-info info-icon" onclick="openPopup('popupCPU')"
-                                style="font-size: 20px;"></i>
-                            <div id="chartDowntime"></div>
                         </div>
                     </div>
 
@@ -216,7 +220,6 @@
             carregarMaquinas();
             inicializarGraficos();
 
-            // Adiciona o evento de "change" para atualizar gráficos ao selecionar uma máquina
             document
                 .getElementById("caixaSelect")
                 .addEventListener("change", function () {
@@ -263,6 +266,33 @@
                 xaxis: { categories: [] },
             });
             chartProcessador.render();
+
+            chartDowntime = new ApexCharts(document.querySelector("#chartDowntime"), {
+                chart: {
+                    type: "donut",
+                },
+                series: [0, 0],
+                labels: ["Downtime", "Uptime"],
+                colors: ["#FF4560", "#0086ff"],
+                plotOptions: {
+                    pie: {
+                        donut: {
+                            size: "70%",
+                            labels: {
+                                show: true,
+                                total: {
+                                    show: true,
+                                },
+                            },
+                        },
+                    },
+                },
+                dataLabels: {
+                    enabled: true,
+                    formatter: (val, opts) => `${val.toFixed(0)}%`,
+                },
+            });
+            chartDowntime.render();
         }
 
         function capturarDados(caixaId) {
@@ -332,49 +362,49 @@
 
         let chartDowntime;
 
-        function inicializarGraficoDowntime() {
-            chartDowntime = new ApexCharts(document.querySelector("#chartDowntime"), {
-                chart: { type: "bar" },
-                series: [{ name: "Downtime (minutos)", data: [] }],
-                xaxis: { categories: [] }
+        function atualizarGraficoDowntime(caixaId) {
+    if (!caixaId) return;
+
+    fetch(`/graficoDash/obterDowntime?caixaId=${caixaId}`)
+        .then((response) => response.json())
+        .then((data) => {
+            if (!data || data.length === 0) {
+                console.warn("Nenhum dado de downtime disponível.");
+                return;
+            }
+
+            // Calcular o tempo total de downtime (em minutos)
+            const totalDowntimeMin = data.reduce((acc, item) => acc + Math.max(0, item.downtime), 0);
+
+            // Total de tempo monitorado em minutos
+            const totalTempoMonitoradoMin = data.length * 2; // Cada intervalo monitora 2 minutos
+
+            // Converter para horas
+            const totalDowntimeHoras = (totalDowntimeMin / 60).toFixed(0);
+            const totalUptimeHoras = ((totalTempoMonitoradoMin - totalDowntimeMin) / 60).toFixed(0);
+
+            // Atualizar o gráfico com os valores em horas
+            chartDowntime.updateSeries([
+                parseFloat(totalDowntimeHoras),
+                parseFloat(totalUptimeHoras),
+            ]);
+
+            // Atualizar labels do gráfico
+            chartDowntime.updateOptions({
+                labels: ["Downtime (h)", "Uptime (h)"],
             });
-            chartDowntime.render();
-        }
+        })
+        .catch((error) => console.error("Erro ao calcular downtime:", error));
+}
 
-        function capturarDowntime(caixaId) {
-            if (!caixaId) return;
-
-            fetch(`/graficoDash/obterDowntime?caixaId=${caixaId}`)
-                .then(response => response.json())
-                .then(data => {
-                    const downtimes = data.map(item => item.downtime);
-                    const categorias = data.map((item) => {
-                        const inicio = new Date(item.inicio);
-                        const fim = new Date(item.fim);
-
-                        const formatarHorario = (data) => {
-                            const horas = String(data.getHours()).padStart(2, '0');
-                            const minutos = String(data.getMinutes()).padStart(2, '0');
-                            const segundos = String(data.getSeconds()).padStart(2, '0');
-
-                            return `${horas}`;
-                        };
-
-                        return `${formatarHorario(inicio)} - ${formatarHorario(fim)}`;
-                    });
-
-                    chartDowntime.updateSeries([{ name: "Downtime (minutos)", data: downtimes }]);
-                    chartDowntime.updateOptions({ xaxis: { categories: categorias } });
-                })
-                .catch(error => console.error("Erro ao capturar downtime:", error));
-        }
-
-        document.addEventListener("DOMContentLoaded", () => {
+        
+        document.getElementById("caixaSelect").addEventListener("change", function () {
+            const caixaId = this.value;
+            atualizarGraficoDowntime(caixaId);
+        });
+        a
+        document.addEventListener("DOMContentLoaded", function () {
             inicializarGraficoDowntime();
-
-            document.getElementById("caixaSelect").addEventListener("change", function () {
-                capturarDowntime(this.value);
-            });
         });
     </script>
 </body>

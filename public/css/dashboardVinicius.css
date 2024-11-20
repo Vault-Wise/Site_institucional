@@ -157,7 +157,28 @@ a:hover {
 }
 
 .investimentos .card {
-  flex: 1; 
+  width: 50%;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  border-radius: 20px;
+  padding: 20px; 
+  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
+}
+.investimentos .card h3 {
+  font-size: 24px;
+  margin: 10px;
+  text-transform: capitalize;
+}
+.investimentos .card p {
+  font-size: 16px;
+}
+
+.investimentos .card3 {
+  width: 50%;
   background: #fff;
   display: flex;
   align-items: center;
@@ -167,11 +188,28 @@ a:hover {
   padding: 20px; 
   box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
 }
-.investimentos .card h3 {
+.investimentos .card3 h3 {
   margin: 10px;
   text-transform: capitalize;
 }
-.investimentos .card p {
+.investimentos .card3 p {
+  font-size: 12px;
+}
+
+.investimentos .card2 {
+  width: 50%;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  border-radius: 20px;
+  padding: 20px; 
+  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
+}
+.investimentos .card2 h3 {
+  margin: 10px;
+}
+.investimentos .card2 p {
   font-size: 12px;
 }
 
@@ -246,7 +284,6 @@ body {
 
 .caixa {
   width: 100%;
-  margin-top: 100px;
   margin-bottom: 20px;
   background: #f7f7f7;
   text-align: center;
