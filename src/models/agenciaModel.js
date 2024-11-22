@@ -22,7 +22,7 @@ function associar(maquina, agencia) {
 
 function listar() {
   var instrucaoSql1 = `SELECT idAgencia FROM Agencia`;
-  var instrucaoSql2 = `SELECT DISTINCT YEAR(dtHora) AS anoAtual FROM registro`;
+  var instrucaoSql2 = `SELECT DISTINCT YEAR(dtHora) AS anoAtual FROM Registro`;
 
   return Promise.all([database.executar(instrucaoSql1), database.executar(instrucaoSql2)])
     .then(([resultadoAgencias, resultadoAnos]) => {
