@@ -22,7 +22,7 @@ function associar(maquina, agencia) {
 
 function listar() {
   var instrucaoSql1 = `SELECT idAgencia FROM Agencia`;
-  var instrucaoSql2 = `SELECT DISTINCT YEAR(dtHora) AS anoAtual FROM registro`;
+  var instrucaoSql2 = `SELECT DISTINCT YEAR(dtHora) AS anoAtual FROM Registro`;
 
   return Promise.all([database.executar(instrucaoSql1), database.executar(instrucaoSql2)])
     .then(([resultadoAgencias, resultadoAnos]) => {
@@ -34,7 +34,7 @@ function listar() {
 }
 
 function listarMaquina() {
-  var instrucaoSql = `SELECT nomeEquipamento FROM caixaeletronico`;
+  var instrucaoSql = `SELECT nomeEquipamento FROM CaixaEletronico`;
 
   return database.executar(instrucaoSql);
 }
@@ -42,9 +42,9 @@ function listarMaquina() {
 function buscarAgencia(agencia, ano) {
   var instrucaoSql = `
   SELECT fkAgencia, count(idAlerta) AS totalAlertas, cep, numero FROM Alerta 
-		JOIN caixaeletronico ON idCaixa = fkCaixa
-		JOIN registro ON fkRegistro = idRegistro
-		JOIN agencia on fkAgencia = idAgencia
+		JOIN CaixaEletronico ON idCaixa = fkCaixa
+		JOIN Registro ON fkRegistro = idRegistro
+		JOIN Agencia on fkAgencia = idAgencia
 		WHERE YEAR(dtHora) = ${ano}
 		GROUP BY fkAgencia ORDER BY totalAlertas DESC;
   `;
@@ -76,8 +76,8 @@ function dadosGrafico(agencia) {
     ROUND(AVG(percentProcessador), 2) AS MediaCPU,
     DATE_FORMAT(dtHora, '%Y-%m') AS AnoMes,
     YEAR(dtHora) AS ano
-      FROM registro
-      join caixaEletronico on fkCaixa = idCaixa
+      FROM Registro
+      JOIN CaixaEletronico on fkCaixa = idCaixa
       WHERE fkAgencia = ${agencia}
       GROUP BY AnoMes, fkAgencia, ano
       ORDER BY AnoMes`;
@@ -92,7 +92,7 @@ function dadosGrafico2(agencia2) {
     DATE_FORMAT(dtHora, '%Y-%m') AS AnoMes,
     YEAR(dtHora) AS ano
       FROM Registro
-      join CaixaEletronico on fkCaixa = idCaixa
+      JOIN CaixaEletronico on fkCaixa = idCaixa
       WHERE fkAgencia = ${agencia2}
       GROUP BY AnoMes, fkAgencia, ano
       ORDER BY AnoMes`;
