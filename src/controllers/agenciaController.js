@@ -116,5 +116,6 @@ module.exports = {
   buscarAgencia,
   alertaHorario,
   agenciaSelecionadaAtual,
-  dadosGrafico
+  dadosGrafico,
+  dadosGrafico2
 };

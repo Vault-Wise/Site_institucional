@@ -98,7 +98,7 @@
                     <div class="conteudo-grafico">
                         <div class="grafico">
                             <div class="selects">
-                                <select class="select_estilo" type="text" id="select_agencia" onchange="VisuAlertaHorario()"></select>
+                                <select class="select_estilo" type="text" id="select_agencia" onchange="VisuAlertaHorario(), dadosGrafico()"></select>
                                 <select type="text" id="select_componente" onchange="dadosGrafico(), dadosGrafico2()">
                                     <option value="CPU">CPU</option>
                                     <option value="RAM">RAM</option>
@@ -224,6 +224,8 @@
 
         var select_componente = document.getElementById("select_componente")
         var componente = select_componente.value;
+
+        console.log(agencias)
 
         fetch(`/agencia/dados/${agencias}`, {
             method: "GET",
@@ -554,7 +556,6 @@
         var qtd_tarde = document.getElementById("qtd_tarde");
         var qtd_noite = document.getElementById("qtd_noite");
 
-        console.log(agencias)
         // COLOCAR O RESULTADO NA KPI
         fetch(`/agencia/alertaHorario/${agencias}/${anos}`, {
             method: "GET",
