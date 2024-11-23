@@ -16,8 +16,20 @@ function obterDowntime(req, res) {
         })
 }
 
+function obterAltoUsoContinuo(req, res) {
+    const limiteUso = parseFloat(req.query.limiteUso || 80);
+    const tempoMinutos = parseInt(req.query.tempoMinutos || 5);
+
+    graficosDashModel
+        .obterAltoUsoContinuo(limiteUso, tempoMinutos)
+        .then((resultado) => {
+            res.status(200).json(resultado);
+        })
+}
+
 
 module.exports = {
     mostrarDados,
-    obterDowntime
+    obterDowntime,
+    obterAltoUsoContinuo
 }
