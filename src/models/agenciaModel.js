@@ -100,8 +100,6 @@ function dadosGrafico2(agencia2) {
   return database.executar(instrucaoSql);
 }
 
-
-
 module.exports = {
   cadastrar,
   listar,
