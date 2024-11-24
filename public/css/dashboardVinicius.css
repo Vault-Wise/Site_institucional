@@ -656,9 +656,10 @@ table th {
 
 .d {
   color: #0f1923;
+  font-size: 20px;
   }
 
-  .kpis {
+.kpis {
     font-size: 1.5em;
     font-weight: bold;
     color: black;
