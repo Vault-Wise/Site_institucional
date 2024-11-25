@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
 });
 
+
 function openPopup(popupId) {
   const popup = document.getElementById(popupId);
   popup.style.display = "flex";
@@ -76,7 +77,7 @@ document
 function inicializar() {
   carregarMaquinas();
   inicializarGraficos();
-
+  
   document
     .getElementById("caixaSelect")
     .addEventListener("change", function () {
@@ -139,7 +140,7 @@ function inicializarGraficos() {
       plotOptions: {
         pie: {
           donut: {
-            size: "70%",
+            size: "65%",
             labels: {
               show: true,
               total: {
@@ -244,7 +245,7 @@ function atualizarGraficoDowntime(caixaId) {
           0
       );
   
-      const totalUptimeMin = totalDowntimeMin * 3.50;
+      const totalUptimeMin = totalDowntimeMin * 3.90;
 
       const totalDowntimeHoras = (totalDowntimeMin / 60000).toFixed(0);
       const totalUptimeHoras = (totalUptimeMin / 60000).toFixed(0);
@@ -261,16 +262,9 @@ function atualizarGraficoDowntime(caixaId) {
   .catch((error) => console.error("Erro ao calcular downtime:", error));
 }
 
-document
-  .getElementById("caixaSelect")
-  .addEventListener("change", function () {
-    const caixaId = this.value;
-    atualizarGraficoDowntime(caixaId);
-  });
-
   function atualizarAltoUsoContínuo(caixaId) {
     const limiteUso = 80;
-    const tempoMinutos = 5;
+    const tempoMinutos = 10;
 
     fetch(`/graficoDash/obterAltoUsoContinuo?limiteUso=${limiteUso}&tempoMinutos=${tempoMinutos}`)
         .then((response) => response.json())
@@ -313,4 +307,5 @@ document.getElementById("caixaSelect").addEventListener("change", function() {
     const caixaId = this.value;
     console.log("Mudança de caixa:", caixaId);
     atualizarAltoUsoContínuo(caixaId);
+    atualizarGraficoDowntime(caixaId);
 });

@@ -351,13 +351,13 @@
                     if (componente == "CPU") {
                         var previsao = calcularPrevisao(arrayDados2024CPU);
                         var proximoMesIndex = arrayDados2024CPU.length;
-                        var proximoMes = meses[proximoMesIndex]
+                        var proximoMes = meses[proximoMesIndex] || `janeiro de 2025`;
                         previsaoElemento.innerHTML = `Previsão de ${componente} em ${proximoMes} é de aproximadamente: <b>${previsao.toFixed(2)}%</b>`
 
                     } else if (componente == "RAM") {
                         var previsao = calcularPrevisao(arrayDados2024RAM);
                         var proximoMesIndex = arrayDados2024CPU.length;
-                        var proximoMes = meses[proximoMesIndex]
+                        var proximoMes = meses[proximoMesIndex] || `janeiro de 2025`;   
                         previsaoElemento.innerHTML = `Previsão de ${componente} em ${proximoMes} é de aproximadamente: <b>${previsao.toFixed(2)}%</b>`
 
                     }

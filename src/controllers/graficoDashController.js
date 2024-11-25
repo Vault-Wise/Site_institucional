@@ -18,7 +18,7 @@ function obterDowntime(req, res) {
 
 function obterAltoUsoContinuo(req, res) {
     const limiteUso = parseFloat(req.query.limiteUso || 80);
-    const tempoMinutos = parseInt(req.query.tempoMinutos || 5);
+    const tempoMinutos = parseInt(req.query.tempoMinutos || 10);
 
     graficosDashModel
         .obterAltoUsoContinuo(limiteUso, tempoMinutos)
