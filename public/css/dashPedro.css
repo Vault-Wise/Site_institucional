@@ -26,6 +26,23 @@ h1, .main-content h1 {
   margin-bottom: 20px;
 }
 
+h1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#selecAgencia {
+  width: 315px; 
+  height: 130px; 
+  font-size: 65px;
+  padding: 5px; 
+  color: #ffffff;
+  background-color: #0f1923;
+  border-radius: 5px; 
+}
+
+
 .alert-summary {
   display: flex;
   gap: 20px;
@@ -135,11 +152,11 @@ h1, .main-content h1 {
   flex-direction: column;
   align-items: center;
   padding: 20px;
-  background-color: #f9f9f9; /* Cor de fundo para destaque */
+  background-color: #f9f9f9; 
   border-radius: 8px;
-  max-width: 300px; /* Largura máxima para centralizar */
-  margin: 0 auto; /* Centraliza horizontalmente */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para dar destaque */
+  max-width: 300px;
+  margin: 0 auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .itensOcorrencia h3 {
@@ -162,6 +179,6 @@ h1, .main-content h1 {
 }
 
 .itensOcorrencia table tr:nth-child(even) {
-  background-color: #f2f2f2; /* Cor de fundo para linhas pares */
+  background-color: #f2f2f2;
 }
 
