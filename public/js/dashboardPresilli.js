@@ -16,7 +16,7 @@ let intervaloTempoRealProcesso;
 let chart;
 
 let idMaquina = 1;
-let nomeEquipamento = ""
+let nomeEquipamento = "note-presilli"
 
 document.addEventListener("DOMContentLoaded", () => {
     inicializarPagina();
@@ -61,6 +61,8 @@ function capturarMaquinas() {
 
 function mudarMaquina() {
     idMaquina = select_maquina.value
+    nomeEquipamento = select_maquina.options[select_maquina.selectedIndex].text;
+
     debouncedValidarFiltro(listaComponentes, valorIntervalo, select_maquina.value)
 }
 
@@ -1407,10 +1409,10 @@ function gerarRelatorio() {
     const graficoLinha = document.querySelector("#graficoLinha");
     const tabelaProcessos = document.querySelector("#tabelaProcessos");
     const variacao = document.querySelector("#variacao");
-    
+
     const logoPath = 'http://localhost:3333/css/imagens/logoSemFundo.png';
     const dataHoraAtual = obterTituloDash();
-    
+
     // Estilos customizados para o PDF
     const customStyles = `
     <style>
@@ -1435,7 +1437,7 @@ function gerarRelatorio() {
         margin-bottom: 10px;
     }
     .header h1 {
-        font-size: 70px; /* Fonte maior para o título */
+        font-size: 50px; /* Fonte maior para o título */
         margin: 10px 0;
     }
     .header h2 {
@@ -1493,56 +1495,105 @@ function gerarRelatorio() {
         cursor: pointer;
     }
     .card-variacao {
-        width: 950px;
+        width: 890px;
         display: flex;
         gap: 20px;
         flex-direction: row;
         justify-content: center; /* Centraliza os cartões */
         align-items: center;
+        background-color: #dfdfdf;
+        border-radius: 6px;
+        border-bottom: 1px solid #982727;
     }
     .card-variacao div {
-        font-size: 18px; /* Aumenta a fonte dos textos dentro dos cartões */
+        font-size: 28px; /* Aumenta a fonte dos textos dentro dos cartões */
+    }
+    .grafico {
+        width: 890px;
+        display: flex;
+        justify-content: center; /* Centraliza os cartões */
+        align-items: center;
+        border-bottom: 1px solid #982727;
     }
     </style>
 `;
-    
+
     // Página de capa
     const coverPage = `
     <div class="header">
         <img src="${logoPath}" alt="Logo">
-        <h1>Relatório da Máquina</h1>
+        <h1>Relatório da Máquina ${nomeEquipamento}</h1>
         <h2>Gerado por <span>Vault Wise</span></h2>
         <p>Gerado em: ${dataHoraAtual}</p>
     </div>
     `;
-    
-    // Conteúdo principal (gráfico, tabela e variação)
-    const contentPage = `
-    <div class="content">
+
+    var contentPage = `<div class="content">`
+
+    if (!checkGrafico.checked && !checkProcesso.checked && !checkVariacao.checked) {
+        alert("Selecione uma opção ao relatório")
+    }
+    else {
+        if (checkGrafico.checked) {
+            contentPage +=
+                `
         <h2>Gráfico</h2>
         <div class="grafico">${graficoLinha.outerHTML}</div>
+        `
+        }
+
+        if (checkProcesso.checked) {
+            contentPage +=
+                `
         <h2>Processos</h2>
         <div>
             ${tabelaProcessos.outerHTML}
         </div>
+        `
+        }
+
+        if (checkVariacao.checked) {
+            contentPage +=
+                `
         <h2>Variação</h2>
-            <div class="card-variacao">
-                ${variacao.outerHTML}
-            </div>
-    </div>
-    `;
-    
-    // Configurações do PDF
-    const options = {
-        margin: [10, 10, 10, 10],
-        filename: "relatorio.pdf",
-        html2canvas: { scale: 5, useCORS: true },
-        jsPDF: { unit: "mm", format: "a3", orientation: "portrait" }
-    };
-    
-    // Gerando o PDF
-    const wrapper = document.createElement("div");
-    wrapper.innerHTML = customStyles + coverPage + contentPage;
-    html2pdf().set(options).from(wrapper).save();
-    
+        <div class="card-variacao">
+            ${variacao.outerHTML}
+        </div>
+        `
+        }
+
+        contentPage += `</div>`
+
+        fazerCarregamento()
+        // Configurações do PDF
+        const options = {
+            margin: [10, 10, 10, 10],
+            filename: "relatorio.pdf",
+            html2canvas: { scale: 2, useCORS: true },
+            jsPDF: { unit: "mm", format: "a3", orientation: "portrait" }
+        };
+
+        // Gerando o PDF
+        const wrapper = document.createElement("div");
+        wrapper.innerHTML = customStyles + coverPage + contentPage;
+        html2pdf().set(options).from(wrapper).save();
+    }
+}
+
+const blur2 = document.getElementById('blur2');
+
+function mostrarCarregamento() {
+    blur2.style.display = 'flex';
+}
+
+function ocultarCarregamento() {
+    blur2.style.display = 'none';
+}
+
+function fazerCarregamento() {
+    mostrarCarregamento();
+
+    setTimeout(() => {
+        ocultarCarregamento();
+    }, 2000);
 }
