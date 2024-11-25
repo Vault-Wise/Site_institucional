@@ -31,15 +31,15 @@ function capturarMaquinas(fkAgencia) {
 
 function capturaProcessosTempoReal(fkCaixa) {
     var instrucaoSql = `
-    SELECT *
+    SELECT *,
+       (percentProcessador + percentMemoria) AS totalPercentual
     FROM Processo
     WHERE dtHora >= (
-        SELECT MAX(dtHora) - INTERVAL 45 SECOND
+        SELECT MAX(dtHora) - INTERVAL 30 SECOND 
         FROM Processo
-        WHERE fkCaixa = ${fkCaixa}
     )
     AND fkCaixa = ${fkCaixa}
-    ORDER BY percentProcessador DESC, percentMemoria DESC, dtHora DESC
+    ORDER BY totalPercentual DESC
     LIMIT 3;
    `;
 
@@ -60,7 +60,7 @@ function capturaProcessosIntervalo(fkCaixa, intervalo) {
     LIMIT 3;
    `;
 
-   return database.executar(instrucaoSql);
+    return database.executar(instrucaoSql);
 }
 
 module.exports = {
