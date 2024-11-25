@@ -657,6 +657,7 @@ table th {
 .d {
   color: #0f1923;
   font-size: 20px;
+
   }
 
 .kpis {
@@ -670,6 +671,7 @@ table th {
 }
 
 .info-icon {
+  font-size: 20px;
   color: #0f1923;
   cursor: pointer;
   margin-left: 8px;
@@ -677,7 +679,16 @@ table th {
   z-index: 10;
 }
 
-.info-icon:hover {
+.info-icon2 {
+  font-size: 20px;
+  color: #0f1923;
+  cursor: pointer;
+  margin-left: 96%;
+  transition: color 0.3s;
+  z-index: 10;
+}
+
+.info-icon:hover, .info-icon2:hover {
   color: #c4c4c4;
 }
 
@@ -693,6 +704,30 @@ table th {
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  opacity: 0; /* Para começar invisível */
+  animation: fadeIn 0.5s forwards;
+}
+
+.popup.hidden {
+  animation: fadeOut 0.5s forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }
 
 .popup-content {
@@ -702,6 +737,17 @@ table th {
   width: 50%;
   max-width: 400px;
   text-align: center;
+  transform: scale(0.8); /* Começa reduzido */
+  animation: scaleUp 0.3s forwards;
+}
+
+@keyframes scaleUp {
+  from {
+    transform: scale(0.8);
+  }
+  to {
+    transform: scale(1);
+  }
 }
 
 .popup-content h3 {
