@@ -46,29 +46,43 @@
       </nav>
       <section class="main">
         <div class="main-cima">
-          <h1>Monitoramento de REDE</h1>
+          <h1>Monitoramento de CPU e RAM</h1>
         </div>
         <div class="investimentos">
-          <div class="card">
+          <div class="card3">
             <i class="fa-solid fa-laptop d"></i>
-            <h3>Máquina a ser monitorada</h3>
+            <h3>Maquina a ser monitorada</h3>
             <div class="filters">
-              <select onselect="carregarMaquinas()" class="agencia-select" id="caixaSelect">
+              <select
+                onselect="carregarMaquinas()"
+                class="agencia-select"
+                id="caixaSelect"
+              >
                 <option disabled selected>Selecione uma máquina</option>
               </select>
             </div>
+          </div>
+          <div class="card3">
+            <i class="fa-solid fa-laptop d"></i>
+            <h3>Máquinas com Alto Uso Contínuo</h3>
+            <ul id="listaAltoUso"></ul>
           </div>
         </div>
         <div v class="investimentos">
           <div class="card">
             <i class="fa-solid fa-memory d"></i>
-            <h3>Ocorrências de Memória > 80%</h3>
+            <h3>Alertas de Memória > 80%</h3>
             <span id="ocorrenciasMemoria" class="kpis">0</span>
           </div>
           <div class="card">
             <i class="fa-solid fa-microchip d"></i>
-            <h3>Ocorrências de CPU > 80%</h3>
+            <h3>Alertas de CPU > 80%</h3>
             <span id="ocorrenciasCPU" class="kpis">0</span>
+          </div>
+          <div class="card2">
+            <i class="fa-solid fa-chart-simple d"></i>
+            <h3>Downtime/Uptime em minutos</h3>
+            <div id="chartDowntime"></div>
           </div>
         </div>
         <section class="analise">
@@ -77,20 +91,28 @@
               <li class="texto_caixa">Componentes</li>
             </ul>
             <div class="course">
-                <div class="caixa1">
-                    <h3>Memória</h3>
-                    <p>Percentual de uso</p>
-                    <i class="fa-solid fa-circle-info info-icon" onclick="openPopup('popupMemoria')" style="font-size: 20px;"></i>
-                    <div id="chartMemoria"></div>
-                </div>
-                <div class="caixa1">
-                    <h3>CPU</h3>
-                    <p>Percentual de uso</p>
-                    <i class="fa-solid fa-circle-info info-icon" onclick="openPopup('popupCPU')" style="font-size: 20px;"></i>
-                    <div id="chartProcessador"></div>
-                </div>
+              <div class="caixa1">
+                <h3>Memória RAM</h3>
+                <p>Percentual de uso</p>
+                <i
+                  class="fa-solid fa-circle-info info-icon"
+                  onclick="openPopup('popupMemoria')"
+                  style="font-size: 20px"
+                ></i>
+                <div id="chartMemoria"></div>
+              </div>
+              <div class="caixa1">
+                <h3>CPU</h3>
+                <p>Percentual de uso</p>
+                <i
+                  class="fa-solid fa-circle-info info-icon"
+                  onclick="openPopup('popupCPU')"
+                  style="font-size: 20px"
+                ></i>
+                <div id="chartProcessador"></div>
+              </div>
             </div>
-            
+
             <!-- Popups -->
             <div id="popupMemoria" class="popup">
               <div class="popup-content">
@@ -121,7 +143,7 @@
               </div>
             </div>
           </div>
-          <table id="caixasTable">
+          <!-- <table id="caixasTable">
             <thead>
               <tr>
                 <th>Nome do Equipamento</th>
@@ -132,205 +154,12 @@
               </tr>
             </thead>
             <tbody>
-              <!-- Dados serão inseridos aqui dinamicamente -->
             </tbody>
-          </table>
+          </table> -->
         </section>
       </section>
     </div>
-
-    <script>
-      validarSessao();
-
-      document.addEventListener("DOMContentLoaded", () => {
-        b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
-      });
-
-      function openPopup(popupId) {
-        const popup = document.getElementById(popupId);
-        popup.style.display = "flex";
-      }
-
-      function closePopup(popupId) {
-        const popup = document.getElementById(popupId);
-        popup.style.display = "none";
-      }
-
-      // Fecha o popup ao clicar fora do conteúdo
-      document.addEventListener("click", (event) => {
-        const popups = document.querySelectorAll(".popup");
-        popups.forEach((popup) => {
-          if (event.target === popup) {
-            popup.style.display = "none";
-          }
-        });
-      });
-
-      let chartMemoria, chartProcessador;
-
-      function atualizarKPIs(caixaId) {
-        if (!caixaId) return;
-
-        fetch(`/graficoDash/mostrarDados?caixaId=${caixaId}`)
-          .then((response) => response.json())
-          .then((data) => {
-            const ocorrenciasMemoria = data.filter(
-              (item) => item.percentMemoria > 80
-            ).length;
-            const ocorrenciasCPU = data.filter(
-              (item) => item.percentProcessador > 80
-            ).length;
-
-            const spanMemoria = document.getElementById("ocorrenciasMemoria");
-            const spanCPU = document.getElementById("ocorrenciasCPU");
-
-            // Atualiza os textos
-            spanMemoria.textContent = ocorrenciasMemoria;
-            spanCPU.textContent = ocorrenciasCPU;
-
-            // Altera a classe baseado no limite
-            if (ocorrenciasMemoria > 5) {
-              spanMemoria.classList.add("alerta");
-            } else {
-              spanMemoria.classList.remove("alerta");
-            }
-
-            if (ocorrenciasCPU > 5) {
-              spanCPU.classList.add("alerta");
-            } else {
-              spanCPU.classList.remove("alerta");
-            }
-          })
-          .catch((error) => console.error("Erro ao calcular KPIs:", error));
-      }
-
-      document
-        .getElementById("caixaSelect")
-        .addEventListener("change", function () {
-          const caixaId = this.value;
-
-          const limiteMemoria = 90;
-          const limiteCPU = 90;
-
-          atualizarKPIs(caixaId, limiteMemoria, limiteCPU);
-        });
-
-      function inicializar() {
-        carregarMaquinas();
-        inicializarGraficos();
-
-        // Adiciona o evento de "change" para atualizar gráficos ao selecionar uma máquina
-        document
-          .getElementById("caixaSelect")
-          .addEventListener("change", function () {
-            capturarDados(this.value);
-          });
-      }
-
-      function carregarMaquinas() {
-        fetch("/caixas/listarCaixas")
-          .then((response) => response.json())
-          .then((data) => {
-            const caixaSelect = document.getElementById("caixaSelect");
-            caixaSelect.innerHTML = `<option disabled selected>Selecione uma máquina</option>`;
-
-            data.forEach((caixa) => {
-              const option = document.createElement("option");
-              option.value = caixa.idCaixa;
-              option.textContent = caixa.nomeEquipamento;
-              caixaSelect.appendChild(option);
-            });
-          })
-          .catch((error) => console.error("Erro ao carregar máquinas:", error));
-      }
-
-      function inicializarGraficos() {
-        chartMemoria = new ApexCharts(document.querySelector("#chartMemoria"), {
-            chart: {
-              type: "line",
-              animations: { enabled: true, speed: 800 },
-              toolbar: { show: false }
-            },
-            series: [{ name: "Memória (%)", data: [] }],
-            xaxis: { categories: [] },
-          });
-          chartMemoria.render();
-          
-          chartProcessador = new ApexCharts(document.querySelector("#chartProcessador"), {
-            chart: {
-              type: "line",
-              animations: { enabled: true, speed: 800 },
-              toolbar: { show: false }
-            },
-            series: [{ name: "Processador (%)", data: [] }],
-            xaxis: { categories: [] },
-          });
-          chartProcessador.render();
-      }
-
-      function capturarDados(caixaId) {
-        if (!caixaId) return;
-
-        chartMemoria.updateSeries([{ data: [] }]);
-        chartProcessador.updateSeries([{ data: [] }]);
-
-        function atualizarGraficos() {
-          fetch(`/graficoDash/mostrarDados?caixaId=${caixaId}`)
-            .then((response) => response.json())
-            .then((data) => {
-              const times = data.map((item) =>
-                new Date(item.dtHora).toLocaleTimeString()
-              );
-              const percentMemoriaData = data.map(
-                (item) => item.percentMemoria
-              );
-              const percentProcessadorData = data.map(
-                (item) => item.percentProcessador
-              );
-
-              chartMemoria.updateSeries([
-                { name: "Memória (%)", data: percentMemoriaData },
-              ]);
-              chartMemoria.updateOptions({ xaxis: { categories: times } });
-
-              chartProcessador.updateSeries([
-                { name: "Processador (%)", data: percentProcessadorData },
-              ]);
-              chartProcessador.updateOptions({ xaxis: { categories: times } });
-            })
-            .catch((error) => console.log("Erro ao acessar dados: ", error));
-        }
-
-        atualizarGraficos();
-        clearInterval(window.graficoInterval);
-        window.graficoInterval = setInterval(atualizarGraficos, 5000);
-      }
-
-      document.addEventListener("DOMContentLoaded", function () {
-        fetch("/caixas/listarCaixasTabela")
-          .then((response) => response.json())
-          .then((data) => {
-            const tbody = document
-              .getElementById("caixasTable")
-              .getElementsByTagName("tbody")[0];
-            data.forEach((caixa) => {
-              const row = document.createElement("tr");
-
-              // Insira cada coluna com os valores do banco de dados
-              row.innerHTML = `
-                            <td>${caixa.nomeEquipamento}</td>
-                            <td>${caixa.memoriaPercentMinima}</td>
-                            <td>${caixa.memoriaPercentMaxima}</td>
-                            <td>${caixa.processadorPercentMinimo}</td>
-                            <td>${caixa.processadorPercentMaximo}</td>
-                        `;
-              tbody.appendChild(row);
-            });
-          })
-          .catch((error) =>
-            console.error("Erro ao buscar dados dos caixas:", error)
-          );
-      });
-    </script>
   </body>
 </html>
+
+<script src="../js/dashViny.js"></script>

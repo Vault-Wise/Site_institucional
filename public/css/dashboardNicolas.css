@@ -127,7 +127,7 @@ body {
 
 
 .espacamento {
-    margin-left: 10px;
+    margin-left: 6px;
 }
 
 #chart {
@@ -291,4 +291,43 @@ option {
     background-color: #fff;
     font-size: 15px;
     color: #000000;
+}
+
+.titulo_grafico1 {
+    display: flex;
+    flex-direction: row;
+    color: #fff;
+}
+
+#botaoPlus {
+    background-color: #fff;
+    width: 100px;
+    height: 85px;
+    padding: 10px;
+    border-radius: 8%;
+    font-weight: bold;
+}
+
+#botaoPlus:hover {
+    cursor: pointer;
+    background-color: #cadaee;
+}
+
+.select_estilo {
+    padding: 0px;
+    border-radius: 5px;
+    font-size: 1.5em;
+    font-weight: bold;
+    background-color: #0f1923;
+    color: #fff;
+    margin: 0px 4px;
+}
+
+.fa-solid.fa-chart-simple {
+    font-size: 30px;
+}
+
+.botao_comparacao {
+    display: flex;
+    flex-direction: column;
 }

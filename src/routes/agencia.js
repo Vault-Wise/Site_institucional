@@ -31,4 +31,12 @@ router.get("/agenciaSelecionadaAtual", function (req, res) {
     agenciaController.agenciaSelecionadaAtual(req, res);
 })
 
+router.get("/dados/:agencias", function (req, res) {
+    agenciaController.dadosGrafico(req, res);
+})
+
+router.get("/dados/:agencias2", function (req, res) {
+    agenciaController.dadosGrafico2(req, res);
+})
+
 module.exports = router;

@@ -7,13 +7,13 @@ function cadastrar(req, res) {
 
 
   agenciaModel.cadastrar(cep, numero, empresa)
-      .then(() => {
-          res.status(201).json({ mensagem: "Agencia cadastrada com sucesso!" });
-      })
-      .catch(erro => {
-          console.error("Erro ao cadastrar a agencia: ", erro);
-          res.status(500).json({ erro: "Erro ao cadastrar a agencia." });
-      });
+    .then(() => {
+      res.status(201).json({ mensagem: "Agencia cadastrada com sucesso!" });
+    })
+    .catch(erro => {
+      console.error("Erro ao cadastrar a agencia: ", erro);
+      res.status(500).json({ erro: "Erro ao cadastrar a agencia." });
+    });
 }
 
 function associar(req, res) {
@@ -21,13 +21,13 @@ function associar(req, res) {
   var agencia = req.body.agenciaServer;
 
   agenciaModel.associar(maquina, agencia)
-      .then(() => {
-          res.status(201).json({ mensagem: "Máquina associada com sucesso!" });
-      })
-      .catch(erro => {
-          console.error("Erro ao associar máquina: ", erro);
-          res.status(500).json({ erro: "Erro ao associar máquina." });
-      });
+    .then(() => {
+      res.status(201).json({ mensagem: "Máquina associada com sucesso!" });
+    })
+    .catch(erro => {
+      console.error("Erro ao associar máquina: ", erro);
+      res.status(500).json({ erro: "Erro ao associar máquina." });
+    });
 }
 
 function listar(req, res) {
@@ -58,7 +58,7 @@ function selectsDaPagina(req, res) {
 }
 
 function alertaHorario(req, res) {
-  
+
   var agencia = req.params.agencias;
   var ano = req.params.anos;
 
@@ -72,13 +72,40 @@ function agenciaSelecionadaAtual(req, res) {
   var agencia = req.body.agenciaServer;
 
   agenciaModel.agenciaSelecionadaAtual(componente, agencia)
-      .then(() => {
-          res.status(201).json({ mensagem: "Select funcionou" });
-      })
-      .catch(erro => {
-          console.error("Erro ao realizar o select da dashNicolas: ", erro);
-          res.status(500).json({ erro: "Erro ao realizar o select da dashNicolas." });
-      });
+    .then(() => {
+      res.status(201).json({ mensagem: "Select funcionou" });
+    })
+    .catch(erro => {
+      console.error("Erro ao realizar o select da dashNicolas: ", erro);
+      res.status(500).json({ erro: "Erro ao realizar o select da dashNicolas." });
+    });
+}
+
+function dadosGrafico(req, res) {
+  var agencia = req.params.agencias;
+  
+
+  agenciaModel.dadosGrafico(agencia)
+    .then(dados => {
+      res.status(200).json({ agencias: dados }); 
+    })
+    .catch(erro => {
+      console.error("Erro ao realizar o select da dashNicolas: ", erro);
+      res.status(500).json({ erro: "Erro ao realizar o select da dashNicolas." });
+    });
+}
+
+function dadosGrafico2(req, res) {
+  var agencia2 = req.params.agencias2;
+
+  agenciaModel.dadosGrafico2(agencia2)
+    .then(dados => {
+      res.status(200).json({ agencias: dados }); 
+    })
+    .catch(erro => {
+      console.error("Erro ao realizar o select da dashNicolas: ", erro);
+      res.status(500).json({ erro: "Erro ao realizar o select da dashNicolas." });
+    });
 }
 
 module.exports = {
@@ -88,5 +115,7 @@ module.exports = {
   associar,
   buscarAgencia,
   alertaHorario,
-  agenciaSelecionadaAtual
+  agenciaSelecionadaAtual,
+  dadosGrafico,
+  dadosGrafico2
 };
