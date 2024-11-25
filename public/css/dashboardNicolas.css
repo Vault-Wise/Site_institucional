@@ -136,6 +136,7 @@ body {
     border: 1px solid #0f1923;
     box-shadow: 0px 0px 10px #ffffff21;
     margin-right: 20px;
+    margin-left: 20px;
     text-align: center;
 }
 
@@ -330,4 +331,30 @@ option {
 .botao_comparacao {
     display: flex;
     flex-direction: column;
+}
+
+#previsao {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 10px;
+    width: 180px;
+}
+
+#botaoPlusPrevisao {
+    background-color: #fff;
+    width: 100px;
+    height: 85px;
+    padding: 10px;
+    border-radius: 8%;
+    font-weight: bold;
+}
+
+#botaoPlusPrevisao:hover {
+    cursor: pointer;
+    background-color: #cadaee;
+}
+
+.fa-solid.fa-magnifying-glass {
+    font-size: 25px;
+    
 }

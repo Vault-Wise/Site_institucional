@@ -23,5 +23,4 @@ router.get("/capturaProcessosIntervalo/:intervalo/:fkCaixa", function (req, res)
     dashPresilliController.capturaProcessosIntervalo(req, res)
 });
 
-
 module.exports = router;

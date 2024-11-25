@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-br">
 
   <head>
@@ -47,7 +48,12 @@
 
 
         <!--Alertas início-->
-        <h1 style="justify-self: center; color:white;">Alertas</h1>
+        <h1>
+          <select id="selecAgencia">
+            <option value="0">Agência</option>
+          </select>
+        </h1>
+
 
         <div class="conteudo_alerta">
           <div class="head">
@@ -55,14 +61,14 @@
             <div class="alert-summary">
               <div class="alert-item yellow">
                 <p>Máquinas em estado de alerta</p>
-                <span>06/24</span>
-                <img src="css/img/alerta.png" style="border-radius: 50%;"alt="iconAlerta">
+                <span> </span>
+                <img src="../css/imagens/alerta.png" style="border-radius: 50%;"alt="iconAlerta">
               </div>
               
               <div class="alert-item red">
                 <p>Máquinas em estado de perigo</p>
-                <span>07/24</span>
-                <img src="css/img/perigo.png" style="border-radius: 50%;"alt="prerigo">
+                <span> </span>
+                <img src="../css/imagens/perigo.png" style="border-radius: 50%;"alt="prerigo">
               </div>
             </div>
             
@@ -71,22 +77,12 @@
                 <h2 style="justify-self: center; color:rgb(0, 0, 0)">Máquinas em alerta</h2> <br>
                 <div class="filtrar">
                   <select style="display: flex; gap: 500px;">
-                    <option id="0">Agência</option>
-                    <option id="1">1</option>
-                    <option id="2">2</option>
-                    <option id="3">3</option>
-                    <option id="4">4</option>
-                    <option id="5">5</option>
-                    <option id="6">6</option>
+                    <option value="0">Agência</option>
+               
                   </select>
                   <select>
-                    <option id="0">Situação</option>
-                    <option id="1">1</option>
-                    <option id="2">2</option>
-                    <option id="3">3</option>
-                    <option id="4">4</option>
-                    <option id="5">5</option>
-                    <option id="6">6</option>
+                    <option value="0">Máquina</option>
+               
                   </select>
                 </div>
                 <!--
@@ -107,25 +103,25 @@
                     Dados coletados do dos alertas
                     -->
                     <tr style="color:rgb(0, 0, 0)">
-                      <td>Agência 1</td>
-                      <td>Máquina A</td>
-                      <td>Alerta</td>
+                      <td>  </td>
+                      <td>  </td>
+                      <td>  </td>
                     </tr>
 
                     <tr style="color:rgb(0, 0, 0)">
-                      <td>Agência 2</td>
-                      <td>Máquina B</td>
-                      <td>Crítico</td>
+                      <td>  </td>
+                      <td>  </td>
+                      <td>  </td>
                     </tr>
 
                     <tr style="color:rgb(0, 0, 0)">
-                      <td>Agência 3</td>
-                      <td>Máquina C</td>
-                      <td>Normal</td>
+                      <td>  </td>
+                      <td>  </td>
+                      <td>  </td>
                     </tr>
 
                     <!--
-                    Dados coletados do dos alertas
+                    Dados coletados dos alertas
                     -->
 
                   </tbody>
@@ -138,7 +134,7 @@
           <!-- Gráfico início-->
           <div class="ocorrencias">
             <div class="itensOcorrencia">
-              <h3>Estado de Máquina</h3>
+              <h3>Estado das Máquinas</h3>
               <canvas id="myPieChart"></canvas>
           </div>
           <!-- Gráfico fim-->
@@ -150,7 +146,7 @@
 
           <!--Ocorrencias início-->
             <div class="itensOcorrencia">
-              <h3>Quantidade de Ocorrências</h3>
+              <h3>Quantidade de Ocorrências ao Mês</h3>
               <table>
                 <thead>
           
@@ -158,19 +154,19 @@
                 <tbody>
                   <tr>
                     <td>Total</td>
-                    <td>17</td>
-                    <td>13</td>
+                    <td> </td>
+                    <td> </td>
                   </tr>
                   <tr>
                     <td>Alerta</td>
-                    <td>08</td>
-                    <td>02</td>
+                    <td> </td>
+                    <td> </td>
                   </tr>
           
                   <tr>
                     <td>Crítico</td>
-                    <td>09</td>
-                    <td>07</td>
+                    <td> </td>
+                    <td> </td>
                   </tr>
           
                 </tbody>
@@ -196,16 +192,107 @@
 <!--Script do grafico em pizza-->
 <script>
   document.addEventListener("DOMContentLoaded", () => {
-    const ctx = document.getElementById("myPieChart").getContext("2d");
+    const selecAgencia = document.getElementById("selecAgencia");
+    const selecMes = document.getElementById("selecMes");
+    const tabelaCorpo = document.querySelector(".tabela tbody");
     
-    new Chart(ctx, {
+    let dados = {}; // Variável para armazenar os dados recebidos da API
+  
+    // Função para buscar os dados da API
+    async function buscarDados() {
+      try {
+        const response = await fetch(""); // Colocar a ULR da API do grupo
+        if (!response.ok) {
+          throw new Error("Erro ao buscar dados da API");
+        }
+        dados = await response.json();
+        atualizarSeletores();
+      } catch (error) {
+        console.error("Erro ao buscar dados:", error);
+        tabelaCorpo.innerHTML = "<tr><td colspan='3'>Erro ao carregar dados</td></tr>";
+      }
+    }
+  
+    // Atualiza os seletores de agência e mês com base nos dados recebidos
+    function atualizarSeletores() {
+      const agencias = Object.keys(dados);
+      selecAgencia.innerHTML = "<option value='0'>Selecione a Agência</option>";
+      agencias.forEach((agencia) => {
+        const option = document.createElement("option");
+        option.value = agencia;
+        option.textContent = `Agência ${agencia}`;
+        selecAgencia.appendChild(option);
+      });
+  
+      selecMes.innerHTML = "<option value='0'>Selecione o Mês</option>";
+      if (agencias.length > 0) {
+        const meses = Object.keys(dados[agencias[0]]); // Obtém os meses da primeira agência como exemplo
+        meses.forEach((mes) => {
+          const option = document.createElement("option");
+          option.value = mes;
+          option.textContent = mes;
+          selecMes.appendChild(option);
+        });
+      }
+    }
+  
+    // Atualiza a tabela com base na agência e mês selecionados
+    function atualizarTabela() {
+      const agencia = selecAgencia.value;
+      const mes = selecMes.options[selecMes.selectedIndex]?.text || "0";
+  
+      tabelaCorpo.innerHTML = "";
+  
+      if (dados[agencia] && dados[agencia][mes]) {
+        dados[agencia][mes].forEach(item => {
+          const row = `<tr>
+            <td>${item.agencia}</td>
+            <td>${item.maquina}</td>
+            <td>${item.indicador}</td>
+          </tr>`;
+          tabelaCorpo.innerHTML += row;
+        });
+      } else {
+        tabelaCorpo.innerHTML = "<tr><td colspan='3'>Nenhum dado encontrado</td></tr>";
+      }
+    }
+  
+    // Atualiza o gráfico com base na agência e mês selecionados
+    function atualizarGrafico() {
+      const agencia = selecAgencia.value;
+      const mes = selecMes.options[selecMes.selectedIndex]?.text || "0";
+  
+      const estados = { Alerta: 0, Crítico: 0, Normal: 0 };
+      if (dados[agencia] && dados[agencia][mes]) {
+        dados[agencia][mes].forEach(item => {
+          estados[item.indicador] = (estados[item.indicador] || 0) + 1;
+        });
+      }
+  
+      const chartData = [estados.Alerta, estados.Crítico, estados.Normal];
+      myChart.data.datasets[0].data = chartData;
+      myChart.update();
+    }
+  
+    selecAgencia.addEventListener("change", () => {
+      atualizarTabela();
+      atualizarGrafico();
+    });
+  
+    selecMes.addEventListener("change", () => {
+      atualizarTabela();
+      atualizarGrafico();
+    });
+  
+    // Inicializa o gráfico vazio
+    const ctx = document.getElementById("myPieChart").getContext("2d");
+    const myChart = new Chart(ctx, {
       type: "pie",
       data: {
-        labels: ["Seguro", "Alerta", "Perigo"],
+        labels: ["Alerta", "Crítico", "Normal"],
         datasets: [{
-          data: [48.8, 25, 29.2], // Dados de exemplo
-          backgroundColor: ["#4CAF50", "#FFE066", "#FF6B6B"],
-          hoverBackgroundColor: ["#4CAF50", "#FFE066", "#FF6B6B"]
+          data: [0, 0, 0],
+          backgroundColor: ["#FFE066", "#FF6B6B", "#4CAF50"]
         }]
       },
       options: {
@@ -213,19 +300,18 @@
         plugins: {
           legend: {
             position: "top"
-          },
-          tooltip: {
-            callbacks: {
-              label: function(tooltipItem) {
-                return `${tooltipItem.label}: ${tooltipItem.raw}%`;
-              }
-            }
           }
         }
       }
     });
+  
+    // Chama a função para buscar os dados da API ao carregar a página
+    buscarDados();
   });
-</script>
+  </script>
+  
+
+
 
 <!--Transição de dash-->
 <script>
@@ -261,3 +347,9 @@
         }
     });
 </script>
+
+
+
+
+
+

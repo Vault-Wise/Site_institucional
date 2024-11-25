@@ -11,4 +11,8 @@ router.get("/obterDowntime", function (req, res) {
   graficosDashController.obterDowntime(req, res);
 });
 
+router.get("/obterAltoUsoContinuo", (req, res) => {
+  graficosDashController.obterAltoUsoContinuo(req, res);
+});
+
 module.exports = router

@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
-<head>
-    <link rel="shortcut icon" href="../assets/icon/index.ico" type="image/x-icon" />
+  <head>
+    <link
+      rel="shortcut icon"
+      href="../assets/icon/index.ico"
+      type="image/x-icon"
+    />
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,403 +13,172 @@
 
     <link rel="stylesheet" href="./../css/dashboards.css" />
     <link rel="stylesheet" href="./../css/dashboardVinicius.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
 
     <script src="../js/sessao.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-</head>
+  </head>
 
-<body onload="inicializar()">
+  <body onload="inicializar()">
     <div class="container">
-        <nav>
-            <ul id="listaNavegacao">
-                <li>
-                    <a href="#">
-                        <div class="cargoUsuario">
-                            <div class="usuario">
-                                <img src="../css/imagens/icon12.jpg" alt="" />
-                                <span id="b_usuario">Usuário</span>
-                            </div>
-                            <div class="cargo">
-                                <span id="cargo_usuario" style="font-size: 15px; margin-top: 10px"></span>
-                            </div>
-                        </div>
-                    </a>
-                </li>
+      <nav>
+        <ul id="listaNavegacao">
+          <li>
+            <a href="#">
+              <div class="cargoUsuario">
+                <div class="usuario">
+                  <img src="../css/imagens/icon12.jpg" alt="" />
+                  <span id="b_usuario">Usuário</span>
+                </div>
+                <div class="cargo">
+                  <span
+                    id="cargo_usuario"
+                    style="font-size: 15px; margin-top: 10px"
+                  ></span>
+                </div>
+              </div>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <section class="main">
+        <div class="main-cima">
+          <h1>Monitoramento de CPU e RAM</h1>
+        </div>
+        <div class="investimentos">
+          <div class="card3">
+            <i class="fa-solid fa-laptop d"></i>
+            <h3>Máquina a ser monitorada</h3>
+            <div class="filters">
+              <select
+                onselect="carregarMaquinas()"
+                class="agencia-select"
+                id="caixaSelect"
+              >
+                <option disabled selected>Selecione uma máquina</option>
+              </select>
+            </div>
+          </div>
+          <div class="card3">
+            <i
+            class="fa-solid fa-circle-info info-icon2"
+            onclick="openPopup('popupConsumo')"
+            style="font-size: 20px"
+          ></i>
+            <i class="fa-solid fa-gauge-high info-icon"></i>
+            <h3>Máquina com Alto Uso Contínuo</h3>
+            <ul id="listaAltoUso"></ul>
+          </div>
+        </div>
+        <div v class="investimentos">
+          <div class="card">
+            <i class="fa-solid fa-memory info-icon"></i>
+            <h3>Alertas de Memória > 80%</h3>
+            <span id="ocorrenciasMemoria" class="kpis">0</span>
+          </div>
+          <div class="card">
+            <i class="fa-solid fa-microchip info-icon"></i>
+            <h3>Alertas de CPU > 80%</h3>
+            <span id="ocorrenciasCPU" class="kpis">0</span>
+          </div>
+          <div class="card2">
+            <i class="fa-solid fa-chart-simple info-icon"></i>
+            <h3>Downtime/Uptime em minutos</h3>
+            <div id="chartDowntime"></div>
+          </div>
+        </div>
+        <section class="analise">
+          <div class="caixa">
+            <ul>
+              <li class="texto_caixa">Componentes</li>
             </ul>
-        </nav>
-        <section class="main">
-            <div class="main-cima">
-                <h1>Monitoramento de CPU e RAM</h1>
+            <div class="course">
+              <div class="caixa1">
+                <h3>Memória RAM</h3>
+                <p>Percentual de uso</p>
+                <i
+                  class="fa-solid fa-circle-info info-icon"
+                  onclick="openPopup('popupMemoria')"
+                  style="font-size: 20px"
+                ></i>
+                <div id="chartMemoria"></div>
+              </div>
+              <div class="caixa1">
+                <h3>CPU</h3>
+                <p>Percentual de uso</p>
+                <i
+                  class="fa-solid fa-circle-info info-icon"
+                  onclick="openPopup('popupCPU')"
+                  style="font-size: 20px"
+                ></i>
+                <div id="chartProcessador"></div>
+              </div>
             </div>
-            <div class="investimentos">
-                <div class="card3">
-                    <i class="fa-solid fa-laptop d"></i>
-                    <h3>Máquina a ser monitorada</h3>
-                    <div class="filters">
-                        <select onselect="carregarMaquinas()" class="agencia-select" id="caixaSelect">
-                            <option disabled selected>Selecione uma máquina</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="card3">
-                    <i class="fa-solid fa-laptop d"></i>
-                    <h3>Tempo de Downtime</h3>
-                    <div class="filters">
-                    </div>
-                </div>
-            </div>
-            <div v class="investimentos">
-                <div class="card">
-                    <i class="fa-solid fa-memory d"></i>
-                    <h3>Alertas de Memória > 80%</h3>
-                    <span id="ocorrenciasMemoria" class="kpis">0</span>
-                </div>
-                <div class="card">
-                    <i class="fa-solid fa-microchip d"></i>
-                    <h3>Alertas de CPU > 80%</h3>
-                    <span id="ocorrenciasCPU" class="kpis">0</span>
-                </div>
-                <div class="card2">
-                    <i class="fa-solid fa-microchip d"></i>
-                    <h3>Downtime/Uptime em minutos</h3>
-                    <div id="chartDowntime"></div>
-                </div>
-            </div>
-            <section class="analise">
-                <div class="caixa">
-                    <ul>
-                        <li class="texto_caixa">Componentes</li>
-                    </ul>
-                    <div class="course">
-                        <div class="caixa1">
-                            <h3>Memória</h3>
-                            <p>Percentual de uso</p>
-                            <i class="fa-solid fa-circle-info info-icon" onclick="openPopup('popupMemoria')"
-                                style="font-size: 20px;"></i>
-                            <div id="chartMemoria"></div>
-                        </div>
-                        <div class="caixa1">
-                            <h3>CPU</h3>
-                            <p>Percentual de uso</p>
-                            <i class="fa-solid fa-circle-info info-icon" onclick="openPopup('popupCPU')"
-                                style="font-size: 20px;"></i>
-                            <div id="chartProcessador"></div>
-                        </div>
-                    </div>
 
-                    <!-- Popups -->
-                    <div id="popupMemoria" class="popup">
-                        <div class="popup-content">
-                            <h3>Memória</h3>
-                            <p>
-                                Percentual de uso da memória do equipamento. Valores acima de
-                                80% indicam que o sistema está sob alta carga, podendo
-                                impactar o desempenho.
-                            </p>
-                            <button class="close-button" onclick="closePopup('popupMemoria')">
-                                Fechar
-                            </button>
-                        </div>
-                    </div>
-                    <div id="popupCPU" class="popup">
-                        <div class="popup-content">
-                            <h3>CPU</h3>
-                            <p>
-                                Percentual de uso do processador do equipamento. Valores acima
-                                de 80% podem indicar sobrecarga, afetando a performance geral.
-                            </p>
-                            <button class="close-button" onclick="closePopup('popupCPU')">
-                                Fechar
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <table id="caixasTable">
-                    <thead>
-                        <tr>
-                            <th>Nome do Equipamento</th>
-                            <th>Memória mínima</th>
-                            <th>Memória máxima</th>
-                            <th>Frequência Minima do Processador</th>
-                            <th>Frequência Máxima do Processador</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Dados serão inseridos aqui dinamicamente -->
-                    </tbody>
-                </table>
-            </section>
+            <!-- Popups -->
+            <div id="popupMemoria" class="popup">
+              <div class="popup-content">
+                <h3>Memória</h3>
+                <p>
+                  Percentual de uso da memória do equipamento. Valores acima de
+                  80% indicam que o sistema está sob alta carga, podendo
+                  impactar o desempenho.
+                </p>
+                <button
+                  class="close-button"
+                  onclick="closePopup('popupMemoria')"
+                >
+                  Fechar
+                </button>
+              </div>
+            </div>
+            <div id="popupCPU" class="popup">
+              <div class="popup-content">
+                <h3>CPU</h3>
+                <p>
+                  Percentual de uso do processador do equipamento. Valores acima
+                  de 80% podem indicar sobrecarga, afetando a performance geral.
+                </p>
+                <button class="close-button" onclick="closePopup('popupCPU')">
+                  Fechar
+                </button>
+              </div>
+            </div>
+          </div>
+          <div id="popupConsumo" class="popup">
+            <div class="popup-content">
+              <h3>Alto Uso</h3>
+              <p>
+                Tempo em que a CPU e a memória RAM permaneceram com utilização acima de 80%
+              </p>
+              <button
+                class="close-button"
+                onclick="closePopup('popupConsumo')"
+              >
+                Fechar
+              </button>
+            </div>
+          </div>
+          <!-- <table id="caixasTable">
+            <thead>
+              <tr>
+                <th>Nome do Equipamento</th>
+                <th>Memória mínima</th>
+                <th>Memória máxima</th>
+                <th>Frequência Minima do Processador</th>
+                <th>Frequência Máxima do Processador</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table> -->
         </section>
+      </section>
     </div>
-
-    <script>
-        validarSessao();
-
-        document.addEventListener("DOMContentLoaded", () => {
-            b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
-        });
-
-        function openPopup(popupId) {
-            const popup = document.getElementById(popupId);
-            popup.style.display = "flex";
-        }
-
-        function closePopup(popupId) {
-            const popup = document.getElementById(popupId);
-            popup.style.display = "none";
-        }
-
-        // Fecha o popup ao clicar fora do conteúdo
-        document.addEventListener("click", (event) => {
-            const popups = document.querySelectorAll(".popup");
-            popups.forEach((popup) => {
-                if (event.target === popup) {
-                    popup.style.display = "none";
-                }
-            });
-        });
-
-        let chartMemoria, chartProcessador;
-
-        function atualizarKPIs(caixaId) {
-            if (!caixaId) return;
-
-            fetch(`/graficoDash/mostrarDados?caixaId=${caixaId}`)
-                .then((response) => response.json())
-                .then((data) => {
-                    const ocorrenciasMemoria = data.filter(
-                        (item) => item.percentMemoria > 80
-                    ).length;
-                    const ocorrenciasCPU = data.filter(
-                        (item) => item.percentProcessador > 80
-                    ).length;
-
-                    const spanMemoria = document.getElementById("ocorrenciasMemoria");
-                    const spanCPU = document.getElementById("ocorrenciasCPU");
-
-                    // Atualiza os textos
-                    spanMemoria.textContent = ocorrenciasMemoria;
-                    spanCPU.textContent = ocorrenciasCPU;
-
-                    // Altera a classe baseado no limite
-                    if (ocorrenciasMemoria > 5) {
-                        spanMemoria.classList.add("alerta");
-                    } else {
-                        spanMemoria.classList.remove("alerta");
-                    }
-
-                    if (ocorrenciasCPU > 5) {
-                        spanCPU.classList.add("alerta");
-                    } else {
-                        spanCPU.classList.remove("alerta");
-                    }
-                })
-                .catch((error) => console.error("Erro ao calcular KPIs:", error));
-        }
-
-        document
-            .getElementById("caixaSelect")
-            .addEventListener("change", function () {
-                const caixaId = this.value;
-
-                const limiteMemoria = 90;
-                const limiteCPU = 90;
-
-                atualizarKPIs(caixaId, limiteMemoria, limiteCPU);
-            });
-
-        function inicializar() {
-            carregarMaquinas();
-            inicializarGraficos();
-
-            document
-                .getElementById("caixaSelect")
-                .addEventListener("change", function () {
-                    capturarDados(this.value);
-                });
-        }
-
-        function carregarMaquinas() {
-            fetch("/caixas/listarCaixas")
-                .then((response) => response.json())
-                .then((data) => {
-                    const caixaSelect = document.getElementById("caixaSelect");
-                    caixaSelect.innerHTML = `<option disabled selected>Selecione uma máquina</option>`;
-
-                    data.forEach((caixa) => {
-                        const option = document.createElement("option");
-                        option.value = caixa.idCaixa;
-                        option.textContent = caixa.nomeEquipamento;
-                        caixaSelect.appendChild(option);
-                    });
-                })
-                .catch((error) => console.error("Erro ao carregar máquinas:", error));
-        }
-
-        function inicializarGraficos() {
-            chartMemoria = new ApexCharts(document.querySelector("#chartMemoria"), {
-                chart: {
-                    type: "line",
-                    animations: { enabled: true, speed: 800 },
-                    toolbar: { show: false }
-                },
-                series: [{ name: "Memória (%)", data: [] }],
-                xaxis: { categories: [] },
-            });
-            chartMemoria.render();
-
-            chartProcessador = new ApexCharts(document.querySelector("#chartProcessador"), {
-                chart: {
-                    type: "line",
-                    animations: { enabled: true, speed: 800 },
-                    toolbar: { show: false }
-                },
-                series: [{ name: "Processador (%)", data: [] }],
-                xaxis: { categories: [] },
-            });
-            chartProcessador.render();
-
-            chartDowntime = new ApexCharts(document.querySelector("#chartDowntime"), {
-                chart: {
-                    type: "donut",
-                },
-                series: [0, 0],
-                labels: ["Downtime", "Uptime"],
-                colors: ["#FF4560", "#0086ff"],
-                plotOptions: {
-                    pie: {
-                        donut: {
-                            size: "70%",
-                            labels: {
-                                show: true,
-                                total: {
-                                    show: true,
-                                },
-                            },
-                        },
-                    },
-                },
-                dataLabels: {
-                    enabled: true,
-                    formatter: (val, opts) => `${val.toFixed(0)}%`,
-                },
-            });
-            chartDowntime.render();
-        }
-
-        function capturarDados(caixaId) {
-            if (!caixaId) return;
-
-            chartMemoria.updateSeries([{ data: [] }]);
-            chartProcessador.updateSeries([{ data: [] }]);
-
-            function atualizarGraficos() {
-                fetch(`/graficoDash/mostrarDados?caixaId=${caixaId}`)
-                    .then((response) => response.json())
-                    .then((data) => {
-                        const times = data.map((item) =>
-                            new Date(item.dtHora).toLocaleTimeString()
-                        );
-                        const percentMemoriaData = data.map(
-                            (item) => item.percentMemoria
-                        );
-                        const percentProcessadorData = data.map(
-                            (item) => item.percentProcessador
-                        );
-
-                        chartMemoria.updateSeries([
-                            { name: "Memória (%)", data: percentMemoriaData },
-                        ]);
-                        chartMemoria.updateOptions({ xaxis: { categories: times } });
-
-                        chartProcessador.updateSeries([
-                            { name: "Processador (%)", data: percentProcessadorData },
-                        ]);
-                        chartProcessador.updateOptions({ xaxis: { categories: times } });
-                    })
-                    .catch((error) => console.log("Erro ao acessar dados: ", error));
-            }
-
-            atualizarGraficos();
-            clearInterval(window.graficoInterval);
-            window.graficoInterval = setInterval(atualizarGraficos, 5000);
-        }
-
-        document.addEventListener("DOMContentLoaded", function () {
-            fetch("/caixas/listarCaixasTabela")
-                .then((response) => response.json())
-                .then((data) => {
-                    const tbody = document
-                        .getElementById("caixasTable")
-                        .getElementsByTagName("tbody")[0];
-                    data.forEach((caixa) => {
-                        const row = document.createElement("tr");
-
-                        // Insira cada coluna com os valores do banco de dados
-                        row.innerHTML = `
-                            <td>${caixa.nomeEquipamento}</td>
-                            <td>${caixa.memoriaPercentMinima}</td>
-                            <td>${caixa.memoriaPercentMaxima}</td>
-                            <td>${caixa.processadorPercentMinimo}</td>
-                            <td>${caixa.processadorPercentMaximo}</td>
-                        `;
-                        tbody.appendChild(row);
-                    });
-                })
-                .catch((error) =>
-                    console.error("Erro ao buscar dados dos caixas:", error)
-                );
-        });
-
-
-        let chartDowntime;
-
-        function atualizarGraficoDowntime(caixaId) {
-    if (!caixaId) return;
-
-    fetch(`/graficoDash/obterDowntime?caixaId=${caixaId}`)
-        .then((response) => response.json())
-        .then((data) => {
-            if (!data || data.length === 0) {
-                console.warn("Nenhum dado de downtime disponível.");
-                return;
-            }
-
-            // Calcular o tempo total de downtime (em minutos)
-            const totalDowntimeMin = data.reduce((acc, item) => acc + Math.max(0, item.downtime), 0);
-
-            // Total de tempo monitorado em minutos
-            const totalTempoMonitoradoMin = data.length * 2; // Cada intervalo monitora 2 minutos
-
-            // Converter para horas
-            const totalDowntimeHoras = (totalDowntimeMin / 60).toFixed(0);
-            const totalUptimeHoras = ((totalTempoMonitoradoMin - totalDowntimeMin) / 60).toFixed(0);
-
-            // Atualizar o gráfico com os valores em horas
-            chartDowntime.updateSeries([
-                parseFloat(totalDowntimeHoras),
-                parseFloat(totalUptimeHoras),
-            ]);
-
-            // Atualizar labels do gráfico
-            chartDowntime.updateOptions({
-                labels: ["Downtime (h)", "Uptime (h)"],
-            });
-        })
-        .catch((error) => console.error("Erro ao calcular downtime:", error));
-}
-
-        
-        document.getElementById("caixaSelect").addEventListener("change", function () {
-            const caixaId = this.value;
-            atualizarGraficoDowntime(caixaId);
-        });
-        a
-        document.addEventListener("DOMContentLoaded", function () {
-            inicializarGraficoDowntime();
-        });
-    </script>
-</body>
-
+  </body>
 </html>
+
+<script src="../js/dashViny.js"></script>

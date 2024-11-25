@@ -48,7 +48,7 @@
                                 <span class="cardSpanDestaque">Agência<div id="maior_alerta" class="espacamento">x</div>
                                     <div class="conteudo_info">
                                         <p>CEP: <span id="cep_menos_alertas"></span></p>
-                                        <p>Número: <span id="numero_menos_alertas"></span></p>  
+                                        <p>Número: <span id="numero_menos_alertas"></span></p>
                                     </div>
                             </div>
                             </span>
@@ -61,7 +61,7 @@
                                     </div>
                                     <div class="conteudo_info">
                                         <p>CEP: <span id="cep_mais_alertas"></span></p>
-                                        <p>Número: <span id="numero_mais_alertas"></span></p>  
+                                        <p>Número: <span id="numero_mais_alertas"></span></p>
                                     </div>
                             </div>
                             </span>
@@ -96,9 +96,17 @@
 
                 <div class="graficos">
                     <div class="conteudo-grafico">
+                        <div id="previsao" style="display: none;"></div>
+                        <button class="check" onclick="adicionarPrevisao()" id="botaoPlusPrevisao">
+                            <div class="botao_comparacao">
+                                <span>Verificar Previsão</span>
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </div>
+                        </button>
                         <div class="grafico">
                             <div class="selects">
-                                <select class="select_estilo" type="text" id="select_agencia" onchange="VisuAlertaHorario()"></select>
+                                <select class="select_estilo" type="text" id="select_agencia"
+                                    onchange="VisuAlertaHorario(), dadosGrafico()"></select>
                                 <select type="text" id="select_componente" onchange="dadosGrafico(), dadosGrafico2()">
                                     <option value="CPU">CPU</option>
                                     <option value="RAM">RAM</option>
@@ -117,7 +125,8 @@
                         <div id="bordaGrafico" style="display: none;"></div>
                         <div class="grafico2" style="display: none;" id="grafico2">
                             <div class="selects">
-                                <select class="select_estilo" type="text" id="select_agencia2" onchange="dadosGrafico2()"></select>
+                                <select class="select_estilo" type="text" id="select_agencia2"
+                                    onchange="dadosGrafico2()"></select>
                                 <button class="check" onclick="fecharGrafico()"><i class="fa-solid fa-x"></i></button>
                             </div>
                             <div id="chart2">
@@ -163,6 +172,7 @@
         var grafico2 = document.getElementById("grafico2");
         var botaoPlus = document.getElementById("botaoPlus");
         var bordaGrafico = document.getElementById("bordaGrafico");
+        var botaoPlusPrevisao = document.getElementById("botaoPlusPrevisao");
 
         if (adicionar == 1) {
 
@@ -170,6 +180,7 @@
             grafico2.style.opacity = '0';
             grafico2.style.transform = 'scale(0.1)';
             botaoPlus.style.display = 'none';
+            botaoPlusPrevisao.style.display = 'none';
 
             bordaGrafico.style.display = 'flex';
             bordaGrafico.style.opacity = '0';
@@ -206,12 +217,68 @@
             setTimeout(() => {
                 grafico2.style.display = 'none';
                 botaoPlus.style.display = 'flex';
+                botaoPlusPrevisao.style.display = 'flex';
                 bordaGrafico.style.display = 'none';
 
 
             }, 500);
 
             adicionar = 1;
+        }
+
+    }
+
+    var verificar = 1;
+
+    function adicionarPrevisao() {
+
+        var previsao = document.getElementById("previsao");
+        var botaoPlusPrevisao = document.getElementById("botaoPlusPrevisao");
+
+        if (verificar == 1) {
+
+            previsao.style.display = 'block';
+            previsao.style.opacity = '0';
+            previsao.style.transform = 'scale(0.1)';
+            previsao.style.position = `absolute`;
+            previsao.style.top = `58%`;
+            previsao.style.left = `18.5%`;
+            
+            botaoPlusPrevisao.innerHTML = `<span>Fechar Previsão</span> <i class="fa-solid fa-magnifying-glass"></i></i>`
+
+            setTimeout(() => {
+                previsao.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                previsao.style.opacity = '1';
+                previsao.style.transform = 'scale(1)';
+            }, 100);
+
+            verificar = 0;
+        } else {
+            fecharPrevisao();
+            botaoPlusPrevisao.innerHTML = `<span>Verificar Previsão</span> <i class="fa-solid fa-magnifying-glass"></i></i>`
+            verificar = 1
+        }
+    }
+
+    function fecharPrevisao() {
+
+        var previsao = document.getElementById("previsao");
+        var botaoPlusPrevisao = document.getElementById("botaoPlusPrevisao");
+
+        if (verificar === 0) {
+            previsao.style.opacity = '0';
+            previsao.style.transform = 'scale(0.9)';
+
+            bordaGrafico.style.opacity = '0';
+            bordaGrafico.style.transform = 'scale(0.9)';
+
+            setTimeout(() => {
+                previsao.style.display = 'none';
+                botaoPlusPrevisao.style.display = 'block';
+
+            }, 500);
+
+            verificar = 1;
         }
 
     }
@@ -224,6 +291,10 @@
 
         var select_componente = document.getElementById("select_componente")
         var componente = select_componente.value;
+
+        var previsaoElemento = document.getElementById("previsao");
+
+        console.log(agencias)
 
         fetch(`/agencia/dados/${agencias}`, {
             method: "GET",
@@ -249,6 +320,49 @@
                         }
                     });
 
+                    var calcularPrevisao = (dados) => {
+                        var pontos = dados.map((valor, index) => ({
+                            x: index + 1, // Mês sequencial
+                            y: parseFloat(valor) // Média numérica
+                        }));
+
+                        var n = pontos.length;
+
+                        // Somatórios
+                        var sumX = pontos.reduce((acc, ponto) => acc + ponto.x, 0);
+                        var sumY = pontos.reduce((acc, ponto) => acc + ponto.y, 0);
+                        var sumXY = pontos.reduce((acc, ponto) => acc + ponto.x * ponto.y, 0);
+                        var sumX2 = pontos.reduce((acc, ponto) => acc + ponto.x ** 2, 0);
+
+                        // Calcular coeficientes
+                        var slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX ** 2);
+                        var intercept = (sumY - slope * sumX) / n;
+
+                        // Previsão para o próximo mês
+                        var mesSequencial = n + 1;
+                        return slope * mesSequencial + intercept;
+                    };
+
+                    var meses = [
+                        "janeiro", "fevereiro", "março", "abril", "maio", "junho",
+                        "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"
+                    ];
+
+                    if (componente == "CPU") {
+                        var previsao = calcularPrevisao(arrayDados2024CPU);
+                        var proximoMesIndex = arrayDados2024CPU.length;
+                        var proximoMes = meses[proximoMesIndex] || `janeiro de 2025`;
+                        previsaoElemento.innerHTML = `Previsão de ${componente} em ${proximoMes} é de aproximadamente: <b>${previsao.toFixed(2)}%</b>`
+
+                    } else if (componente == "RAM") {
+                        var previsao = calcularPrevisao(arrayDados2024RAM);
+                        var proximoMesIndex = arrayDados2024CPU.length;
+                        var proximoMes = meses[proximoMesIndex] || `janeiro de 2025`;   
+                        previsaoElemento.innerHTML = `Previsão de ${componente} em ${proximoMes} é de aproximadamente: <b>${previsao.toFixed(2)}%</b>`
+
+                    }
+
+
                     var serieData = [];
 
                     if (componente == "CPU") {
@@ -262,6 +376,7 @@
                             { name: "2024", data: arrayDados2024RAM }
                         ];
                     }
+                    console.log(arrayDados2024CPU)
 
                     if (chart) {
                         chart.destroy();
@@ -273,7 +388,7 @@
                         },
                         series: serieData,
                         xaxis: {
-                            categories: ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"],
+                            categories: meses,
                         },
                         legend: {
                             position: 'top',
@@ -406,7 +521,7 @@
                         }
                     };
 
-                    chart2 = new ApexCharts(document.querySelector("#chart2"), options2); 
+                    chart2 = new ApexCharts(document.querySelector("#chart2"), options2);
                     chart2.render();
                 });
             })
@@ -554,7 +669,6 @@
         var qtd_tarde = document.getElementById("qtd_tarde");
         var qtd_noite = document.getElementById("qtd_noite");
 
-        console.log(agencias)
         // COLOCAR O RESULTADO NA KPI
         fetch(`/agencia/alertaHorario/${agencias}/${anos}`, {
             method: "GET",
