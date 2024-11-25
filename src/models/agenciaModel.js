@@ -43,7 +43,6 @@ function buscarAgencia(agencia, ano) {
   var instrucaoSql = `
   SELECT fkAgencia, count(idAlerta) AS totalAlertas, cep, numero FROM Alerta 
 		JOIN CaixaEletronico ON idCaixa = fkCaixa
-		JOIN Registro ON fkRegistro = idRegistro
 		JOIN Agencia on fkAgencia = idAgencia
 		WHERE YEAR(dtHora) = ${ano}
 		GROUP BY fkAgencia ORDER BY totalAlertas DESC;
@@ -58,7 +57,7 @@ function alertaHorario(agencia, ano) {
 	  SUM(CASE WHEN TIME(dtHora) BETWEEN '09:00:00' AND '12:00:00' THEN 1 ELSE 0 END) AS manha,
     SUM(CASE WHEN TIME(dtHora) BETWEEN '12:00:01' AND '18:00:00' THEN 1 ELSE 0 END) AS tarde,
     SUM(CASE WHEN TIME(dtHora) BETWEEN '18:00:01' AND '23:59:59' THEN 1 ELSE 0 END) AS noite 
-		  FROM Alerta JOIN Registro ON fkRegistro = idRegistro JOIN CaixaEletronico ON alerta.fkCaixa = idCaixa WHERE fkAgencia = ${agencia} AND YEAR(dtHora) = ${ano} GROUP BY fkAgencia`;
+		  FROM Alerta JOIN CaixaEletronico ON alerta.fkCaixa = idCaixa WHERE fkAgencia = ${agencia} AND YEAR(dtHora) = ${ano} GROUP BY fkAgencia`;
 
   return database.executar(instrucaoSql);
 }
