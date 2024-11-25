@@ -51,7 +51,7 @@
         <div class="investimentos">
           <div class="card3">
             <i class="fa-solid fa-laptop d"></i>
-            <h3>Maquina a ser monitorada</h3>
+            <h3>Máquina a ser monitorada</h3>
             <div class="filters">
               <select
                 onselect="carregarMaquinas()"
@@ -63,24 +63,29 @@
             </div>
           </div>
           <div class="card3">
-            <i class="fa-solid fa-laptop d"></i>
-            <h3>Máquinas com Alto Uso Contínuo</h3>
+            <i
+            class="fa-solid fa-circle-info info-icon2"
+            onclick="openPopup('popupConsumo')"
+            style="font-size: 20px"
+          ></i>
+            <i class="fa-solid fa-gauge-high info-icon"></i>
+            <h3>Máquina com Alto Uso Contínuo</h3>
             <ul id="listaAltoUso"></ul>
           </div>
         </div>
         <div v class="investimentos">
           <div class="card">
-            <i class="fa-solid fa-memory d"></i>
+            <i class="fa-solid fa-memory info-icon"></i>
             <h3>Alertas de Memória > 80%</h3>
             <span id="ocorrenciasMemoria" class="kpis">0</span>
           </div>
           <div class="card">
-            <i class="fa-solid fa-microchip d"></i>
+            <i class="fa-solid fa-microchip info-icon"></i>
             <h3>Alertas de CPU > 80%</h3>
             <span id="ocorrenciasCPU" class="kpis">0</span>
           </div>
           <div class="card2">
-            <i class="fa-solid fa-chart-simple d"></i>
+            <i class="fa-solid fa-chart-simple info-icon"></i>
             <h3>Downtime/Uptime em minutos</h3>
             <div id="chartDowntime"></div>
           </div>
@@ -141,6 +146,20 @@
                   Fechar
                 </button>
               </div>
+            </div>
+          </div>
+          <div id="popupConsumo" class="popup">
+            <div class="popup-content">
+              <h3>Alto Uso</h3>
+              <p>
+                Tempo em que a CPU e a memória RAM permaneceram com utilização acima de 80%
+              </p>
+              <button
+                class="close-button"
+                onclick="closePopup('popupConsumo')"
+              >
+                Fechar
+              </button>
             </div>
           </div>
           <!-- <table id="caixasTable">
