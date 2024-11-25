@@ -57,7 +57,7 @@ function alertaHorario(agencia, ano) {
 	  SUM(CASE WHEN TIME(dtHora) BETWEEN '09:00:00' AND '12:00:00' THEN 1 ELSE 0 END) AS manha,
     SUM(CASE WHEN TIME(dtHora) BETWEEN '12:00:01' AND '18:00:00' THEN 1 ELSE 0 END) AS tarde,
     SUM(CASE WHEN TIME(dtHora) BETWEEN '18:00:01' AND '23:59:59' THEN 1 ELSE 0 END) AS noite 
-		  FROM Alerta JOIN CaixaEletronico ON alerta.fkCaixa = idCaixa WHERE fkAgencia = ${agencia} AND YEAR(dtHora) = ${ano} GROUP BY fkAgencia`;
+		  FROM Alerta JOIN CaixaEletronico ON fkCaixa = idCaixa WHERE fkAgencia = ${agencia} AND YEAR(dtHora) = ${ano} GROUP BY fkAgencia`;
 
   return database.executar(instrucaoSql);
 }
