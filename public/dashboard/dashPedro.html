@@ -191,10 +191,7 @@
 
 <!--Script do grafico em pizza-->
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const selecAgencia = document.getElementById("selecAgencia");
-    const selecMes = document.getElementById("selecMes");
-    const tabelaCorpo = document.querySelector(".tabela tbody");
+  
     
     let dados = {}; // Variável para armazenar os dados recebidos da API
   
@@ -307,7 +304,7 @@
   
     // Chama a função para buscar os dados da API ao carregar a página
     buscarDados();
-  });
+  
   </script>
   
 
@@ -315,35 +312,18 @@
 
 <!--Transição de dash-->
 <script>
-  validarSessao()
-
-  document.addEventListener("DOMContentLoaded", () => {
-    const dashPedro = document.getElementById("dashPedro");
-    const dashNicolas = document.getElementById("dashNicolas");
-
-    if (!dashPedro.classList.contains("agora")) {
-      dashPedro.classList.add("agora");
-    }
-
-    if (dashNicolas.classList.contains("agora")) {
-      dashNicolas.classList.remove("agora")
-    }
-  });
-</script>
-
-<script>
       document.addEventListener("DOMContentLoaded", () => {
         validarSessao()
 
         const dashPedro = document.getElementById("dashPedro");
         const dashNicolas = document.getElementById("dashNicolas");
 
-        if (dashPedro.classList.contains("agora")) {
-            dashPedro.classList.remove("agora");
+        if (!dashPedro.classList.contains("agora")) {
+            dashPedro.classList.add("agora");
         }
 
-        if (!dashNicolas.classList.contains("agora")) {
-            dashNicolas.classList.add("agora")
+        if (dashNicolas.classList.contains("agora")) {
+            dashNicolas.classList.remove("agora")
         }
     });
 </script>
