@@ -1534,12 +1534,15 @@ function gerarRelatorio() {
         alert("Selecione uma opção ao relatório")
     }
     else {
+        
         if (checkGrafico.checked) {
             contentPage +=
                 `
         <h2>Gráfico</h2>
         <div class="grafico">${graficoLinha.outerHTML}</div>
         `
+
+        
         }
 
         if (checkProcesso.checked) {
@@ -1596,4 +1599,25 @@ function fazerCarregamento() {
     setTimeout(() => {
         ocultarCarregamento();
     }, 2000);
+}
+
+
+
+async function gerarResposta() {
+    const pergunta = "Qual o coeficiente de pearson";
+
+    const response = await fetch('/perguntar', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ pergunta })
+    });
+
+    if (!response.ok) {
+        throw new Error(`Erro na requisição: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data; // Retorne os dados
 }

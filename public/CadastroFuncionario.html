@@ -181,7 +181,7 @@
       buildCardMensagem("block", "erro", "Selecione uma empresa.");
     } else if (tamSenha < 8) {
       buildCardMensagem("block", "erro", "A senha deve possuir ao menos 8 caracteres.");
-    } else if (hashtag < 0 || arrobaSenha < 0 || underline < 0 || cifroes < 0 || porcentagem < 0) {
+    } else if (hashtag < 0 && arrobaSenha < 0 && underline < 0 && cifroes < 0 && porcentagem < 0) {
       buildCardMensagem("block", "alerta", "Por segurança, a senha deve possuir ao menos um caractere especial!");
     } else if (possuiEmail) {
       buildCardMensagem("block", "erro", "Esse e-mail já esta cadastrado.");

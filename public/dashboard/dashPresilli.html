@@ -41,6 +41,7 @@
         </nav>
         <div class="content ai-center d-flex flex-column">
             <div class="titulo d-flex flex-column jc-center ai-center">
+                <h2>Máquina monitorada</h2>
                 <select onchange="mudarMaquina()" id="select_maquina">
 
                 </select>
@@ -188,7 +189,7 @@
                 <div class="label d-flex row ai-center">
                     <input id="checkVariacao" type="checkbox"><label>Variação</label>
                 </div>
-                <button onclick="gerarRelatorio()">Baixar</button>
+                <button onclick="gerarRelatorio(), gerarResposta()">Baixar</button>
             </div>
         </div>
         <div id="blur2">

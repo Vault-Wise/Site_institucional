@@ -2,16 +2,16 @@
 var ambiente_processo = 'desenvolvimento';
 
 var caminho_env = ambiente_processo === 'producao' ? '.env' : '.env.dev';
-// Acima, temos o uso do operador ternário para definir o caminho do arquivo .env
-// A sintaxe do operador ternário é: condição ? valor_se_verdadeiro : valor_se_falso
 
 require("dotenv").config({ path: caminho_env });
+const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 var express = require("express");
 var cors = require("cors");
 var path = require("path");
 var PORTA_APP = process.env.APP_PORT;
 var HOST_APP = process.env.APP_HOST;
+const chatIA = new GoogleGenerativeAI(process.env.MINHA_CHAVE);
 
 var app = express();
 
@@ -40,7 +40,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use(cors());
-
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Origin, Content-Type, Accept');
+    next();
+});
 // app.use("/", indexRouter);
 
 // Uso da rota 
@@ -69,3 +73,68 @@ $$ |   $$ |$$$$$$\  $$\   $$\ $$ |$$$$$$\   $$ |$$$\ $$ |$$\  $$$$$$$\  $$$$$$\
     Acessar Ser: http://${HOST_APP}:${PORTA_APP}                                                                                           
     `);
 });
+
+
+app.post("/perguntar", async (req, res) => {
+    const pergunta = req.body.pergunta;
+
+    try {
+        const resultado = await gerarResposta(pergunta);
+       
+        res.json( { resultado } );
+    } catch (error) {
+        res.status(500).json({ error: 'Erro interno do servidor' });
+    }
+
+});
+
+async function gerarResposta(mensagem) {
+    // Define o contexto do projeto
+    const contexto = `
+    Contexto Resumido para Suporte ao Projeto VaultWise
+    O VaultWise é um projeto focado em garantir o funcionamento eficiente, seguro e contínuo de ATMs por meio de monitoramento em tempo real, manutenção preventiva e otimização de desempenho. O objetivo é melhorar a experiência do usuário, atender aos requisitos regulatórios e fortalecer a segurança e confiabilidade do sistema financeiro.
+
+    Principais Objetivos:
+
+    Monitoramento Contínuo: Acompanhar CPU, memória, disco e rede em tempo real.
+    Detecção de Anomalias: Identificar irregularidades e ameaças rapidamente.
+    Manutenção Preventiva: Antecipar falhas e planejar intervenções com impacto mínimo.
+    Segurança: Proteger contra atividades maliciosas e garantir a integridade dos dados.
+    Conformidade e Relatórios: Atender a normas regulatórias com relatórios detalhados e fornecer insights para otimização.
+    Satisfação do Cliente: Garantir transações rápidas e reduzir o tempo de inatividade dos ATMs.
+    Escopo do Projeto:
+
+    Monitoramento contínuo de ATMs usando Python para coleta de dados e R para análises.
+    Criação de dashboards visuais a partir de dados armazenados em banco de dados.
+    Configuração de instâncias EC2 na nuvem para coleta remota de dados.
+    Desenvolvimento de documentação detalhada, protótipo de site institucional conectado ao banco de dados e telas específicas para diferentes personas.
+    Uso de ferramentas de planejamento (Planner) e metodologias Lean UX Canvas e User Stories para organização e desenvolvimento do projeto.
+    Justificativa: Garantir operação ininterrupta e segura de ATMs, com foco em desempenho, segurança e satisfação do cliente, utilizando práticas modernas de monitoramento, análise de dados e infraestrutura tecnológica.
+
+    Essa IA apoiará na organização, planejamento e execução das tarefas, auxiliando com insights, soluções técnicas, validações de etapas e geração de relatórios para o projeto VaultWise.
+
+    NOME DO PROJETO:
+    O nome do projeto o qual você está inserida é VaultWise.
+
+    De acordo com esse contexto responda com uma linguagem formal e amigável:
+    `
+
+
+    // Combina o contexto com a mensagem do usuário
+    const mensagemComContexto = `${contexto}\n\nPergunta do Usuário: ${mensagem}`;
+
+    try {
+        // Obtendo o modelo de IA
+        const modeloIA = chatIA.getGenerativeModel({ model: "gemini-pro" });
+
+        // Gerando resposta
+        const resultado = await modeloIA.generateContent(mensagemComContexto);
+        const resposta = resultado.response.text;
+
+        console.log(resposta);
+        return resposta;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+}
