@@ -16,7 +16,7 @@ let intervaloTempoRealProcesso;
 let chart;
 
 let idMaquina = 1;
-let nomeEquipamento = ""
+let nomeEquipamento = "note-presilli"
 
 document.addEventListener("DOMContentLoaded", () => {
     inicializarPagina();
@@ -61,6 +61,8 @@ function capturarMaquinas() {
 
 function mudarMaquina() {
     idMaquina = select_maquina.value
+    nomeEquipamento = select_maquina.options[select_maquina.selectedIndex].text;
+
     debouncedValidarFiltro(listaComponentes, valorIntervalo, select_maquina.value)
 }
 
@@ -1408,141 +1410,214 @@ function gerarRelatorio() {
     const tabelaProcessos = document.querySelector("#tabelaProcessos");
     const variacao = document.querySelector("#variacao");
 
-    // Caminho da imagem da logo
     const logoPath = 'http://localhost:3333/css/imagens/logoSemFundo.png';
     const dataHoraAtual = obterTituloDash();
 
     // Estilos customizados para o PDF
     const customStyles = `
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                margin: 0;
-                padding: 0;
-                text-align: center;
-            }
-            .header {
-                width: 100%;
-                height: 300px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                flex-direction: column;
-                color: #333;
-            }
-            .header > h2 > span {
-                color: #982727;
-            }
-            .header > h1 {
-                font-size: 45px;
-            }
-            .header > h2 {
-                font-weight: 400;
-                font-size: 32px;
-                color: #000;
-                padding-top: 5px;
-            }
-            h2 {
-                font-weight: 400;
-                font-size: 24px;
-                color: #333;
-                margin-bottom: 20px;
-            }
-            table {
-                width: 90%;
-                margin: 20px auto;
-                border-collapse: collapse;
-                text-align: center;
-                box-shadow: 0 20px 35px rgba(0, 0, 0, 0.2);
-                transition: box-shadow 0.4s ease;
-            }
-            table:hover {
-                box-shadow: 0 25px 40px rgba(0, 0, 0, 0.3);
-            }
-            table th, table td {
-                padding: 10px;
-                border: 1px solid #000;
-                transition: background-color 0.3s ease, transform 0.3s ease;
-            }
-            table th {
-                background-color: black;
-                color: white;
-            }
-            table tr:hover td {
-                background-color: #c3c3c3;
-                color: #000000;
-                transform: scale(1.1);
-            }
-            .variacao {
-                display: flex;
-                justify-content: center;
-                gap: 20px;
-                margin-top: 20px;
-            }
-            .variacao-card {
-                width: 200px;
-                padding: 20px;
-                border: 1px solid #ddd;
-                border-radius: 10px;
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-                background-color: #f9f9f9;
-                text-align: center;
-            }
-            .variacao-card h3 {
-                font-size: 18px;
-                color: #333;
-                margin-bottom: 10px;
-            }
-            .variacao-card p {
-                font-size: 16px;
-                color: #555;
-            }
-        </style>
-    `;
+    <style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+        color: #333;
+        background-color: #f4f4f4;
+    }
+    .header {
+        padding: 20px;
+        background-color: #222;
+        color: #fff;
+        text-align: center;
+        border-bottom: 5px solid #982727;
+    }
+    .header img {
+        width: 120px;
+        height: 100px;
+        margin-bottom: 10px;
+    }
+    .header h1 {
+        font-size: 50px; /* Fonte maior para o título */
+        margin: 10px 0;
+    }
+    .header h2 {
+        font-size: 34px; /* Aumentado */
+        font-weight: normal;
+        margin: 5px 0;
+        color: #ddd;
+    }
+    .header h2 span {
+        color: #982727;
+        font-weight: bold;
+    }
+    .header p {
+        font-size: 22px; /* Aumentado */
+        margin-top: 10px;
+    }
+    .content {
+        margin: 20px auto;
+        width: 90%;
+        background: #fff;
+        padding: 25px; /* Aumentado para acomodar melhor */
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    .content h2 {
+        font-size: 30px; /* Aumentado */
+        color: #222;
+        margin-bottom: 20px;
+        border-bottom: 3px solid #982727;
+        display: inline-block;
+    }
+    table {
+        width: 100%;
+        margin: 20px 0;
+        border-collapse: collapse;
+        border: 1px solid #ddd;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    table th, table td {
+        padding: 15px 20px; /* Aumentado */
+        border: 1px solid #ddd;
+        text-align: center;
+        font-size: 18px; /* Aumentado */
+    }
+    table th {
+        background-color: #982727;
+        color: white;
+        font-weight: bold;
+    }
+    table tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+    table tr:hover {
+        background-color: #f1f1f1;
+        cursor: pointer;
+    }
+    .card-variacao {
+        width: 890px;
+        display: flex;
+        gap: 20px;
+        flex-direction: row;
+        justify-content: center; /* Centraliza os cartões */
+        align-items: center;
+        background-color: #dfdfdf;
+        border-radius: 6px;
+        border-bottom: 1px solid #982727;
+    }
+    .card-variacao div {
+        font-size: 28px; /* Aumenta a fonte dos textos dentro dos cartões */
+    }
+    .grafico {
+        width: 890px;
+        display: flex;
+        justify-content: center; /* Centraliza os cartões */
+        align-items: center;
+        border-bottom: 1px solid #982727;
+    }
+    </style>
+`;
 
     // Página de capa
     const coverPage = `
-        <div class="header">
-            <img src="${logoPath}" alt="Logo">
-            <h1>Relatório da Máquina</h1>
-            <h2>Gerado por <span>Vault Wise</span></h2>
-            <p>Gerado em: ${dataHoraAtual}</p>
-        </div>
+    <div class="header">
+        <img src="${logoPath}" alt="Logo">
+        <h1>Relatório da Máquina ${nomeEquipamento}</h1>
+        <h2>Gerado por <span>Vault Wise</span></h2>
+        <p>Gerado em: ${dataHoraAtual}</p>
+    </div>
     `;
 
-    // Conteúdo principal (gráfico, tabela e variação)
-    const contentPage = `
-        <div class="content">
-            <div class="content-section">
-                <h2>Gráfico</h2>
-                ${graficoLinha.outerHTML}
-            </div>
-            <div class="content-section">
-                <h2>Processos</h2>
-                <div class="table-container">
-                    ${tabelaProcessos.outerHTML}
-                </div>
-            </div>
-            <div class="content-section">
-               <div>${variacao.outerHTML}</div>
-            </div>
+    var contentPage = `<div class="content">`
+
+    if (!checkGrafico.checked && !checkProcesso.checked && !checkVariacao.checked) {
+        alert("Selecione uma opção ao relatório")
+    }
+    else {
+        
+        if (checkGrafico.checked) {
+            contentPage +=
+                `
+        <h2>Gráfico</h2>
+        <div class="grafico">${graficoLinha.outerHTML}</div>
+        `
+
+        
+        }
+
+        if (checkProcesso.checked) {
+            contentPage +=
+                `
+        <h2>Processos</h2>
+        <div>
+            ${tabelaProcessos.outerHTML}
         </div>
-    `;
+        `
+        }
 
-    // Criando o contêiner para o conteúdo do PDF
-    const wrapper = document.createElement("div");
+        if (checkVariacao.checked) {
+            contentPage +=
+                `
+        <h2>Variação</h2>
+        <div class="card-variacao">
+            ${variacao.outerHTML}
+        </div>
+        `
+        }
 
-    // Adicionando estilos e páginas ao wrapper
-    wrapper.innerHTML = customStyles + coverPage + '<div style="page-break-before: always;">' + contentPage + '</div>';
+        contentPage += `</div>`
 
-    // Configurações do PDF
-    const options = {
-        margin: [10, 10, 10, 10],
-        filename: "relatorio.pdf",
-        html2canvas: { scale: 2, useCORS: true },
-        jsPDF: { unit: "mm", format: "a4", orientation: "portrait" }
-    };
+        fazerCarregamento()
+        // Configurações do PDF
+        const options = {
+            margin: [10, 10, 10, 10],
+            filename: "relatorio.pdf",
+            html2canvas: { scale: 2, useCORS: true },
+            jsPDF: { unit: "mm", format: "a3", orientation: "portrait" }
+        };
 
-    // Gerando o PDF
-    html2pdf().set(options).from(wrapper).save();
+        // Gerando o PDF
+        const wrapper = document.createElement("div");
+        wrapper.innerHTML = customStyles + coverPage + contentPage;
+        html2pdf().set(options).from(wrapper).save();
+    }
+}
+
+const blur2 = document.getElementById('blur2');
+
+function mostrarCarregamento() {
+    blur2.style.display = 'flex';
+}
+
+function ocultarCarregamento() {
+    blur2.style.display = 'none';
+}
+
+function fazerCarregamento() {
+    mostrarCarregamento();
+
+    setTimeout(() => {
+        ocultarCarregamento();
+    }, 2000);
+}
+
+
+
+async function gerarResposta() {
+    const pergunta = "Qual o coeficiente de pearson";
+
+    const response = await fetch('/perguntar', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ pergunta })
+    });
+
+    if (!response.ok) {
+        throw new Error(`Erro na requisição: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data; // Retorne os dados
 }

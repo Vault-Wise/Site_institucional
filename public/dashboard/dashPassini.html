@@ -2,180 +2,216 @@
 <html lang="pt-br">
 
 <head>
-    <link rel="shortcut icon" href="../assets/icon/index.ico" type="image/x-icon" />
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard | VaultWise</title>
+  <link rel="shortcut icon" href="../assets/icon/index.ico" type="image/x-icon" />
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard | VaultWise</title>
 
-    <link rel="stylesheet" href="../css/dashboard.css" />
-    <link rel = "stylesheet" href="../css/dashboardPassini.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="../css/dashboard.css" />
+  <link rel="stylesheet" href="../css/dashboardPassini.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 
-    <script src="../js/sessao.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  <script src="../js/sessao.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 </head>
 
 <body>
-    <div class="pagina">
-        <nav>
-            <ul id="listaNavegacao">
-                <li>
-                    <a href="#">
-                        <div class="cargoUsuario">
-                            <div class="usuario">
-                                <img src="../css/imagens/icon12.jpg" alt="">
-                                <span id="b_usuario">Usuário</span>
-                            </div>
-                            <div class="cargo">
-                                <span id="cargo_usuario"></span>
-                            </div>
-                        </div>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-        <div class="course">
-            <div class="caixa">
-                <ul>
-                    <li class="texto_caixa">Componentes</li>
-                </ul>
-                <div class="course">
-                    <div class="caixaGrafico">
-                        <h3>Rede</h3>
-                        <p>Envio em Kpbp/s</p>
-                        <i class="fa-solid fa-circle-info info-icon" onclick="openPopup('popupMemoria')"
-                            style="font-size: 20px;"></i>
-                        <div id="chartRedeEnvio"></div>
-                    </div>
-                    <div class="caixaGrafico2">
-                        <h3>Rede</h3>
-                        <p>Recebimento em Kpbp/s</p>
-                        <i class="fa-solid fa-circle-info info-icon" onclick="openPopup('popupMemoria')"
-                            style="font-size: 20px;"></i>
-                        <div id="chartRedeRecebimento"></div>
-                    </div>
-                    
-                </div>
-
+  <div class="pagina">
+    <nav>
+      <ul id="listaNavegacao">
+        <li>
+          <a href="#">
+            <div class="cargoUsuario">
+              <div class="usuario">
+                <img src="../css/imagens/icon12.jpg" alt="">
+                <span id="b_usuario">Usuário</span>
+              </div>
+              <div class="cargo">
+                <span id="cargo_usuario"></span>
+              </div>
             </div>
-            <div id="chart"></div>
-            <h1>Finalizar Processo via Node.js</h1>
-            <input type="number" id="pidInput" placeholder="Digite o PID">
-            <button id="finalizarBtn">Finalizar Processo</button>
-            <p id="status"></p>
-            
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <div class="container">
+      <div class="caixaGraficos">
+        <div class="caixaGraficos">
+          <h2>Componentes</h2>
         </div>
-        </body>
-        
-        
+        <div class="graficos">
+          <div id="chartRedeEnvio" class="graficoUm">Grafico Rede <br> Recebimento</div>
+          <div id="chartRedeRecebimento" class="graficoDois"> Grafico Rede <br> Envio</div>
+        </div>
+
+
+
+      </div>
+
+
+      <div class="parteBaixo">
+        <div class="tabela">
+          <table id="tabelaProcessos">
+            <thead>
+                <tr>
+                    <th>Posição</th>
+                    <th>Nome</th>
+                    <th>CPU</th>
+                    <th>Memória</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>1º</b></td>
+                    <td></td>
+                    <td>%</td>
+                    <td>%</td>
+                </tr>
+                <tr>
+                    <td><b>2º</b></td>
+                    <td></td>
+                    <td>%</td>
+                    <td>%</td>
+                </tr>
+                <tr>
+                    <td><b>3º</b></td>
+                    <td></td>
+                    <td>%</td>
+                    <td>%</td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+        <section class="conteudo">
+          <div class="card">
+        <div class="finalizarProcesso">
+          <div class="titulo">
+            <h1>Finalizar Processo</h1>
+          </div>
+          <div class="campos">
+          <input type="number" id="pidInput" placeholder="Digite o PID">
+          <button id="finalizarBtn">Finalizar Processo</button>
+          <p id="status"></p>
+        </div>
+        </div>
+      </div>
+      </section>
+      </div>
+    </div>
+
+</body>
+
+
 
 </html>
 
 <script>
 
-    document.addEventListener("DOMContentLoaded", () => {
-        validarSessao()
+  document.addEventListener("DOMContentLoaded", () => {
+    validarSessao()
 
-        const dashPassini = document.getElementById("dashPassini");
-        const dashVini = document.getElementById("dashVini");
+    const dashPassini = document.getElementById("dashPassini");
+    const dashVini = document.getElementById("dashVini");
 
-        if (!dashPassini.classList.contains("agora")) {
-            dashPassini.classList.add("agora");
-        }
+    if (!dashPassini.classList.contains("agora")) {
+      dashPassini.classList.add("agora");
+    }
 
-        if (dashVini.classList.contains("agora")) {
-            dashVini.classList.remove("agora")
-        }
-    });
+    if (dashVini.classList.contains("agora")) {
+      dashVini.classList.remove("agora")
+    }
+  });
 
-    document.getElementById('finalizarBtn').addEventListener('click', () => {
-      
-            const pid = document.getElementById('pidInput').value;
+  document.getElementById('finalizarBtn').addEventListener('click', () => {
 
-            if (!pid || isNaN(pid)) {
-                document.getElementById('status').innerText = 'Por favor, insira um PID válido.';
-                return;
-            }
+    const pid = document.getElementById('pidInput').value;
 
-            // Enviar uma requisição para o backend (API Node.js)
-            fetch(`http://localhost:3333/dashPassini/rota/${pid}`)
-            // http://localhost:3333/matar-processo/${pid}
-                .then(response => response.text())
-                .then(data => {
-                  console.log(data)
-                    document.getElementById('status').innerText = `Resultado: ${data}`;
-                })
-                .catch(error => {
-                    document.getElementById('status').innerText = `Erro: ${error.message}`;
-                });
-        });
-        var options = {
-          series: [{
-            name: "Desktops",
-            data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
-        }],
-          chart: {
-          height: 250,
-          type: 'line',
-          zoom: {
-            enabled: false
-          }
-        },
-        dataLabels: {
-          enabled: false
-        },
-        stroke: {
-          curve: 'straight'
-        },
-        title: {          align: 'left'
-        },
-        grid: {
-          row: {
-            colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
-            opacity: 0.5
-          },
-        },
-        xaxis: {
-          categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
-        }
-        };
+    if (!pid || isNaN(pid)) {
+      document.getElementById('status').innerText = 'Por favor, insira um PID válido.';
+      return;
+    }
 
-        var chart = new ApexCharts(document.querySelector("#chartRedeEnvio"), options);
-        chart.render();
-        
-        var options = {
-          series: [{
-            name: "Desktops",
-            data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
-        }],
-          chart: {
-          height: 250,
-          type: 'line',
-          zoom: {
-            enabled: false
-          }
-        },
-        dataLabels: {
-          enabled: false
-        },
-        stroke: {
-          curve: 'straight'
-        },
-        title: {          align: 'left'
-        },
-        grid: {
-          row: {
-            colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
-            opacity: 0.5
-          },
-        },
-        xaxis: {
-          categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
-        }
-        };
+    // Enviar uma requisição para o backend (API Node.js)
+    fetch(`http://localhost:3333/dashPassini/rota/${pid}`)
+      // http://localhost:3333/matar-processo/${pid}
+      .then(response => response.text())
+      .then(data => {
+        console.log(data)
+        document.getElementById('status').innerText = `Resultado: ${data}`;
+      })
+      .catch(error => {
+        document.getElementById('status').innerText = `Erro: ${error.message}`;
+      });
+  });
+  var options = {
+    series: [{
+      name: "Desktops",
+      data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+    }],
+    chart: {
+      height: 250,
+      type: 'line',
+      zoom: {
+        enabled: false
+      }
+    },
+    dataLabels: {
+      enabled: false
+    },
+    stroke: {
+      curve: 'straight'
+    },
+    title: {
+      align: 'left'
+    },
+    grid: {
+      row: {
+        colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+        opacity: 0.5
+      },
+    },
+    xaxis: {
+      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+    }
+  };
 
-        var chart = new ApexCharts(document.querySelector("#chartRedeRecebimento"), options);
-        chart.render();
-    
+  var chart = new ApexCharts(document.querySelector("#chartRedeEnvio"), options);
+  chart.render();
+
+  var options = {
+    series: [{
+      name: "Desktops",
+      data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+    }],
+    chart: {
+      height: 250,
+      type: 'line',
+      zoom: {
+        enabled: false
+      }
+    },
+    dataLabels: {
+      enabled: false
+    },
+    stroke: {
+      curve: 'straight'
+    },
+    title: {
+      align: 'left'
+    },
+    grid: {
+      row: {
+        colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+        opacity: 0.5
+      },
+    },
+    xaxis: {
+      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+    }
+  };
+
+  var chart = new ApexCharts(document.querySelector("#chartRedeRecebimento"), options);
+  chart.render();
+
 </script>

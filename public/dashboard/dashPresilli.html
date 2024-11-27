@@ -41,6 +41,7 @@
         </nav>
         <div class="content ai-center d-flex flex-column">
             <div class="titulo d-flex flex-column jc-center ai-center">
+                <h2>Máquina monitorada</h2>
                 <select onchange="mudarMaquina()" id="select_maquina">
 
                 </select>
@@ -56,7 +57,7 @@
                 </button>
             </div>
             <div class="container row d-flex ai-center">
-                <div class="cardGrafico d-flex flex-column ai-center">
+                <div id="graficoLinhaRelatorio" class="cardGrafico d-flex flex-column ai-center">
                     <h1 id="tituloGrafico">CPU X Memória / Tempo</h1>
                     <sub>No tempo selecionado</sub>
                     <div id="graficoLinha"></div>
@@ -180,22 +181,23 @@
                 <i class="fa-solid fa-xmark fa-2xl" id="iconeX2"></i>
                 <h2>Relatório</h2>
                 <div class="label d-flex row ai-center">
-                    <input type="checkbox"><label>Gráfico</label>
+                    <input id="checkGrafico" type="checkbox"><label>Gráfico</label>
                 </div>
                 <div class="label d-flex row ai-center">
-                    <input type="checkbox"><label>Processos</label>
+                    <input id="checkProcesso" type="checkbox"><label>Processos</label>
                 </div>
                 <div class="label d-flex row ai-center">
-                    <input type="checkbox"><label>Variação</label>
+                    <input id="checkVariacao" type="checkbox"><label>Variação</label>
                 </div>
-                <div class="label d-flex row ai-center">
-                    <input type="checkbox"><label>Regressão</label>
-                </div>
-                <button onclick="gerarRelatorio()">Baixar</button>
+                <button onclick="gerarRelatorio(), gerarResposta()">Baixar</button>
             </div>
+        </div>
+        <div id="blur2">
+            <div class="loader"></div>
         </div>
     </div>
 </body>
+
 
 </html>
 <script src="../js/dashboardPresilli.js"></script>
