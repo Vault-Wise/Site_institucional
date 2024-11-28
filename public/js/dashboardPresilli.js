@@ -18,6 +18,9 @@ let chart;
 let idMaquina = 1;
 let nomeEquipamento = "note-presilli"
 
+const blur2 = document.getElementById('blur2');
+
+
 var conversa = []
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -1408,6 +1411,14 @@ function aparecerCardRelatorio(button) {
 }
 
 async function gerarRelatorio() {
+    if (!checkGrafico.checked && !checkProcesso.checked && !checkVariacao.checked) {
+        alert("Selecione uma opção ao relatório")
+        return;
+    }
+
+    // fazerCarregamento();
+    blur2.style.display = 'flex';
+    
     const graficoLinha = document.querySelector("#graficoLinha");
     const tabelaProcessos = document.querySelector("#tabelaProcessos");
     const variacao = document.querySelector("#variacao");
@@ -1467,6 +1478,7 @@ async function gerarRelatorio() {
     .content h2 {
         font-size: 30px; /* Aumentado */
         color: #222;
+        margin-top: 10px;
         margin-bottom: 20px;
         border-bottom: 3px solid #982727;
         display: inline-block;
@@ -1526,30 +1538,28 @@ async function gerarRelatorio() {
         <img src="${logoPath}" alt="Logo">
         <h1>Relatório da Máquina ${nomeEquipamento}</h1>
         <h2>Gerado por <span>Vault Wise</span></h2>
-        <p>Gerado em: ${dataHoraAtual}</p>
+        <br>
+        <span>Gerado em: ${dataHoraAtual}</span>
     </div>
     `;
 
     var contentPage = `<div class="content">`
 
-    if (!checkGrafico.checked && !checkProcesso.checked && !checkVariacao.checked) {
-        alert("Selecione uma opção ao relatório")
-    }
-    else {
-        let perguntaGrafico;
-        let perguntaVariacao;
-        let perguntaProcesso;
+    var perguntaGrafico;
+    var perguntaVariacao;
+    var perguntaProcesso;
 
-        if (checkGrafico.checked) {
-            contentPage +=
-                `
+    if (checkGrafico.checked) {
+        contentPage +=
+            `
             <h2>Gráfico</h2>
             <div class="grafico">${graficoLinha.outerHTML}</div>
             `
 
-            if (valorIntervalo != "Tempo Real") {
-                perguntaGrafico =
-                    `
+        if (valorIntervalo != "Tempo Real") {
+            perguntaGrafico =
+                `
+
                     Valores do Gráfico
                     ${chart.w.globals.seriesNames}
                     ${chart.w.globals.series}
@@ -1559,123 +1569,129 @@ async function gerarRelatorio() {
                     Com base nos dados apresentados no gráfico que monitoram o desempenho da máquina específica, 
                     analise os valores médios de utilização de CPU e Memória dentro do intervalo de ${valorIntervalo} horas, agrupados por hora.
                 
-                    Por favor, identifique:
-                    1. Se a máquina apresenta **bom funcionamento**, com níveis estáveis e baixos de utilização dos componentes.
-                    2. Se há indícios de **utilização elevada**, onde CPU ou Memória estão próximos ou acima de níveis críticos.
-                    3. Qualquer padrão ou comportamento anômalo que possa indicar necessidade de atenção ou ajustes.
-                
-                    Detalhe possíveis conclusões sobre o estado geral da máquina nesse período, considerando as tendências e valores 
-                    médios apresentados.
                     `
 
-            }
-            else {
-                perguntaGrafico =
-                    `
+        }
+        else {
+            perguntaGrafico =
+                `
                     Valores do Gráfico
                     Componentes Monitorados: ${chart.w.globals.seriesNames}
                     Valores do Gráfico: ${chart.w.globals.series.length === 2
-                        ? `${chart.w.globals.series[0]}, ${chart.w.globals.series[1]}`
-                        : `${chart.w.globals.series[0]}`}
+                    ? `${chart.w.globals.series[0]}, ${chart.w.globals.series[1]}`
+                    : `${chart.w.globals.series[0]}`}
 
                     Respectivamente,
 
                     Com base nos dados apresentados no gráfico que monitoram o desempenho da máquina específica, 
                     analise os valores médios de utilização de CPU e Memória dentro do intervalo em ${valorIntervalo}, contendo os últimos 10 registros da máquina  .
-                    
-                    Por favor, identifique:
-                    1. Se a máquina apresenta **bom funcionamento**, com níveis estáveis e baixos de utilização dos componentes.
-                    2. Se há indícios de **utilização elevada**, onde CPU ou Memória estão próximos ou acima de níveis críticos.
-                    3. Qualquer padrão ou comportamento anômalo que possa indicar necessidade de atenção ou ajustes.
-                    
-                    Resuma as possíveis conclusões sobre o estado geral da máquina nesse período, considerando as tendências e valores 
-                    médios apresentados.
-                    `
-
-            }
+                
+                   `
         }
+        perguntaGrafico += `
+            A partir da análise dos dados do gráfico apresentados, forneça uma resposta detalhada que:
+                1. Explique se a máquina apresenta bom funcionamento, com níveis estáveis de CPU e memória.
+                2. Identifique possíveis padrões anômalos ou utilização elevada.
+                3. Resuma o estado geral da máquina no período especificado.
+                            
+                Formate a resposta em HTML colocando a premissa que já estão dentro do body com os seguintes estilos:
+                
+                - Use um título de nível <h2> para introduzir a análise do gráfico
+                
+                - Justifique o texto e o div deve começar alinhado à esquerda.
+                - Quebre o texto em diferentes parágrafos <p> para cada ponto de análise.
+                - Utilize HTML simples e bem estruturado.`
+    }
 
-        if (checkProcesso.checked) {
-            contentPage += `
+    if (checkProcesso.checked) {
+        contentPage += `
             <h2>Processos</h2>
             <div>
                 ${tabelaProcessos.outerHTML}
             </div>
             `;
 
-            perguntaProcesso = `
-            ${tabelaProcessos}
-            Analisando os processos em execução, identifique:
-            1. Quais processos estão consumindo mais CPU ou memória?
-            2. Existe algum processo que está utilizando recursos de forma excessiva, o que poderia indicar um possível problema de desempenho?
-            3. Existe algum processo que foi executado mais de uma vez, que poderia ser um indicativo de comportamento anômalo?
-            4. Quais são os processos críticos para o funcionamento do sistema e precisam ser monitorados de perto?
-        
-            Considerando a tabela de processos apresentada, como você avaliaria o impacto desses processos no desempenho geral da máquina?
-            `;
-        }
+        perguntaProcesso = `
+            ${tabelaProcessos.outerHTML}
+               A partir dos dados sobre os processos em execução apresentados na tabela, forneça uma análise que:
+                1. Destaque os processos com maior consumo de recursos.
+                2. Identifique se há processos críticos que precisam de atenção.
+                3. Sugira possíveis ações corretivas ou preventivas para otimizar o desempenho.
 
-        if (checkVariacao.checked) {
-            contentPage += `
+                Formate a resposta em HTML colocando a premissa que já estão dentro do body com os seguintes estilos:
+                
+                - Use um título de nível <h2> para introduzir a análise dos processos
+    
+                - Justifique o texto e o div deve começar alinhado à esquerda.
+                - Quebre o texto em diferentes parágrafos <p> para cada ponto de análise.
+                - Utilize HTML simples e bem estruturado.
+        `;
+    }
+
+    if (checkVariacao.checked) {
+        contentPage += `
+        <br><br><br><br><br><br><br>
             <h2>Variação</h2>
             <div class="card-variacao">
                 ${variacao.outerHTML}
             </div>
             `;
 
-            perguntaVariacao = `
-            ${variacao}
-            Com base na variação apresentada, analise:
-            1. Houve picos ou quedas anormais nos dados? Se sim, o que poderia ter causado esses picos?
-            2. Há variações regulares no uso de recursos (CPU, memória) que podem ser consideradas normais, ou os dados indicam uma instabilidade no sistema?
-            3. Alguma variação está em níveis críticos, indicando a necessidade de ajustes ou monitoramento mais atento?
-            4. O comportamento de variação se alinha com o esperado para esse tipo de máquina, ou há algo incomum?
+        perguntaVariacao = `
+            ${variacao.outerHTML}
+            A partir dos dados apresentados sobre a variação de desempenho da máquina:
+            1. Explique as tendências observadas no uso de CPU, memória e outros recursos.
+            2. Destaque qualquer comportamento incomum ou necessidade de intervenção.
+            3. Resuma os impactos gerais dessas variações para o desempenho da máquina.
+
+            Formate a resposta em HTML colocando a premissa que já estão dentro do body com os seguintes estilos:
             
-            A partir dos dados de variação, quais conclusões você pode tirar sobre o comportamento da máquina e seus recursos?
-            `;
+            Use um título de nível <h2> para introduzir a análise da variação
+            - Justifique o texto e o div deve começar alinhado à esquerda.
+            - Quebre o texto em diferentes parágrafos <p> para cada ponto de análise.
+            - Utilize HTML simples e bem estruturado.`;
+    }
+
+    var perguntaTodas = "";
+
+    if (perguntaGrafico) {
+        perguntaTodas += perguntaGrafico;
+    }
+
+    if (perguntaProcesso) {
+        if (perguntaTodas) {
+            perguntaTodas += " Também, ";
         }
+        perguntaTodas += perguntaProcesso;
+    }
+
+    if (perguntaVariacao) {
+        if (perguntaTodas) {
+            perguntaTodas += " Além disso, ";
+        }
+        perguntaTodas += perguntaVariacao;
+    }
 
 
-        contentPage += `</div>`
+    const resposta = await gerarResposta(perguntaTodas);
 
-        var perguntaTodas;
-        if (perguntaGrafico != undefined && perguntaProcesso != undefined && perguntaVariacao != undefined) {
-            perguntaTodas = `Me fale sobre ${perguntaGrafico} também sobre ${perguntaProcesso} e ${perguntaVariacao}`
-        }
-        else if (perguntaGrafico != undefined && perguntaProcesso != undefined) {
-            perguntaTodas = `Me fale sobre ${perguntaGrafico} também sobre ${perguntaVariacao}`
-        }
-        else if (perguntaProcesso != undefined && perguntaVariacao != undefined) {
-            perguntaTodas = `Me fale sobre ${perguntaProcesso} também sobre ${perguntaVariacao}`
-        }
-        else if (perguntaGrafico != undefined) {
-            perguntaTodas = `${perguntaGrafico}`
-        }
-        else if (perguntaVariacao != undefined) {
-            perguntaTodas = `${perguntaVariacao}`
-        }
-        else if (perguntaProcesso != undefined) {
-            perguntaTodas = `${perguntaProcesso}`
-        }
-
-
-        const resposta = await gerarResposta(perguntaTodas);
-
-        contentPage += 
+    contentPage +=
         `
-        <h2>Análise do Gráfico</h2>
-        <p>${resposta}</p>
+        ${resposta}
+        <br><br><br><br>
+        <sub>**Textos que foram gerados com IA </sub>
         `;
 
+    
+    contentPage += `</div>`
+    
+    await finalizarPDF(coverPage, contentPage, customStyles)
 
-
-        fazerCarregamento()
-
-        finalizarPDF(coverPage, contentPage, customStyles)
-    }
+    blur2.style.display = 'none';
 }
 
-function finalizarPDF(coverPage, contentPage, customStyle) {
+
+async function finalizarPDF(coverPage, contentPage, customStyle) {
     const options = {
         margin: [10, 10, 10, 10],
         filename: "relatorio.pdf",
@@ -1686,25 +1702,16 @@ function finalizarPDF(coverPage, contentPage, customStyle) {
     // Gerando o PDF
     const wrapper = document.createElement("div");
     wrapper.innerHTML = customStyle + coverPage + contentPage;
-    html2pdf().set(options).from(wrapper).save();
+    await html2pdf().set(options).from(wrapper).save();
 }
 
-const blur2 = document.getElementById('blur2');
-
-function mostrarCarregamento() {
-    blur2.style.display = 'flex';
-}
-
-function ocultarCarregamento() {
+function removerCarregamento() {
     blur2.style.display = 'none';
 }
 
 async function fazerCarregamento() {
-    mostrarCarregamento();
-
-    setTimeout(() => {
-        ocultarCarregamento();
-    }, 2000);
+    console.log("Exibindo")
+    blur2.style.display = 'block';
 }
 
 async function gerarResposta(pergunta) {
@@ -1718,8 +1725,7 @@ async function gerarResposta(pergunta) {
 
     const data = await response.json();
 
-    console.log("Resposta da API:", data);  // Verifique o formato da resposta
+    console.log("Resposta da API:", data)
 
-    // Certifique-se de que o campo 'resultado' existe antes de retornar
     return data.resultado || "Nenhum resultado retornado";
 }
