@@ -29,6 +29,8 @@ var graficosDashRouter = require("./src/routes/graficoDash");
 
 var dashPresilli = require("./src/routes/dashPresilli");
 
+var dashMarcela = require("./src/routes/marcelaRouter")
+
 // var dashPedro = require("./src/routes/dashPedro");
 
 var caixaRouter = require("./src/routes/caixas");
@@ -59,6 +61,7 @@ app.use("/dashPresilli", dashPresilli);
 app.use("/caixas", caixaRouter);
 app.use("/dashPassini", apiKillPDI)
 app.use("/dashPassini2", dashPassini)
+app.use("/marcelaRouter", dashMarcela)
 
 app.listen(PORTA_APP, function () {
     console.log(`

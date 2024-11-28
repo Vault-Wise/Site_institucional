@@ -9,6 +9,8 @@
   <title>Dashboard | VaultWise</title>
 
   <link rel="stylesheet" href="../css/dashboard.css" />
+  <link rel="stylesheet" href="../css/dashboardMarcela.css" />
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 
   <script src="../js/sessao.js"></script>
@@ -34,15 +36,165 @@
         </li>
       </ul>
     </nav>
-    <div class="content">
 
-    </div>
-  </div>
+    <div class="container">
+      <div class="header">
+
+        <div class="machine-card">
+          <div class="card-header">
+            <h2>Total de Máquinas</h2>
+          </div>
+          <div class="card-content">
+            <p class="machine-count" id="maquinas"></p>
+            <p class="description">Monitoradas</p>
+          </div>
+        </div>
+
+        <div class="card card-ultima-falha">
+          <h3>ÚLTIMA FALHA CRITÍCA</h3>
+          <div class="info">
+            <div>
+              <p><strong>Data</strong></p>
+              <a><strong id="dataCritico"></strong></a>
+            </div>
+            <div>
+              <p><strong>Hora</strong></p>
+              <a><strong id="horaCritica">13:15</strong></a>
+            </div>
+            <div>
+              <p><strong>Máquina</strong></p>
+              <a><strong id="nomeAtmCritico">ATM3</strong></a>
+            </div>
+          </div>
+          <button>Histórico</button>
+        </div>
+
+        <div class="alert-card">
+          <div class="card-header">
+            <h2 id="nomeAtm"></h2>
+          </div>
+          <div class="card-content2">
+            <p class="alert-count"><span id="alertaUltimoDia"></span></p>
+            <p class="count">Alertas</p>
+            <p class="time-frame">Últimas 24h</p>
+          </div>
+        </div>
+
+
+
+        <div id="historicoCard" class="card-historico" style="display: none;">
+          <div class="card-header">
+            <h3>Histórico de falhas</h3>
+            <button id="fecharHistorico">Fechar</button>
+          </div>
+          <div class="card">
+            <table>
+              <thead>
+                <tr>
+                  <th>Data</th>
+                  <th>Hora</th>
+                  <th>Máquina</th>
+                </tr>
+              </thead>
+              <tbody id="historicoTabela">
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="content">
+        <div class="chart-container">
+          <h3>Status Máquina</h3>
+          <div id="chart"></div>
+        </div>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Máquina</th>
+                <th>Estado</th>
+              </tr>
+            </thead>
+            <tbody id="Tabela">
+            </tbody>
+          </table>
+        </div>
+      </div>
+
 </body>
 
 </html>
 
 <script>
+
+  function gerarGrafico() {
+    fetch('/marcelaRouter/capturarInformacoesGrafico/')
+      .then(response => response.json())
+      .then(data => {
+        console.log("Dados de pizza", data)
+
+        // Extrair os dados de tipo e porcentagem
+        const labels = data.map(item => item.tipo);
+        const porcentagens = data.map(item => parseFloat(item.Porcentagem));
+
+        console.log(labels)
+        console.log(porcentagens)
+
+        // Configurar o gráfico de pizza
+        var options = {
+          chart: {
+            type: 'pie',
+            width: '100%',  // Ajuste para largura dinâmica
+            height: '300px',
+            events: {
+              dataPointSelection: function (event, chartContext, config) {
+                const selectedLabel = labels[config.dataPointIndex];
+                console.log('Segmento selecionado:', selectedLabel);
+                filtrarTabelaPorTipo(selectedLabel); // Atualizar tabela com base no tipo selecionado
+              }
+            }
+          },
+          series: porcentagens,
+          labels: labels,
+          colors: ['#FF5733', '#FFC300', '#28A745'],  // Cores para os segmentos
+          tooltip: {
+            y: {
+              formatter: function (val) {
+                return val + "%";  // Exibe a porcentagem no tooltip
+              }
+            }
+          },
+          legend: {
+            position: 'top',
+          }
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chart"), options);
+        chart.render();  // Renderiza o gráfico na div
+      })
+      .catch(error => {
+        console.error('Erro ao obter os dados do gráfico:', error);
+      });
+  }
+
+  // document.addEventListener("DOMContentLoaded", () => {
+  //   const options = {
+  //     chart: {
+  //       type: 'pie',
+  //       width: '500px', // Largura fixa ou use porcentagem para um ajuste dinâmico
+  //       height: '500px', // Altura fixa ou ajustável
+  //     },
+  //     series: [7, 6, 11], // Dados para 'Perigo', 'Alerta', 'Seguro'
+  //     labels: ['Perigo', 'Alerta', 'Seguro'],
+  //     colors: ['#ff4560', '#feb019', '#00e396'],
+  //   };
+
+  //   const chart = new ApexCharts(document.querySelector("#chart"), options);
+  //   chart.render();
+  // });
 
   document.addEventListener("DOMContentLoaded", () => {
     validarSessao()
@@ -58,4 +210,193 @@
       dashPresilli.classList.remove("agora")
     }
   });
+
+  function carregaTabela() {
+
+    fetch(`/marcelaRouter/capturarInformacoes/`)
+      .then(response => {
+        console.log('Resposta da API:', response);  // Log da resposta
+        if (!response.ok) {
+          throw new Error('Erro ao carregar dados da API: ' + response.statusText);
+        }
+        return response.json();  // Converta a resposta para JSON
+      })
+      .then(dados => {
+        console.log('Dados recebidos:', dados);  // Log dos dados recebidos
+        const tabela = document.getElementById("Tabela");
+        tabela.innerHTML = '';  // Limpa a tabela antes de preencher
+
+        // Preencher a tabela com os dados do ranking
+        dados.forEach((dado, index) => {
+          const row = document.createElement("tr");
+
+          const CaixaEletronico = document.createElement("td");
+          CaixaEletronico.textContent = dado.CaixaEletronico;  // Nome do Funcionário
+          row.appendChild(CaixaEletronico);
+
+          const TipoAlerta = document.createElement("td");
+          TipoAlerta.textContent = dado.TipoAlerta;  // Total de horas
+          row.appendChild(TipoAlerta);
+
+          tabela.appendChild(row);  // Adiciona a linha à tabela
+        });
+      })
+      .catch(error => {
+        console.error("Erro ao carregar dados da tabela:", error.message);
+      });
+  }
+
+  // Função para filtrar a tabela com base no tipo selecionado
+  function filtrarTabelaPorTipo(tipoSelecionado) {
+    fetch(`/marcelaRouter/capturarInformacoes/`)
+      .then(response => response.json())
+      .then(dados => {
+        const dadosFiltrados = dados.filter(dado => dado.TipoAlerta === tipoSelecionado);
+        atualizarTabela(dadosFiltrados);
+      })
+      .catch(error => {
+        console.error("Erro ao filtrar a tabela:", error.message);
+      });
+  }
+
+  function atualizarTabela(dados) {
+    const tabela = document.getElementById("Tabela");
+    tabela.innerHTML = ''; // Limpa a tabela antes de preencher
+
+    dados.forEach(dado => {
+      const row = document.createElement("tr");
+
+      const CaixaEletronico = document.createElement("td");
+      CaixaEletronico.textContent = dado.CaixaEletronico; // Nome do Caixa Eletrônico
+      row.appendChild(CaixaEletronico);
+
+      const TipoAlerta = document.createElement("td");
+      TipoAlerta.textContent = dado.TipoAlerta; // Tipo de Alerta
+      row.appendChild(TipoAlerta);
+
+      tabela.appendChild(row); // Adiciona a linha à tabela
+    });
+  }
+
+  function atualizarTotalMaquinas() {
+    fetch(`/marcelaRouter/capturarInformacoesMaquina/`)
+      .then(response => {
+        console.log("Resposta do fetch:", response); // Verificar a resposta
+        if (!response.ok) {
+          throw new Error("Erro ao buscar total de máquinas: " + response.statusText);
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log("Máquinas totais:", data); // Log dos dados recebidos
+        const maquinas = document.getElementById("maquinas")
+        maquinas.innerHTML = `${data[0].total_maquinas_monitoradas}`
+      })
+      .catch(error => {
+        console.error("Erro ao buscar total de máquinas:", error);
+      });
+  }
+
+  function alertasUltimoDia() {
+    fetch(`/marcelaRouter/alertasUltimoDia/`)
+      .then(response => {
+        console.log("Resposta do fetch [Aletas]:", response); // Verificar a resposta
+        if (!response.ok) {
+          throw new Error("Erro ao buscar total de máquinas: " + response.statusText);
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log("Alertas 24 horas:", data); // Log dos dados recebidos
+        const alertas = document.getElementById("alertaUltimoDia")
+        const nome = document.getElementById("nomeAtm")
+        alertas.innerHTML = `${data[0].numero_alertas}`
+        nome.innerHTML = `${data[0].nome_atm}`
+
+      })
+      .catch(error => {
+        console.error("Erro ao buscar total de máquinas:", error);
+      });
+  }
+
+  function ultimoCritico() {
+    fetch(`/marcelaRouter/ultimoCritico/`)
+      .then(response => {
+        console.log("Resposta do fetch [Crítico]:", response); // Verificar a resposta
+        if (!response.ok) {
+          throw new Error("Erro ao buscar total de máquinas: " + response.statusText);
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log("Alertas Critico:", data); // Log dos dados recebidos
+
+        const dataHora = document.getElementById("dataCritico")
+        const nome = document.getElementById("nomeAtmCritico")
+        const hora = document.getElementById("horaCritica")
+
+        dataHora.innerHTML = `${data[0].data_hora}`
+        hora.innerHTML = `${data[0].hora}`
+        nome.innerHTML = `${data[0].nome_atm}`
+
+      })
+      .catch(error => {
+        console.error("Erro ao buscar total de máquinas:", error);
+      });
+  }
+
+  function exibirHistorico() {
+    fetch('/marcelaRouter/historicoPerigo/') // Substitua com a rota correta
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("Erro ao buscar histórico: " + response.statusText);
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log("Histórico de perigo:", data);
+
+        const tabela = document.getElementById("historicoTabela");
+        tabela.innerHTML = ""; // Limpa a tabela antes de preencher
+
+        data.forEach(item => {
+          const row = document.createElement("tr");
+
+          const dataCell = document.createElement("td");
+          dataCell.textContent = item.data;
+          row.appendChild(dataCell);
+
+          const horaCell = document.createElement("td");
+          horaCell.textContent = item.hora;
+          row.appendChild(horaCell);
+
+          const maquinaCell = document.createElement("td");
+          maquinaCell.textContent = item.maquina;
+          row.appendChild(maquinaCell);
+
+          tabela.appendChild(row); // Adiciona a linha na tabela
+        });
+
+        // Exibe o card
+        document.getElementById("historicoCard").style.display = "block";
+      })
+      .catch(error => {
+        console.error("Erro ao buscar histórico:", error);
+      });
+  }
+
+  // Função para fechar o card
+  document.getElementById("fecharHistorico").addEventListener("click", () => {
+    document.getElementById("historicoCard").style.display = "none";
+  });
+
+  // Associa a função ao botão "Histórico"
+  document.querySelector(".card-ultima-falha button").addEventListener("click", exibirHistorico);
+
+
+  window.onload = carregaTabela();
+  window.onload = gerarGrafico();
+  window.onload = atualizarTotalMaquinas();
+  window.onload = alertasUltimoDia();
+  window.onload = ultimoCritico();
 </script>
