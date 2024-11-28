@@ -18,6 +18,8 @@ let chart;
 let idMaquina = 1;
 let nomeEquipamento = "note-presilli"
 
+var conversa = []
+
 document.addEventListener("DOMContentLoaded", () => {
     inicializarPagina();
 });
@@ -1405,7 +1407,7 @@ function aparecerCardRelatorio(button) {
     }, 10);
 }
 
-function gerarRelatorio() {
+async function gerarRelatorio() {
     const graficoLinha = document.querySelector("#graficoLinha");
     const tabelaProcessos = document.querySelector("#tabelaProcessos");
     const variacao = document.querySelector("#variacao");
@@ -1534,53 +1536,157 @@ function gerarRelatorio() {
         alert("Selecione uma opção ao relatório")
     }
     else {
-        
+        let perguntaGrafico;
+        let perguntaVariacao;
+        let perguntaProcesso;
+
         if (checkGrafico.checked) {
             contentPage +=
                 `
-        <h2>Gráfico</h2>
-        <div class="grafico">${graficoLinha.outerHTML}</div>
-        `
+            <h2>Gráfico</h2>
+            <div class="grafico">${graficoLinha.outerHTML}</div>
+            `
 
-        
+            if (valorIntervalo != "Tempo Real") {
+                perguntaGrafico =
+                    `
+                    Valores do Gráfico
+                    ${chart.w.globals.seriesNames}
+                    ${chart.w.globals.series}
+
+                    Respectivamente,
+
+                    Com base nos dados apresentados no gráfico que monitoram o desempenho da máquina específica, 
+                    analise os valores médios de utilização de CPU e Memória dentro do intervalo de ${valorIntervalo} horas, agrupados por hora.
+                
+                    Por favor, identifique:
+                    1. Se a máquina apresenta **bom funcionamento**, com níveis estáveis e baixos de utilização dos componentes.
+                    2. Se há indícios de **utilização elevada**, onde CPU ou Memória estão próximos ou acima de níveis críticos.
+                    3. Qualquer padrão ou comportamento anômalo que possa indicar necessidade de atenção ou ajustes.
+                
+                    Detalhe possíveis conclusões sobre o estado geral da máquina nesse período, considerando as tendências e valores 
+                    médios apresentados.
+                    `
+
+            }
+            else {
+                perguntaGrafico =
+                    `
+                    Valores do Gráfico
+                    Componentes Monitorados: ${chart.w.globals.seriesNames}
+                    Valores do Gráfico: ${chart.w.globals.series.length === 2
+                        ? `${chart.w.globals.series[0]}, ${chart.w.globals.series[1]}`
+                        : `${chart.w.globals.series[0]}`}
+
+                    Respectivamente,
+
+                    Com base nos dados apresentados no gráfico que monitoram o desempenho da máquina específica, 
+                    analise os valores médios de utilização de CPU e Memória dentro do intervalo em ${valorIntervalo}, contendo os últimos 10 registros da máquina  .
+                    
+                    Por favor, identifique:
+                    1. Se a máquina apresenta **bom funcionamento**, com níveis estáveis e baixos de utilização dos componentes.
+                    2. Se há indícios de **utilização elevada**, onde CPU ou Memória estão próximos ou acima de níveis críticos.
+                    3. Qualquer padrão ou comportamento anômalo que possa indicar necessidade de atenção ou ajustes.
+                    
+                    Resuma as possíveis conclusões sobre o estado geral da máquina nesse período, considerando as tendências e valores 
+                    médios apresentados.
+                    `
+
+            }
         }
 
         if (checkProcesso.checked) {
-            contentPage +=
-                `
-        <h2>Processos</h2>
-        <div>
-            ${tabelaProcessos.outerHTML}
-        </div>
-        `
+            contentPage += `
+            <h2>Processos</h2>
+            <div>
+                ${tabelaProcessos.outerHTML}
+            </div>
+            `;
+
+            perguntaProcesso = `
+            ${tabelaProcessos}
+            Analisando os processos em execução, identifique:
+            1. Quais processos estão consumindo mais CPU ou memória?
+            2. Existe algum processo que está utilizando recursos de forma excessiva, o que poderia indicar um possível problema de desempenho?
+            3. Existe algum processo que foi executado mais de uma vez, que poderia ser um indicativo de comportamento anômalo?
+            4. Quais são os processos críticos para o funcionamento do sistema e precisam ser monitorados de perto?
+        
+            Considerando a tabela de processos apresentada, como você avaliaria o impacto desses processos no desempenho geral da máquina?
+            `;
         }
 
         if (checkVariacao.checked) {
-            contentPage +=
-                `
-        <h2>Variação</h2>
-        <div class="card-variacao">
-            ${variacao.outerHTML}
-        </div>
-        `
+            contentPage += `
+            <h2>Variação</h2>
+            <div class="card-variacao">
+                ${variacao.outerHTML}
+            </div>
+            `;
+
+            perguntaVariacao = `
+            ${variacao}
+            Com base na variação apresentada, analise:
+            1. Houve picos ou quedas anormais nos dados? Se sim, o que poderia ter causado esses picos?
+            2. Há variações regulares no uso de recursos (CPU, memória) que podem ser consideradas normais, ou os dados indicam uma instabilidade no sistema?
+            3. Alguma variação está em níveis críticos, indicando a necessidade de ajustes ou monitoramento mais atento?
+            4. O comportamento de variação se alinha com o esperado para esse tipo de máquina, ou há algo incomum?
+            
+            A partir dos dados de variação, quais conclusões você pode tirar sobre o comportamento da máquina e seus recursos?
+            `;
         }
+
 
         contentPage += `</div>`
 
-        fazerCarregamento()
-        // Configurações do PDF
-        const options = {
-            margin: [10, 10, 10, 10],
-            filename: "relatorio.pdf",
-            html2canvas: { scale: 2, useCORS: true },
-            jsPDF: { unit: "mm", format: "a3", orientation: "portrait" }
-        };
+        var perguntaTodas;
+        if (perguntaGrafico != undefined && perguntaProcesso != undefined && perguntaVariacao != undefined) {
+            perguntaTodas = `Me fale sobre ${perguntaGrafico} também sobre ${perguntaProcesso} e ${perguntaVariacao}`
+        }
+        else if (perguntaGrafico != undefined && perguntaProcesso != undefined) {
+            perguntaTodas = `Me fale sobre ${perguntaGrafico} também sobre ${perguntaVariacao}`
+        }
+        else if (perguntaProcesso != undefined && perguntaVariacao != undefined) {
+            perguntaTodas = `Me fale sobre ${perguntaProcesso} também sobre ${perguntaVariacao}`
+        }
+        else if (perguntaGrafico != undefined) {
+            perguntaTodas = `${perguntaGrafico}`
+        }
+        else if (perguntaVariacao != undefined) {
+            perguntaTodas = `${perguntaVariacao}`
+        }
+        else if (perguntaProcesso != undefined) {
+            perguntaTodas = `${perguntaProcesso}`
+        }
 
-        // Gerando o PDF
-        const wrapper = document.createElement("div");
-        wrapper.innerHTML = customStyles + coverPage + contentPage;
-        html2pdf().set(options).from(wrapper).save();
+
+        const resposta = await gerarResposta(perguntaTodas);
+
+        contentPage += 
+        `
+        <h2>Análise do Gráfico</h2>
+        <p>${resposta}</p>
+        `;
+
+
+
+        fazerCarregamento()
+
+        finalizarPDF(coverPage, contentPage, customStyles)
     }
+}
+
+function finalizarPDF(coverPage, contentPage, customStyle) {
+    const options = {
+        margin: [10, 10, 10, 10],
+        filename: "relatorio.pdf",
+        html2canvas: { scale: 2, useCORS: true },
+        jsPDF: { unit: "mm", format: "a3", orientation: "portrait" }
+    };
+
+    // Gerando o PDF
+    const wrapper = document.createElement("div");
+    wrapper.innerHTML = customStyle + coverPage + contentPage;
+    html2pdf().set(options).from(wrapper).save();
 }
 
 const blur2 = document.getElementById('blur2');
@@ -1593,7 +1699,7 @@ function ocultarCarregamento() {
     blur2.style.display = 'none';
 }
 
-function fazerCarregamento() {
+async function fazerCarregamento() {
     mostrarCarregamento();
 
     setTimeout(() => {
@@ -1601,11 +1707,7 @@ function fazerCarregamento() {
     }, 2000);
 }
 
-
-
-async function gerarResposta() {
-    const pergunta = "Qual o coeficiente de pearson";
-
+async function gerarResposta(pergunta) {
     const response = await fetch('/perguntar', {
         method: 'POST',
         headers: {
@@ -1614,10 +1716,10 @@ async function gerarResposta() {
         body: JSON.stringify({ pergunta })
     });
 
-    if (!response.ok) {
-        throw new Error(`Erro na requisição: ${response.status}`);
-    }
-
     const data = await response.json();
-    return data; // Retorne os dados
+
+    console.log("Resposta da API:", data);  // Verifique o formato da resposta
+
+    // Certifique-se de que o campo 'resultado' existe antes de retornar
+    return data.resultado || "Nenhum resultado retornado";
 }

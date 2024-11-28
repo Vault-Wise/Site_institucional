@@ -75,22 +75,8 @@ $$ |   $$ |$$$$$$\  $$\   $$\ $$ |$$$$$$\   $$ |$$$\ $$ |$$\  $$$$$$$\  $$$$$$\
 });
 
 
-app.post("/perguntar", async (req, res) => {
-    const pergunta = req.body.pergunta;
-
-    try {
-        const resultado = await gerarResposta(pergunta);
-       
-        res.json( { resultado } );
-    } catch (error) {
-        res.status(500).json({ error: 'Erro interno do servidor' });
-    }
-
-});
-
-async function gerarResposta(mensagem) {
-    // Define o contexto do projeto
-    const contexto = `
+var conversa = []
+const contexto = `
     Contexto Resumido para Suporte ao Projeto VaultWise
     O VaultWise é um projeto focado em garantir o funcionamento eficiente, seguro e contínuo de ATMs por meio de monitoramento em tempo real, manutenção preventiva e otimização de desempenho. O objetivo é melhorar a experiência do usuário, atender aos requisitos regulatórios e fortalecer a segurança e confiabilidade do sistema financeiro.
 
@@ -116,22 +102,40 @@ async function gerarResposta(mensagem) {
     NOME DO PROJETO:
     O nome do projeto o qual você está inserida é VaultWise.
 
-    De acordo com esse contexto responda com uma linguagem formal e amigável:
-    `
+    De acordo com esse contexto responda com uma linguagem em HTML e amigável:
+    `;
 
+conversa.push(contexto)
 
-    // Combina o contexto com a mensagem do usuário
-    const mensagemComContexto = `${contexto}\n\nPergunta do Usuário: ${mensagem}`;
+// rota para receber perguntas e gerar respostas
+app.post("/perguntar", async (req, res) => {
+    const pergunta = req.body.pergunta;
+
+    var perguntaFormat = `Usuario: ${pergunta}`
+    conversa.push(perguntaFormat)
 
     try {
-        // Obtendo o modelo de IA
-        const modeloIA = chatIA.getGenerativeModel({ model: "gemini-pro" });
+        const resultado = await gerarResposta(conversa);
+        var resultadoFormat = `IA: ${resultado}`
+        conversa.push(resultadoFormat)
+        res.json( { resultado } );
+    } catch (error) {
+        res.status(500).json({ error: 'Erro interno do servidor' });
+    }
 
-        // Gerando resposta
-        const resultado = await modeloIA.generateContent(mensagemComContexto);
-        const resposta = resultado.response.text;
+});
 
+async function gerarResposta(mensagem) {
+    // obtendo o modelo de IA
+    const modeloIA = chatIA.getGenerativeModel({ model: "gemini-pro" });
+
+    try {
+        // gerando conteúdo com base na pergunta
+        const resultado = await modeloIA.generateContent(`${mensagem}`);
+        const resposta = await resultado.response.text();
+        
         console.log(resposta);
+
         return resposta;
     } catch (error) {
         console.error(error);
