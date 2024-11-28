@@ -243,7 +243,7 @@
             previsao.style.position = `absolute`;
             previsao.style.top = `58%`;
             previsao.style.left = `18.5%`;
-            
+
             botaoPlusPrevisao.innerHTML = `<span>Fechar Previsão</span> <i class="fa-solid fa-magnifying-glass"></i></i>`
 
             setTimeout(() => {
@@ -310,38 +310,16 @@
                     dados.agencias.forEach((agencia) => {
 
                         if (agencia.ano == 2023) {
-
                             arrayDados2023RAM.push(agencia.MediaRAM);
                             arrayDados2023CPU.push(agencia.MediaCPU);
+
                         } else if (agencia.ano == 2024) {
 
                             arrayDados2024RAM.push(agencia.MediaRAM);
                             arrayDados2024CPU.push(agencia.MediaCPU);
                         }
                     });
-
-                    var calcularPrevisao = (dados) => {
-                        var pontos = dados.map((valor, index) => ({
-                            x: index + 1, // Mês sequencial
-                            y: parseFloat(valor) // Média numérica
-                        }));
-
-                        var n = pontos.length;
-
-                        // Somatórios
-                        var sumX = pontos.reduce((acc, ponto) => acc + ponto.x, 0);
-                        var sumY = pontos.reduce((acc, ponto) => acc + ponto.y, 0);
-                        var sumXY = pontos.reduce((acc, ponto) => acc + ponto.x * ponto.y, 0);
-                        var sumX2 = pontos.reduce((acc, ponto) => acc + ponto.x ** 2, 0);
-
-                        // Calcular coeficientes
-                        var slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX ** 2);
-                        var intercept = (sumY - slope * sumX) / n;
-
-                        // Previsão para o próximo mês
-                        var mesSequencial = n + 1;
-                        return slope * mesSequencial + intercept;
-                    };
+                    console.log(arrayDados2024RAM.length)
 
                     var meses = [
                         "janeiro", "fevereiro", "março", "abril", "maio", "junho",
@@ -349,16 +327,54 @@
                     ];
 
                     if (componente == "CPU") {
-                        var previsao = calcularPrevisao(arrayDados2024CPU);
+                        var soma24 = 0;
+                        var soma23 = 0;
+
+                        for (var i = 0; i < arrayDados2024CPU.length; i++) {
+                            soma24 += Number(arrayDados2024CPU[i]);
+                            soma23 += Number(arrayDados2023CPU[i]);
+
+                        }
+                        var previsao24 = soma24 / arrayDados2024CPU.length;
+                        var media23 = soma23 / arrayDados2024CPU.length;
+
+                        var ultimo_mes_previsto = arrayDados2023CPU[arrayDados2023CPU.length - 1];
+                        console.log("Dezembro 2023 " + ultimo_mes_previsto)
+                        console.log("Média de 2023: " + media23.toFixed(2))
+                        console.log("Diferença da Média e Dezembro: " + (ultimo_mes_previsto - media23.toFixed(2)))
+
+                        var diferenca = ultimo_mes_previsto - media23.toFixed(2);
+                        
+                        var num_previsao = Number(previsao24.toFixed(2)) + Number(diferenca.toFixed(2));
+
                         var proximoMesIndex = arrayDados2024CPU.length;
                         var proximoMes = meses[proximoMesIndex] || `janeiro de 2025`;
-                        previsaoElemento.innerHTML = `Previsão de ${componente} em ${proximoMes} é de aproximadamente: <b>${previsao.toFixed(2)}%</b>`
+                        previsaoElemento.innerHTML = `Previsão de ${componente} em ${proximoMes} é de aproximadamente: <b>${num_previsao}%</b>`
 
                     } else if (componente == "RAM") {
-                        var previsao = calcularPrevisao(arrayDados2024RAM);
+                        var soma24 = 0;
+                        var soma23 = 0;
+
+                        for (var i = 0; i < arrayDados2024RAM.length; i++) {
+                            soma24 += Number(arrayDados2024RAM[i]);
+                            soma23 += Number(arrayDados2023RAM[i]);
+
+                        }
+                        var previsao24 = soma24 / arrayDados2024RAM.length;
+                        var media23 = soma23 / arrayDados2024RAM.length;
+
+                        var ultimo_mes_previsto = arrayDados2023RAM[arrayDados2023RAM.length - 1];
+                        console.log("Dezembro 2023 " + ultimo_mes_previsto)
+                        console.log("Média de 2023: " + media23)
+                        console.log("Diferença da Média e Dezembro: " + (ultimo_mes_previsto - media23.toFixed(2)))
+
+                        var diferenca = ultimo_mes_previsto - media23.toFixed(2);
+                        
+                        var num_previsao = Number(previsao24.toFixed(2)) + Number(diferenca.toFixed(2));
+
                         var proximoMesIndex = arrayDados2024CPU.length;
-                        var proximoMes = meses[proximoMesIndex] || `janeiro de 2025`;   
-                        previsaoElemento.innerHTML = `Previsão de ${componente} em ${proximoMes} é de aproximadamente: <b>${previsao.toFixed(2)}%</b>`
+                        var proximoMes = meses[proximoMesIndex] || `janeiro de 2025`;
+                        previsaoElemento.innerHTML = `Previsão de ${componente} em ${proximoMes} é de aproximadamente: <b>${num_previsao}%</b>`
 
                     }
 
