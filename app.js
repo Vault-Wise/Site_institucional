@@ -108,7 +108,7 @@ const contexto = `
     NOME DO PROJETO:
     O nome do projeto o qual você está inserida é VaultWise.
 
-    De acordo com esse contexto responda com uma linguagem em HTML e amigável:
+    De acordo com esse contexto responda com uma linguagem em formal e em HTML e amigável:
     `;
 
 conversa.push(contexto)

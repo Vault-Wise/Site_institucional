@@ -48,7 +48,8 @@ function capturaProcessosTempoReal(fkCaixa) {
 
 function capturaProcessosIntervalo(fkCaixa, intervalo) {
     var instrucaoSql = `
-    SELECT *
+    SELECT nome, percentMemoria, percentProcessador, dtHora,
+        (percentProcessador + percentMemoria) AS totalPercentual 
     FROM Processo
     WHERE dtHora >= (
         SELECT MAX(dtHora) - INTERVAL ${intervalo} HOUR
@@ -56,7 +57,7 @@ function capturaProcessosIntervalo(fkCaixa, intervalo) {
         WHERE fkCaixa = ${fkCaixa}
     )
     AND fkCaixa = ${fkCaixa}
-    ORDER BY percentProcessador DESC, percentMemoria DESC, dtHora DESC
+    ORDER BY totalPercentual DESC
     LIMIT 3;
    `;
 
