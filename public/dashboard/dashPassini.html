@@ -52,13 +52,13 @@
 
       <div class="parteBaixo">
         <div class="tabela">
-          <table id="tabelaProcessos">
+          <table id="tabelaPID">
             <thead>
                 <tr>
                     <th>Posição</th>
-                    <th>Nome</th>
-                    <th>CPU</th>
-                    <th>Memória</th>
+                    <th>PID</th>
+                    <th>Nivel de Ameaça</th>
+                   
                 </tr>
             </thead>
             <tbody>
@@ -71,14 +71,14 @@
                 <tr>
                     <td><b>2º</b></td>
                     <td></td>
-                    <td>%</td>
-                    <td>%</td>
+                    <td></td>
+                    <td></td>
                 </tr>
                 <tr>
                     <td><b>3º</b></td>
                     <td></td>
-                    <td>%</td>
-                    <td>%</td>
+                    <td></td>
+                    <td></td>
                 </tr>
             </tbody>
         </table>
@@ -144,6 +144,36 @@
         document.getElementById('status').innerText = `Erro: ${error.message}`;
       });
   });
+
+  function carregarDados() {
+            const fkCaixa = 1;  // Substitua isso pelo valor de fkCaixa que você deseja consultar
+
+            fetch(`http://localhost:3333/dashPassini2/capturaPIDs/${fkCaixa}`)  // Chama a API com o fkCaixa
+                .then(response => response.json())  // Converte a resposta para JSON
+                .then(data => {
+                    // Aqui você insere os dados na tabela
+                    const tabelaBody = document.querySelector('#tabelaPID tbody');
+                    tabelaBody.innerHTML = '';  // Limpa a tabela antes de adicionar os dados
+
+                    // Loop através dos dados e cria as linhas da tabela
+                    data.forEach(item => {
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                            <td>${item.idPID}</td>
+                            <td>${item.numeroPID}</td>
+                            <td>${item.nivelAmeaca}</td>
+                        `;
+                        tabelaBody.appendChild(tr);  // Adiciona a linha na tabela
+                    });
+                })
+                .catch(error => {
+                    console.error('Erro ao carregar os dados:', error);
+                });
+        }
+
+        // Chama a função para carregar os dados quando a página for carregada
+        window.onload = carregarDados;
+
   var options = {
     series: [{
       name: "Desktops",

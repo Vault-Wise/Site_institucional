@@ -2,10 +2,9 @@
 DROP DATABASE IF EXISTS VaultWise;
 CREATE DATABASE VaultWise;
 
--- Seleção do banco de dados
 USE VaultWise;
 
--- Criação da tabela Empresa
+
 CREATE TABLE Empresa (
     idEmpresa INT PRIMARY KEY AUTO_INCREMENT,
     cep CHAR(8) NOT NULL,
@@ -16,7 +15,7 @@ CREATE TABLE Empresa (
     codigoEmpresa CHAR(6) NOT NULL
 );
 
--- Criação da tabela Funcionario
+
 CREATE TABLE Funcionario (
     idFuncionario INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(80) NOT NULL,
@@ -29,7 +28,7 @@ CREATE TABLE Funcionario (
     CONSTRAINT fkFuncionarioEmpresa FOREIGN KEY (fkEmpresa) REFERENCES Empresa (idEmpresa)
 );
 
--- Criação da tabela Agencia
+
 CREATE TABLE Agencia (
     idAgencia INT PRIMARY KEY AUTO_INCREMENT,
     cep CHAR(8) NOT NULL,
@@ -38,10 +37,10 @@ CREATE TABLE Agencia (
     CONSTRAINT fkAgenciaEmpresa FOREIGN KEY (fkEmpresa) REFERENCES Empresa (idEmpresa)
 );
 
--- Criação da tabela CaixaEletronico
+
 CREATE TABLE CaixaEletronico (
     idCaixa INT PRIMARY KEY AUTO_INCREMENT,
-    nomeEquipamento VARCHAR(60) NOT NULL,
+	nomeEquipamento VARCHAR(60) NOT NULL,
     sistemaOperacional VARCHAR(60) NOT NULL,
     memoriaTotal DECIMAL(8,2) NOT NULL,
     freqMaxProcessador DECIMAL(8,2) NOT NULL,
@@ -49,7 +48,7 @@ CREATE TABLE CaixaEletronico (
     CONSTRAINT fkCaixaAgencia FOREIGN KEY (fkAgencia) REFERENCES Agencia (idAgencia)
 );
 
--- Criação da tabela Registro
+
 CREATE TABLE Registro (
     idRegistro INT AUTO_INCREMENT,
     dtHora DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -65,7 +64,28 @@ CREATE TABLE Registro (
     CONSTRAINT fkRegistroCaixaEletronico FOREIGN KEY (fkCaixa) REFERENCES CaixaEletronico (idCaixa)
 );
 
--- Criação da tabela Alerta
+CREATE TABLE Processo (
+    idProcesso INT AUTO_INCREMENT,	
+    nome VARCHAR(90),
+    percentMemoria DECIMAL(5, 2),
+    percentProcessador DECIMAL(5, 2),
+    dtHora DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    fkRegistro INT NOT NULL,
+    fkCaixa INT NOT NULL,
+    CONSTRAINT fkProcessoRegistro FOREIGN KEY (fkRegistro , fkCaixa) REFERENCES Registro (idRegistro , fkCaixa),
+    PRIMARY KEY (idProcesso, fkRegistro, fkCaixa)
+);
+
+CREATE TABLE PID (
+	idPID INT PRIMARY KEY AUTO_INCREMENT,
+    numeroPID VARCHAR(20),
+    nivelAmeaca INT,
+    fkProcesso INT,
+    fkRegistro INT, 
+    fkCaixa INT,
+    CONSTRAINT fkPIDProcesso FOREIGN KEY (fkProcesso, fkRegistro, fkCaixa) REFERENCES Processo (idProcesso, fkRegistro, fkCaixa)
+);
+
 CREATE TABLE Alerta (
     idAlerta INT AUTO_INCREMENT,
     tipo VARCHAR(60) NOT NULL,
@@ -77,9 +97,8 @@ CREATE TABLE Alerta (
     CONSTRAINT fkAlertaRegistro FOREIGN KEY (fkRegistro , fkCaixa) REFERENCES Registro (idRegistro , fkCaixa)  
 );
 
--- Criação da view dashPresilli
 CREATE VIEW dashPresilli AS 
-SELECT dtHora, percentMemoria, percentProcessador, fkCaixa 
+SELECT dtHora, percentMemoria, percentProcessador AS percentCPU, fkCaixa 
 FROM Registro;
 
 INSERT INTO Empresa VALUES (DEFAULT, '11111111', 123, 'Banco XPTO', '11111111111','abcdefghijklmn', 'AAAAAA');

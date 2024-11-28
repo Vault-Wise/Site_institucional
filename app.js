@@ -35,6 +35,8 @@ var caixaRouter = require("./src/routes/caixas");
 
 var apiKillPDI = require("./src/dashPassini/routerDash")
 
+var dashPassini = require("./src/routes/dashPassini");
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
@@ -56,6 +58,7 @@ app.use("/dashPresilli", dashPresilli);
 // app.use("/dashPedro", dashPedro);
 app.use("/caixas", caixaRouter);
 app.use("/dashPassini", apiKillPDI)
+app.use("/dashPassini2", dashPassini)
 
 app.listen(PORTA_APP, function () {
     console.log(`
