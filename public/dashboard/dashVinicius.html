@@ -54,8 +54,8 @@
             <h3>Máquina a ser monitorada</h3>
             <div class="filters">
               <select
-                onselect="carregarMaquinas()"
-                class="agencia-select"
+                onfocus="removerAnimacao()"
+                class="agencia-select pending"
                 id="caixaSelect"
               >
                 <option disabled selected>Selecione uma máquina</option>
@@ -182,3 +182,10 @@
 </html>
 
 <script src="../js/dashViny.js"></script>
+
+<script>
+  function removerAnimacao() {
+  const selectElement = document.getElementById("caixaSelect");
+  selectElement.classList.remove("pending");
+}
+</script>

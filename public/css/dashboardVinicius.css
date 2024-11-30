@@ -196,6 +196,20 @@ a:hover {
   font-size: 12px;
 }
 
+.agencia-select.pending {
+  animation: pulsar 1.5s infinite;
+  border: 1px solid #616161; /* Destaque com cor */
+}
+
+@keyframes pulsar {
+  0%, 100% {
+    box-shadow: 0 0 15px #616161;
+  }
+  50% {
+    box-shadow: 0 0 30px #616161;
+  }
+}
+
 .investimentos .card2 {
   width: 50%;
   background: #fff;
