@@ -63,6 +63,8 @@ function atualizarKPIs(caixaId) {
     .catch((error) => console.error("Erro ao calcular KPIs:", error));
 }
 
+
+
 document
   .getElementById("caixaSelect")
   .addEventListener("change", function () {
@@ -152,7 +154,7 @@ function inicializarGraficos() {
       },
       dataLabels: {
         enabled: true,
-        formatter: (val, opts) => `${val.toFixed(0)}%`,
+        formatter: (val) => `${val.toFixed(1)}%`,
       },
     }
   );
@@ -195,33 +197,8 @@ function capturarDados(caixaId) {
   atualizarGraficos();
   clearInterval(window.graficoInterval);
   window.graficoInterval = setInterval(atualizarGraficos, 5000);
+  window.graficoInterval = setInterval(atualizarKPIs, 5000);
 }
-
-document.addEventListener("DOMContentLoaded", function () {
-  fetch("/caixas/listarCaixasTabela")
-    .then((response) => response.json())
-    .then((data) => {
-      const tbody = document
-        .getElementById("caixasTable")
-        .getElementsByTagName("tbody")[0];
-      data.forEach((caixa) => {
-        const row = document.createElement("tr");
-
-        // Insira cada coluna com os valores do banco de dados
-        row.innerHTML = `
-                      <td>${caixa.nomeEquipamento}</td>
-                      <td>${caixa.memoriaPercentMinima}</td>
-                      <td>${caixa.memoriaPercentMaxima}</td>
-                      <td>${caixa.processadorPercentMinimo}</td>
-                      <td>${caixa.processadorPercentMaximo}</td>
-                  `;
-        tbody.appendChild(row);
-      });
-    })
-    .catch((error) =>
-      console.error("Erro ao buscar dados dos caixas:", error)
-    );
-});
 
 let chartDowntime;
 
@@ -256,7 +233,7 @@ function atualizarGraficoDowntime(caixaId) {
       ]);
   
       chartDowntime.updateOptions({
-          labels: ["Downtime (h)", "Uptime (h)"],
+          labels: ["Downtime (m)", "Uptime (m)"],
       });
   })
   .catch((error) => console.error("Erro ao calcular downtime:", error));
