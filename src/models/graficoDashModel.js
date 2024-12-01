@@ -11,7 +11,7 @@ function mostrarDados(caixaId) {
         FROM Registro 
         WHERE fkCaixa = ${caixaId} 
         ORDER BY dtHora DESC 
-        LIMIT 30
+        LIMIT 15
     `;
     return database.executar(instrucaoSql);
 }
