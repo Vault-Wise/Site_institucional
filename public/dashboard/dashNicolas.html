@@ -74,8 +74,14 @@
 
                         <div class="cardParte4">
                             <div class="periodos">
+                                <span class="cardSpan">Madrugada</span>
+                                <span class="cardSpanDestaque" id="qtd_madrugada">x <div class="espacamento">alertas</div>
+                                </span>
+                            </div>
+                            <div class="borda"></div>
+                            <div class="periodos">
                                 <span class="cardSpan">Manhã</span>
-                                <span class="cardSpanDestaque" id="qtd_manha">43 <div class="espacamento">alertas</div>
+                                <span class="cardSpanDestaque" id="qtd_manha">x <div class="espacamento">alertas</div>
                                 </span>
                             </div>
                             <div class="borda"></div>
@@ -690,6 +696,7 @@
         var qtd_manha = document.getElementById("qtd_manha");
         var qtd_tarde = document.getElementById("qtd_tarde");
         var qtd_noite = document.getElementById("qtd_noite");
+        var qtd_madrugada = document.getElementById("qtd_madrugada");
 
         // COLOCAR O RESULTADO NA KPI
         fetch(`/agencia/alertaHorario/${agencias}/${anos}`, {
@@ -721,6 +728,14 @@
                             qtd_noite.innerHTML = `0 alertas`
                         } else {
                             qtd_noite.innerHTML = `${agencia.noite} alertas`
+                        }
+
+                        if (agencia.madrugada == 1) {
+                            qtd_madrugada.innerHTML = `${agencia.noite} alerta`
+                        } else if (agencia.madrugada == 0) {
+                            qtd_madrugada.innerHTML = `0 alertas`
+                        } else {
+                            qtd_madrugada.innerHTML = `${agencia.noite} alertas`
                         }
 
                         var allOptions = select_agencia.querySelectorAll('option');
