@@ -344,12 +344,12 @@
                         console.log("Diferença da Média e Dezembro: " + (ultimo_mes_previsto - media23.toFixed(2)))
 
                         var diferenca = ultimo_mes_previsto - media23.toFixed(2);
-                        
+
                         var num_previsao = Number(previsao24.toFixed(2)) + Number(diferenca.toFixed(2));
 
                         var proximoMesIndex = arrayDados2024CPU.length;
                         var proximoMes = meses[proximoMesIndex] || `janeiro de 2025`;
-                        previsaoElemento.innerHTML = `Previsão de ${componente} em ${proximoMes} é de aproximadamente: <b>${num_previsao}%</b>`
+                        previsaoElemento.innerHTML = `Previsão de ${componente} em ${proximoMes} é de aproximadamente: <b>${num_previsao.toFixed(2)}%</b>`
 
                     } else if (componente == "RAM") {
                         var soma24 = 0;
@@ -369,12 +369,12 @@
                         console.log("Diferença da Média e Dezembro: " + (ultimo_mes_previsto - media23.toFixed(2)))
 
                         var diferenca = ultimo_mes_previsto - media23.toFixed(2);
-                        
+
                         var num_previsao = Number(previsao24.toFixed(2)) + Number(diferenca.toFixed(2));
 
                         var proximoMesIndex = arrayDados2024CPU.length;
                         var proximoMes = meses[proximoMesIndex] || `janeiro de 2025`;
-                        previsaoElemento.innerHTML = `Previsão de ${componente} em ${proximoMes} é de aproximadamente: <b>${num_previsao}%</b>`
+                        previsaoElemento.innerHTML = `Previsão de ${componente} em ${proximoMes} é de aproximadamente: <b>${num_previsao.toFixed(2)}%</b>`
 
                     }
 
@@ -401,6 +401,9 @@
                     var options = {
                         chart: {
                             type: "bar",
+                            animations: {
+                                enabled: false 
+                            }
                         },
                         series: serieData,
                         xaxis: {
@@ -500,6 +503,9 @@
                     var options2 = {
                         chart: {
                             type: "bar",
+                            animations: {
+                                enabled: false 
+                            }
                         },
                         series: serieData,
                         xaxis: {
@@ -735,6 +741,10 @@
     }
 
     setInterval(buscarAgencia, 5000);
+    setInterval(VisuAlertaHorario, 5000);
+    setInterval(dadosGrafico, 5000);
+    setInterval(dadosGrafico2, 5000);
+
 
     function agenciaSelecionadaAtual() {
 
