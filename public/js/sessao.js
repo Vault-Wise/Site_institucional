@@ -35,8 +35,8 @@ function validarSessao() {
       </li>
       <li>
         <a id="dashNicolas" href="dashNicolas.html">
-         <i class="fa-solid fa-heart"></i>
-          <span>Alerta</span></a>
+          <i class="fa-solid fa-triangle-exclamation"></i>
+          <span>Desempenho</span></a>
       </li>
       <li>
           <a id="configuracao" href="CadastroAgencia.html">
