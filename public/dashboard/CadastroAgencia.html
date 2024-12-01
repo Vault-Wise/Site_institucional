@@ -177,20 +177,23 @@
   }
 
   function selecionarAgencia() {
-    fetch("/agencia/listar", {
-      method: "GET",
-    })
-      .then(function (resposta) {
-        resposta.json().then((agencia) => {
-          agencia.forEach((agencia) => {
-            select_agencia.innerHTML += `<option value="${agencia.idAgencia}">Agência ${agencia.idAgencia}</option>`
-          });
-        });
-      })
-      .catch(function (resposta) {
-        console.log(`#ERRO: ${resposta}`);
-      });
-  }
+        fetch(`/agencia/listar`, {
+            method: "GET",
+        })
+            .then(function (resposta) {
+                resposta.json().then((dados) => {
+
+                    dados.agencias.forEach((agencia) => {
+                        if (!document.querySelector(`#select_agencia option[value="${agencia.idAgencia}"]`)) {
+                            select_agencia.innerHTML += `<option value="${agencia.idAgencia}">Agência ${agencia.idAgencia}</option>`;
+                        }
+                    });
+                });
+            })
+            .catch(function (resposta) {
+                console.log(`#ERRO: ${resposta}`);
+            });
+    }
 
   function selecionarMaquina() {
     fetch("/agencia/listarMaquina", {
