@@ -8,7 +8,16 @@ function capturarPIDs(req, res) {
     });
 }
 
+function capturarRede(req, res) {
+    var fkCaixa = req.params.fkCaixa
+
+    dashPassiniModel.capturarRede(fkCaixa).then((resultado) => {
+        res.status(200).json(resultado);
+    });
+}
+
 
 module.exports = {
-    capturarPIDs
+    capturarPIDs,
+    capturarRede
 };

@@ -41,8 +41,8 @@
           <h2>Componentes</h2>
         </div>
         <div class="graficos">
-          <div id="chartRedeEnvio" class="graficoUm">Grafico Rede <br> Recebimento</div>
-          <div id="chartRedeRecebimento" class="graficoDois"> Grafico Rede <br> Envio</div>
+          <div id="chartRedeUpload" class="graficoUm">Grafico Rede <br> Recebimento</div>
+          <div id="chartRedeDownload" class="graficoDois"> Grafico Rede <br> Envio</div>
         </div>
 
 
@@ -145,10 +145,78 @@
       });
   });
 
+  const optionsUpload = {
+  series: [{ name: "Upload", data: [] }],
+  chart: {
+    height: 250,
+    type: 'line',
+    zoom: {
+      enabled: false
+    }
+  },
+  dataLabels: {
+    enabled: false
+  },
+  stroke: {
+    curve: 'straight'
+  },
+  title: {
+    text: 'Velocidade de Upload',
+    align: 'left'
+  },
+  grid: {
+    row: {
+      colors: ['#f3f3f3', 'transparent'], // Alterna cores das linhas
+      opacity: 0.5
+    },
+  },
+  xaxis: {
+    categories: [] // Será preenchido com os horários
+  }
+};
+
+// Configuração inicial do gráfico de Download
+const optionsDownload = {
+  series: [{ name: "Download", data: [] }],
+  chart: {
+    height: 250,
+    type: 'line',
+    zoom: {
+      enabled: false
+    }
+  },
+  dataLabels: {
+    enabled: false
+  },
+  stroke: {
+    curve: 'straight'
+  },
+  title: {
+    text: 'Velocidade de Download',
+    align: 'left'
+  },
+  grid: {
+    row: {
+      colors: ['#f3f3f3', 'transparent'], // Alterna cores das linhas
+      opacity: 0.5
+    },
+  },
+  xaxis: {
+    categories: [] // Será preenchido com os horários
+  }
+};
+
+// Renderiza os gráficos
+const chartUpload = new ApexCharts(document.querySelector("#chartRedeUpload"), optionsUpload);
+const chartDownload = new ApexCharts(document.querySelector("#chartRedeDownload"), optionsDownload);
+
+chartUpload.render();
+chartDownload.render();
+
   function carregarDados() {
             const fkCaixa = 1;  // Substitua isso pelo valor de fkCaixa que você deseja consultar
 
-            fetch(`http://localhost:3333/dashPassini2/capturaPIDs/${fkCaixa}`)  // Chama a API com o fkCaixa
+            fetch(`http://localhost:3333/dashPassini2/capturarPIDs/${fkCaixa}`)  // Chama a API com o fkCaixa
                 .then(response => response.json())  // Converte a resposta para JSON
                 .then(data => {
                     // Aqui você insere os dados na tabela
@@ -171,77 +239,59 @@
                 });
         }
 
+        function carregarDadosRede() {
+  const fkCaixa = 1;  // Substitua isso pelo valor de fkCaixa que você deseja consultar
+
+  fetch(`http://localhost:3333/dashPassini2/capturarRede/${fkCaixa}`)
+    .then(response => response.json())
+    .then(data => {
+      const categories = [];
+      const upload = [];
+      const download = [];
+
+      // Preencher as categorias e dados de upload/download
+      data.forEach((item, index) => {
+        categories.push(`13:${35 + index}:00`); // Gerando horários fictícios (ajuste conforme necessário)
+        upload.push(parseFloat(item.velocidadeUpload));
+        download.push(parseFloat(item.velocidadeDownload));
+      });
+
+      // Atualiza o gráfico de Upload
+      chartUpload.updateOptions({
+        xaxis: {
+          categories: categories  // Horários (eixo X)
+        },
+        series: [{
+          name: "Upload",
+          data: upload  // Dados de upload
+        }]
+      });
+
+      // Atualiza o gráfico de Download
+      chartDownload.updateOptions({
+        xaxis: {
+          categories: categories  // Horários (eixo X)
+        },
+        series: [{
+          name: "Download",
+          data: download  // Dados de download
+        }]
+      });
+    })
+    .catch(error => {
+      console.error('Erro ao buscar os dados:', error);
+    });
+}
+
         // Chama a função para carregar os dados quando a página for carregada
-        window.onload = carregarDados;
+       window.onload = function() {
+    carregarDados();  // Carrega os dados para a tabela
+    carregarDadosRede();  // Carrega os dados para os gráficos
+};
 
-  var options = {
-    series: [{
-      name: "Desktops",
-      data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
-    }],
-    chart: {
-      height: 250,
-      type: 'line',
-      zoom: {
-        enabled: false
-      }
-    },
-    dataLabels: {
-      enabled: false
-    },
-    stroke: {
-      curve: 'straight'
-    },
-    title: {
-      align: 'left'
-    },
-    grid: {
-      row: {
-        colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
-        opacity: 0.5
-      },
-    },
-    xaxis: {
-      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
-    }
-  };
 
-  var chart = new ApexCharts(document.querySelector("#chartRedeEnvio"), options);
-  chart.render();
+      
 
-  var options = {
-    series: [{
-      name: "Desktops",
-      data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
-    }],
-    chart: {
-      height: 250,
-      type: 'line',
-      zoom: {
-        enabled: false
-      }
-    },
-    dataLabels: {
-      enabled: false
-    },
-    stroke: {
-      curve: 'straight'
-    },
-    title: {
-      align: 'left'
-    },
-    grid: {
-      row: {
-        colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
-        opacity: 0.5
-      },
-    },
-    xaxis: {
-      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
-    }
-  };
 
-  var chart = new ApexCharts(document.querySelector("#chartRedeRecebimento"), options);
-  chart.render();
 
 </script>
