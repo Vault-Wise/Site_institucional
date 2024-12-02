@@ -129,7 +129,9 @@ chartDownload.render();
                 });
         }
 
-        function carregarDadosRede() {
+        const intervaloDeAtualizacao = 5000;  // 5 segundos
+
+function carregarDadosRede() {
   const fkCaixa = 1;  // Substitua isso pelo valor de fkCaixa que você deseja consultar
 
   fetch(`http://localhost:3333/dashPassini2/capturarRede/${fkCaixa}`)
@@ -172,6 +174,12 @@ chartDownload.render();
       console.error('Erro ao buscar os dados:', error);
     });
 }
+
+// Chama a função inicialmente
+carregarDadosRede();
+
+// Atualiza os dados a cada 5 segundos
+setInterval(carregarDadosRede, intervaloDeAtualizacao);
 
         // Chama a função para carregar os dados quando a página for carregada
        window.onload = function() {
