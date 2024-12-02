@@ -486,14 +486,28 @@ sub {
     z-index: 1000;
 }
 
+.containerBlur {
+    display: flex;
+    flex-direction: column;
+    height: 40%;
+    width: 40%;
+    gap: 3%;
+}
+
 .loader {
     border: 10px solid #f3f3f3;
     border-top: 10px solid #2877c7;
     border-radius: 50%;
     width: 80px;
     height: 80px;
-    animation: spin 1s linear infinite;
-    /* Roda continuamente */
+    animation: spin 1s ease-in-out infinite;
+    
+}
+
+#percentual {
+    font-size: 30px;
+    margin-left: 0.5%;
+    color: #fff;
 }
 
 /* Animação de rotação */

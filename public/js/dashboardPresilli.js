@@ -20,7 +20,6 @@ let nomeEquipamento = "note-presilli"
 
 const blur2 = document.getElementById('blur2');
 
-
 var conversa = []
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -53,7 +52,7 @@ function capturarMaquinas() {
             resposta.json().then((maquinasCadastradas) => {
                 maquinasCadastradas.forEach(maquina => {
                     select_maquina.innerHTML += `
-                    <option value="${maquina.idCaixa}">
+                    <option select value="${maquina.idCaixa}">
                     ${maquina.nomeEquipamento}</option>
                     `
                 })
@@ -1419,6 +1418,8 @@ async function gerarRelatorio() {
     // fazerCarregamento();
     blur2.style.display = 'flex';
     
+    await atualizarProgresso(10);
+
     const graficoLinha = document.querySelector("#graficoLinha");
     const tabelaProcessos = document.querySelector("#tabelaProcessos");
     const variacao = document.querySelector("#variacao");
@@ -1548,6 +1549,8 @@ async function gerarRelatorio() {
     var perguntaGrafico;
     var perguntaVariacao;
     var perguntaProcesso;
+    
+    await atualizarProgresso(20);
 
     if (checkGrafico.checked) {
         contentPage +=
@@ -1649,6 +1652,8 @@ async function gerarRelatorio() {
             - Quebre o texto em diferentes parágrafos <p> para cada ponto de análise.
             - Utilize HTML simples e bem estruturado.`;
     }
+    
+    await atualizarProgresso(30);
 
     var perguntaTodas = "";
 
@@ -1663,6 +1668,8 @@ async function gerarRelatorio() {
         perguntaTodas += perguntaProcesso;
     }
 
+    await atualizarProgresso(45);
+
     if (perguntaVariacao) {
         if (perguntaTodas) {
             perguntaTodas += " Além disso, ";
@@ -1670,6 +1677,7 @@ async function gerarRelatorio() {
         perguntaTodas += perguntaVariacao;
     }
 
+    await atualizarProgresso(65);
 
     const resposta = await gerarResposta(perguntaTodas);
 
@@ -1680,12 +1688,24 @@ async function gerarRelatorio() {
         <sub>**Textos que foram gerados com IA </sub>
         `;
 
-    
+    await atualizarProgresso(80);
+
     contentPage += `</div>`
-    
+
     await finalizarPDF(coverPage, contentPage, customStyles)
+    await atualizarProgresso(100);
 
     blur2.style.display = 'none';
+}
+
+async function atualizarProgresso(porcentagem) {
+    const percentual = document.getElementById("percentual");
+    const valorAtual = parseInt(percentual.innerText, 10); // Obtém o valor atual como número
+
+    for (let i = valorAtual; i <= porcentagem; i++) {
+        percentual.innerHTML = `${i} %`;
+        await new Promise(resolve => setTimeout(resolve, 20)); // Pequeno atraso para suavizar
+    }
 }
 
 
@@ -1708,7 +1728,6 @@ function removerCarregamento() {
 }
 
 async function fazerCarregamento() {
-    console.log("Exibindo")
     blur2.style.display = 'block';
 }
 
