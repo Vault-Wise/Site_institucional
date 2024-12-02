@@ -33,17 +33,47 @@
 .titulo select {
     padding: 10px 25px;
     font-size: 20px;
-    background-color: #0f1923;
-    color: #ffffff;
-    border: 1px solid #007bff;
+    background-color: #000;
+    color: #fff;
+    border: 1px solid #fff;
     border-radius: 5px;
     cursor: pointer;
     outline: none;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .titulo select:hover {
-    background-color: #1a2532;
+    background-color: #fff;
+    color: #000;
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
+
+.titulo select:focus {
+    outline: 2px solid #982727;
+    background-color: #333;
+    color: #fff;
+    box-shadow: 0 0 10px rgba(152, 39, 39, 0.7);
+}
+
+.titulo select option {
+    background-color: #000;
+    color: #fff;
+    padding: 10px;
+    border: none;
+}
+
+.titulo select::-ms-expand {
+    display: none;
+}
+
+.titulo select option:hover {
+    background-color: #982727;
+    color: #fff;
+    font-weight: bold;
+}
+
 
 
 .titulo select:active {
@@ -462,7 +492,8 @@ sub {
     border-radius: 50%;
     width: 80px;
     height: 80px;
-    animation: spin 1s linear infinite; /* Roda continuamente */
+    animation: spin 1s linear infinite;
+    /* Roda continuamente */
 }
 
 /* Animação de rotação */
@@ -470,6 +501,7 @@ sub {
     0% {
         transform: rotate(0deg);
     }
+
     100% {
         transform: rotate(360deg);
     }

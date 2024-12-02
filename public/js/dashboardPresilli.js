@@ -1595,9 +1595,8 @@ async function gerarRelatorio() {
                 3. Resuma o estado geral da máquina no período especificado.
                             
                 Formate a resposta em HTML colocando a premissa que já estão dentro do body com os seguintes estilos:
-                
                 - Use um título de nível <h2> para introduzir a análise do gráfico
-                
+                - Não coloque um rótulo na análise, exemplo **Análise do Gráfico**, APENAS as tags HTML
                 - Justifique o texto e o div deve começar alinhado à esquerda.
                 - Quebre o texto em diferentes parágrafos <p> para cada ponto de análise.
                 - Utilize HTML simples e bem estruturado.`
@@ -1619,9 +1618,8 @@ async function gerarRelatorio() {
                 3. Sugira possíveis ações corretivas ou preventivas para otimizar o desempenho.
 
                 Formate a resposta em HTML colocando a premissa que já estão dentro do body com os seguintes estilos:
-                
                 - Use um título de nível <h2> para introduzir a análise dos processos
-    
+                - Não coloque um rótulo na análise, exemplo **Análise dos Processos**, APENAS as tags HTML 
                 - Justifique o texto e o div deve começar alinhado à esquerda.
                 - Quebre o texto em diferentes parágrafos <p> para cada ponto de análise.
                 - Utilize HTML simples e bem estruturado.
@@ -1645,8 +1643,8 @@ async function gerarRelatorio() {
             3. Resuma os impactos gerais dessas variações para o desempenho da máquina.
 
             Formate a resposta em HTML colocando a premissa que já estão dentro do body com os seguintes estilos:
-            
-            Use um título de nível <h2> para introduzir a análise da variação
+            - Use um título de nível <h2> para introduzir a análise da variação
+            - Não coloque um rótulo na análise, exemplo **Análise da Variação**, APENAS as tags HTML
             - Justifique o texto e o div deve começar alinhado à esquerda.
             - Quebre o texto em diferentes parágrafos <p> para cada ponto de análise.
             - Utilize HTML simples e bem estruturado.`;
