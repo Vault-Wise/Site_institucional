@@ -15,6 +15,9 @@
 
   <script src="../js/sessao.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.22/jspdf.plugin.autotable.min.js"></script>
+
 </head>
 
 <body>
@@ -38,6 +41,7 @@
     </nav>
 
     <div class="container">
+
       <div class="header">
 
         <div class="machine-card">
@@ -51,7 +55,7 @@
         </div>
 
         <div class="card card-ultima-falha">
-          <h3>ÚLTIMA FALHA CRITÍCA</h3>
+          <h3>ÚLTIMA FALHA CRITICA</h3>
           <div class="info">
             <div>
               <p><strong>Data</strong></p>
@@ -80,7 +84,7 @@
           </div>
         </div>
 
-
+        <div class="overlay" id="overlay"></div>
 
         <div id="historicoCard" class="card-historico" style="display: none;">
           <div class="card-header">
@@ -100,6 +104,7 @@
               </tbody>
             </table>
           </div>
+          <button id="dowload-pdf">Dowload</button>
         </div>
 
       </div>
@@ -399,4 +404,19 @@
   window.onload = atualizarTotalMaquinas();
   window.onload = alertasUltimoDia();
   window.onload = ultimoCritico();
+
+
+
+  // Abrir histórico
+  function abrirHistorico() {
+    document.getElementById("overlay").style.display = "block";
+    document.getElementById("card-historico").style.display = "block";
+  }
+
+  // Fechar histórico
+  function fecharHistorico() {
+    document.getElementById("overlay").style.display = "none";
+    document.getElementById("card-historico").style.display = "none";
+  }
+
 </script>

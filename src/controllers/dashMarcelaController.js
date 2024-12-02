@@ -57,7 +57,6 @@ function totalMaquinas(req, res){
     })
 } 
 
- 
 function alertasUltimaDia(req, res){
     dashMarcelaModel.getAlertasUltimoDia()
     .then(resultado => res.status(200).json(resultado))
