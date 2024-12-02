@@ -1,4 +1,4 @@
-services:
+cd services:
   site:
       image: nicolasrslopes/projeto_principal:v1.0
       ports:

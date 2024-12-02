@@ -58,11 +58,13 @@
   justify-content: space-evenly;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   margin-bottom: 5%;
+  margin-left: 2%;
 }
 
 .titulo {
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
+  margin-bottom: 15px;
 }
 .titulo h1{
   font-size: 25px;
@@ -72,6 +74,58 @@
 .campos {
   display: flex;
 }
+
+
+.campos button, input{
+  width: 10em;
+  position: relative;
+  height: 3.5em;
+  border: 3px ridge #0f1923;
+  outline: none;
+  background-color: transparent;
+  color: black;
+  transition: 1s;
+  border-radius: 0.3em;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.campos input{
+  margin-right: 30px;
+}
+.campos button::after {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: 3%;
+  width: 95%;
+  height: 40%;
+  background-color: transparent;
+  transition: 0.5s;
+  transform-origin: center;
+}
+
+.campos button::before {
+  content: "";
+  transform-origin: center;
+  position: absolute;
+  top: 80%;
+  left: 3%;
+  width: 95%;
+  height: 40%;
+  background-color: transparent;
+  transition: 0.5s;
+}
+
+.campos button:hover::before, .campos button:hover::after {
+  transform: scale(0)
+}
+
+.campos button:hover {
+  box-shadow: inset 0px 0px 25px #0f1923;
+}
+
 
 .input {
   width: 100%;
@@ -148,4 +202,18 @@ table tr:hover td {
 table th {
   background-color: black;
   color: white;
+}
+
+.tabela {
+  display: flex;
+  flex-direction: column;
+  width: 40vw;
+  height: 35vh;
+  background: #FFF;
+  border-radius: 10px;
+  align-items: center;
+  justify-content: space-evenly;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  margin-bottom: 5%;
+  margin-left: 2%;
 }
