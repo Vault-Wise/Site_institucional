@@ -10,7 +10,7 @@ function mostrarDados(caixaId) {
             velocidadeDownload 
         FROM Registro 
         WHERE fkCaixa = ${caixaId} 
-        ORDER BY dtHora ASC 
+        ORDER BY dtHora DESC
         LIMIT 15
     `;
     return database.executar(instrucaoSql);
