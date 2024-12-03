@@ -233,5 +233,6 @@ table th {
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   margin-bottom: 5%;
   margin-left: 2%;
+  overflow-y: auto;
 }
 
