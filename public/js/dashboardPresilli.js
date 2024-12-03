@@ -1686,6 +1686,7 @@ async function gerarRelatorio() {
         `
         ${resposta}
         <br><br><br><br>
+        <img src="../css//imagens/bob_camisa.png" style="height: 40px"> 
         <sub>**Textos que foram gerados com IA </sub>
         `;
 
