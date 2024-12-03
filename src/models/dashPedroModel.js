@@ -1,5 +1,8 @@
 var database = require("../database/config");
 
+
+
+
 function listar() {
   var instrucaoSql1 = `SELECT idAgencia FROM Agencia`;
   var instrucaoSql2 = `SELECT DISTINCT YEAR(dtHora) AS anoAtual FROM Registro`;
@@ -14,6 +17,8 @@ function listar() {
 }
 
 
+
+
 function buscarAgencia(agencia, ano, mes) {
   var instrucaoSql = `
   SELECT fkAgencia, COUNT(idAlerta) AS totalAlertas, cep, numero 
@@ -25,6 +30,9 @@ function buscarAgencia(agencia, ano, mes) {
   `;
   return database.executar(instrucaoSql, [agencia, ano, mes]);
 }
+
+
+
 
 function alertaMes(agencia, ano, mes) {
   var instrucaoSql = `
@@ -41,10 +49,11 @@ function alertaMes(agencia, ano, mes) {
 }
 
 
+
+
+
 module.exports = {
   listar,
   buscarAgencia,
   alertaMes
 };
-
-
