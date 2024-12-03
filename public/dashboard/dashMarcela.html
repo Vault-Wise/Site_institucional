@@ -271,7 +271,7 @@
       });
   }
 
-    setInterval(carregaTabela, 2000)
+    setInterval(carregaTabela, 1000)
 
   // Função para filtrar a tabela com base no tipo selecionado
   function filtrarTabelaPorTipo(tipoSelecionado) {
@@ -358,7 +358,7 @@
       });
   }
 
-  // setInterval(alertasUltimoDia, 2000)
+  setInterval(alertasUltimoDia, 2000)
 
   function ultimoCritico() {
     fetch(`/marcelaRouter/ultimoCritico/`)
@@ -386,7 +386,7 @@
       });
   }
 
-   setInterval(ultimoCritico, 2000)
+   setInterval(ultimoCritico, 1000)
 
   function exibirHistorico() {
     fetch('/marcelaRouter/historicoPerigo/') // Substitua com a rota correta
