@@ -11,7 +11,7 @@ router.get("/capturarDadosTempoReal/:fkCaixa", function (req, res) {
     dashPresilliController.capturarDadosTempoReal(req, res)
 });
 
-router.get("/capturarMaquinas/:idAgencia", function (req, res) {
+router.get("/capturarMaquinas", function (req, res) {
     dashPresilliController.capturarMaquinas(req, res)
 });
 

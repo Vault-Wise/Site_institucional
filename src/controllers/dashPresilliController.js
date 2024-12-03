@@ -18,9 +18,7 @@ function capturarDadosTempoReal(req, res) {
 }
 
 function capturarMaquinas(req, res) {
-    var idAgencia = req.params.idAgencia
-
-    dashPresilliModel.capturarMaquinas(idAgencia).then((resultado) => {
+    dashPresilliModel.capturarMaquinas().then((resultado) => {
         res.status(200).json(resultado);
     });
 }

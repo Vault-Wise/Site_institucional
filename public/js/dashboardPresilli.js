@@ -16,7 +16,7 @@ let intervaloTempoRealProcesso;
 let chart;
 
 let idMaquina = 1;
-let nomeEquipamento = "note-presilli"
+let nomeEquipamento;
 
 const blur2 = document.getElementById('blur2');
 
@@ -45,7 +45,7 @@ function alternarDashboards() {
 }
 
 function capturarMaquinas() {
-    fetch(`/dashPresilli/capturarMaquinas/${1}`, {
+    fetch(`/dashPresilli/capturarMaquinas`, {
         method: "GET",
     })
         .then(function (resposta) {
@@ -55,6 +55,7 @@ function capturarMaquinas() {
                     <option select value="${maquina.idCaixa}">
                     ${maquina.nomeEquipamento}</option>
                     `
+                    nomeEquipamento = maquina.nomeEquipamento;
                 })
             });
         })
@@ -1700,11 +1701,11 @@ async function gerarRelatorio() {
 
 async function atualizarProgresso(porcentagem) {
     const percentual = document.getElementById("percentual");
-    const valorAtual = parseInt(percentual.innerText, 10); // Obtém o valor atual como número
+    const valorAtual = parseInt(percentual.innerText, 10);
 
     for (let i = valorAtual; i <= porcentagem; i++) {
         percentual.innerHTML = `${i} %`;
-        await new Promise(resolve => setTimeout(resolve, 20)); // Pequeno atraso para suavizar
+        await new Promise(resolve => setTimeout(resolve, 20));
     }
 }
 

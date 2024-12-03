@@ -20,10 +20,9 @@ function capturarDadosTempoReal(fkCaixa) {
     return database.executar(instrucaoSql);
 }
 
-function capturarMaquinas(fkAgencia) {
+function capturarMaquinas() {
     var instrucaoSql = `
-    SELECT * 
-    FROM CaixaEletronico WHERE fkAgencia = ${fkAgencia};
+    SELECT * FROM CaixaEletronico;
     `;
 
     return database.executar(instrucaoSql);
