@@ -1771,8 +1771,3 @@ async function capturarChave() {
         return null; // Retorna null ou outro valor em caso de erro
     }
 }
-
-// Exemplo de uso da função
-capturarChave().then((chave) => {
-    console.log("Chave capturada:", chave);
-});
