@@ -37,7 +37,7 @@ document.getElementById('finalizarBtn').addEventListener('click', () => {
   }
 
   // Enviar uma requisição para o backend (API Node.js)
-  fetch(`http://localhost:3333/dashPassini/rota/${pid}`)
+  fetch(`/dashPassini/rota/${pid}`)
     // http://localhost:3333/matar-processo/${pid}
     .then(response => response.text())
     .then(data => {
@@ -118,7 +118,7 @@ chartUpload.render();
 chartDownload.render();
 function carregarDados() {
   let fkCaixa = Servidor;  // Substitua isso pelo valor de fkCaixa que você deseja consultar
-  fetch(`http://localhost:3333/dashPassini2/capturarPIDs/${fkCaixa}`)  // Chama a API com o fkCaixa
+  fetch(`/dashPassini2/capturarPIDs/${fkCaixa}`)  // Chama a API com o fkCaixa
     .then(response => response.json())  // Converte a resposta para JSON
     .then(data => {
       // Aqui você insere os dados na tabela
@@ -147,7 +147,7 @@ const intervaloDeAtualizacao = 5000;  // 5 segundos
 function carregarDadosRede() {
   var fkCaixa = Servidor;  // Substitua isso pelo valor de fkCaixa que você deseja consultar
 
-  fetch(`http://localhost:3333/dashPassini2/capturarRede/${fkCaixa}`)
+  fetch(`/dashPassini2/capturarRede/${fkCaixa}`)
     .then(response => response.json())
     .then(data => {
       const categories = [];
