@@ -2,7 +2,7 @@ var database = require("../database/config");
 
 function capturarPIDs(fkCaixa) {
     var instrucaoSql = `
-        SELECT 
+       SELECT 
     PID.idPID, 
     PID.numeroPID, 
     PID.nivelAmeaca, 
@@ -10,16 +10,22 @@ function capturarPIDs(fkCaixa) {
     PID.fkRegistro, 
     PID.fkCaixa,
     Processo.nome AS nomeProcesso
-    FROM 
+FROM 
     PID
-    JOIN 
+JOIN 
     Processo 
     ON 
-    PID.fkProcesso = Processo.idProcesso 
-    AND PID.fkRegistro = Processo.fkRegistro 
-    AND PID.fkCaixa = Processo.fkCaixa
-    WHERE 
-    PID.fkCaixa = ${fkCaixa};
+        PID.fkProcesso = Processo.idProcesso 
+        AND PID.fkRegistro = Processo.fkRegistro 
+        AND PID.fkCaixa = Processo.fkCaixa
+JOIN 
+    Registro 
+    ON 
+        PID.fkRegistro = Registro.idRegistro
+WHERE 
+    PID.fkCaixa = ${fkCaixa}
+    AND Registro.dtHora >= NOW() - INTERVAL 1 MINUTE;
+
 
     `;
 
