@@ -64,10 +64,19 @@ function capturaProcessosIntervalo(fkCaixa, intervalo) {
     return database.executar(instrucaoSql);
 }
 
+function capturarChave() {
+    var instrucaoSql = `
+    SELECT * FROM ChaveGemini;
+   `;
+
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     capturarInformacoes,
     capturarDadosTempoReal,
     capturarMaquinas,
     capturaProcessosTempoReal,
-    capturaProcessosIntervalo
+    capturaProcessosIntervalo,
+    capturarChave
 };

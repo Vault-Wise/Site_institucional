@@ -42,10 +42,17 @@ function capturaProcessosIntervalo(req, res) {
     });
 }
 
+function capturarChave(req, res) {
+    dashPresilliModel.capturarChave().then((resultado) => {
+        res.status(200).json(resultado)
+    });
+}
+
 module.exports = {
     capturarInformacoes,
     capturarDadosTempoReal,
     capturarMaquinas,
     capturaProcessosTempoReal,
-    capturaProcessosIntervalo
+    capturaProcessosIntervalo,
+    capturarChave
 };

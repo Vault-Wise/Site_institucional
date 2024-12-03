@@ -1417,7 +1417,7 @@ async function gerarRelatorio() {
 
     // fazerCarregamento();
     blur2.style.display = 'flex';
-    
+    percentual.innerHTML = `1`
     await atualizarProgresso(10);
 
     const graficoLinha = document.querySelector("#graficoLinha");
@@ -1549,7 +1549,7 @@ async function gerarRelatorio() {
     var perguntaGrafico;
     var perguntaVariacao;
     var perguntaProcesso;
-    
+
     await atualizarProgresso(20);
 
     if (checkGrafico.checked) {
@@ -1652,7 +1652,7 @@ async function gerarRelatorio() {
             - Quebre o texto em diferentes parágrafos <p> para cada ponto de análise.
             - Utilize HTML simples e bem estruturado.`;
     }
-    
+
     await atualizarProgresso(30);
 
     var perguntaTodas = "";
@@ -1677,7 +1677,7 @@ async function gerarRelatorio() {
         perguntaTodas += perguntaVariacao;
     }
 
-    await atualizarProgresso(65);
+    await atualizarProgresso(60);
 
     const resposta = await gerarResposta(perguntaTodas);
 
@@ -1732,12 +1732,15 @@ async function fazerCarregamento() {
 }
 
 async function gerarResposta(pergunta) {
+    const chaveAPI = await capturarChave();
+    await atualizarProgresso(70);
+
     const response = await fetch('/perguntar', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ pergunta })
+        body: JSON.stringify({ pergunta, chaveAPI })
     });
 
     const data = await response.json();
@@ -1745,4 +1748,24 @@ async function gerarResposta(pergunta) {
     console.log("Resposta da API:", data)
 
     return data.resultado || "Nenhum resultado retornado";
+}
+
+
+async function capturarChave() {
+    try {
+        const resposta = await fetch(`/dashPresilli/capturarChave`, {
+            method: "GET",
+        });
+
+        if (!resposta.ok) {
+            throw new Error(`Erro ao obter chave: ${resposta.statusText}`);
+        }
+
+        const chaveAPI = await resposta.json();
+        
+        return chaveAPI[0].chave;
+    } catch (erro) {
+        console.log(`#ERRO: ${erro}`);
+        return null;
+    }
 }

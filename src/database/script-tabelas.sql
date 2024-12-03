@@ -96,6 +96,13 @@ CREATE TABLE Alerta (
     CONSTRAINT fkAlertaRegistro FOREIGN KEY (fkRegistro , fkCaixa) REFERENCES Registro (idRegistro , fkCaixa)  
 );
 
+CREATE TABLE ChaveGemini (
+	idChave INT PRIMARY KEY AUTO_INCREMENT,
+    chave VARCHAR(900)
+);
+
+INSERT INTO ChaveGemini VALUES (DEFAULT, 'AIzaSyBab9g59_JDt2uYNrxAoTn3tHOjqpN-f-g');
+
 CREATE VIEW dashPresilli AS 
 SELECT dtHora, percentMemoria, percentProcessador AS percentCPU, fkCaixa 
 FROM Registro;

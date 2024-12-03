@@ -11,7 +11,6 @@ var cors = require("cors");
 var path = require("path");
 var PORTA_APP = process.env.APP_PORT;
 var HOST_APP = process.env.APP_HOST;
-const chatIA = new GoogleGenerativeAI(process.env.MINHA_CHAVE);
 
 var app = express();
 
@@ -116,30 +115,32 @@ conversa.push(contexto)
 // rota para receber perguntas e gerar respostas
 app.post("/perguntar", async (req, res) => {
     const pergunta = req.body.pergunta;
+    const chave = req.body.chaveAPI;
 
     var perguntaFormat = `Usuario: ${pergunta}`
     conversa.push(perguntaFormat)
 
     try {
-        const resultado = await gerarResposta(conversa);
+        const resultado = await gerarResposta(conversa, chave);
         var resultadoFormat = `IA: ${resultado}`
         conversa.push(resultadoFormat)
-        res.json( { resultado } );
+        res.json({ resultado });
     } catch (error) {
         res.status(500).json({ error: 'Erro interno do servidor' });
     }
 
 });
 
-async function gerarResposta(mensagem) {
+async function gerarResposta(mensagem, chave) {
     // obtendo o modelo de IA
+    const chatIA = new GoogleGenerativeAI(chave);
     const modeloIA = chatIA.getGenerativeModel({ model: "gemini-pro" });
 
     try {
         // gerando conteúdo com base na pergunta
         const resultado = await modeloIA.generateContent(`${mensagem}`);
         const resposta = await resultado.response.text();
-        
+
         console.log(resposta);
 
         return resposta;
