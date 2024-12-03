@@ -130,7 +130,7 @@ chartDownload.render();
                         tr.innerHTML = `
                             <td>${item.idPID}</td>
                             <td>${item.numeroPID}</td>
-                            <td>${item.nomeProcesso}
+                            <td>${item.nomeProcesso}</td>
                             <td>${item.nivelAmeaca}</td>
                         `;
                         tabelaBody.appendChild(tr);  // Adiciona a linha na tabela
