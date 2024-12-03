@@ -1749,23 +1749,3 @@ async function gerarResposta(pergunta) {
 
     return data.resultado || "Nenhum resultado retornado";
 }
-
-
-async function capturarChave() {
-    try {
-        const resposta = await fetch(`/dashPresilli/capturarChave`, {
-            method: "GET",
-        });
-
-        if (!resposta.ok) {
-            throw new Error(`Erro ao obter chave: ${resposta.statusText}`);
-        }
-
-        const chaveAPI = await resposta.json();
-        
-        return chaveAPI[0].chave;
-    } catch (erro) {
-        console.log(`#ERRO: ${erro}`);
-        return null;
-    }
-}

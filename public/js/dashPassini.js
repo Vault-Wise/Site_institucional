@@ -13,6 +13,19 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  var Servidor = 1;
+  function escolherServidor() {
+    if (document.getElementById('select').value == "1") {
+      Servidor = 1;
+    }
+    else if (document.getElementById('select').value == "2" ){
+      Servidor = 2;
+    }
+
+    else if(document.getElementById('select').value == "3") {
+      Servidor = 3; 
+  }}
+
 document.getElementById('finalizarBtn').addEventListener('click', () => {
 
     const pid = document.getElementById('pidInput').value;
@@ -102,10 +115,8 @@ const chartDownload = new ApexCharts(document.querySelector("#chartRedeDownload"
 
 chartUpload.render();
 chartDownload.render();
-
   function carregarDados() {
-            const fkCaixa = 1;  // Substitua isso pelo valor de fkCaixa que você deseja consultar
-
+            let fkCaixa = Servidor;  // Substitua isso pelo valor de fkCaixa que você deseja consultar
             fetch(`http://localhost:3333/dashPassini2/capturarPIDs/${fkCaixa}`)  // Chama a API com o fkCaixa
                 .then(response => response.json())  // Converte a resposta para JSON
                 .then(data => {
@@ -132,7 +143,7 @@ chartDownload.render();
         const intervaloDeAtualizacao = 5000;  // 5 segundos
 
 function carregarDadosRede() {
-  const fkCaixa = 1;  // Substitua isso pelo valor de fkCaixa que você deseja consultar
+  var fkCaixa = Servidor;  // Substitua isso pelo valor de fkCaixa que você deseja consultar
 
   fetch(`http://localhost:3333/dashPassini2/capturarRede/${fkCaixa}`)
     .then(response => response.json())

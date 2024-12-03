@@ -108,6 +108,19 @@ function dadosGrafico2(req, res) {
     });
 }
 
+function dadosGrafico3(req, res) {
+  var agencia3 = req.params.agencias3;
+
+  agenciaModel.dadosGrafico3(agencia3)
+    .then(dados => {
+      res.status(200).json({ agencias: dados }); 
+    })
+    .catch(erro => {
+      console.error("Erro ao realizar o select da dashNicolas: ", erro);
+      res.status(500).json({ erro: "Erro ao realizar o select da dashNicolas." });
+    });
+}
+
 module.exports = {
   cadastrar,
   listar,
@@ -117,5 +130,6 @@ module.exports = {
   alertaHorario,
   agenciaSelecionadaAtual,
   dadosGrafico,
-  dadosGrafico2
+  dadosGrafico2,
+  dadosGrafico3
 };

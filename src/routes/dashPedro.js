@@ -4,17 +4,39 @@ var router = express.Router();
 
 var dasPedroController = require("../controllers/dasPedroController");
 
+// Lista agências e meses
 router.get("/listar", function (req, res) {
     dasPedroController.listar(req, res);
-})
+});
 
 
-router.get("/buscarAgencia/:agencias/:anos", function (req, res) {
-    dasPedroController.buscarAgencia(req, res);
-})
 
-router.get("/alertaMes", function (req, res) {
-    dasPedroController.alertaMes(req, res);
-})
+// Busca os dados de uma agência específica, para um ano e mês específicos
+router.get("/buscarAgencia/:agencia/:ano/:mes", function (req, res) {
+    dasPedroController.selecionarAgencia(req, res);
+});
 
+
+
+// Gráfico com base na agência e mês selecionados
+router.get("/graficoPzza/:agencia/:mes", function (req, res) {
+    dasPedroController.graficoPzza(req, res);
+});
+
+
+
+// Endpoints para outras tabelas (centro e canto)
+router.get("/tabelaCentro/:tabelaCentro", function (req, res) {
+    dasPedroController.tabelaCentro(req, res);
+});
+
+
+
+router.get("/tabelaCanto/:tabelaCanto", function (req, res) {
+    dasPedroController.tabelaCanto(req, res);
+});
+
+
+
+// Exportando as rotas
 module.exports = router;

@@ -66,7 +66,8 @@
   justify-content: center;
   margin-bottom: 15px;
 }
-.titulo h1{
+
+.titulo h1 {
   font-size: 25px;
   color: black;
 }
@@ -76,7 +77,24 @@
 }
 
 
-.campos button, input{
+.campos button {
+  width: 10em;
+  position: relative;
+  height: 3.5em;
+  border: 3px ridge #0f1923;
+  outline: none;
+  background-color: #0f1923;
+  color: white;
+  transition: 1s;
+  border-radius: 0.3em;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+
+.campos input {
+  margin-right: 30px;
   width: 10em;
   position: relative;
   height: 3.5em;
@@ -91,9 +109,6 @@
   cursor: pointer;
 }
 
-.campos input{
-  margin-right: 30px;
-}
 .campos button::after {
   content: "";
   position: absolute;
@@ -118,12 +133,13 @@
   transition: 0.5s;
 }
 
-.campos button:hover::before, .campos button:hover::after {
+.campos button:hover::before,
+.campos button:hover::after {
   transform: scale(0)
 }
 
 .campos button:hover {
-  box-shadow: inset 0px 0px 25px #0f1923;
+  box-shadow: inset 0px 0px 25px #fff;
 }
 
 
@@ -151,6 +167,7 @@
 .input:focus {
   border: 2px solid grey;
 }
+
 *::-webkit-scrollbar {
   width: 10px;
 }
@@ -216,4 +233,6 @@ table th {
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   margin-bottom: 5%;
   margin-left: 2%;
+  overflow-y: auto;
 }
+

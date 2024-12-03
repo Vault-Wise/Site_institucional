@@ -1,25 +1,6 @@
 const { response } = require("express");
 var dashMarcelaModel = require("../models/dashMarcelaModel")
 
-// const capturarInformacoes = async (req, res) => {
-//     try {
-//         // Chama a função que executa o SQL
-//         const resultado = await modelo.capturarInformacoes();
-
-//         // Retorna os dados obtidos como resposta JSON
-//         res.status(200).json({
-//             mensagem: 'Dados capturados com sucesso!',
-//             dados: resultado
-//         });
-//     } catch (erro) {
-//         // Trata erros durante a execução
-//         res.status(500).json({
-//             mensagem: 'Erro ao capturar as informações',
-//             erro: erro.message
-//         });
-//     }
-// };
-
 function capturarInformacoes(req, res){
     // const processoEscolhido = req.params.selectProcesso;  // Pegue o valor do parâmetro da URL
     // console.log('Processo escolhido:', processoEscolhido);  // Log para depuração

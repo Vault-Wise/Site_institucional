@@ -75,7 +75,8 @@
                         <div class="cardParte4">
                             <div class="periodos">
                                 <span class="cardSpan">Madrugada</span>
-                                <span class="cardSpanDestaque" id="qtd_madrugada">x <div class="espacamento">alertas</div>
+                                <span class="cardSpanDestaque" id="qtd_madrugada">x <div class="espacamento">alertas
+                                    </div>
                                 </span>
                             </div>
                             <div class="borda"></div>
@@ -113,7 +114,8 @@
                             <div class="selects">
                                 <select class="select_estilo" type="text" id="select_agencia"
                                     onchange="VisuAlertaHorario(), dadosGrafico()"></select>
-                                <select type="text" id="select_componente" onchange="dadosGrafico(), dadosGrafico2()">
+                                <select type="text" id="select_componente"
+                                    onchange="dadosGrafico(), dadosGrafico2(), dadosGrafico3()">
                                     <option value="CPU">CPU</option>
                                     <option value="RAM">RAM</option>
                                 </select>
@@ -122,12 +124,20 @@
                                 <h2 class="titulo_grafico"></h2>
                             </div>
                         </div>
-                        <button class="check" onclick="adicionarGrafico()" id="botaoPlus">
-                            <div class="botao_comparacao">
-                                <span>Criar Comparação</span>
-                                <i class="fa-solid fa-chart-simple"></i>
-                            </div>
-                        </button>
+                        <div class="botoes_grafico">
+                            <button class="check" onclick="adicionarGrafico()" id="botaoPlus">
+                                <div class="botao_comparacao">
+                                    <span>Criar Comparação</span>
+                                    <i class="fa-solid fa-chart-simple"></i>
+                                </div>
+                            </button>
+                            <button class="check" onclick="adicionarPix()" id="botaoPlusPix">
+                                <div class="botao_comparacao">
+                                    <span>Comparar com Pix</span>
+                                    <i class="fa-solid fa-dollar-sign"></i>
+                                </div>
+                            </button>
+                        </div>
                         <div id="bordaGrafico" style="display: none;"></div>
                         <div class="grafico2" style="display: none;" id="grafico2">
                             <div class="selects">
@@ -136,6 +146,18 @@
                                 <button class="check" onclick="fecharGrafico()"><i class="fa-solid fa-x"></i></button>
                             </div>
                             <div id="chart2">
+                                <h2 class="titulo_grafico"></h2>
+                            </div>
+                        </div>
+                        <div class="grafico3" style="display: none;" id="pix">
+                            <div class="selects">
+                                <select class="select_estilo" type="text" id="select_agencia3"
+                                    onchange="dadosGrafico3()"></select>
+                                <input id="arquivo_upload" type="file" onchange="dadosGrafico3()">
+                                <div id="msg_erro_arquivo" style="display: none;"></div>
+                                <button class="check" onclick="fecharPix()"><i class="fa-solid fa-x"></i></button>
+                            </div>
+                            <div id="chart3">
                                 <h2 class="titulo_grafico"></h2>
                             </div>
                         </div>
@@ -179,6 +201,7 @@
         var botaoPlus = document.getElementById("botaoPlus");
         var bordaGrafico = document.getElementById("bordaGrafico");
         var botaoPlusPrevisao = document.getElementById("botaoPlusPrevisao");
+        var botaoPlusPix = document.getElementById("botaoPlusPix");
 
         if (adicionar == 1) {
 
@@ -187,6 +210,7 @@
             grafico2.style.transform = 'scale(0.1)';
             botaoPlus.style.display = 'none';
             botaoPlusPrevisao.style.display = 'none';
+            botaoPlusPix.style.display = 'none';
 
             bordaGrafico.style.display = 'flex';
             bordaGrafico.style.opacity = '0';
@@ -212,6 +236,7 @@
         var grafico2 = document.getElementById("grafico2");
         var botaoPlus = document.getElementById("botaoPlus");
         var bordaGrafico = document.getElementById("bordaGrafico");
+        var botaoPlusPix = document.getElementById("botaoPlusPix");
 
         if (adicionar === 0) {
             grafico2.style.opacity = '0';
@@ -224,12 +249,80 @@
                 grafico2.style.display = 'none';
                 botaoPlus.style.display = 'flex';
                 botaoPlusPrevisao.style.display = 'flex';
+                botaoPlusPix.style.display = 'flex';
                 bordaGrafico.style.display = 'none';
 
 
             }, 500);
 
             adicionar = 1;
+        }
+
+    }
+
+    var adicionar_Pix = 1;
+
+    function adicionarPix() {
+
+        var pix = document.getElementById("pix");
+        var botaoPlus = document.getElementById("botaoPlus");
+        var bordaGrafico = document.getElementById("bordaGrafico");
+        var botaoPlusPrevisao = document.getElementById("botaoPlusPrevisao");
+        var botaoPlusPix = document.getElementById("botaoPlusPix");
+
+        if (adicionar_Pix == 1) {
+
+            pix.style.display = 'flex';
+            pix.style.opacity = '0';
+            pix.style.transform = 'scale(0.1)';
+            botaoPlus.style.display = 'none';
+            botaoPlusPrevisao.style.display = 'none';
+            botaoPlusPix.style.display = 'none';
+
+            bordaGrafico.style.display = 'flex';
+            bordaGrafico.style.opacity = '0';
+            bordaGrafico.style.transform = 'scale(0.1)';
+
+
+            setTimeout(() => {
+                pix.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                pix.style.opacity = '1';
+                pix.style.transform = 'scale(1)';
+
+                bordaGrafico.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                bordaGrafico.style.opacity = '1';
+                bordaGrafico.style.transform = 'scale(1)';
+            }, 100);
+
+            adicionar_Pix = 0;
+        }
+    }
+
+    function fecharPix() {
+
+        var pix = document.getElementById("pix");
+        var botaoPlus = document.getElementById("botaoPlus");
+        var bordaGrafico = document.getElementById("bordaGrafico");
+        var botaoPlusPix = document.getElementById("botaoPlusPix");
+
+        if (adicionar_Pix === 0) {
+            pix.style.opacity = '0';
+            pix.style.transform = 'scale(0.9)';
+
+            bordaGrafico.style.opacity = '0';
+            bordaGrafico.style.transform = 'scale(0.9)';
+
+            setTimeout(() => {
+                pix.style.display = 'none';
+                botaoPlus.style.display = 'flex';
+                botaoPlusPrevisao.style.display = 'flex';
+                botaoPlusPix.style.display = 'flex';
+                bordaGrafico.style.display = 'none';
+
+
+            }, 500);
+
+            adicionar_Pix = 1;
         }
 
     }
@@ -408,7 +501,7 @@
                         chart: {
                             type: "bar",
                             animations: {
-                                enabled: false 
+                                enabled: false
                             }
                         },
                         series: serieData,
@@ -426,7 +519,9 @@
                                 formatter: function (val) {
                                     return val + "%";
                                 }
-                            }
+                            },
+                            min: 0,
+                            max: 100
                         },
                         colors: [
                             "#247497",
@@ -510,7 +605,7 @@
                         chart: {
                             type: "bar",
                             animations: {
-                                enabled: false 
+                                enabled: false
                             }
                         },
                         series: serieData,
@@ -528,7 +623,9 @@
                                 formatter: function (val) {
                                     return val + "%";
                                 }
-                            }
+                            },
+                            min: 0,
+                            max: 100
                         },
                         colors: [
                             "#247497",
@@ -557,6 +654,184 @@
                 console.log(`#ERRO: ${resposta}`);
             });
     }
+
+    let chart3;
+
+    function dadosGrafico3() {
+        var select_agencia = document.getElementById("select_agencia");
+        var agencias = select_agencia.value;
+
+        var select_agencia2 = document.getElementById("select_agencia2");
+        var agencias2 = select_agencia2.value;
+
+        var select_agencia3 = document.getElementById("select_agencia3");
+        var agencias3 = select_agencia3.value;
+
+        var select_componente = document.getElementById("select_componente");
+        var componente = select_componente.value;
+
+        var arquivoInput = document.getElementById('arquivo_upload');
+        var msgErroArquivo = document.getElementById('msg_erro_arquivo');
+        var arquivo = arquivoInput.files[0];
+
+        fetch(`/agencia/dados/${agencias3}`, { method: "GET" })
+            .then(function (resposta) {
+                return resposta.json();
+            })
+            .then((dados) => {
+                var arrayDados2024CPU = [];
+                var arrayDados2024RAM = [];
+                var agrupamentoPorData = {};
+                var arrayTransacoes2024 = [];
+
+                const processarCSV = () => {
+                    return new Promise((resolve, reject) => {
+                        if (arquivo && arquivo.type === 'text/csv') {
+                            var reader = new FileReader();
+
+                            reader.onload = function (e) {
+                                var content = e.target.result;
+                                var rows = content.split('\n').filter(row => row.trim() !== '');
+                                var data = rows.map(row => row.split(','));
+
+                                data.forEach((row, rowIndex) => {
+                                    if (rowIndex === 0) return; // Ignorar cabeçalho
+
+                                    var dataTransacao = row[0]?.trim();
+                                    var quantidadeTransacao = parseFloat(row[6]);
+
+                                    if (isNaN(quantidadeTransacao)) {
+                                        console.warn(`Valor inválido na linha ${rowIndex}:`, row[6]);
+                                        return;
+                                    }
+
+                                    if (!agrupamentoPorData[dataTransacao]) {
+                                        agrupamentoPorData[dataTransacao] = 0;
+                                    }
+
+                                    agrupamentoPorData[dataTransacao] += quantidadeTransacao;
+                                });
+
+                                for (const valor of Object.values(agrupamentoPorData)) {
+                                    arrayTransacoes2024.push(valor / 1000);
+                                }
+                                resolve();
+                            };
+
+                            reader.onerror = reject;
+                            reader.readAsText(arquivo);
+                        } else {
+                            msgErroArquivo.innerHTML = `Selecione apenas arquivos em CSV`;
+                            resolve(); // Resolver mesmo sem arquivo para não travar a lógica
+                        }
+                    });
+                };
+
+                processarCSV().then(() => {
+                    dados.agencias.forEach((agencia) => {
+                        if (agencia.ano == 2024) {
+                            arrayDados2024RAM.push(agencia.MediaRAM);
+                            arrayDados2024CPU.push(agencia.MediaCPU);
+                        }
+                    });
+
+                    var serieData = [];
+                    if (componente === "CPU") {
+                        serieData = [
+                            { name: "2024 - CPU", data: arrayDados2024CPU },
+                            { name: "2024 - Transações", data: arrayTransacoes2024, type: 'line' }
+                        ];
+                    } else if (componente === "RAM") {
+                        serieData = [
+                            { name: "2024 - RAM", data: arrayDados2024RAM },
+                            { name: "2024 - Transações", data: arrayTransacoes2024, type: 'line' }
+                        ];
+                    }
+
+                    if (chart3) {
+                        chart3.destroy();
+                    }
+
+                    var options3 = {
+                        chart: {
+                            type: "line",
+                            animations: {
+                                enabled: false
+                            },
+                            toolbar: {
+                                tools: {
+                                    download: true,
+                                    selection: false,
+                                    zoom: false,
+                                    zoomin: false,
+                                    zoomout: false,
+                                    pan: false,
+                                    reset: false
+                                }
+                            }
+                        },
+                        series: serieData,
+                        xaxis: {
+                            categories: ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"],
+                        },
+                        yaxis: [{
+                            title: {
+                                text: 'Uso (%)'
+                            },
+                            labels: {
+                                formatter: function (val) {
+                                    return val + "%";
+                                }
+                            },
+                            min: 0,
+                            max: 100
+                        },
+                        {
+                        opposite: true,
+                        title: {
+                            text: 'Transações (milhares)'
+                        },
+                        labels: {
+                            formatter: function (val) {
+                                return val;
+                            }
+                        }
+                        }],
+                        legend: {
+                            position: 'top',
+                        },
+                        dataLabels: {
+                            enabled: false
+                        },
+                        colors: [
+                            "#0f1023",
+                            "#d86b22"
+                        ],
+                        title: {
+                            text: `Média de ${componente} por mês da Agência ${agencias2}`,
+                            style: {
+                                fontSize: '20px',
+                                fontWeight: 'normal',
+                                fontFamily: "Poppins",
+                                color: '#000',
+                            },
+                            align: 'center',
+                            marginTop: 10,
+                            marginBottom: 10,
+                            paddingTop: 10,
+                        }
+                    };
+
+                    chart3 = new ApexCharts(document.querySelector("#chart3"), options3);
+                    chart3.render();
+                });
+            })
+            .catch(function (resposta) {
+                console.error(`#ERRO: ${resposta}`);
+            });
+    }
+
+
 
     //KPI 1
     function buscarAgencia() {
@@ -664,6 +939,7 @@
                         if (!document.querySelector(`#select_agencia option[value="${agencia.idAgencia}"]`)) {
                             select_agencia.innerHTML += `<option value="${agencia.idAgencia}">Agência ${agencia.idAgencia}</option>`;
                             select_agencia2.innerHTML += `<option value="${agencia.idAgencia}">Agência ${agencia.idAgencia}</option>`;
+                            select_agencia3.innerHTML += `<option value="${agencia.idAgencia}">Agência ${agencia.idAgencia}</option>`;
                         }
                     });
 
@@ -759,6 +1035,7 @@
     setInterval(VisuAlertaHorario, 5000);
     setInterval(dadosGrafico, 5000);
     setInterval(dadosGrafico2, 5000);
+    setInterval(dadosGrafico3, 5000);
 
 
     function agenciaSelecionadaAtual() {
@@ -790,6 +1067,44 @@
             });
 
     }
+
+    // function processarArquivoCSV() {
+    //     var arquivoInput = document.getElementById('arquivo_upload');
+    //     var msgErroArquivo = document.getElementById('msg_erro_arquivo');
+
+    //     var arquivo = arquivoInput.files[0];
+
+    //     if (arquivo && arquivo.type == 'text/csv') {
+    //         var reader = new FileReader();
+
+    //         reader.onload = function (e) {
+    //             var content = e.target.result;
+    //             var rows = content.split('\n');
+    //             var data = rows.map(row => row.split(','));
+
+    //             var agrupamentoPorData = {};
+
+    //             data.forEach((row, rowIndex) => {
+    //                 if (rowIndex === 0) return;
+
+    //                 var dataTransacao = row[0];
+    //                 var quantidadeTransacao = parseFloat(row[6]);
+
+    //                 if (!agrupamentoPorData[dataTransacao]) {
+    //                     agrupamentoPorData[dataTransacao] = 0;
+    //                 }
+
+    //                 agrupamentoPorData[dataTransacao] += quantidadeTransacao;
+    //             });
+
+    //             console.log(agrupamentoPorData);
+    //         };
+
+    //         reader.readAsText(arquivo);
+    //     } else {
+    //         msgErroArquivo.innerHTML = `Selecione apenas arquivos em CSV`;
+    //     }
+    // }
 
 
 </script>

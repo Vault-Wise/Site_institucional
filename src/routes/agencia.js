@@ -39,4 +39,8 @@ router.get("/dados/:agencias2", function (req, res) {
     agenciaController.dadosGrafico2(req, res);
 })
 
+router.get("/dados/:agencias3", function (req, res) {
+    agenciaController.dadosGrafico3(req, res);
+})
+
 module.exports = router;

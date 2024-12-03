@@ -1,6 +1,5 @@
 var dashPedroModel = require("../models/dashPedroModel");
 
-
 function selecionarAgencia(req, res) {
   var agencia = req.params.agencia;
   var ano = req.params.ano;
@@ -20,15 +19,13 @@ function listar(req, res) {
     dashPedroModel.listar().then((resultadoDoMes) => {
       res.status(200).json(resultadoDoMes);
     });
-  }
+}
 
 
 
+function graficoPzza(req, res) {
+    var agenciaSelect = req.params.agenciaSelect;
 
-  function graficoPzza(req, res) {
-    var agenciaSelect = req.params.agenciaSelects;
-
-  
     dashPedroModel.graficoPzza(agenciaSelect)
       .then(dados => {
         res.status(200).json({ agenciaSelects: dados }); 
@@ -37,15 +34,13 @@ function listar(req, res) {
         console.error("Erro ao realizar o select da dashPedro: ", erro);
         res.status(500).json({ erro: "Erro ao realizar o select da dashPedro." });
       });
-  }
+}
 
 
 
-
-
-  function tabelaCentro(req, res) {
+function tabelaCentro(req, res) {
     var tabelaCentro = req.params.tabelaCentro;
-  
+
     dashPedroModel.tabelaCentro(tabelaCentro)
       .then(dados => {
         res.status(200).json({ tabelaCentro: dados }); 
@@ -54,14 +49,14 @@ function listar(req, res) {
         console.error("Erro ao realizar o select da dashPedro: ", erro);
         res.status(500).json({ erro: "Erro ao realizar o select da dashPedro." });
       });
-  }
+}
 
 
 
 
-  function tabelaCanto(req, res) {
+function tabelaCanto(req, res) {
     var tabelaCanto = req.params.tabelaCanto;
-  
+
     dashPedroModel.tabelaCanto(tabelaCanto)
       .then(dados => {
         res.status(200).json({ tabelaCanto: dados }); 
@@ -70,15 +65,16 @@ function listar(req, res) {
         console.error("Erro ao realizar o select da dashPedro: ", erro);
         res.status(500).json({ erro: "Erro ao realizar o select da dashPedro." });
       });
-  }
+}
 
 
 
-  module.exports = {
-    selecionarAgencia,
-    listar,
-    graficoPzza,
-    tabelaCentro,
-    tabelaCanto
-  };
-  
+
+
+module.exports = {
+  selecionarAgencia,
+  listar,
+  graficoPzza,
+  tabelaCentro,
+  tabelaCanto
+};

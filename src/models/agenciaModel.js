@@ -100,6 +100,21 @@ function dadosGrafico2(agencia2) {
   return database.executar(instrucaoSql);
 }
 
+function dadosGrafico3(agencia3) {
+
+  var instrucaoSql = `SELECT ROUND(AVG(percentMemoria), 2) AS MediaRAM, 
+    ROUND(AVG(percentProcessador), 2) AS MediaCPU,
+    DATE_FORMAT(dtHora, '%Y-%m') AS AnoMes,
+    YEAR(dtHora) AS ano
+      FROM Registro
+      JOIN CaixaEletronico on fkCaixa = idCaixa
+      WHERE fkAgencia = ${agencia3}
+      GROUP BY AnoMes, fkAgencia, ano
+      ORDER BY AnoMes`;
+
+  return database.executar(instrucaoSql);
+}
+
 module.exports = {
   cadastrar,
   listar,
@@ -109,5 +124,6 @@ module.exports = {
   alertaHorario,
   agenciaSelecionadaAtual,
   dadosGrafico,
-  dadosGrafico2
+  dadosGrafico2,
+  dadosGrafico3
 };
