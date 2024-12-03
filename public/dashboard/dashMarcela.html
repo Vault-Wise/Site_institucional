@@ -139,74 +139,67 @@
 
   function gerarGrafico() {
     fetch('/marcelaRouter/capturarInformacoesGrafico/')
-      .then(response => response.json())
-      .then(data => {
-        console.log("Dados de pizza", data);
+        .then(response => response.json())
+        .then(data => {
+            console.log("Dados de pizza", data);
 
-        // Extrair os dados de tipo e porcentagem
-        const labels = data.map(item => item.tipo);
-        let porcentagens = data.map(item => parseFloat(item.Porcentagem));
-        const quantidadeMaquinas = data.map(item => item.quantidade); // Supondo que 'quantidade' seja o número de máquinas
+            // Extrair os dados de tipo, porcentagem e total
+            const labels = data.map(item => item.tipo);
+            let porcentagens = data.map(item => parseFloat(item.Porcentagem));
+            const totais = data.map(item => item.TotalPorTipo); // Pegando o total por tipo
 
-        // Calcular a soma das porcentagens
-        const somaTotal = porcentagens.reduce((total, porcentagem) => total + porcentagem, 0);
-
-        // Normalizar as porcentagens para somarem 100%
-        if (somaTotal > 0) {
-          porcentagens = porcentagens.map(porcentagem => (porcentagem / somaTotal) * 100);
-        }
-
-        console.log(labels);
-        console.log(porcentagens);
-        console.log(quantidadeMaquinas);
-
-        if (!chart) {
-          // Inicializa o gráfico apenas na primeira vez
-          var options = {
-            chart: {
-              type: 'pie',
-              width: '100%',
-              height: '300px',
-              events: {
-                dataPointSelection: function (event, chartContext, config) {
-                  const selectedLabel = labels[config.dataPointIndex];
-                  console.log('Segmento selecionado:', selectedLabel);
-                  filtrarTabelaPorTipo(selectedLabel); // Atualizar tabela com base no tipo selecionado
-                }
-              }
-            },
-            series: porcentagens,
-            labels: labels,
-            colors: ['#FF5733', '#FFC300', '#28A745'],
-            tooltip: {
-              y: {
-                formatter: function (val, opts) {
-                  const index = opts.seriesIndex; // Pega o índice do segmento
-                  const quantidade = quantidadeMaquinas[index]; // Pega a quantidade de máquinas
-                  return `${val.toFixed(2)}% (${quantidade} máquinas)`; // Exibe porcentagem e quantidade
-                  // return val + "% ";
-                }
-              }
-            },
-            legend: {
-              position: 'top',
+            // Calcular a soma das porcentagens para garantir 100%
+            const somaTotal = porcentagens.reduce((total, porcentagem) => total + porcentagem, 0);
+            if (somaTotal > 0) {
+                porcentagens = porcentagens.map(porcentagem => (porcentagem / somaTotal) * 100);
             }
-          };
 
-          chart = new ApexCharts(document.querySelector("#chart"), options);
-          chart.render();
-        } else {
-          // Atualiza os dados do gráfico
-          chart.updateSeries(porcentagens);
-          chart.updateOptions({
-            labels: labels
-          });
-        }
-      })
-      .catch(error => {
-        console.error('Erro ao obter os dados do gráfico:', error);
-      });
-  }
+            if (!chart) {
+                // Inicializa o gráfico
+                var options = {
+                    chart: {
+                        type: 'pie',
+                        width: '100%',
+                        height: '300px',
+                        events: {
+                            dataPointSelection: function (event, chartContext, config) {
+                                const selectedLabel = labels[config.dataPointIndex];
+                                console.log('Segmento selecionado:', selectedLabel);
+                                filtrarTabelaPorTipo(selectedLabel); // Atualizar tabela com base no tipo selecionado
+                            }
+                        }
+                    },
+                    series: porcentagens,
+                    labels: labels,
+                    colors: ['#FF5733', '#FFC300', '#28A745'],
+                    tooltip: {
+                        y: {
+                            formatter: function (val, opts) {
+                                const index = opts.seriesIndex; // Pega o índice do segmento
+                                const quantidade = totais[index]; // Pega a quantidade total
+                                return `${val.toFixed(2)}% (${quantidade} Máquinas)`; // Exibe porcentagem e quantidade
+                            }
+                        }
+                    },
+                    legend: {
+                        position: 'top',
+                    }
+                };
+
+                chart = new ApexCharts(document.querySelector("#chart"), options);
+                chart.render();
+            } else {
+                // Atualiza os dados do gráfico
+                chart.updateSeries(porcentagens);
+                chart.updateOptions({
+                    labels: labels
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Erro ao obter os dados do gráfico:', error);
+        });
+}
 
   setInterval(gerarGrafico, 10000)
 
@@ -242,17 +235,35 @@
 
         // Preencher a tabela com os dados do ranking
         dados.forEach((dado, index) => {
+          console.log(dados)
+          console.log(dado)
+
+          // Criando a linha da tabela
           const row = document.createElement("tr");
 
+          // Criando a célula para o Caixa Eletrônico
           const CaixaEletronico = document.createElement("td");
-          CaixaEletronico.textContent = dado.CaixaEletronico;  // Nome do caixa
+          CaixaEletronico.textContent = dado.CaixaEletronico; // Nome do caixa
           row.appendChild(CaixaEletronico);
 
+          // Criando a célula para o Tipo de Alerta
           const TipoAlerta = document.createElement("td");
-          TipoAlerta.textContent = dado.TipoAlerta;  // tipo de alerta
+          TipoAlerta.textContent = dado.TipoAlerta; // Tipo de alerta
           row.appendChild(TipoAlerta);
 
-          tabela.appendChild(row);  // Adiciona a linha à tabela
+          // Adicionando funcionalidade de clique na linha
+          row.addEventListener("click", () => {
+            // Armazena o nome do caixa eletrônico no sessionStorage
+            sessionStorage.setItem("NOME_CAIXA", dado.CaixaEletronico);
+
+            // Redireciona para a nova página
+            window.location.href = "dashPresilli.html"; // Substitua pelo caminho da sua página
+          });
+
+          // Adicionando a linha na tabela (assumindo que já existe uma tabela no DOM)
+          const tabela = document.getElementById("Tabela"); // Certifique-se de usar o ID da sua tabela
+          tabela.appendChild(row);
+
         });
       })
       .catch(error => {
@@ -260,7 +271,7 @@
       });
   }
 
-  setInterval(carregaTabela, 2000)
+    setInterval(carregaTabela, 2000)
 
   // Função para filtrar a tabela com base no tipo selecionado
   function filtrarTabelaPorTipo(tipoSelecionado) {
@@ -323,8 +334,7 @@
     window.location.href = "dashPresilli.html"; // Redireciona para a página
   }
 
-
-  setInterval(atualizarTotalMaquinas, 2000)
+  // setInterval(atualizarTotalMaquinas, 2000)
 
   function alertasUltimoDia() {
     fetch(`/marcelaRouter/alertasUltimoDia/`)
@@ -348,7 +358,7 @@
       });
   }
 
-  setInterval(alertasUltimoDia, 2000)
+  // setInterval(alertasUltimoDia, 2000)
 
   function ultimoCritico() {
     fetch(`/marcelaRouter/ultimoCritico/`)
@@ -376,7 +386,7 @@
       });
   }
 
-  setInterval(ultimoCritico, 2000)
+   setInterval(ultimoCritico, 2000)
 
   function exibirHistorico() {
     fetch('/marcelaRouter/historicoPerigo/') // Substitua com a rota correta
@@ -434,7 +444,6 @@
   window.onload = ultimoCritico();
 
 
-
   // Abrir histórico
   function abrirHistorico() {
     document.getElementById("overlay").style.display = "block";
@@ -465,15 +474,15 @@
         }
 
         // Gerar conteúdo do CSV a partir dos dados da tabela
-        let csvContent = "Máquina,Quantidade,Percentual\n";
+        let csvContent = "Data, Hora, Máquina\n";
 
         data.forEach(item => {
-          const maquina = item.maquina;
-          const quantidade = item.quantidade || '0';  // Ajuste conforme a estrutura dos dados
-          const percentual = item.percentual || '0%';  // Ajuste conforme a estrutura dos dados
+          const data = item.data;
+          const hora = item.hora;  // Ajuste conforme a estrutura dos dados
+          const maquina = item.maquina;  // Ajuste conforme a estrutura dos dados
 
           // Adicionar uma linha para cada item no CSV
-          csvContent += `${maquina},${quantidade},${percentual}\n`;
+          csvContent += `${data},${hora},${maquina}\n`;
         });
 
         // Criar e baixar o arquivo CSV
