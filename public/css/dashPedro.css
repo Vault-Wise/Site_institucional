@@ -26,6 +26,7 @@ h1, .main-content h1 {
   margin-bottom: 20px;
 }
 
+
 #selecAgencia {
   width: 315px; 
   height: 130px; 
@@ -34,6 +35,34 @@ h1, .main-content h1 {
   color: #ffffff;
   background-color: #0f1923;
   border-radius: 5px; 
+  font-family: 'Poppins', sans-serif; 
+}
+
+
+#selecMes {
+  width: 315px; 
+  height: 130px; 
+  font-size: 65px;
+  padding: 5px; 
+  color: #ffffff;
+  background-color: #0f1923;
+  border-radius: 5px; 
+  font-family: 'Poppins', sans-serif; 
+}
+
+
+.container-botoes {
+  display: flex;
+  gap: 20px; 
+  justify-content: center; 
+  align-items: center; 
+}
+
+
+.alert-summary {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
 }
 
 
