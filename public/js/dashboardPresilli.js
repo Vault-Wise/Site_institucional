@@ -1600,7 +1600,7 @@ async function gerarRelatorio() {
                             
                 Formate a resposta em HTML colocando a premissa que já estão dentro do body com os seguintes estilos:
                 - Use um título de nível <h2> para introduzir a análise do gráfico
-                - Não coloque um rótulo na análise, exemplo **Análise do Gráfico** ou ##Análise do Gráfico, APENAS as tags HTML
+                - Não coloque um rótulo na análise, EXEMPLO DO QUE NÂO FAZER **Análise do Gráfico** ou ##Análise do Gráfico, APENAS as tags HTML, restrito a tags HTML
                 - Justifique o texto e o div deve começar alinhado à esquerda.
                 - Quebre o texto em diferentes parágrafos <p> para cada ponto de análise.
                 - Utilize HTML simples e bem estruturado.`
@@ -1623,7 +1623,7 @@ async function gerarRelatorio() {
 
                 Formate a resposta em HTML colocando a premissa que já estão dentro do body com os seguintes estilos:
                 - Use um título de nível <h2> para introduzir a análise dos processos
-                - Não coloque um rótulo na análise, exemplo **Análise dos Processos** ## Análise dos Processos, APENAS as tags HTML 
+                - Não coloque um rótulo na análise, EXEMPLO DO QUE NÂO FAZER **Análise dos Processos** ## Análise dos Processos, APENAS as tags HTML, restrito a tags HTML 
                 - Justifique o texto e o div deve começar alinhado à esquerda.
                 - Quebre o texto em diferentes parágrafos <p> para cada ponto de análise.
                 - Utilize HTML simples e bem estruturado.
@@ -1648,7 +1648,7 @@ async function gerarRelatorio() {
 
             Formate a resposta em HTML colocando a premissa que já estão dentro do body com os seguintes estilos:
             - Use um título de nível <h2> para introduzir a análise da variação
-            - Não coloque um rótulo na análise, exemplo **Análise da Variação** ## Análise da Variação, APENAS as tags HTML
+            - Não coloque um rótulo na análise, EXEMPLO DO QUE NÂO FAZER **Análise da Variação** ## Análise da Variação, APENAS as tags HTML, restrito a tags em HTML
             - Justifique o texto e o div deve começar alinhado à esquerda.
             - Quebre o texto em diferentes parágrafos <p> para cada ponto de análise.
             - Utilize HTML simples e bem estruturado.`;
@@ -1656,7 +1656,7 @@ async function gerarRelatorio() {
 
     await atualizarProgresso(30);
 
-    var perguntaTodas = "Utilize apenas Tags HTML e responda: ";
+    var perguntaTodas = "Utilize APENAS Tags HTML e responda: ";
 
     if (perguntaGrafico) {
         perguntaTodas += perguntaGrafico;
