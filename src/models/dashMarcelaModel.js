@@ -26,6 +26,8 @@ JOIN
     Registro r ON a.fkRegistro = r.idRegistro AND a.fkCaixa = r.fkCaixa
 JOIN 
     CaixaEletronico ce ON r.fkCaixa = ce.idCaixa
+WHERE 
+    a.tipo IN ('Alerta', 'Seguro', 'Perigo')
 GROUP BY 
     a.tipo;`;
 
@@ -34,9 +36,8 @@ GROUP BY
 
 function getInformacoesMaquinas() {
     var instrucaoSql = `
-SELECT COUNT(*) AS total_maquinas_monitoradas
+SELECT COUNT(*) AS quantidade
 FROM CaixaEletronico;`;
-
     return database.executar(instrucaoSql);
 }
 

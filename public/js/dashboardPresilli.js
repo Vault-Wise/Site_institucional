@@ -1417,7 +1417,7 @@ async function gerarRelatorio() {
 
     // fazerCarregamento();
     blur2.style.display = 'flex';
-    
+
     await atualizarProgresso(10);
 
     const graficoLinha = document.querySelector("#graficoLinha");
@@ -1549,7 +1549,7 @@ async function gerarRelatorio() {
     var perguntaGrafico;
     var perguntaVariacao;
     var perguntaProcesso;
-    
+
     await atualizarProgresso(20);
 
     if (checkGrafico.checked) {
@@ -1652,7 +1652,7 @@ async function gerarRelatorio() {
             - Quebre o texto em diferentes parágrafos <p> para cada ponto de análise.
             - Utilize HTML simples e bem estruturado.`;
     }
-    
+
     await atualizarProgresso(30);
 
     var perguntaTodas = "";
@@ -1746,3 +1746,5 @@ async function gerarResposta(pergunta) {
 
     return data.resultado || "Nenhum resultado retornado";
 }
+
+

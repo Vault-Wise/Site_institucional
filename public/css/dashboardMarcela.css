@@ -27,6 +27,8 @@ nav {
   padding: 20px;
   margin-top: 40px;
   margin-left: 140px;
+  overflow-y: hidden;
+  overflow-x: hidden;
 }
 
 .header {
@@ -247,6 +249,7 @@ table td {
   padding: 10px;
   font-size: 14px;
   text-align: center;
+  cursor: pointer;
 }
 
 table th {
@@ -275,6 +278,19 @@ select {
   background-color: #2b2f38;
   color: white;
 }
+
+#historicoCard {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1001;
+}
+
 
 .overlay {
   position: fixed;
@@ -337,7 +353,7 @@ select {
   cursor: pointer;
 }
 
-#dowload-pdf {
+#download-csv {
   margin-left: 257px;
   cursor: pointer;
   margin-top: 24px;
