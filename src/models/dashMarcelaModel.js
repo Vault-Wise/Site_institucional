@@ -18,7 +18,8 @@ JOIN
 function getInformacoesGrafico() {
     var instrucaoSql = `
 SELECT 
-    tipo,
+    a.tipo,
+    COUNT(*) AS TotalPorTipo,
     ROUND((COUNT(*) * 100.0 / (SELECT COUNT(DISTINCT idCaixa) FROM CaixaEletronico)), 2) AS Porcentagem
 FROM 
     Alerta a
@@ -33,6 +34,20 @@ GROUP BY
 
     return database.executar(instrucaoSql);
 }
+
+// function numPerigo() {
+//     var instrucaoSql = `
+// select * from Alerta;
+
+// SELECT 
+//     COUNT(*) AS TotalPerigo
+// FROM 
+//     Alerta
+// WHERE 
+//     tipo = 'Perigo';`;
+//     return database.executar(instrucaoSql);
+// }
+
 
 function getInformacoesMaquinas() {
     var instrucaoSql = `
@@ -105,6 +120,7 @@ module.exports = {
     getInformacoesGrafico,
     getInformacoesMaquinas,
     getAlertasUltimoDia,
+    // numPerigo,
     getUltimoCritico,
     gethistoricoPerigo
 };
