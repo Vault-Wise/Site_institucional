@@ -1,18 +1,21 @@
 
+
 var express = require("express");
 var router = express.Router();
 
 var dasPedroController = require("../controllers/dasPedroController");
 
-// Lista agências e meses
+
+
+// Lista agências, meses e máquinas
 router.get("/listar", function (req, res) {
     dasPedroController.listar(req, res);
 });
 
 
 
-// Busca os dados de uma agência específica, para um ano e mês específicos
-router.get("/buscarAgencia/:agencia/:ano/:mes", function (req, res) {
+// Busca os dados de uma agência específica, para um ano, mês e máquina específicos
+router.get("/buscarAgencia/:agencia/:ano/:mes/:maquina?", function (req, res) {
     dasPedroController.selecionarAgencia(req, res);
 });
 
@@ -34,9 +37,10 @@ router.get("/tabelaCentro/:tabelaCentro", function (req, res) {
 
 router.get("/tabelaCanto/:tabelaCanto", function (req, res) {
     dasPedroController.tabelaCanto(req, res);
-});
+  });
+  
 
 
-
-// Exportando as rotas
-module.exports = router;
+  
+  // Exportando as rotas
+  module.exports = router;
