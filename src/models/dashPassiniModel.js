@@ -24,13 +24,13 @@ JOIN
         PID.fkRegistro = Registro.idRegistro
 WHERE 
     PID.fkCaixa = ${fkCaixa}
-
-
+    AND Registro.dtHora >= NOW() - INTERVAL 1 MINUTE
+ORDER BY 
+    PID.nivelAmeaca DESC;
     `;
 
     return database.executar(instrucaoSql);
 }
-// AND Registro.dtHora >= NOW() - INTERVAL 1 MINUTE;
 function capturarRede(fkCaixa) {
     var instrucaoSql = `
         SELECT velocidadeUpload, velocidadeDownload FROM Registro WHERE fkCaixa = ${fkCaixa} ORDER BY dtHora DESC LIMIT 10;
