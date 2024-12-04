@@ -177,7 +177,7 @@
                             formatter: function (val, opts) {
                                 const index = opts.seriesIndex; // Pega o índice do segmento
                                 const quantidade = totais[index]; // Pega a quantidade total
-                                return `${val.toFixed(2)}% (${quantidade} Máquinas)`; // Exibe porcentagem e quantidade
+                                return `${val.toFixed(2)}%`; // Exibe porcentagem e quantidade
                             }
                         }
                     },
@@ -201,7 +201,7 @@
         });
 }
 
-  setInterval(gerarGrafico, 10000)
+  //setInterval(gerarGrafico, 10000)
 
   document.addEventListener("DOMContentLoaded", () => {
     validarSessao()
@@ -271,7 +271,7 @@
       });
   }
 
-    setInterval(carregaTabela, 1000)
+  //  setInterval(carregaTabela, 1000)
 
   // Função para filtrar a tabela com base no tipo selecionado
   function filtrarTabelaPorTipo(tipoSelecionado) {
@@ -358,7 +358,7 @@
       });
   }
 
-  setInterval(alertasUltimoDia, 2000)
+ // setInterval(alertasUltimoDia, 2000)
 
   function ultimoCritico() {
     fetch(`/marcelaRouter/ultimoCritico/`)
@@ -386,7 +386,7 @@
       });
   }
 
-   setInterval(ultimoCritico, 1000)
+   // setInterval(ultimoCritico, 1000)
 
   function exibirHistorico() {
     fetch('/marcelaRouter/historicoPerigo/') // Substitua com a rota correta

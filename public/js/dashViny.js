@@ -51,6 +51,8 @@ function atualizarKPIs(caixaId) {
     .catch((error) => console.error("Erro ao calcular KPIs:", error));
 }
 
+setInterval(atualizarKPIs, 5000)
+
 function carregarMaquinas() {
   fetch("/caixas/listarCaixas")
     .then((response) => response.json())
@@ -195,7 +197,7 @@ function atualizarAltoUsoContínuo(caixaId) {
 
       filtroDados.forEach((item) => {
         const listItem = document.createElement("li");
-        listItem.textContent = `Uso acima do limite de ${limiteUso}% por ${(item.duracaoMinutos / 10000).toFixed(0)} minutos.`;
+        listItem.textContent = `Uso acima do limite de ${limiteUso}% por ${item.duracaoMinutos / 10000} minutos.`;
         listaAltoUso.appendChild(listItem);
       });
     })
