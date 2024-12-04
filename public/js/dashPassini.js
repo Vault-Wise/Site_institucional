@@ -11,24 +11,30 @@ document.addEventListener("DOMContentLoaded", () => {
   if (dashVini.classList.contains("agora")) {
     dashVini.classList.remove("agora")
   }
+
+  carregarMaquinas(); // Carregar máquinas ao inicializar
+  inicializar(); // Inicializar as funções que dependem do select
 });
 
-var Servidor = 1;
-function escolherServidor() {
-  if (document.getElementById('select').value == "1") {
-    Servidor = 1;
-  }
-  else if (document.getElementById('select').value == "2") {
-    Servidor = 2;
-  }
+function carregarMaquinas() {
+  fetch("/caixas/listarCaixas")
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data); // Adicione este log para depurar a resposta
+      const caixaSelect = document.getElementById("select");
+      caixaSelect.innerHTML = `<option disabled selected>Selecione uma máquina</option>`;
 
-  else if (document.getElementById('select').value == "3") {
-    Servidor = 3;
-  }
+      data.forEach((caixa) => {
+        const option = document.createElement("option");
+        option.value = caixa.idCaixa;
+        option.textContent = caixa.nomeEquipamento;
+        caixaSelect.appendChild(option);
+      });
+    })
+    .catch((error) => console.error("Erro ao carregar máquinas:", error));
 }
 
 document.getElementById('finalizarBtn').addEventListener('click', () => {
-
   const pid = document.getElementById('pidInput').value;
 
   if (!pid || isNaN(pid)) {
@@ -38,7 +44,6 @@ document.getElementById('finalizarBtn').addEventListener('click', () => {
 
   // Enviar uma requisição para o backend (API Node.js)
   fetch(`/dashPassini/rota/${pid}`)
-    // http://localhost:3333/matar-processo/${pid}
     .then(response => response.text())
     .then(data => {
       console.log(data)
@@ -49,6 +54,71 @@ document.getElementById('finalizarBtn').addEventListener('click', () => {
     });
 });
 
+// Função para carregar dados usando fkCaixa
+function carregarDados(fkCaixa) {
+  if (!fkCaixa) {
+    console.error("fkCaixa é undefined ou vazio");
+    return;  // Não faz a requisição se o valor for inválido
+  }
+
+  fetch(`/dashPassini2/capturarPIDs/${fkCaixa}`)
+    .then(response => response.json())
+    .then(data => {
+      const tabelaBody = document.querySelector('#tabelaPID tbody');
+      tabelaBody.innerHTML = '';
+
+      data.forEach(item => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${item.idPID}</td>
+          <td>${item.numeroPID}</td>
+          <td>${item.nomeProcesso}</td>
+          <td>${item.nivelAmeaca}</td>
+        `;
+        tabelaBody.appendChild(tr);
+      });
+    })
+    .catch(error => {
+      console.error('Erro ao carregar os dados:', error);
+    });
+}
+
+// Função para carregar dados de rede usando fkCaixa
+function carregarDadosRede(fkCaixa) {
+  if (!fkCaixa) {
+    console.error("fkCaixa é undefined ou vazio");
+    return;  // Não faz a requisição se o valor for inválido
+  }
+
+  fetch(`/dashPassini2/capturarRede/${fkCaixa}`)
+    .then(response => response.json())
+    .then(data => {
+      const categories = [];
+      const upload = [];
+      const download = [];
+
+      data.forEach((item, index) => {
+        categories.push(`13:${35 + index}:00`);
+        upload.push(parseFloat(item.velocidadeUpload));
+        download.push(parseFloat(item.velocidadeDownload));
+      });
+
+      chartUpload.updateOptions({
+        xaxis: { categories: categories },
+        series: [{ name: "Upload", data: upload }]
+      });
+
+      chartDownload.updateOptions({
+        xaxis: { categories: categories },
+        series: [{ name: "Download", data: download }]
+      });
+    })
+    .catch(error => {
+      console.error('Erro ao buscar os dados:', error);
+    });
+}
+
+// Configuração inicial do gráfico de Upload
 const optionsUpload = {
   series: [{ name: "Upload", data: [] }],
   chart: {
@@ -116,86 +186,19 @@ const chartDownload = new ApexCharts(document.querySelector("#chartRedeDownload"
 
 chartUpload.render();
 chartDownload.render();
-function carregarDados() {
-  let fkCaixa = Servidor;  // Substitua isso pelo valor de fkCaixa que você deseja consultar
-  fetch(`/dashPassini2/capturarPIDs/${fkCaixa}`)  // Chama a API com o fkCaixa
-    .then(response => response.json())  // Converte a resposta para JSON
-    .then(data => {
-      // Aqui você insere os dados na tabela
-      const tabelaBody = document.querySelector('#tabelaPID tbody');
-      tabelaBody.innerHTML = '';  // Limpa a tabela antes de adicionar os dados
 
-      // Loop através dos dados e cria as linhas da tabela
-      data.forEach(item => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-                            <td>${item.idPID}</td>
-                            <td>${item.numeroPID}</td>
-                            <td>${item.nomeProcesso}</td>
-                            <td>${item.nivelAmeaca}</td>
-                        `;
-        tabelaBody.appendChild(tr);  // Adiciona a linha na tabela
-      });
-    })
-    .catch(error => {
-      console.error('Erro ao carregar os dados:', error);
-    });
+// Inicializar as funções e configurar o listener para o select
+function inicializar() {
+  document.getElementById("select").addEventListener("change", function () {
+    const fkCaixa = this.value;
+    console.log("fkCaixa selecionado:", fkCaixa); // Verificar o valor do fkCaixa
+
+    if (!fkCaixa) {
+      alert("Por favor, selecione uma máquina válida.");
+      return; // Impedir a requisição se não houver valor
+    }
+
+    carregarDados(fkCaixa);  
+    carregarDadosRede(fkCaixa);  
+  });
 }
-
-const intervaloDeAtualizacao = 5000;  // 5 segundos
-
-function carregarDadosRede() {
-  var fkCaixa = Servidor;  // Substitua isso pelo valor de fkCaixa que você deseja consultar
-
-  fetch(`/dashPassini2/capturarRede/${fkCaixa}`)
-    .then(response => response.json())
-    .then(data => {
-      const categories = [];
-      const upload = [];
-      const download = [];
-
-      // Preencher as categorias e dados de upload/download
-      data.forEach((item, index) => {
-        categories.push(`13:${35 + index}:00`); // Gerando horários fictícios (ajuste conforme necessário)
-        upload.push(parseFloat(item.velocidadeUpload));
-        download.push(parseFloat(item.velocidadeDownload));
-      });
-
-      // Atualiza o gráfico de Upload
-      chartUpload.updateOptions({
-        xaxis: {
-          categories: categories  // Horários (eixo X)
-        },
-        series: [{
-          name: "Upload",
-          data: upload  // Dados de upload
-        }]
-      });
-
-      // Atualiza o gráfico de Download
-      chartDownload.updateOptions({
-        xaxis: {
-          categories: categories  // Horários (eixo X)
-        },
-        series: [{
-          name: "Download",
-          data: download  // Dados de download
-        }]
-      });
-    })
-    .catch(error => {
-      console.error('Erro ao buscar os dados:', error);
-    });
-}
-
-// Chama a função inicialmente
-carregarDadosRede();
-
-// Atualiza os dados a cada 5 segundos
-setInterval(carregarDadosRede, intervaloDeAtualizacao);
-
-// Chama a função para carregar os dados quando a página for carregada
-window.onload = function () {
-  carregarDados();  // Carrega os dados para a tabela
-  carregarDadosRede();  // Carrega os dados para os gráficos
-};

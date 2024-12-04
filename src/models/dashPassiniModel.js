@@ -24,8 +24,6 @@ JOIN
         PID.fkRegistro = Registro.idRegistro
 WHERE 
     PID.fkCaixa = ${fkCaixa}
-    AND Registro.dtHora >= NOW() - INTERVAL 1 MINUTE;
-
 
     `;
 
@@ -40,7 +38,8 @@ function capturarRede(fkCaixa) {
     return database.executar(instrucaoSql);
 }
 
+
 module.exports = {
     capturarPIDs,
-    capturarRede
+    capturarRede,
 };
