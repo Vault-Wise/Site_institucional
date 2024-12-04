@@ -5,7 +5,7 @@ var database = require("../database/config");
 function listar() {
   var instrucaoSql1 = `SELECT idAgencia AS agencia FROM Agencia`;
   var instrucaoSql2 = `SELECT DISTINCT YEAR(dtHora) AS anoAtual FROM Registro`;
-  var instrucaoSql3 = `SELECT DISTINCT nomeMaquina AS maquina FROM Maquina`; // Nova instrução SQL para buscar máquinas
+  var instrucaoSql3 = `SELECT DISTINCT nomeEquipamento AS maquina FROM caixaeletronico`; // Nova instrução SQL para buscar máquinas
 
   return Promise.all([database.executar(instrucaoSql1), database.executar(instrucaoSql2), database.executar(instrucaoSql3)])
     .then(([resultadoAgencias, resultadoMes, resultadoMaquinas]) => {
