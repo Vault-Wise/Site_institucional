@@ -45,7 +45,7 @@
                         <div class="cardParte1">
                             <span class="cardSpan">Agência com mais alertas</span>
                             <div class="info-container">
-                                <span class="cardSpanDestaque">Agência<div id="maior_alerta" class="espacamento">x</div>
+                                <span class="cardSpanDestaque"><div id="maior_alerta" class="espacamento">x</div>
                                     <div class="conteudo_info">
                                         <p>CEP: <span id="cep_menos_alertas"></span></p>
                                         <p>Número: <span id="numero_menos_alertas"></span></p>
@@ -57,7 +57,7 @@
                         <div class="cardParte2">
                             <span class="cardSpan">Segunda agência com mais alertas</span>
                             <div class="info-container">
-                                <span class="cardSpanDestaque">Agência <div id="menos_alerta" class="espacamento">x
+                                <span class="cardSpanDestaque"><div id="menos_alerta" class="espacamento">x
                                     </div>
                                     <div class="conteudo_info">
                                         <p>CEP: <span id="cep_mais_alertas"></span></p>
@@ -760,7 +760,7 @@
                             },
                             toolbar: {
                                 tools: {
-                                    download: true,
+                                    download: false,
                                     selection: false,
                                     zoom: false,
                                     zoomin: false,
@@ -787,15 +787,15 @@
                             max: 100
                         },
                         {
-                        opposite: true,
-                        title: {
-                            text: 'Transações (milhares)'
-                        },
-                        labels: {
-                            formatter: function (val) {
-                                return val;
+                            opposite: true,
+                            title: {
+                                text: 'Transações (milhares)'
+                            },
+                            labels: {
+                                formatter: function (val) {
+                                    return val;
+                                }
                             }
-                        }
                         }],
                         legend: {
                             position: 'top',
@@ -808,9 +808,9 @@
                             "#d86b22"
                         ],
                         title: {
-                            text: `Média de ${componente} por mês da Agência ${agencias2}`,
+                            text: `Correlação entre Média de ${componente} e Transações Pix\npor Mês - Agência ${agencias2}`,
                             style: {
-                                fontSize: '20px',
+                                fontSize: '15px',
                                 fontWeight: 'normal',
                                 fontFamily: "Poppins",
                                 color: '#000',
@@ -858,16 +858,18 @@
                 return resposta.json();
             })
             .then((agencias) => {
+                maisAlertas.innerHTML = `Nenhuma Agência`;
+                menosAlertas.innerHTML = `Nenhuma Agência`;
                 if (agencias.length > 0) {
 
                     const agenciaMaisAlertas = agencias[0];
                     const agenciaMenosAlertas = agencias[1];
 
-                    maisAlertas.innerHTML = `${agenciaMaisAlertas.fkAgencia} (${agenciaMaisAlertas.totalAlertas} alertas)`;
+                    maisAlertas.innerHTML = `Agência ${agenciaMaisAlertas.fkAgencia} (${agenciaMaisAlertas.totalAlertas} alertas)`;
                     cepMaisAlertas.innerHTML = `${agenciaMaisAlertas.cep}`;
                     numeroMaisAlertas.innerHTML = `${agenciaMaisAlertas.numero}`;
 
-                    menosAlertas.innerHTML = `${agenciaMenosAlertas.fkAgencia} (${agenciaMenosAlertas.totalAlertas} alertas)`;
+                    menosAlertas.innerHTML = `Agência ${agenciaMenosAlertas.fkAgencia} (${agenciaMenosAlertas.totalAlertas} alertas)`;
                     cepMenosAlertas.innerHTML = `${agenciaMenosAlertas.cep}`;
                     numeroMenosAlertas.innerHTML = `${agenciaMenosAlertas.numero}`;
 
@@ -980,8 +982,13 @@
         })
             .then(function (resposta) {
                 resposta.json().then((agencia) => {
-                    agencia.forEach((agencia) => {
+                    qtd_manha.innerHTML = `0 alertas`;
+                    qtd_tarde.innerHTML = `0 alertas`;
+                    qtd_noite.innerHTML = `0 alertas`;
+                    qtd_madrugada.innerHTML = `0 alertas`;
 
+                    agencia.forEach((agencia) => {
+                        console.log("valor agencia: " + agencia.manha)
                         if (agencia.manha == 1) {
                             qtd_manha.innerHTML = `${agencia.manha} alerta`
                         } else if (agencia.manha == 0) {
