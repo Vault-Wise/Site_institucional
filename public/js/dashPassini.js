@@ -44,13 +44,21 @@ document.getElementById('finalizarBtn').addEventListener('click', () => {
 
   // Enviar uma requisição para o backend (API Node.js)
   fetch(`/dashPassini/rota/${pid}`)
-    .then(response => response.text())
+    .then(response => {
+      if (!response.ok) {
+        return response.text().then(text => {
+          throw new Error(text); // Lançando erro se a resposta não for OK
+        });
+      }
+      return response.text(); // Caso a requisição seja bem-sucedida
+    })
     .then(data => {
-      console.log(data)
-      document.getElementById('status').innerText = `Resultado: ${data}`;
+      // Exibir a resposta como um alerta
+      alert(`Resultado: ${data}`);
     })
     .catch(error => {
-      document.getElementById('status').innerText = `Erro: ${error.message}`;
+      // Exibir o erro como um alerta
+      alert(`Erro: ${error.message}`);
     });
 });
 
