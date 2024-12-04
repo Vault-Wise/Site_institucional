@@ -73,8 +73,6 @@ function carregarDados(fkCaixa) {
     .then(response => response.json())
     .then(data => {
       const tabelaBody = document.querySelector('#tabelaPID tbody');
-      tabelaBody.innerHTML = '';
-
       data.forEach(item => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
