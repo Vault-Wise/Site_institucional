@@ -200,5 +200,11 @@ function inicializar() {
 
     carregarDados(fkCaixa);  
     carregarDadosRede(fkCaixa);  
+
+    // Atualizar os gráficos a cada 1 minuto
+    setInterval(() => {
+      carregarDadosRede(fkCaixa);
+      carregarDados(fkCaixa)  // Chama a função para atualizar os dados de rede
+    }, 6000); // Intervalo de 1 minuto (60000 ms)
   });
 }
