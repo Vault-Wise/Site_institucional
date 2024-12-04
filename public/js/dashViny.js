@@ -144,7 +144,7 @@ function atualizarGraficoDowntime(caixaId) {
         0
       );
 
-      const totalUptimeMin = totalDowntimeMin * 3.90;
+      const totalUptimeMin = totalDowntimeMin * 4;
 
       const totalDowntimeHoras = (totalDowntimeMin / 6000).toFixed(0);
       const totalUptimeHoras = (totalUptimeMin / 6000).toFixed(0);
@@ -195,7 +195,7 @@ function atualizarAltoUsoContínuo(caixaId) {
 
       filtroDados.forEach((item) => {
         const listItem = document.createElement("li");
-        listItem.textContent = `Uso acima do limite de ${limiteUso}% por ${item.duracaoMinutos} minutos.`;
+        listItem.textContent = `Uso acima do limite de ${limiteUso}% por ${(item.duracaoMinutos / 10000).toFixed(0)} minutos.`;
         listaAltoUso.appendChild(listItem);
       });
     })
