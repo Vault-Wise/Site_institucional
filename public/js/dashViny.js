@@ -197,7 +197,7 @@ function atualizarAltoUsoContínuo(caixaId) {
 
       filtroDados.forEach((item) => {
         const listItem = document.createElement("li");
-        listItem.textContent = `Uso acima do limite de ${limiteUso}% por ${item.duracaoMinutos / 10000} minutos.`;
+        listItem.textContent = `Uso acima do limite de ${limiteUso}% por ${(item.duracaoMinutos / 10000).toFixed(0)} minutos.`;
         listaAltoUso.appendChild(listItem);
       });
     })
