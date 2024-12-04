@@ -1014,11 +1014,11 @@
                         }
 
                         if (agencia.madrugada == 1) {
-                            qtd_madrugada.innerHTML = `${agencia.noite} alerta`
+                            qtd_madrugada.innerHTML = `${agencia.madrugada} alerta`
                         } else if (agencia.madrugada == 0) {
                             qtd_madrugada.innerHTML = `0 alertas`
                         } else {
-                            qtd_madrugada.innerHTML = `${agencia.noite} alertas`
+                            qtd_madrugada.innerHTML = `${agencia.madrugada} alertas`
                         }
 
                         var allOptions = select_agencia.querySelectorAll('option');
